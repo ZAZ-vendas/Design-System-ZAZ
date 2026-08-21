@@ -6,9 +6,12 @@
 #   publicar  — só na main. Sobe o repositório para o GitHub Pages, de onde
 #               qualquer pessoa consome o CSS e lê a documentação.
 #
-# ANTES DO PRIMEIRO USO, uma vez, na mão:
-#   Settings > Pages > Build and deployment > Source: "GitHub Actions".
-# Sem isso o job `publicar` falha com "Pages not enabled".
+# Não precisa de nenhum passo manual: `configure-pages` com enablement: true
+# habilita o Pages na primeira execução. O site sai em
+# https://zaz-vendas.github.io/Design-System-ZAZ/
+#
+# Só funciona em repositório público ou em plano pago — Pages de repositório
+# privado exige GitHub Pro/Team/Enterprise.
 
 name: Design System
 
@@ -55,7 +58,16 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      # enablement: true liga o GitHub Pages sozinho na primeira execucao, em vez
+      # de exigir que alguem va em Settings > Pages e escolha "GitHub Actions"
+      # antes do primeiro deploy. Sem ele, este passo falha com "Get Pages site
+      # failed / Not Found" — que foi o que derrubou a execucao inicial.
+      # Depende da permissao `pages: write`, ja declarada acima.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
