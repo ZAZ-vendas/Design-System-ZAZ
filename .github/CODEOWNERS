@@ -1,0 +1,26 @@
+# Donos do código. Quando alguém abre um Pull Request que toca um caminho
+# listado aqui, o GitHub pede revisão de quem está ao lado dele — automaticamente,
+# sem ninguém lembrar de marcar.
+#
+# IMPORTANTE: este arquivo sozinho só SUGERE revisor. Ele só vira obrigação
+# quando a branch `main` tiver um ruleset com "Require a pull request" e
+# "Require review from Code Owners" marcados. Sem isso, é um lembrete educado.
+#
+# Sintaxe: <padrão de caminho>  <@usuário ou @org/time>
+
+# Padrão: tudo que não casar com uma regra mais específica abaixo.
+*                       @FelipeCampagnuci
+
+# --- Os arquivos onde um erro se espalha para todo mundo -------------------
+#
+# Regra mais específica vence a de cima, então estas linhas mandam nos seus
+# caminhos. Estão separadas de propósito: mudar um token não é como mudar um
+# exemplo na documentação. Um valor daqui reescreve cor, raio e espaçamento de
+# toda aplicação, slide e página que consome o sistema — inclusive as que já
+# foram feitas e ninguém vai reabrir para conferir.
+
+/tokens/                @FelipeCampagnuci
+/css/                   @FelipeCampagnuci
+/scripts/               @FelipeCampagnuci
+/.github/               @FelipeCampagnuci
+/deploy/                @FelipeCampagnuci
