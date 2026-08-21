@@ -7,7 +7,7 @@ A fonte da verdade é [`tokens/zaz.tokens.json`](tokens/zaz.tokens.json). CSS,
 preset Tailwind e componentes React são **gerados ou derivados** dele — não são
 cópias mantidas à mão.
 
-📖 **Documentação navegável:** <https://zaz-vendas.github.io/zaz-design-system/>
+📖 **Documentação navegável:** <https://zaz-vendas.github.io/Design-System-ZAZ/>
 🔍 **O que foi conferido contra produção:** [`AUDITORIA.md`](AUDITORIA.md)
 
 ---
@@ -19,7 +19,7 @@ cópias mantidas à mão.
 Apresentação, página avulsa, relatório, e-mail interno. Uma linha:
 
 ```html
-<link rel="stylesheet" href="https://zaz-vendas.github.io/zaz-design-system/css/zaz.css">
+<link rel="stylesheet" href="https://zaz-vendas.github.io/Design-System-ZAZ/css/zaz.css">
 <body class="zaz-root">
 ```
 
@@ -39,7 +39,7 @@ O preset expõe `bg-brand-600`, `text-text-muted`, `rounded-card`, `shadow-cta`,
 ### Caminho 3 — React
 
 ```bash
-npm i github:ZAZ-vendas/zaz-design-system
+npm i github:ZAZ-vendas/Design-System-ZAZ
 ```
 
 ```js
@@ -47,15 +47,15 @@ import "@zaz/design-system/css";
 import { Button, Card, StatusBadge } from "@zaz/design-system";
 ```
 
-Para fixar uma versão, aponte para a tag: `github:ZAZ-vendas/zaz-design-system#v1.0.0`.
+Para fixar uma versão, aponte para a tag: `github:ZAZ-vendas/Design-System-ZAZ#v1.0.0`.
 Sem isso o npm segue a `main`, e uma mudança de token entra no seu projeto no
 próximo `npm install` sem você pedir.
 
 ### Rodar a documentação localmente
 
 ```bash
-git clone https://github.com/ZAZ-vendas/zaz-design-system.git
-cd zaz-design-system
+git clone https://github.com/ZAZ-vendas/Design-System-ZAZ.git
+cd Design-System-ZAZ
 npm start          # serve a pasta em http://localhost:3000
 ```
 

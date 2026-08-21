@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZAZ-vendas/zaz-design-system.git"
+    "url": "git+https://github.com/ZAZ-vendas/Design-System-ZAZ.git"
   },
-  "homepage": "https://zaz-vendas.github.io/zaz-design-system/"
+  "homepage": "https://zaz-vendas.github.io/Design-System-ZAZ/"
 }
