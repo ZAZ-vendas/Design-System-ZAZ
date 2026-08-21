@@ -1,23 +1,16 @@
-# Design System ZAZ — verificação e publicação da documentação.
+# Design System ZAZ — verificação automática.
 #
-# Dois jobs:
-#   verificar — roda em todo push e PR. Garante que o CSS não saiu de sincronia
-#               com os tokens e que nenhuma var(--zaz-*) ficou órfã.
-#   publicar  — só na main. Sobe o repositório para o GitHub Pages, de onde
-#               qualquer pessoa consome o CSS e lê a documentação.
+# Este workflow NÃO publica. O site é servido pelo nginx da VM do Apolo, em
+# https://apolo.zaz.vc/design-system/ — ver a seção "Publicação" do README.
 #
-# ANTES DO PRIMEIRO DEPLOY, uma vez, na mão:
-#   Settings > Pages > Build and deployment > Source: "GitHub Actions"
+# O GitHub Pages foi tentado e descartado: a política da organização não deixa o
+# GITHUB_TOKEN criar um site do Pages ("Resource not accessible by integration"),
+# e a VM já existe, já tem TLS pelo Cloudflare e já é onde o time acessa o Apolo.
+# Menos uma superfície para manter.
 #
-# Não dá para automatizar isso aqui: a política da organização não deixa o
-# GITHUB_TOKEN criar sites do Pages. Enquanto o passo não for feito, `verificar`
-# passa e `publicar` falha em configure-pages — o repositório fica íntegro, só
-# não publicado.
-#
-# Depois de ligado, o site sai em
-# https://zaz-vendas.github.io/Design-System-ZAZ/
-#
-# Pages exige repositório público ou plano pago (Pro/Team/Enterprise).
+# O que sobra aqui é o que realmente protege o pacote: garantir que ninguém
+# mande para a main um CSS fora de sincronia com os tokens, ou uma variável que
+# não existe.
 
 name: Design System
 
@@ -51,32 +44,3 @@ jobs:
       # abrir a tela. Aqui vira erro.
       - name: Nenhuma variável órfã
         run: npm run check:vars
-
-  publicar:
-    needs: verificar
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-
-      # Sem `enablement: true` de proposito. Tentamos: a action ate aceita o
-      # parametro, mas criar um site do Pages exige um poder que o GITHUB_TOKEN
-      # nao tem nesta organizacao — o passo morre com "Create Pages site failed:
-      # Resource not accessible by integration", mesmo com `pages: write`
-      # declarado no job. Quem libera isso e a politica da org, nao o workflow.
-      #
-      # Por isso o Pages e ligado uma vez, na mao (ver cabecalho do arquivo).
-      # Depois disso este passo so LE a configuracao existente, e passa.
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - id: deploy
-        uses: actions/deploy-pages@v4

@@ -7,7 +7,7 @@ A fonte da verdade é [`tokens/zaz.tokens.json`](tokens/zaz.tokens.json). CSS,
 preset Tailwind e componentes React são **gerados ou derivados** dele — não são
 cópias mantidas à mão.
 
-📖 **Documentação navegável:** <https://zaz-vendas.github.io/Design-System-ZAZ/>
+📖 **Documentação navegável:** <https://apolo.zaz.vc/design-system/>
 🔍 **O que foi conferido contra produção:** [`AUDITORIA.md`](AUDITORIA.md)
 
 ---
@@ -19,7 +19,7 @@ cópias mantidas à mão.
 Apresentação, página avulsa, relatório, e-mail interno. Uma linha:
 
 ```html
-<link rel="stylesheet" href="https://zaz-vendas.github.io/Design-System-ZAZ/css/zaz.css">
+<link rel="stylesheet" href="https://apolo.zaz.vc/design-system/css/zaz.css">
 <body class="zaz-root">
 ```
 
@@ -356,8 +356,22 @@ tela operacional densa.
 
 ### Publicação
 
-O site sai do próprio repositório pelo GitHub Actions. Antes do primeiro deploy,
-uma vez, na mão: **Settings › Pages › Source: GitHub Actions**.
+O site é servido pelo **nginx da VM do Apolo**, em
+<https://apolo.zaz.vc/design-system/>. O GitHub guarda o código; o servidor
+serve os arquivos. O GitHub Actions **não** publica — só verifica.
+
+Para atualizar o que está no ar depois de um merge na `main`:
+
+```bash
+ssh apolo 'cd /home/worker/design-system && git pull --ff-only'
+```
+
+Não há build nem reinício de serviço: o nginx serve os arquivos do disco, e um
+`git pull` já é o deploy. O `apolo` do PM2 não é tocado.
+
+O caminho `/design-system/` fica **público**, sem login — igual ao repositório.
+São CSS, tokens e o logo. Se algum dia precisar restringir, o lugar é o nginx
+(`auth_basic`) ou uma regra de acesso no Cloudflare, não o conteúdo.
 
 ---
 
