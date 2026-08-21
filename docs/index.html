@@ -127,6 +127,15 @@
   .capa { display: grid; gap: var(--zaz-space-8); align-items: end; }
   @media (min-width: 1000px) { .capa { grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); } }
 
+  /* A dica precisa ser lida no primeiro segundo: e ela que revela que a pagina
+     inteira e interativa. Fica no fluxo do texto, nao num canto. */
+  .dica-inspetor { grid-column: 1 / -1; margin: var(--zaz-space-6) 0 0; max-width: 68ch;
+    padding: var(--zaz-space-4) var(--zaz-space-5);
+    background: var(--zaz-veil); border-left: 4px solid var(--zaz-primary-text);
+    border-radius: 0 var(--zaz-radius-control) var(--zaz-radius-control) 0;
+    font-size: var(--zaz-text-sm); line-height: 1.6; color: var(--zaz-text); }
+  .dica-inspetor b { display: block; }
+
   .ficha { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--zaz-space-5);
     margin: 0; padding: var(--zaz-space-6);
     background: var(--zaz-brand-950); color: #fff;
@@ -209,6 +218,48 @@
     font-size: var(--zaz-text-sm); line-height: 1.65; color: var(--zaz-text); }
   .simples b { font-weight: 700; color: var(--zaz-text); }
 
+  /* --- Inspetor de pecas -------------------------------------------------
+     Passar o mouse sobre qualquer parte de uma amostra diz o que aquilo e,
+     para que serve e qual o codigo. E a diferenca entre uma vitrine, que a
+     pessoa olha, e um material que ensina — principalmente para quem pede a
+     tela sem saber nomear o que esta pedindo.
+
+     O destaque e um outline, e nao uma borda: borda ocupa espaco no layout e
+     empurraria o conteudo da amostra a cada passagem do mouse. */
+  .peca-alvo { outline: 2px solid var(--zaz-primary-text); outline-offset: 1px;
+    border-radius: var(--zaz-radius-sm); }
+
+  #inspetor { position: fixed; z-index: 60; max-width: 340px;
+    display: none; flex-direction: column; gap: var(--zaz-space-3);
+    padding: var(--zaz-space-4);
+    background: var(--zaz-bg-surface); color: var(--zaz-text);
+    border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card);
+    box-shadow: var(--zaz-shadow-lg);
+    font-size: var(--zaz-text-sm); line-height: 1.55; }
+  #inspetor.aberto { display: flex; }
+
+  #inspetor .ins-topo { display: flex; align-items: center; justify-content: space-between; gap: var(--zaz-space-3); }
+  #inspetor .ins-nome { font-weight: 800; letter-spacing: var(--zaz-tracking-tight); font-size: var(--zaz-text-base); }
+  #inspetor .ins-uso { margin: 0; color: var(--zaz-text-muted); }
+  #inspetor .ins-classe { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs);
+    background: var(--zaz-bg-inset); border-radius: var(--zaz-radius-sm);
+    padding: 3px 6px; align-self: flex-start; }
+  #inspetor .ins-acoes { display: flex; gap: var(--zaz-space-2); }
+  #inspetor button { padding: 5px 10px; border: 1px solid var(--zaz-border);
+    border-radius: var(--zaz-radius-sm); background: var(--zaz-bg-surface); color: var(--zaz-text-muted);
+    font-family: var(--zaz-font-sans); font-size: 0.625rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow); cursor: pointer; }
+  #inspetor button:hover { background: var(--zaz-veil); color: var(--zaz-primary-text); border-color: var(--zaz-primary-text); }
+  #inspetor button.feito { background: var(--zaz-success-bg); color: var(--zaz-success-fg); border-color: var(--zaz-success-border); }
+
+  /* Interruptor: o inspetor e util para aprender e atrapalha para so olhar.
+     Fica desligado por padrao e o estado e lembrado entre visitas. */
+  .liga-inspetor { display: flex; align-items: center; gap: var(--zaz-space-2);
+    margin-top: var(--zaz-space-4); padding: var(--zaz-space-3);
+    border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-control);
+    font-size: var(--zaz-text-xs); color: var(--zaz-text-muted); cursor: pointer; }
+  .liga-inspetor input { accent-color: var(--zaz-primary); }
+
   /* Botao fixo para levar o sistema inteiro a uma IA. */
   .para-ia { position: fixed; right: var(--zaz-space-6); bottom: var(--zaz-space-6); z-index: 40;
     display: inline-flex; align-items: center; gap: var(--zaz-space-2);
@@ -271,6 +322,12 @@
            vista. Fundo escuro de marca em vez de caixa tracejada — é o único
            bloco com essa presença na página inteira, e por isso funciona como
            âncora do topo. -->
+      <p class="dica-inspetor">
+        <b>Passe o mouse sobre qualquer parte das amostras.</b>
+        Cada peça diz o que é, para que serve e qual o código — e você copia dali mesmo.
+        Para desligar, use a caixa no alto da navegação ao lado.
+      </p>
+
       <dl class="ficha">
         <div><dt>Primária</dt><dd class="ficha__cor">#591da9</dd></div>
         <div><dt>Tipo</dt><dd>Inter</dd></div>
@@ -490,7 +547,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= TIPOGRAFIA ================= -->
     <section id="tipografia">
       <h2 class="sec">Tipografia</h2>
-      <p class="simples"><b>Em portugues comum:</b> os tamanhos e pesos de letra, e quando usar cada um. <b>Eyebrow</b> ("sobrancelha") e aquele rotulo pequeno em CAIXA ALTA que fica acima de um titulo. <b>Display</b> e a letra bem grande, de abertura de tela, usada uma vez so. <b>Mono</b> e a letra de largura fixa, para numeros e codigos que precisam alinhar.</p>
+      <p class="simples"><b>Em português comum:</b> os tamanhos e pesos de letra, e quando usar cada um. <b>Eyebrow</b> ("sobrancelha") é aquele rótulo pequeno em CAIXA ALTA que fica acima de um título. <b>Display</b> é a letra bem grande, de abertura de tela, usada uma vez só. <b>Mono</b> é a letra de largura fixa, para números e códigos que precisam alinhar.</p>
       <p class="lede">Inter (300–900) para tudo. JetBrains Mono para IDs de tarefa, CPFs e chaves Camunda.</p>
       <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
         <div><p class="zaz-eyebrow">Display · 4xl / 900 · uma vez por tela</p><p class="zaz-display" style="margin:var(--zaz-space-2) 0 0">Portal de Tarefas</p></div>
@@ -540,7 +597,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= BOTÕES ================= -->
     <section id="botoes">
       <h2 class="sec">Botões</h2>
-      <p class="simples"><b>Em portugues comum:</b> o que a pessoa clica para fazer algo acontecer. O <b>primario</b> e roxo cheio e existe um so por tela — e a acao principal, tipo "Entrar" ou "Salvar". O <b>secundario</b> tem so borda, para acoes que nao sao a principal. O <b>fantasma</b> nao tem nem borda, para "Cancelar" e coisas que a pessoa raramente vai querer.</p>
+      <p class="simples"><b>Em português comum:</b> o que a pessoa clica para fazer algo acontecer. O <b>primário</b> é roxo cheio e existe um só por tela — é a ação principal, tipo "Entrar" ou "Salvar". O <b>secundário</b> tem só borda, para ações que não são a principal. O <b>fantasma</b> não tem nem borda, para "Cancelar" e coisas que a pessoa raramente vai querer.</p>
       <p class="lede">Title Case sempre. Um primário por área de decisão. <code class="tok">hover: -1px</code> e <code class="tok">active: scale(0.96)</code> — compacto e tátil, sem bounce.</p>
       <div class="demo">
         <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
@@ -559,7 +616,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= FORMULÁRIOS ================= -->
     <section id="formularios">
       <h2 class="sec">Formulários</h2>
-      <p class="simples"><b>Em portugues comum:</b> os campos onde a pessoa digita ou escolhe alguma coisa — caixa de texto, lista suspensa, caixinha de marcar, chave de liga e desliga. O <b>rotulo</b> e o titulo acima do campo, e ele existe para dizer o que entra ali.</p>
+      <p class="simples"><b>Em português comum:</b> os campos onde a pessoa digita ou escolhe alguma coisa — caixa de texto, lista suspensa, caixinha de marcar, chave de liga e desliga. O <b>rótulo</b> é o título acima do campo, e ele existe para dizer o que entra ali.</p>
       <p class="lede">Rótulos explicam o contexto — <code class="tok">Identificação (CPF ou Usuário)</code>, não <code class="tok">Login</code>. O ícone acende antes da borda: é o vocabulário de foco do Apolo.</p>
       <div class="grid grid--2">
         <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
@@ -608,7 +665,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= CARDS ================= -->
     <section id="cards">
       <h2 class="sec">Cards e métricas</h2>
-      <p class="simples"><b>Em portugues comum:</b> o <b>card</b> e a caixa branca com borda que agrupa um assunto — como uma ficha sobre a mesa. A <b>metrica</b> e o numero grande com um rotulo pequeno em cima, usado em painel para mostrar quantidade.</p>
+      <p class="simples"><b>Em português comum:</b> o <b>card</b> é a caixa branca com borda que agrupa um assunto — como uma ficha sobre a mesa. A <b>métrica</b> é o número grande com um rótulo pequeno em cima, usado em painel para mostrar quantidade.</p>
       <p class="lede">Branco sobre <code class="tok">neutral-50</code>, borda de 1px, <code class="tok">shadow-sm</code>. Sem gradiente, sem vidro. A barra roxa de 4×40px marca o título da seção — <strong>proposta deste sistema</strong>, ainda não presente no Apolo (ver <a href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">auditoria</a>).</p>
       <div class="grid grid--3">
         <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Em fila</span><strong class="zaz-metric__value">1.284</strong><span class="zaz-muted">+8% vs. semana anterior</span></div></div></div>
@@ -631,7 +688,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= STATUS ================= -->
     <section id="status">
       <h2 class="sec">Badges e status</h2>
-      <p class="simples"><b>Em portugues comum:</b> <b>badge</b> (pronuncia-se "bedj") e a etiqueta pequena e colorida que diz em que pe esta alguma coisa: "Pendencia", "Em dia", "Vencida". A cor nao e enfeite — ela carrega o significado, e por isso o mapa de estado para cor e fixo.</p>
+      <p class="simples"><b>Em português comum:</b> <b>badge</b> (pronuncia-se "bédj") é a etiqueta pequena e colorida que diz em que pé está alguma coisa: "Pendência", "Em dia", "Vencida". A cor não é enfeite — ela carrega o significado, e por isso o mapa de estado para cor é fixo.</p>
       <p class="lede">10px, peso 700, caixa alta com tracking. O mapa de estado → tom é canônico: use <code class="tok">StatusBadge</code> em vez de escolher o tom à mão.</p>
       <div class="demo">
         <span class="zaz-badge">Em Fila</span>
@@ -652,7 +709,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= LISTAS ================= -->
     <section id="listas">
       <h2 class="sec">Tabelas e trilha lateral</h2>
-      <p class="simples"><b>Em portugues comum:</b> <b>trilha lateral</b> e aquela barrinha roxa que aparece na borda esquerda da linha quando voce passa o mouse ou seleciona. Ela marca onde voce esta sem pintar a linha inteira. E o jeito do Apolo de mostrar foco — passe o mouse nas linhas abaixo para ver.</p>
+      <p class="simples"><b>Em português comum:</b> <b>trilha lateral</b> é aquela barrinha roxa que aparece na borda esquerda da linha quando você passa o mouse ou seleciona. Ela marca onde você está sem pintar a linha inteira. É o jeito do Apolo de mostrar foco — passe o mouse nas linhas abaixo para ver.</p>
       <p class="lede">A trilha lateral é a assinatura de interação do Apolo: <code class="tok">border-left: 4px</code> transparente que vira roxo no hover e no ativo — foco sem trocar o fundo inteiro. Passe o mouse nas linhas.</p>
       <div class="zaz-card" style="overflow:hidden">
         <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div><span class="zaz-badge zaz-badge--brand">4 tarefas</span></div>
@@ -675,7 +732,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SHELL ================= -->
     <section id="shell">
       <h2 class="sec">Shell, sidebar e header</h2>
-      <p class="simples"><b>Em portugues comum:</b> e o "esqueleto" da tela, a parte que nao muda enquanto a pessoa navega. <b>Shell</b> ("casca") e esse esqueleto inteiro. <b>Sidebar</b> e a coluna de menu na esquerda. <b>Header</b> e a faixa do topo, com o titulo da tela e os botoes de acao. So o miolo troca de conteudo.</p>
+      <p class="simples"><b>Em português comum:</b> é o "esqueleto" da tela, a parte que não muda enquanto a pessoa navega. <b>Shell</b> ("casca") é esse esqueleto inteiro. <b>Sidebar</b> é a coluna de menu na esquerda. <b>Header</b> é a faixa do topo, com o título da tela e os botões de ação. Só o miolo troca de conteúdo.</p>
       <p class="lede">Sidebar fixa de 256px, header de 64px, conteúdo com rolagem independente. Seções da sidebar são reordenáveis pelo usuário.</p>
       <div class="zaz-card" style="overflow:hidden;padding:0">
         <div style="overflow-x:auto">
@@ -724,7 +781,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SOBREPOSIÇÕES ================= -->
     <section id="sobreposicoes">
       <h2 class="sec">Modais, drawers e toasts</h2>
-      <p class="simples"><b>Em portugues comum:</b> tres jeitos de mostrar algo por cima da tela. <b>Modal</b> e a janelinha no centro que escurece o fundo e exige uma resposta antes de continuar. <b>Drawer</b> ("gaveta") desliza pela lateral e mostra detalhes sem tirar voce de onde estava. <b>Toast</b> ("torrada", porque pula como uma) e o aviso pequeno no canto que some sozinho.</p>
+      <p class="simples"><b>Em português comum:</b> três jeitos de mostrar algo por cima da tela. <b>Modal</b> é a janelinha no centro que escurece o fundo e exige uma resposta antes de continuar. <b>Drawer</b> ("gaveta") desliza pela lateral e mostra detalhes sem tirar você de onde estava. <b>Toast</b> ("torrada", porque pula como uma) é o aviso pequeno no canto que some sozinho.</p>
       <p class="lede">Modal e drawer usam raio herói de 24px e <code class="tok">shadow-lg</code>. Toast leva trilha de 4px na cor do tom — a mesma gramática da lista.</p>
       <div class="grid grid--2">
         <div class="zaz-modal" style="animation:none;max-width:none">
@@ -743,7 +800,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SLIDES ================= -->
     <section id="slides">
       <h2 class="sec">Layouts de slide</h2>
-      <p class="simples"><b>Em portugues comum:</b> modelos de slide de apresentacao, do tamanho de tela cheia (1920x1080). <b>Capa</b> abre o deck, <b>secao</b> separa assuntos, <b>conteudo</b> leva texto em colunas, <b>dados</b> mostra numeros grandes, <b>divisao</b> poe texto de um lado e imagem do outro, e <b>encerramento</b> fecha. <b>Deck</b> e o conjunto de slides.</p>
+      <p class="simples"><b>Em português comum:</b> modelos de slide de apresentação, do tamanho de tela cheia (1920×1080). <b>Capa</b> abre o deck, <b>seção</b> separa assuntos, <b>conteúdo</b> leva texto em colunas, <b>dados</b> mostra números grandes, <b>divisão</b> põe texto de um lado e imagem do outro, e <b>encerramento</b> fecha. <b>Deck</b> é o conjunto de slides.</p>
       <p class="lede">1920×1080, margem de segurança de 96px, texto nunca abaixo de 24px, no máximo duas cores de fundo por deck. As amostras abaixo estão em escala real, reduzidas.</p>
       <div class="grid grid--2" id="demo-slides"></div>
     </section>
@@ -1150,6 +1207,202 @@ botaoIA.addEventListener("click", async () => {
   setTimeout(() => { botaoIA.textContent = "Copiar guia para IA"; botaoIA.classList.remove("feito"); }, 2600);
 });
 document.body.appendChild(botaoIA);
+
+/* --- Inspetor: passar o mouse e entender ------------------------------
+   Passar o mouse sobre qualquer parte de uma amostra diz o que aquilo e, para
+   que serve e qual o codigo. E o que separa uma vitrine de um material que
+   ensina — principalmente para quem precisa PEDIR uma tela sem saber nomear o
+   que esta pedindo.
+
+   As pecas nao sao anotadas uma a uma no HTML. Todo componente do sistema ja
+   carrega a propria classe (.zaz-sidebar, .zaz-badge...), entao o dicionario
+   abaixo e a unica fonte: qualquer amostra, presente ou futura, e reconhecida
+   sem tocar no markup. Anotar a mao daria certo hoje e sairia de sincronia no
+   primeiro componente novo.
+   ------------------------------------------------------------------------ */
+
+const PECAS = {
+  "zaz-shell":        ["Shell", "O esqueleto da tela: a moldura que não muda enquanto a pessoa navega. Segura a sidebar de um lado e o conteúdo do outro."],
+  "zaz-sidebar":      ["Sidebar", "A coluna de menu na esquerda. Fica sempre visível, com largura fixa de 256px, e é por onde a pessoa troca de área."],
+  "zaz-sidebar__brand": ["Marca da sidebar", "O topo da coluna, com o logo e o nome do produto. Alinha com a altura do header para os dois formarem uma linha contínua."],
+  "zaz-sidebar__nav": ["Navegação", "A lista de destinos da sidebar, agrupada por assunto. Rola sozinha quando tem muitos itens."],
+  "zaz-sidebar__footer": ["Rodapé da sidebar", "O bloco de baixo, onde fica quem está logado e a saída do sistema."],
+  "zaz-header":       ["Header", "A faixa do topo, com o título da tela à esquerda e as ações à direita. O título encolhe quando falta espaço; as ações nunca."],
+  "zaz-main":         ["Conteúdo", "O miolo da tela — a única parte que troca quando a pessoa navega. Rola separado da sidebar e do header."],
+  "zaz-nav-item":     ["Item de menu", "Uma linha da navegação. Quando é a tela atual, ganha fundo roxo claro e o texto escurece. O número à direita é a contagem da fila."],
+  "zaz-avatar":       ["Avatar", "O círculo com as iniciais de quem está logado. Usado quando não há foto."],
+  "zaz-btn":          ["Botão", "O que a pessoa clica para agir. Sobe 1px no hover e encolhe no clique — o retorno tátil que confirma que o clique pegou."],
+  "zaz-badge":        ["Badge", "Etiqueta pequena que diz em que pé está alguma coisa: Pendência, Em dia, Vencida. A cor carrega o significado, não é enfeite."],
+  "zaz-brand-tag":    ["Tag de marca", "Identifica a marca parceira dentro do produto. Só o pontinho recebe cor — o nome fica neutro, porque não é a marca oficial do parceiro."],
+  "zaz-live-dot":     ["Ponto ao vivo", "Pisca ao lado de tarefas que estão correndo agora. Sem ele, a linha é uma tarefa parada ou suspensa."],
+  "zaz-card":         ["Card", "A caixa branca com borda que agrupa um assunto, como uma ficha sobre a mesa. É o contêiner padrão do sistema."],
+  "zaz-card__header": ["Topo do card", "O título do card e as ações daquele bloco. Separado do corpo por uma linha fina."],
+  "zaz-card__body":   ["Corpo do card", "O conteúdo do card."],
+  "zaz-card__footer": ["Rodapé do card", "A faixa de baixo, para resumo, paginação ou a ação de confirmar."],
+  "zaz-section-heading": ["Título de seção", "Título com a barra roxa à esquerda. Marca o começo de um bloco dentro de um card."],
+  "zaz-metric":       ["Métrica", "Número grande com um rótulo pequeno em cima. Usado em painel, para mostrar quantidade de relance."],
+  "zaz-track":        ["Lista com trilha", "A lista de tarefas do Apolo. Cada linha inteira é clicável."],
+  "zaz-track__row":   ["Linha da lista", "Uma tarefa. A barrinha roxa na borda esquerda aparece no hover e quando a linha está selecionada — marca o foco sem pintar a linha toda."],
+  "zaz-track__title": ["Título da tarefa", "O nome da tarefa. Fica roxo quando o mouse passa pela linha."],
+  "zaz-track__meta":  ["Dados da tarefa", "A linha de baixo, com o código, o tempo de espera e a marca. Sempre em texto menor e mais claro que o título."],
+  "zaz-table":        ["Tabela", "Para comparar muitas linhas com as mesmas colunas. O cabeçalho gruda no topo ao rolar."],
+  "zaz-field":        ["Campo", "O conjunto rótulo + entrada + dica. Nunca use uma entrada solta, sem rótulo."],
+  "zaz-label":        ["Rótulo", "O título acima do campo, em CAIXA ALTA. Diz o que entra ali — Identificação (CPF ou Usuário), não apenas Login."],
+  "zaz-input":        ["Entrada de texto", "Onde a pessoa digita. A borda fica roxa quando está em uso."],
+  "zaz-select":       ["Lista suspensa", "Para escolher uma opção entre várias já conhecidas."],
+  "zaz-textarea":     ["Área de texto", "Para textos longos, de várias linhas. A pessoa pode esticar pela alça do canto."],
+  "zaz-check":        ["Caixa de marcar", "Para escolhas independentes: pode marcar nenhuma, uma ou todas."],
+  "zaz-switch":       ["Chave", "Liga e desliga. Diferente da caixa de marcar, o efeito é imediato — não espera um botão de salvar."],
+  "zaz-hint":         ["Dica", "O texto pequeno abaixo do campo, explicando o que se espera."],
+  "zaz-error":        ["Erro", "A mensagem que aparece quando o valor não serve. Sempre diz o que fazer, não só que está errado."],
+  "zaz-alert":        ["Aviso", "Bloco de recado dentro da tela. Usa o trio de cores do estado — fundo claro, texto escuro, borda no meio."],
+  "zaz-modal":        ["Modal", "Janelinha no centro que escurece o fundo e exige uma resposta antes de continuar. Use só quando a decisão não pode esperar."],
+  "zaz-drawer":       ["Drawer", "Gaveta que desliza pela lateral com detalhes, sem tirar a pessoa de onde ela estava."],
+  "zaz-toast":        ["Toast", "Aviso pequeno no canto que aparece e some sozinho. Para confirmar que algo deu certo, sem interromper."],
+  "zaz-overlay":      ["Cortina", "O escurecido atrás do modal. Serve para tirar a atenção do resto e prender no que importa."],
+  "zaz-eyebrow":      ["Eyebrow", "O rótulo pequeno em CAIXA ALTA acima de um título. Diz a categoria do que vem abaixo."],
+  "zaz-bar-track":    ["Barra de progresso", "Mostra proporção. O trilho é o total; o preenchimento é a parte."],
+  "zaz-legend":       ["Legenda", "Liga a cor de um gráfico ao nome da série."],
+  "zaz-slide":        ["Slide", "Uma página da apresentação, sempre 1920x1080."],
+  "zaz-area-pill":    ["Pílula de área", "Mostra e troca a área do Apolo. É o único lugar que usa a cor de acento da área."],
+};
+
+const SELETOR_PECAS = Object.keys(PECAS).map((c) => "." + c).join(", ");
+
+const inspetor = document.createElement("div");
+inspetor.id = "inspetor";
+document.body.appendChild(inspetor);
+
+let pecaAtual = null;
+/* Ligado por padrao: a explicacao no hover e o principal motivo desta pagina
+   existir para quem nao e tecnico, e um recurso que precisa ser descoberto num
+   interruptor escondido nao existe. Quem se incomodar desliga uma vez, e a
+   escolha fica lembrada — por isso o teste e contra "0", nao contra "1". */
+let ligado = true;
+try { ligado = localStorage.getItem("inspetor") !== "0"; } catch {}
+
+/** Devolve a classe do sistema mais especifica que o elemento carrega. */
+const classeDaPeca = (el) => [...el.classList].find((c) => PECAS[c]);
+
+function fecharInspetor() {
+  inspetor.classList.remove("aberto");
+  if (pecaAtual) pecaAtual.classList.remove("peca-alvo");
+  pecaAtual = null;
+}
+
+function abrirInspetor(el) {
+  const classe = classeDaPeca(el);
+  if (!classe) return;
+  const [nome, uso] = PECAS[classe];
+
+  if (pecaAtual) pecaAtual.classList.remove("peca-alvo");
+  pecaAtual = el;
+  el.classList.add("peca-alvo");
+
+  inspetor.innerHTML = "";
+  const topo = document.createElement("div");
+  topo.className = "ins-topo";
+  const h = document.createElement("span");
+  h.className = "ins-nome";
+  h.textContent = nome;
+  topo.appendChild(h);
+
+  const uso_p = document.createElement("p");
+  uso_p.className = "ins-uso";
+  uso_p.textContent = uso;
+
+  const cls = document.createElement("code");
+  cls.className = "ins-classe";
+  cls.textContent = "." + classe;
+
+  const acoes = document.createElement("div");
+  acoes.className = "ins-acoes";
+  const bHtml = document.createElement("button");
+  bHtml.type = "button";
+  bHtml.textContent = "Copiar HTML";
+  bHtml.addEventListener("click", () => avisar(bHtml, el.outerHTML.replace(/ class="([^"]*)\s*peca-alvo\s*([^"]*)"/, ' class="$1$2"')));
+  const bCls = document.createElement("button");
+  bCls.type = "button";
+  bCls.textContent = "Copiar classe";
+  bCls.addEventListener("click", () => avisar(bCls, classe));
+  acoes.append(bHtml, bCls);
+
+  inspetor.append(topo, uso_p, cls, acoes);
+  inspetor.classList.add("aberto");
+
+  /* O painel se ancora na AMOSTRA inteira, nao na peca.
+     Ancorar na peca parece mais natural e faz o contrario do que se quer: ao
+     explicar a sidebar, o painel abria bem em cima do header e do conteudo do
+     mock — tapando justamente o que estava sendo explicado. Preso a borda da
+     amostra, ele nunca cobre o que o dedo esta apontando.
+     Ordem de tentativa: direita, esquerda, abaixo. */
+  const amostra = el.closest("[data-copiar]") || el;
+  const ra = amostra.getBoundingClientRect();
+  const rp = el.getBoundingClientRect();
+  const folga = 14;
+  const largura = inspetor.offsetWidth || 340;
+  const altura = inspetor.offsetHeight || 200;
+
+  let x, y;
+  if (ra.right + folga + largura <= innerWidth) {
+    x = ra.right + folga;
+    y = rp.top;                       // alinhado com a peca, na vertical
+  } else if (ra.left - folga - largura >= 0) {
+    x = ra.left - folga - largura;
+    y = rp.top;
+  } else {
+    /* Sem espaco dos dois lados, o painel vai para um canto FIXO da tela, e
+       nao para baixo da amostra. Colocar abaixo parece o passo natural e falha
+       em janela curta: a amostra ocupa quase toda a altura, o painel e
+       empurrado de volta para cima dela e cobre o que explica. No canto ele
+       nunca cobre nada, e a pessoa aprende rapido onde olhar.
+       Sobe o suficiente para nao brigar com o botao "Copiar guia para IA". */
+    x = innerWidth - largura - folga;
+    y = innerHeight - altura - folga - 56;
+  }
+
+  // Nunca deixa o painel sair pela borda de baixo nem pela de cima.
+  y = Math.max(folga, Math.min(y, innerHeight - altura - folga));
+  inspetor.style.left = Math.round(x) + "px";
+  inspetor.style.top = Math.round(y) + "px";
+}
+
+document.addEventListener("mouseover", (e) => {
+  if (!ligado) return;
+  const dentroDeAmostra = e.target.closest("[data-copiar]");
+  if (!dentroDeAmostra) {
+    // Sair para fora de uma amostra fecha — a menos que o mouse esteja no
+    // proprio inspetor, senao nao daria para clicar em Copiar.
+    if (!e.target.closest("#inspetor")) fecharInspetor();
+    return;
+  }
+  const peca = e.target.closest(SELETOR_PECAS);
+  if (peca && dentroDeAmostra.contains(peca)) abrirInspetor(peca);
+});
+
+/* Interruptor, no rodape da navegacao, para quem ja conhece o sistema e so
+   quer olhar o componente sem o painel aparecendo. */
+const rotulo = document.createElement("label");
+rotulo.className = "liga-inspetor";
+rotulo.title = "Passe o mouse sobre as partes de qualquer amostra para ver o que sao";
+const caixa = document.createElement("input");
+caixa.type = "checkbox";
+caixa.checked = ligado;
+caixa.addEventListener("change", () => {
+  ligado = caixa.checked;
+  try { localStorage.setItem("inspetor", ligado ? "1" : "0"); } catch {}
+  if (!ligado) fecharInspetor();
+});
+rotulo.append(caixa, document.createTextNode("Explicar as peças no hover"));
+
+/* Logo abaixo da marca, e nao no fim da lista: no fim ele fica fora da tela
+   ate a pessoa rolar a navegacao inteira, e um interruptor que ninguem ve nao
+   e um interruptor. `order` resolveria a posicao, mas jogava o item para cima
+   do proprio logo — a ordem visual do flex ignora onde o no esta no DOM. */
+const navLateral = document.querySelector(".docs__nav");
+const marcaNav = navLateral.querySelector(".zaz-sidebar__brand");
+if (marcaNav && marcaNav.nextSibling) navLateral.insertBefore(rotulo, marcaNav.nextSibling);
+else navLateral.appendChild(rotulo);
 
 /* --- navegacao que segue o scroll --------------------------------------
    IntersectionObserver, nao evento de scroll: o observer so dispara quando uma
