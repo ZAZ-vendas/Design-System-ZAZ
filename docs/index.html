@@ -15,30 +15,87 @@
   /* Estilos exclusivos desta página de docs — não fazem parte do sistema. */
   *, *::before, *::after { box-sizing: border-box; }
   body { margin: 0; }
-  .docs { display: grid; grid-template-columns: var(--zaz-sidebar-w) 1fr; min-height: 100vh; }
+  /* --- Estrutura ---------------------------------------------------------
+     minmax(0,1fr) na coluna de conteudo, e nao 1fr: com 1fr, um filho largo
+     (tabela, bloco de codigo) empurra a coluna e estoura a pagina para o lado. */
+  .docs { display: grid; grid-template-columns: var(--zaz-sidebar-w) minmax(0, 1fr); min-height: 100vh; }
+
   .docs__nav { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
     background: var(--zaz-bg-surface); border-right: 1px solid var(--zaz-border);
-    padding: var(--zaz-space-6) var(--zaz-space-4); display: flex; flex-direction: column; gap: var(--zaz-space-2); }
-  .docs__nav a { display: block; padding: var(--zaz-space-2) var(--zaz-space-3); border-radius: var(--zaz-radius-control);
-    color: var(--zaz-text-muted); font-size: var(--zaz-text-sm); font-weight: 500; text-decoration: none; }
-  .docs__nav a:hover { background: var(--zaz-bg-muted); color: var(--zaz-primary); text-decoration: none; }
-  .docs__nav strong { padding: var(--zaz-space-4) var(--zaz-space-3) var(--zaz-space-1); }
-  .docs__main { min-width: 0; padding: var(--zaz-space-12) var(--zaz-space-12) var(--zaz-space-24); max-width: 1100px; }
-  section[id] { scroll-margin-top: var(--zaz-space-6); padding-block: var(--zaz-space-12) 0; }
-  h2.sec { font-size: var(--zaz-text-3xl); font-weight: 800; letter-spacing: var(--zaz-tracking-tight); margin: 0 0 var(--zaz-space-2); }
-  .lede { font-size: var(--zaz-text-base); color: var(--zaz-text-muted); max-width: 68ch; margin: 0 0 var(--zaz-space-8); }
-  h3.sub { font-size: var(--zaz-text-base); font-weight: 700; margin: var(--zaz-space-10) 0 var(--zaz-space-4); }
-  .grid { display: grid; gap: var(--zaz-space-4); }
-  .grid--sw { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .grid--2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .grid--3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    padding: var(--zaz-space-6) var(--zaz-space-4); display: flex; flex-direction: column; gap: 2px; }
+
+  /* Item de navegacao com a trilha lateral do sistema — a mesma assinatura das
+     linhas de tarefa do Apolo, em vez de um link solto sem estado. */
+  .docs__nav a { display: block; padding: var(--zaz-space-2) var(--zaz-space-3);
+    border-left: 3px solid transparent; border-radius: 0 var(--zaz-radius-control) var(--zaz-radius-control) 0;
+    color: var(--zaz-text-muted); font-size: var(--zaz-text-sm); font-weight: 500; text-decoration: none;
+    transition: color var(--zaz-duration-fast) var(--zaz-ease-standard),
+                background var(--zaz-duration-fast) var(--zaz-ease-standard),
+                border-color var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  .docs__nav a:hover { background: var(--zaz-veil); color: var(--zaz-primary-text); text-decoration: none; }
+  /* Marcado por IntersectionObserver conforme a pagina rola. Sem isto, a lista
+     inteira fica com o mesmo peso e ninguem sabe onde esta. */
+  .docs__nav a[aria-current="true"] { background: var(--zaz-veil-strong); color: var(--zaz-primary-text);
+    border-left-color: var(--zaz-primary-text); font-weight: 600; }
+  .docs__nav strong { padding: var(--zaz-space-5) var(--zaz-space-3) var(--zaz-space-1); }
+
+  /* O conteudo respira ate 1320px e fica CENTRADO na coluna. Antes travava em
+     1100px alinhado a esquerda: numa tela de 2133px sobravam 777px de vazio de
+     um lado so, e a pagina parecia desmontada. */
+  .docs__main { min-width: 0; width: 100%; max-width: 1320px; margin-inline: auto;
+    padding: var(--zaz-space-12) clamp(var(--zaz-space-6), 4vw, var(--zaz-space-16)) var(--zaz-space-24); }
+
+  /* --- Ritmo vertical ----------------------------------------------------
+     Uma linha separa as secoes. O respiro sozinho nao dava conta: rolando
+     rapido, tudo virava um bloco cinza continuo. */
+  section[id] { scroll-margin-top: var(--zaz-space-6); padding-block: var(--zaz-space-16) 0; }
+  section[id] + section[id] { border-top: 1px solid var(--zaz-border-soft); }
+
+  /* --- Hierarquia --------------------------------------------------------
+     Tres niveis com distancia real entre si: 36 / 20 / 12px. Antes eram 30 e
+     16px, perto demais para o olho registrar que mudou de nivel. O titulo de
+     secao usa a barra roxa do proprio sistema. */
+  h2.sec { display: flex; align-items: center; gap: var(--zaz-space-4);
+    font-size: var(--zaz-text-4xl); font-weight: 900; letter-spacing: var(--zaz-tracking-tight);
+    margin: 0 0 var(--zaz-space-3); }
+  h2.sec::before { content: ""; flex: none; width: 5px; height: 1.1em;
+    border-radius: var(--zaz-radius-pill); background: var(--zaz-primary-text); }
+  .lede { font-size: var(--zaz-text-base); color: var(--zaz-text-muted); max-width: 68ch;
+    margin: 0 0 var(--zaz-space-8); line-height: 1.6; }
+  h3.sub { font-size: var(--zaz-text-xl); font-weight: 700; letter-spacing: var(--zaz-tracking-tight);
+    margin: var(--zaz-space-12) 0 var(--zaz-space-4); }
+
+  /* --- Grades ------------------------------------------------------------
+     Colunas FIXAS por faixa, nao auto-fit. Com auto-fit, 4 cards numa largura
+     que comporta 3 colunas deixam o quarto sozinho embaixo, com um terco da
+     largura — o efeito de "mal distribuido" mais visivel da pagina.
+     Numero fixo garante 2x2 em vez de 3+1. */
+  .grid { display: grid; gap: var(--zaz-space-4); align-items: stretch; }
+  .grid > * { min-width: 0; }
+  .grid--sw { grid-template-columns: repeat(2, 1fr); }
+  .grid--2  { grid-template-columns: 1fr; }
+  .grid--3  { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 720px) {
+    .grid--sw { grid-template-columns: repeat(4, 1fr); }
+    .grid--2  { grid-template-columns: repeat(2, 1fr); }
+    .grid--3  { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 1100px) {
+    .grid--sw { grid-template-columns: repeat(6, 1fr); }
+    .grid--3  { grid-template-columns: repeat(5, 1fr); }
+  }
   .sw { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); overflow: hidden; background: var(--zaz-bg-surface); }
-  .sw__chip { height: 72px; }
+  .sw__chip { height: 88px; }
   .sw__meta { padding: var(--zaz-space-3); display: flex; flex-direction: column; gap: 2px; }
   .sw__name { font-size: var(--zaz-text-xs); font-weight: 700; }
   .sw__hex { font-family: var(--zaz-font-mono); font-size: 0.6875rem; color: var(--zaz-text-muted); text-transform: uppercase; }
+  /* Borda solida, nao tracejada: tracejado no design de interface significa
+     "vazio, arraste algo aqui" ou "ainda nao pronto". Numa vitrine de
+     componentes acabados, lia como rascunho. O fundo levemente rebaixado ja
+     separa a amostra do texto. */
   .demo { display: flex; flex-wrap: wrap; gap: var(--zaz-space-4); align-items: center;
-    padding: var(--zaz-space-6); border: 1px dashed var(--zaz-border); border-radius: var(--zaz-radius-card); background: var(--zaz-bg-muted); }
+    padding: var(--zaz-space-6); border: 1px solid var(--zaz-border);
+    border-radius: var(--zaz-radius-card); background: var(--zaz-bg-muted); }
   .demo--col { flex-direction: column; align-items: stretch; }
   code.tok { font-family: var(--zaz-font-mono); font-size: 0.75rem; background: var(--zaz-bg-inset); color: var(--zaz-text);
     padding: 2px 6px; border-radius: var(--zaz-radius-sm); }
@@ -51,14 +108,36 @@
   .slide-frame > .zaz-slide { position: absolute; top: 0; left: 0; transform-origin: top left; }
   table.spec { width: 100%; border-collapse: collapse; font-size: var(--zaz-text-sm); }
   table.spec th, table.spec td { text-align: left; padding: var(--zaz-space-3); border-bottom: 1px solid var(--zaz-border-soft); }
-  table.spec th { font-size: var(--zaz-text-xs); text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-text-muted); }
+  table.spec th { font-size: var(--zaz-text-xs); text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow);
+    color: var(--zaz-text-muted); border-bottom-color: var(--zaz-border); }
+  table.spec tbody tr:hover { background: var(--zaz-veil); }
+  .tabela-rolavel { overflow-x: auto; }
   /* Bloco de código copiável. */
-  .cod { margin: 0; padding: var(--zaz-space-4); background: var(--zaz-bg-inset); border-radius: var(--zaz-radius-control);
-    font-family: var(--zaz-font-mono); font-size: 0.75rem; line-height: 1.6; color: var(--zaz-text);
-    /* pre-wrap e não pre: com overflow-x cada card ganhava uma barra de rolagem
-       horizontal, e três barras seguidas poluem mais do que a quebra de linha
-       incomoda. O botão "Copiar" entrega o texto original de qualquer jeito. */
-    white-space: pre-wrap; overflow-wrap: anywhere; }
+  /* Codigo quebra na LINHA, nunca no meio de uma palavra.
+     `overflow-wrap: anywhere` partia a URL em "https://apolo.zaz.vc/design-" +
+     "system/css/zaz.css", o que e pior que rolar: a pessoa le um endereco que
+     nao existe. pre-wrap respeita as quebras que eu escrevi no HTML; se ainda
+     assim passar, rola na horizontal dentro do proprio bloco. */
+  .cod { margin: 0; padding: var(--zaz-space-4); background: var(--zaz-bg-inset);
+    border: 1px solid var(--zaz-border-soft); border-radius: var(--zaz-radius-control);
+    font-family: var(--zaz-font-mono); font-size: 0.75rem; line-height: 1.7; color: var(--zaz-text);
+    white-space: pre-wrap; overflow-wrap: normal; word-break: normal; overflow-x: auto;
+    scrollbar-width: thin; }
+  /* --- Capa da documentacao --------------------------------------------- */
+  .capa { display: grid; gap: var(--zaz-space-8); align-items: end; }
+  @media (min-width: 1000px) { .capa { grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); } }
+
+  .ficha { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--zaz-space-5);
+    margin: 0; padding: var(--zaz-space-6);
+    background: var(--zaz-brand-950); color: #fff;
+    border-radius: var(--zaz-radius-hero); box-shadow: var(--zaz-shadow-hero); }
+  .ficha dt { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+    letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-brand-300); }
+  .ficha dd { margin: 2px 0 0; font-size: var(--zaz-text-2xl); font-weight: 800;
+    letter-spacing: var(--zaz-tracking-tight); }
+  /* O hexadecimal da primaria em mono: e um valor para copiar, nao um titulo. */
+  .ficha__cor { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xl) !important; color: var(--zaz-brand-300); }
+
   kbd { font-family: var(--zaz-font-mono); font-size: 0.6875rem; padding: 1px 5px; border: 1px solid var(--zaz-border);
     border-bottom-width: 2px; border-radius: var(--zaz-radius-sm); background: var(--zaz-bg-surface); color: var(--zaz-text); }
 
@@ -114,17 +193,24 @@
 
   <main class="docs__main">
 
-    <header style="display:flex;flex-direction:column;gap:var(--zaz-space-4)">
-      <p class="zaz-eyebrow">ZAZ Vendas · Versão 1.0</p>
-      <h1 class="zaz-display" style="font-size:var(--zaz-text-5xl);max-width:22ch">A base visual de tudo que leva o nome ZAZ.</h1>
-      <p class="lede" style="margin:0">Produtos, apresentações, documentos e páginas partem daqui. A fonte da verdade é
-        <code class="tok">tokens/zaz.tokens.json</code> — CSS, preset Tailwind e componentes React derivam dele.</p>
-      <div class="demo" style="gap:var(--zaz-space-6)">
-        <div class="zaz-metric"><span class="zaz-eyebrow">Primária</span><strong class="zaz-metric__value" style="color:var(--zaz-primary)">#591da9</strong></div>
-        <div class="zaz-metric"><span class="zaz-eyebrow">Tipo</span><strong class="zaz-metric__value">Inter</strong></div>
-        <div class="zaz-metric"><span class="zaz-eyebrow">Grade</span><strong class="zaz-metric__value">4px</strong></div>
-        <div class="zaz-metric"><span class="zaz-eyebrow">Idioma</span><strong class="zaz-metric__value">pt-BR</strong></div>
+    <header class="capa">
+      <div class="capa__texto">
+        <p class="zaz-eyebrow">ZAZ Vendas · Versão 1.0</p>
+        <h1 class="zaz-display" style="font-size:clamp(2.25rem,4.5vw,3.75rem);max-width:18ch;margin:var(--zaz-space-3) 0 0">A base visual de tudo que leva o nome ZAZ.</h1>
+        <p class="lede" style="margin:var(--zaz-space-5) 0 0">Produtos, apresentações, documentos e páginas partem daqui.
+          A fonte da verdade é <code class="tok">tokens/zaz.tokens.json</code> — CSS, preset Tailwind e componentes React derivam dele.</p>
       </div>
+
+      <!-- Ficha técnica: os quatro números que definem o sistema, sempre à
+           vista. Fundo escuro de marca em vez de caixa tracejada — é o único
+           bloco com essa presença na página inteira, e por isso funciona como
+           âncora do topo. -->
+      <dl class="ficha">
+        <div><dt>Primária</dt><dd class="ficha__cor">#591da9</dd></div>
+        <div><dt>Tipo</dt><dd>Inter</dd></div>
+        <div><dt>Grade</dt><dd>4px</dd></div>
+        <div><dt>Idioma</dt><dd>pt-BR</dd></div>
+      </dl>
     </header>
 
     <!-- ================= COMO CONSUMIR ================= -->
@@ -654,7 +740,7 @@ const swatch = (name, hex, note = "") => `
   <div class="sw__meta"><span class="sw__name">${name}</span><span class="sw__hex">${hex}</span>
   ${note ? `<span class="sw__hex" style="text-transform:none">${note}</span>` : ""}</div></div>`;
 
-const brand = [["brand-50","#f5f1fc"],["brand-100","#ebe2f9"],["brand-200","#d7c4f2"],["brand-300","#b795e6"],["brand-400","#9663d6"],["brand-500","#7538c2","primária no escuro"],["brand-600","#591da9","PRIMÁRIA"],["brand-700","#4a168c","hover"],["brand-800","#3b1270"],["brand-900","#2c0d54"],["brand-950","#1a0733"]];
+const brand = [["brand-50","#f5f1fc"],["brand-100","#ebe2f9"],["brand-200","#d7c4f2"],["brand-300","#b795e6"],["brand-400","#9663d6"],["brand-500","#7538c2","hover no escuro"],["brand-600","#591da9","PRIMÁRIA · nos 2 temas"],["brand-700","#4a168c","hover no claro"],["brand-800","#3b1270"],["brand-900","#2c0d54"],["brand-950","#1a0733"]];
 const neutral = [["neutral-0","#ffffff"],["neutral-50","#f8fafc"],["neutral-100","#f1f5f9"],["neutral-200","#e2e8f0"],["neutral-300","#cbd5e1"],["neutral-400","#94a3b8"],["neutral-500","#64748b"],["neutral-600","#475569"],["neutral-700","#334155"],["neutral-800","#1e293b"],["neutral-900","#0f172a"],["neutral-950","#020617"]];
 const brands = [["VERO","#7538c2"],["GETNET","#e01e2b"],["GUARA","#c2410c"],["SAFIRA","#1d4ed8"],["ORIGO","#047857"],["SUA LUZ","#ca8a04"],["SERENA","#0d9488"],["TICKET","#ea580c"],["PLUXEE","#221c46"]];
 const data = [["data-1","#591da9"],["data-2","#0ea5e9"],["data-3","#10b981"],["data-4","#f59e0b"],["data-5","#6366f1"],["data-6","#ef4444"],["data-7","#06b6d4"],["data-8","#b795e6"]];
@@ -851,6 +937,54 @@ for (const caixa of document.querySelectorAll(".demo, [data-copiar]")) {
 
   caixa.appendChild(botao);
 }
+
+/* --- navegacao que segue o scroll --------------------------------------
+   IntersectionObserver, nao evento de scroll: o observer so dispara quando uma
+   secao entra ou sai da faixa observada, enquanto um listener de scroll roda
+   dezenas de vezes por segundo e cada execucao precisaria medir a posicao de 17
+   secoes — trabalho refeito a cada pixel, por nada.
+
+   rootMargin recorta a viewport numa faixa fina no terco superior. A secao
+   "atual" e a que cruza essa faixa: e onde o olho esta lendo, nao onde a tela
+   comeca. */
+const secoes = [...document.querySelectorAll("section[id]")];
+const linksNav = new Map(
+  [...document.querySelectorAll('.docs__nav a[href^="#"]')].map((a) => [a.getAttribute("href").slice(1), a])
+);
+
+const marcar = (id) => {
+  for (const [chave, link] of linksNav) {
+    if (chave === id) link.setAttribute("aria-current", "true");
+    else link.removeAttribute("aria-current");
+  }
+};
+
+/* O callback do observer entrega apenas o que MUDOU desde a ultima vez, nunca a
+   lista do que esta visivel agora. Decidir a secao atual so com o que chegou no
+   callback erra: numa rolagem rapida chegam varias entradas de uma vez, e a que
+   esta "entrando" pode nao ser a que o leitor alcancou. Por isso o estado fica
+   acumulado neste Set, e a escolha e feita sempre sobre ele. */
+const visiveis = new Set();
+const ordemDasSecoes = secoes.map((s) => s.id);
+
+const observador = new IntersectionObserver(
+  (entradas) => {
+    for (const e of entradas) {
+      if (e.isIntersecting) visiveis.add(e.target.id);
+      else visiveis.delete(e.target.id);
+    }
+    // Entre as que cruzam a faixa, vence a primeira em ordem de documento.
+    const atual = ordemDasSecoes.find((id) => visiveis.has(id));
+    // Sem nenhuma na faixa (topo da pagina, ou passando entre duas), mantem a
+    // ultima marcada — apagar faria a navegacao piscar durante a rolagem.
+    if (atual) marcar(atual);
+  },
+  { rootMargin: "-12% 0px -80% 0px", threshold: 0 }
+);
+secoes.forEach((s) => observador.observe(s));
+
+// Clicar num link marca na hora, sem esperar o scroll suave terminar.
+for (const [id, link] of linksNav) link.addEventListener("click", () => marcar(id));
 
 /* --- tema --------------------------------------------------------------
    Persistido, e lido no <head> antes do primeiro paint (mesma técnica do

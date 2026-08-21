@@ -10,75 +10,322 @@
   try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
 </script>
 <style>
-  body { margin: 0; display: grid; place-items: center; min-height: 100vh; padding: var(--zaz-space-8); }
-  .capa { width: 100%; max-width: 60rem; display: flex; flex-direction: column; gap: var(--zaz-space-8); }
-  .portas { display: grid; gap: var(--zaz-space-4); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-  .porta { display: flex; flex-direction: column; gap: var(--zaz-space-2); padding: var(--zaz-space-6);
-    background: var(--zaz-bg-surface); border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card);
-    box-shadow: var(--zaz-shadow-sm); color: var(--zaz-text); text-decoration: none;
-    border-left: 4px solid transparent;
-    transition: border-color var(--zaz-duration-fast) var(--zaz-ease-standard),
-                box-shadow var(--zaz-duration-fast) var(--zaz-ease-standard),
-                transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
-  .porta:hover { border-left-color: var(--zaz-primary-text); box-shadow: var(--zaz-shadow-md);
-    transform: translateY(-2px); text-decoration: none; color: var(--zaz-text); }
-  .porta:hover h2 { color: var(--zaz-primary-text); }
-  .porta h2 { margin: 0; font-size: var(--zaz-text-lg); font-weight: 700; transition: color var(--zaz-duration-fast); }
-  .porta p { margin: 0; font-size: var(--zaz-text-sm); color: var(--zaz-text-muted); }
+/* ============================================================================
+   Home do sistema.
+
+   Premissa: a home de um design system precisa MOSTRAR o sistema, não listar
+   links para ele. Quem chega aqui está decidindo se adota — e essa decisão se
+   toma olhando, não lendo. Por isso a página é uma vitrine: paleta, tipografia
+   e componentes reais, montados com as mesmas classes que a documentação
+   ensina. Nada aqui é imagem ou mockup.
+
+   Só o layout desta página mora neste bloco. Todo o resto vem de css/zaz.css.
+   ========================================================================== */
+
+body { margin: 0; }
+
+/* Faixa: o miolo tem largura máxima e respira nas laterais; o fundo, quando
+   existe, vai de ponta a ponta. É o que dá o ritmo de bloco da página. */
+.faixa { padding-inline: clamp(var(--zaz-space-5), 5vw, var(--zaz-space-16)); }
+.faixa__miolo { width: 100%; max-width: 1240px; margin-inline: auto; }
+
+/* --- Topo ---------------------------------------------------------------- */
+.topo { background: var(--zaz-brand-950); color: #fff; padding-block: var(--zaz-space-12) var(--zaz-space-16); }
+.topo__miolo { display: grid; gap: var(--zaz-space-10); align-items: center; }
+@media (min-width: 940px) { .topo__miolo { grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr); } }
+
+.marca { display: flex; align-items: center; gap: var(--zaz-space-3); margin-bottom: var(--zaz-space-10); }
+.marca img { height: 34px; width: auto; }
+.marca span { font-weight: 800; letter-spacing: var(--zaz-tracking-tight); font-size: var(--zaz-text-lg); }
+
+.topo h1 { margin: var(--zaz-space-4) 0 0; font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 900;
+  line-height: 1.03; letter-spacing: -0.03em; max-width: 15ch; }
+.topo__eyebrow { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-brand-300); margin: 0; }
+.topo__lede { margin: var(--zaz-space-6) 0 0; font-size: var(--zaz-text-lg); line-height: 1.6;
+  color: rgb(255 255 255 / 0.72); max-width: 52ch; }
+.topo__acoes { display: flex; flex-wrap: wrap; gap: var(--zaz-space-3); margin-top: var(--zaz-space-8); }
+
+/* Botão claro sobre o roxo escuro: aqui a primária do sistema seria roxo sobre
+   roxo. O branco é a única superfície que separa a ação do fundo. */
+/* Os seletores desta pagina que pintam <a> vem prefixados com .zaz-root de
+   proposito. O sistema define `.zaz-root a { color: var(--zaz-primary-text) }`,
+   que tem especificidade (0,1,1) e ganha de uma classe sozinha (0,1,0) — o
+   resultado e um botao que ignora a cor escrita aqui e sai roxo. Sobre o topo
+   roxo escuro isso da 1,94:1 de contraste: o texto some.
+   Prefixar leva estes seletores a (0,2,0) e devolve o controle a esta pagina. */
+.zaz-root .btn-claro { display: inline-flex; align-items: center; height: var(--zaz-control-lg); padding: 0 var(--zaz-space-8);
+  background: #fff; color: var(--zaz-brand-800); border-radius: var(--zaz-radius-card);
+  font-weight: 700; font-size: var(--zaz-text-base); text-decoration: none;
+  transition: transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
+.zaz-root .btn-claro:hover { transform: translateY(-1px); text-decoration: none; color: var(--zaz-brand-900); }
+.zaz-root .btn-vazado { display: inline-flex; align-items: center; height: var(--zaz-control-lg); padding: 0 var(--zaz-space-6);
+  border: 1px solid rgb(255 255 255 / 0.28); border-radius: var(--zaz-radius-card);
+  color: #fff; font-weight: 600; font-size: var(--zaz-text-base); text-decoration: none;
+  transition: background var(--zaz-duration-fast) var(--zaz-ease-standard); }
+.zaz-root .btn-vazado:hover { background: rgb(255 255 255 / 0.10); text-decoration: none; color: #fff; }
+
+/* Ficha: os quatro números que definem o sistema. */
+.ficha { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--zaz-space-6);
+  margin: 0; padding: var(--zaz-space-8);
+  background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: var(--zaz-radius-hero); backdrop-filter: blur(6px); }
+.ficha dt { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-brand-300); }
+.ficha dd { margin: var(--zaz-space-1) 0 0; font-size: var(--zaz-text-2xl); font-weight: 800;
+  letter-spacing: var(--zaz-tracking-tight); }
+.ficha dd.mono { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-lg); color: var(--zaz-brand-300); }
+
+/* --- Seções da vitrine --------------------------------------------------- */
+.secao { padding-block: var(--zaz-space-16); }
+.secao + .secao { border-top: 1px solid var(--zaz-border-soft); }
+.secao__cabeca { display: flex; align-items: baseline; justify-content: space-between;
+  flex-wrap: wrap; gap: var(--zaz-space-3); margin-bottom: var(--zaz-space-6); }
+.secao__cabeca h2 { margin: 0; font-size: var(--zaz-text-2xl); font-weight: 800;
+  letter-spacing: var(--zaz-tracking-tight); }
+.secao__cabeca a { font-size: var(--zaz-text-sm); font-weight: 600; }
+
+/* Paleta: a escala inteira numa faixa contínua, sem cartão em volta. A cor
+   precisa encostar na cor vizinha para o olho ler a progressão. */
+.paleta { display: grid; grid-template-columns: repeat(6, 1fr); border-radius: var(--zaz-radius-card);
+  overflow: hidden; border: 1px solid var(--zaz-border); }
+@media (min-width: 760px) { .paleta { grid-template-columns: repeat(11, 1fr); } }
+.paleta div { aspect-ratio: 1 / 1.15; display: flex; align-items: flex-end; padding: var(--zaz-space-2);
+  font-family: var(--zaz-font-mono); font-size: 0.625rem; }
+
+.tipos { display: grid; gap: var(--zaz-space-5); }
+.tipo { display: grid; gap: var(--zaz-space-1); padding-bottom: var(--zaz-space-5);
+  border-bottom: 1px solid var(--zaz-border-soft); }
+.tipo:last-child { border-bottom: 0; padding-bottom: 0; }
+.tipo__rotulo { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-text-subtle); }
+
+.componentes { display: grid; gap: var(--zaz-space-4); grid-template-columns: 1fr; }
+@media (min-width: 860px) { .componentes { grid-template-columns: repeat(2, 1fr); } }
+
+/* Portas: 2 colunas em tela média, 4 em tela larga. Nunca 3 — com 4 itens,
+   três colunas deixam o quarto sozinho embaixo, ocupando um terço da largura.
+   É o desalinhamento que mais lê como descuido numa página. */
+.portas { display: grid; gap: var(--zaz-space-4); grid-template-columns: 1fr; }
+@media (min-width: 620px)  { .portas { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .portas { grid-template-columns: repeat(4, 1fr); } }
+
+.zaz-root .porta { display: flex; flex-direction: column; gap: var(--zaz-space-2); padding: var(--zaz-space-5) var(--zaz-space-6);
+  background: var(--zaz-bg-surface); border: 1px solid var(--zaz-border);
+  border-left: 4px solid transparent; border-radius: var(--zaz-radius-card);
+  box-shadow: var(--zaz-shadow-sm); color: var(--zaz-text); text-decoration: none;
+  transition: border-color var(--zaz-duration-fast) var(--zaz-ease-standard),
+              box-shadow var(--zaz-duration-fast) var(--zaz-ease-standard),
+              transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
+.zaz-root .porta:hover { border-left-color: var(--zaz-primary-text); box-shadow: var(--zaz-shadow-md);
+  transform: translateY(-2px); text-decoration: none; color: var(--zaz-text); }
+.zaz-root .porta:hover h3 { color: var(--zaz-primary-text); }
+.porta h3 { margin: 0; font-size: var(--zaz-text-lg); font-weight: 700;
+  transition: color var(--zaz-duration-fast) var(--zaz-ease-standard); }
+.porta p { margin: 0; font-size: var(--zaz-text-sm); color: var(--zaz-text-muted); line-height: 1.5; }
+.porta__seta { margin-top: auto; padding-top: var(--zaz-space-3); color: var(--zaz-text-subtle); font-size: var(--zaz-text-sm); }
+
+.cod { margin: 0; padding: var(--zaz-space-4) var(--zaz-space-5); background: var(--zaz-bg-inset);
+  border: 1px solid var(--zaz-border-soft); border-radius: var(--zaz-radius-control);
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); line-height: 1.7;
+  color: var(--zaz-text); overflow-x: auto; scrollbar-width: thin; }
+
+.rodape { padding-block: var(--zaz-space-8); border-top: 1px solid var(--zaz-border);
+  display: flex; flex-wrap: wrap; gap: var(--zaz-space-4); align-items: center; justify-content: space-between; }
 </style>
 </head>
 <body class="zaz-root">
 
-<main class="capa">
+<!-- ======================================================== TOPO ========= -->
+<header class="topo faixa">
+  <div class="faixa__miolo topo__miolo">
+    <div>
+      <div class="marca">
+        <img src="assets/logo-zaz.png" alt="ZAZ">
+        <span>Design System</span>
+      </div>
+      <p class="topo__eyebrow">ZAZ Vendas · Versão 1.0</p>
+      <h1>A base visual de tudo que leva o nome ZAZ.</h1>
+      <p class="topo__lede">Produto, apresentação, relatório ou página avulsa: tudo parte daqui.
+        Uma linha de CSS e a sua tela já é ZAZ.</p>
+      <div class="topo__acoes">
+        <a class="btn-claro" href="docs/">Ver a documentação</a>
+        <a class="btn-vazado" href="templates/apresentacao.html">Abrir modelo de apresentação</a>
+      </div>
+    </div>
 
-  <header style="display:flex;flex-direction:column;gap:var(--zaz-space-4)">
-    <img src="assets/logo-zaz.png" alt="ZAZ" style="height:44px;width:auto;align-self:flex-start">
-    <p class="zaz-eyebrow">ZAZ Vendas · Design System</p>
-    <h1 class="zaz-display" style="font-size:var(--zaz-text-5xl);max-width:20ch;margin:0">A base visual de tudo que leva o nome ZAZ.</h1>
-    <p class="zaz-muted" style="font-size:var(--zaz-text-base);max-width:62ch;margin:0">
-      Produto, apresentação, relatório ou página avulsa: tudo parte daqui. A fonte da
-      verdade é <code style="font-family:var(--zaz-font-mono)">tokens/zaz.tokens.json</code> —
-      o CSS, o preset Tailwind e os componentes React são derivados dele.
+    <dl class="ficha">
+      <div><dt>Primária</dt><dd class="mono">#591da9</dd></div>
+      <div><dt>Tipo</dt><dd>Inter</dd></div>
+      <div><dt>Grade</dt><dd>4px</dd></div>
+      <div><dt>Idioma</dt><dd>pt-BR</dd></div>
+    </dl>
+  </div>
+</header>
+
+<!-- ===================================================== PALETA ========== -->
+<section class="secao faixa">
+  <div class="faixa__miolo">
+    <div class="secao__cabeca">
+      <h2>A cor</h2>
+      <a href="docs/#cores">Escala completa, status e cores de dados →</a>
+    </div>
+    <div class="paleta" id="paleta"></div>
+    <p class="zaz-muted" style="margin:var(--zaz-space-4) 0 0;max-width:70ch">
+      <strong style="color:var(--zaz-text)">#591da9</strong> é a primária, nos dois temas.
+      Os neutros saem todos da escala slate — nenhum cinza fora dela.
     </p>
-  </header>
+  </div>
+</section>
 
-  <nav class="portas">
-    <a class="porta" href="docs/">
-      <span class="zaz-eyebrow">Referência</span>
-      <h2>Documentação</h2>
-      <p>Cores, tipografia, espaçamento e todos os componentes, cada um com o markup pronto para copiar.</p>
-    </a>
-    <a class="porta" href="templates/apresentacao.html">
-      <span class="zaz-eyebrow">Modelo</span>
-      <h2>Apresentação</h2>
-      <p>Deck 1920×1080 com seis layouts, navegação por seta e exportação em PDF.</p>
-    </a>
-    <a class="porta" href="templates/app.html">
-      <span class="zaz-eyebrow">Modelo</span>
-      <h2>Aplicação</h2>
-      <p>Shell com sidebar, header, métricas e lista — HTML puro, sem build.</p>
-    </a>
-    <a class="porta" href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">
-      <span class="zaz-eyebrow">Prova</span>
-      <h2>Auditoria</h2>
-      <p>O que foi conferido contra o Apolo em produção, e o que não bateu.</p>
-    </a>
-  </nav>
+<!-- ================================================= TIPOGRAFIA ========== -->
+<section class="secao faixa">
+  <div class="faixa__miolo">
+    <div class="secao__cabeca">
+      <h2>A voz</h2>
+      <a href="docs/#tipografia">Escala completa →</a>
+    </div>
+    <div class="tipos">
+      <div class="tipo">
+        <span class="tipo__rotulo">Display · 36px · 900</span>
+        <span class="zaz-display">Gestão inteligente de processos.</span>
+      </div>
+      <div class="tipo">
+        <span class="tipo__rotulo">Título de tela · 24px · 800</span>
+        <span class="zaz-h1">Auditoria de Documentos</span>
+      </div>
+      <div class="tipo">
+        <span class="tipo__rotulo">Corpo · 14px · 400 — o padrão em produto</span>
+        <span class="zaz-body">Toda tarefa nasce com responsável e prazo definidos no próprio desenho do processo.</span>
+      </div>
+      <div class="tipo">
+        <span class="tipo__rotulo">Mono · 12px — IDs, CPFs e chaves Camunda</span>
+        <span class="zaz-mono">TSK-48210-CRED · 000.000.000-00</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div class="zaz-card zaz-card--muted"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-2)">
-    <p class="zaz-eyebrow">Começar em uma linha</p>
-    <code style="font-family:var(--zaz-font-mono);font-size:var(--zaz-text-xs);display:block;padding:var(--zaz-space-3);background:var(--zaz-bg-inset);border-radius:var(--zaz-radius-control);overflow-x:auto">&lt;link rel="stylesheet" href="https://apolo.zaz.vc/design-system/css/zaz.css"&gt;</code>
-    <p class="zaz-muted" style="margin:0">Depois, <code style="font-family:var(--zaz-font-mono)">class="zaz-root"</code> no <code style="font-family:var(--zaz-font-mono)">&lt;body&gt;</code>.</p>
-  </div></div>
+<!-- ================================================ COMPONENTES ========== -->
+<section class="secao faixa">
+  <div class="faixa__miolo">
+    <div class="secao__cabeca">
+      <h2>As peças</h2>
+      <a href="docs/#botoes">Todos os componentes →</a>
+    </div>
 
-  <footer style="display:flex;justify-content:space-between;align-items:center;gap:var(--zaz-space-4)">
+    <div class="componentes">
+      <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
+        <span class="zaz-eyebrow">Ação e status</span>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--zaz-space-3);align-items:center">
+          <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
+          <button class="zaz-btn zaz-btn--secondary">Filtros</button>
+          <button class="zaz-btn zaz-btn--ghost">Cancelar</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--zaz-space-2);align-items:center">
+          <span class="zaz-badge zaz-badge--success">Em dia</span>
+          <span class="zaz-badge zaz-badge--warning">Pendência</span>
+          <span class="zaz-badge zaz-badge--danger">Vencida</span>
+          <span class="zaz-badge zaz-badge--brand">4 tarefas</span>
+          <span class="zaz-brand-tag" data-brand="vero">VERO</span>
+        </div>
+      </div></div>
+
+      <div class="zaz-card" style="overflow:hidden">
+        <div class="zaz-card__header">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div>
+          <span class="zaz-badge zaz-badge--brand">2</span>
+        </div>
+        <div class="zaz-track">
+          <button class="zaz-track__row" aria-current="true">
+            <span class="zaz-live-dot" aria-hidden="true"></span>
+            <span class="zaz-track__main">
+              <span class="zaz-track__title">Análise Documental — VERO</span>
+              <span class="zaz-track__meta"><span class="zaz-mono">TSK-8842</span><span>há 3 min</span></span>
+            </span>
+            <span class="zaz-badge zaz-badge--warning">Pendência</span>
+          </button>
+          <button class="zaz-track__row">
+            <span class="zaz-live-dot" aria-hidden="true"></span>
+            <span class="zaz-track__main">
+              <span class="zaz-track__title">Handshake Parceiro — GETNET</span>
+              <span class="zaz-track__meta"><span class="zaz-mono">TSK-8839</span><span>há 2h 15m</span></span>
+            </span>
+            <span class="zaz-badge zaz-badge--info">Em Andamento</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== PORTAS ========== -->
+<section class="secao faixa">
+  <div class="faixa__miolo">
+    <div class="secao__cabeca"><h2>Por onde começar</h2></div>
+    <nav class="portas">
+      <a class="porta" href="docs/">
+        <span class="zaz-eyebrow">Referência</span>
+        <h3>Documentação</h3>
+        <p>Cores, tipografia, espaçamento e todos os componentes — cada um com o markup pronto para copiar.</p>
+        <span class="porta__seta">Abrir →</span>
+      </a>
+      <a class="porta" href="templates/apresentacao.html">
+        <span class="zaz-eyebrow">Modelo</span>
+        <h3>Apresentação</h3>
+        <p>Deck 1920×1080 com seis layouts, navegação por seta e exportação em PDF.</p>
+        <span class="porta__seta">Abrir →</span>
+      </a>
+      <a class="porta" href="templates/app.html">
+        <span class="zaz-eyebrow">Modelo</span>
+        <h3>Aplicação</h3>
+        <p>Shell com sidebar, header, métricas e lista. HTML puro, sem build.</p>
+        <span class="porta__seta">Abrir →</span>
+      </a>
+      <a class="porta" href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">
+        <span class="zaz-eyebrow">Prova</span>
+        <h3>Auditoria</h3>
+        <p>O que foi conferido contra o Apolo em produção — e o que não bateu.</p>
+        <span class="porta__seta">Abrir →</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- ==================================================== COMEÇAR ========== -->
+<section class="secao faixa">
+  <div class="faixa__miolo">
+    <div class="secao__cabeca"><h2>Começar em uma linha</h2></div>
+    <pre class="cod">&lt;link rel="stylesheet" href="https://apolo.zaz.vc/design-system/css/zaz.css"&gt;
+&lt;body class="zaz-root"&gt;</pre>
+    <p class="zaz-muted" style="margin:var(--zaz-space-4) 0 0;max-width:70ch">
+      <code style="font-family:var(--zaz-font-mono)">class="zaz-root"</code> não é enfeite: é ela que liga
+      fundo, cor de texto, fonte e barra de rolagem. Sem ela o CSS carrega e não faz nada visível.
+    </p>
+  </div>
+</section>
+
+<footer class="faixa">
+  <div class="faixa__miolo rodape">
     <p class="zaz-muted" style="margin:0">© 2026 Zaz Vendas. Apolo.</p>
     <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" id="tema">Alternar tema</button>
-  </footer>
-
-</main>
+  </div>
+</footer>
 
 <script>
+  /* A paleta é montada aqui, e não escrita à mão no HTML, porque onze <div>
+     com hexadecimal repetido é o tipo de lista que sai de sincronia com os
+     tokens no primeiro ajuste de cor. */
+  const escala = [
+    ["50","#f5f1fc"],["100","#ebe2f9"],["200","#d7c4f2"],["300","#b795e6"],
+    ["400","#9663d6"],["500","#7538c2"],["600","#591da9"],["700","#4a168c"],
+    ["800","#3b1270"],["900","#2c0d54"],["950","#1a0733"]
+  ];
+  document.getElementById('paleta').innerHTML = escala.map(([nome, hex], i) =>
+    // A partir do 400 o fundo já é escuro demais para texto escuro.
+    `<div style="background:${hex};color:${i >= 4 ? 'rgb(255 255 255 / .82)' : 'var(--zaz-neutral-500)'}">${nome}</div>`
+  ).join('');
+
   document.getElementById('tema').onclick = () => {
     const escuro = document.documentElement.classList.toggle('dark');
     try { localStorage.setItem('tema', escuro ? 'dark' : 'light'); } catch (e) {}
