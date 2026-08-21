@@ -6,12 +6,18 @@
 #   publicar  — só na main. Sobe o repositório para o GitHub Pages, de onde
 #               qualquer pessoa consome o CSS e lê a documentação.
 #
-# Não precisa de nenhum passo manual: `configure-pages` com enablement: true
-# habilita o Pages na primeira execução. O site sai em
+# ANTES DO PRIMEIRO DEPLOY, uma vez, na mão:
+#   Settings > Pages > Build and deployment > Source: "GitHub Actions"
+#
+# Não dá para automatizar isso aqui: a política da organização não deixa o
+# GITHUB_TOKEN criar sites do Pages. Enquanto o passo não for feito, `verificar`
+# passa e `publicar` falha em configure-pages — o repositório fica íntegro, só
+# não publicado.
+#
+# Depois de ligado, o site sai em
 # https://zaz-vendas.github.io/Design-System-ZAZ/
 #
-# Só funciona em repositório público ou em plano pago — Pages de repositório
-# privado exige GitHub Pro/Team/Enterprise.
+# Pages exige repositório público ou plano pago (Pro/Team/Enterprise).
 
 name: Design System
 
@@ -59,14 +65,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # enablement: true liga o GitHub Pages sozinho na primeira execucao, em vez
-      # de exigir que alguem va em Settings > Pages e escolha "GitHub Actions"
-      # antes do primeiro deploy. Sem ele, este passo falha com "Get Pages site
-      # failed / Not Found" — que foi o que derrubou a execucao inicial.
-      # Depende da permissao `pages: write`, ja declarada acima.
+      # Sem `enablement: true` de proposito. Tentamos: a action ate aceita o
+      # parametro, mas criar um site do Pages exige um poder que o GITHUB_TOKEN
+      # nao tem nesta organizacao — o passo morre com "Create Pages site failed:
+      # Resource not accessible by integration", mesmo com `pages: write`
+      # declarado no job. Quem libera isso e a politica da org, nao o workflow.
+      #
+      # Por isso o Pages e ligado uma vez, na mao (ver cabecalho do arquivo).
+      # Depois disso este passo so LE a configuracao existente, e passa.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
