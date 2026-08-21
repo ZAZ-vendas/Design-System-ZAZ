@@ -71,10 +71,20 @@ systemctl reload nginx
 echo "nginx recarregado"
 
 # ------------------------------------------------------------------ conferencia
+#
+# Testa HTML e CSS, nao so a home. Sao caminhos com sortes diferentes: a config
+# do Apolo tem um location de regex para .css/.js/.png, e regex vence prefixo no
+# nginx. Sem o `^~` no nosso location, a home responde 200 e o CSS responde 404
+# — a pagina abre sem estilo nenhum e o log nao acusa nada. Testar so a home
+# daria "instalado com sucesso" para um site quebrado.
 sleep 1
-CODIGO=$(curl -s -o /dev/null -w '%{http_code}' http://localhost/design-system/ || echo "000")
-echo "teste local: HTTP $CODIGO"
-[ "$CODIGO" = "200" ] || erro "esperava 200. Veja /var/log/nginx/zaz-tasklist.error.log"
+FALHOU=0
+for CAMINHO in /design-system/ /design-system/css/zaz.css /design-system/docs/; do
+  CODIGO=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost${CAMINHO}" || echo "000")
+  echo "  HTTP $CODIGO  $CAMINHO"
+  [ "$CODIGO" = "200" ] || FALHOU=1
+done
+[ "$FALHOU" -eq 0 ] || erro "algum caminho nao respondeu 200. Se so o .css falhou, falta o '^~' no location. Log: /var/log/nginx/zaz-tasklist.error.log"
 
 echo
 echo "pronto: https://apolo.zaz.vc/design-system/"
