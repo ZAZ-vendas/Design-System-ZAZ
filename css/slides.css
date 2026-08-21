@@ -1,0 +1,85 @@
+/* ============================================================================
+   ZAZ Apolo Design System — slides.css
+   Layouts de apresentação 1920×1080. Requer css/tokens.css.
+   Regra dura: nenhum texto abaixo de 24px. Máximo 2 cores de fundo por deck.
+   ========================================================================== */
+
+.zaz-slide {
+  position: relative;
+  width: var(--zaz-slide-w); height: var(--zaz-slide-h);
+  padding: var(--zaz-slide-margin);
+  box-sizing: border-box; overflow: hidden;
+  display: flex; flex-direction: column;
+  background: var(--zaz-neutral-0); color: var(--zaz-neutral-900);
+  font-family: var(--zaz-font-sans); font-size: 28px; line-height: 1.4;
+}
+.zaz-slide--dark  { background: var(--zaz-brand-950); color: var(--zaz-neutral-50); }
+.zaz-slide--brand { background: var(--zaz-brand-600); color: #fff; }
+.zaz-slide--muted { background: var(--zaz-neutral-50); }
+
+/* Eyebrow, títulos e corpo em escala de projeção. */
+.zaz-slide__eyebrow { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--zaz-brand-600); }
+.zaz-slide--dark .zaz-slide__eyebrow, .zaz-slide--brand .zaz-slide__eyebrow { color: var(--zaz-brand-200); }
+.zaz-slide__title { font-size: 88px; font-weight: 900; line-height: 1.05; letter-spacing: -0.025em; margin: 0; }
+.zaz-slide__subtitle { font-size: 36px; font-weight: 400; line-height: 1.35; color: var(--zaz-neutral-500); margin: 0; max-width: 24ch; }
+.zaz-slide--dark .zaz-slide__subtitle, .zaz-slide--brand .zaz-slide__subtitle { color: rgb(255 255 255 / 0.72); }
+.zaz-slide__heading { font-size: 56px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin: 0; }
+.zaz-slide__body { font-size: 30px; line-height: 1.5; color: var(--zaz-neutral-600); }
+.zaz-slide--dark .zaz-slide__body, .zaz-slide--brand .zaz-slide__body { color: rgb(255 255 255 / 0.80); }
+
+/* Rodapé fixo: logo/assunto à esquerda, numeração à direita. */
+.zaz-slide__footer {
+  position: absolute; left: var(--zaz-slide-margin); right: var(--zaz-slide-margin); bottom: 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 24px; color: var(--zaz-neutral-400);
+}
+.zaz-slide--dark .zaz-slide__footer, .zaz-slide--brand .zaz-slide__footer { color: rgb(255 255 255 / 0.55); }
+
+/* Barra roxa vertical — mesma assinatura dos cards, em escala de slide. */
+.zaz-slide__rule { width: 8px; height: 96px; border-radius: var(--zaz-radius-pill); background: var(--zaz-brand-600); flex: none; }
+.zaz-slide--dark .zaz-slide__rule, .zaz-slide--brand .zaz-slide__rule { background: var(--zaz-brand-200); }
+
+/* --- 1. Capa ------------------------------------------------------------ */
+.zaz-slide--cover { justify-content: center; gap: 32px; }
+.zaz-slide--cover .zaz-slide__title { max-width: 22ch; }
+
+/* --- 2. Abertura de seção ---------------------------------------------- */
+.zaz-slide--section { justify-content: center; align-items: flex-start; gap: 24px; }
+.zaz-slide--section .zaz-slide__index { font-size: 24px; font-family: var(--zaz-font-mono); color: var(--zaz-brand-300); }
+
+/* --- 3. Conteúdo: título + corpo -------------------------------------- */
+.zaz-slide--content { gap: 56px; }
+.zaz-slide--content .zaz-slide__head { display: flex; gap: 32px; align-items: flex-start; }
+.zaz-slide__cols { flex: 1; display: grid; grid-template-columns: repeat(var(--zaz-slide-cols, 2), 1fr); gap: 64px; align-content: start; }
+.zaz-slide__list { display: flex; flex-direction: column; gap: 28px; font-size: 30px; }
+.zaz-slide__list-item { display: flex; gap: 20px; align-items: flex-start; }
+.zaz-slide__list-item::before { content: ""; flex: none; width: 12px; height: 12px; margin-top: 16px; border-radius: var(--zaz-radius-pill); background: var(--zaz-brand-600); }
+.zaz-slide--dark .zaz-slide__list-item::before { background: var(--zaz-brand-300); }
+
+/* --- 4. Dados: números grandes --------------------------------------- */
+.zaz-slide--data { gap: 56px; }
+/* align-content: center, e não start: com 3 métricas numa área de ~700px de
+   altura, alinhar ao topo deixa metade do slide vazio e o olho lê como erro de
+   montagem. Lista de texto começa no topo (o olho varre de cima); bloco de
+   número fica no eixo. */
+.zaz-slide__metrics { flex: 1; display: grid; grid-template-columns: repeat(var(--zaz-slide-cols, 3), 1fr); gap: 40px; align-content: center; }
+.zaz-slide__metric { display: flex; flex-direction: column; gap: 12px; padding: 40px; border: 2px solid var(--zaz-neutral-200); border-radius: 24px; }
+.zaz-slide--dark .zaz-slide__metric { border-color: rgb(255 255 255 / 0.18); }
+.zaz-slide__metric-value { font-size: 96px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--zaz-brand-600); }
+.zaz-slide--dark .zaz-slide__metric-value, .zaz-slide--brand .zaz-slide__metric-value { color: #fff; }
+.zaz-slide__metric-label { font-size: 26px; color: var(--zaz-neutral-500); }
+.zaz-slide--dark .zaz-slide__metric-label { color: rgb(255 255 255 / 0.70); }
+
+/* --- 5. Divisão imagem/conteúdo -------------------------------------- */
+.zaz-slide--split { flex-direction: row; align-items: stretch; gap: 0; padding: 0; }
+.zaz-slide--split > .zaz-slide__pane { flex: 1; padding: var(--zaz-slide-margin); display: flex; flex-direction: column; justify-content: center; gap: 32px; }
+.zaz-slide--split > .zaz-slide__media { flex: 1; background: var(--zaz-neutral-100); display: grid; place-items: center; color: var(--zaz-neutral-400); font-size: 24px; }
+
+/* --- 6. Encerramento ------------------------------------------------- */
+.zaz-slide--closing { justify-content: center; align-items: center; text-align: center; gap: 32px; }
+.zaz-slide--closing .zaz-slide__title { max-width: 28ch; }
+
+/* --- Impressão / export --------------------------------------------- */
+@media print {
+  .zaz-slide { break-after: page; box-shadow: none; }
+}

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZAZ Apolo Design System</title>
+<link rel="icon" href="../assets/logo-zaz.png">
+<link rel="stylesheet" href="../css/zaz.css">
+<script>
+  // Antes do primeiro paint — senão a página abre clara e escurece na cara do
+  // leitor. É a mesma técnica do index.html do Apolo.
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+<style>
+  /* Estilos exclusivos desta página de docs — não fazem parte do sistema. */
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; }
+  .docs { display: grid; grid-template-columns: var(--zaz-sidebar-w) 1fr; min-height: 100vh; }
+  .docs__nav { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+    background: var(--zaz-bg-surface); border-right: 1px solid var(--zaz-border);
+    padding: var(--zaz-space-6) var(--zaz-space-4); display: flex; flex-direction: column; gap: var(--zaz-space-2); }
+  .docs__nav a { display: block; padding: var(--zaz-space-2) var(--zaz-space-3); border-radius: var(--zaz-radius-control);
+    color: var(--zaz-text-muted); font-size: var(--zaz-text-sm); font-weight: 500; text-decoration: none; }
+  .docs__nav a:hover { background: var(--zaz-bg-muted); color: var(--zaz-primary); text-decoration: none; }
+  .docs__nav strong { padding: var(--zaz-space-4) var(--zaz-space-3) var(--zaz-space-1); }
+  .docs__main { min-width: 0; padding: var(--zaz-space-12) var(--zaz-space-12) var(--zaz-space-24); max-width: 1100px; }
+  section[id] { scroll-margin-top: var(--zaz-space-6); padding-block: var(--zaz-space-12) 0; }
+  h2.sec { font-size: var(--zaz-text-3xl); font-weight: 800; letter-spacing: var(--zaz-tracking-tight); margin: 0 0 var(--zaz-space-2); }
+  .lede { font-size: var(--zaz-text-base); color: var(--zaz-text-muted); max-width: 68ch; margin: 0 0 var(--zaz-space-8); }
+  h3.sub { font-size: var(--zaz-text-base); font-weight: 700; margin: var(--zaz-space-10) 0 var(--zaz-space-4); }
+  .grid { display: grid; gap: var(--zaz-space-4); }
+  .grid--sw { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .grid--2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .grid--3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .sw { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); overflow: hidden; background: var(--zaz-bg-surface); }
+  .sw__chip { height: 72px; }
+  .sw__meta { padding: var(--zaz-space-3); display: flex; flex-direction: column; gap: 2px; }
+  .sw__name { font-size: var(--zaz-text-xs); font-weight: 700; }
+  .sw__hex { font-family: var(--zaz-font-mono); font-size: 0.6875rem; color: var(--zaz-text-muted); text-transform: uppercase; }
+  .demo { display: flex; flex-wrap: wrap; gap: var(--zaz-space-4); align-items: center;
+    padding: var(--zaz-space-6); border: 1px dashed var(--zaz-border); border-radius: var(--zaz-radius-card); background: var(--zaz-bg-muted); }
+  .demo--col { flex-direction: column; align-items: stretch; }
+  code.tok { font-family: var(--zaz-font-mono); font-size: 0.75rem; background: var(--zaz-bg-inset); color: var(--zaz-text);
+    padding: 2px 6px; border-radius: var(--zaz-radius-sm); }
+  .rule { display: grid; grid-template-columns: auto 1fr; gap: var(--zaz-space-3) var(--zaz-space-4); margin: var(--zaz-space-4) 0 0; }
+  .rule dt { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow); }
+  .rule dd { margin: 0; font-size: var(--zaz-text-sm); color: var(--zaz-text-muted); }
+  .yes { color: var(--zaz-success-fg); } .no { color: var(--zaz-danger-fg); }
+  .slide-frame { width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--zaz-border);
+    border-radius: var(--zaz-radius-card); position: relative; }
+  .slide-frame > .zaz-slide { position: absolute; top: 0; left: 0; transform-origin: top left; }
+  table.spec { width: 100%; border-collapse: collapse; font-size: var(--zaz-text-sm); }
+  table.spec th, table.spec td { text-align: left; padding: var(--zaz-space-3); border-bottom: 1px solid var(--zaz-border-soft); }
+  table.spec th { font-size: var(--zaz-text-xs); text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-text-muted); }
+  /* Bloco de código copiável. */
+  .cod { margin: 0; padding: var(--zaz-space-4); background: var(--zaz-bg-inset); border-radius: var(--zaz-radius-control);
+    font-family: var(--zaz-font-mono); font-size: 0.75rem; line-height: 1.6; color: var(--zaz-text);
+    /* pre-wrap e não pre: com overflow-x cada card ganhava uma barra de rolagem
+       horizontal, e três barras seguidas poluem mais do que a quebra de linha
+       incomoda. O botão "Copiar" entrega o texto original de qualquer jeito. */
+    white-space: pre-wrap; overflow-wrap: anywhere; }
+  kbd { font-family: var(--zaz-font-mono); font-size: 0.6875rem; padding: 1px 5px; border: 1px solid var(--zaz-border);
+    border-bottom-width: 2px; border-radius: var(--zaz-radius-sm); background: var(--zaz-bg-surface); color: var(--zaz-text); }
+
+  /* Botão "copiar", injetado por script em toda amostra. Fica no canto e só
+     aparece no hover, para não competir com o componente que está sendo
+     demonstrado. */
+  [data-copiar] { position: relative; }
+  .copiar { position: absolute; top: 6px; right: 6px; z-index: 2;
+    padding: 3px 9px; border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-sm);
+    background: var(--zaz-bg-surface); color: var(--zaz-text-muted);
+    font-family: var(--zaz-font-sans); font-size: 0.625rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow);
+    cursor: pointer; opacity: 0; transition: opacity var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  [data-copiar]:hover .copiar, .copiar:focus-visible { opacity: 1; }
+  .copiar--feito { color: var(--zaz-success-fg); border-color: var(--zaz-success-border); background: var(--zaz-success-bg); }
+
+  @media (max-width: 900px) { .docs { grid-template-columns: 1fr; } .docs__nav { position: static; height: auto; } .docs__main { padding: var(--zaz-space-6); } }
+</style>
+</head>
+<body class="zaz-root">
+<div class="docs">
+
+  <nav class="docs__nav">
+    <div class="zaz-sidebar__brand" style="border:0;padding-inline:var(--zaz-space-3)">
+      <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:24px;width:auto">
+      <span style="font-weight:800;letter-spacing:var(--zaz-tracking-tight)">Design System</span>
+    </div>
+    <strong class="zaz-eyebrow">Começar</strong>
+    <a href="#usar">Como consumir</a>
+    <a href="#modelos">Modelos prontos</a>
+    <strong class="zaz-eyebrow">Fundamentos</strong>
+    <a href="#cores">Cores</a>
+    <a href="#marcas">Marcas parceiras</a>
+    <a href="#dados">Cores de dados</a>
+    <a href="#tipografia">Tipografia</a>
+    <a href="#espaco">Espaço, raios, sombras</a>
+    <strong class="zaz-eyebrow">Componentes</strong>
+    <a href="#botoes">Botões</a>
+    <a href="#formularios">Formulários</a>
+    <a href="#cards">Cards e métricas</a>
+    <a href="#status">Badges e status</a>
+    <a href="#listas">Tabelas e trilha lateral</a>
+    <a href="#shell">Shell, sidebar, header</a>
+    <a href="#sobreposicoes">Modais, drawers, toasts</a>
+    <strong class="zaz-eyebrow">Aplicação</strong>
+    <a href="#slides">Layouts de slide</a>
+    <a href="#voz">Conteúdo e voz</a>
+    <a href="#assets">Assets</a>
+    <div style="margin-top:auto;padding-top:var(--zaz-space-6)">
+      <button class="zaz-btn zaz-btn--secondary zaz-btn--sm zaz-btn--block" id="theme">Alternar tema</button>
+    </div>
+  </nav>
+
+  <main class="docs__main">
+
+    <header style="display:flex;flex-direction:column;gap:var(--zaz-space-4)">
+      <p class="zaz-eyebrow">ZAZ Vendas · Versão 1.0</p>
+      <h1 class="zaz-display" style="font-size:var(--zaz-text-5xl);max-width:22ch">A base visual de tudo que leva o nome ZAZ.</h1>
+      <p class="lede" style="margin:0">Produtos, apresentações, documentos e páginas partem daqui. A fonte da verdade é
+        <code class="tok">tokens/zaz.tokens.json</code> — CSS, preset Tailwind e componentes React derivam dele.</p>
+      <div class="demo" style="gap:var(--zaz-space-6)">
+        <div class="zaz-metric"><span class="zaz-eyebrow">Primária</span><strong class="zaz-metric__value" style="color:var(--zaz-primary)">#591da9</strong></div>
+        <div class="zaz-metric"><span class="zaz-eyebrow">Tipo</span><strong class="zaz-metric__value">Inter</strong></div>
+        <div class="zaz-metric"><span class="zaz-eyebrow">Grade</span><strong class="zaz-metric__value">4px</strong></div>
+        <div class="zaz-metric"><span class="zaz-eyebrow">Idioma</span><strong class="zaz-metric__value">pt-BR</strong></div>
+      </div>
+    </header>
+
+    <!-- ================= COMO CONSUMIR ================= -->
+    <section id="usar">
+      <h2 class="sec">Como consumir</h2>
+      <p class="lede">Três caminhos, do mais leve ao mais integrado. Todos leem os mesmos tokens — a diferença é só quanto de ferramenta você já tem no projeto.</p>
+
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">1 · HTML solto — sem build</p>
+          <p class="zaz-muted" style="margin:0">Apresentação, página avulsa, relatório. Uma linha e pronto.</p>
+          <pre class="cod" data-copiar><code>&lt;link rel="stylesheet"
+  href="https://zaz-vendas.github.io/zaz-design-system/css/zaz.css"&gt;
+&lt;body class="zaz-root"&gt;</code></pre>
+          <p class="zaz-muted" style="margin:0"><code class="tok">class="zaz-root"</code> não é enfeite: é ele que liga fundo, cor de texto, fonte e barra de rolagem. Sem ele o CSS carrega e não faz nada visível.</p>
+        </div></div>
+
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">2 · Tailwind v4</p>
+          <p class="zaz-muted" style="margin:0">Ganha <code class="tok">bg-brand-600</code>, <code class="tok">rounded-card</code>, <code class="tok">h-control-md</code> como utilitários nativos.</p>
+          <pre class="cod" data-copiar><code>@import "tailwindcss";
+@import "@zaz/design-system/tailwind/theme.css";</code></pre>
+        </div></div>
+
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">3 · React</p>
+          <p class="zaz-muted" style="margin:0">Componentes em JS puro, sem JSX e sem etapa de build própria.</p>
+          <pre class="cod" data-copiar><code>npm i github:ZAZ-vendas/zaz-design-system
+
+import "@zaz/design-system/css";
+import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
+          <p class="zaz-muted" style="margin:0">Para fixar uma versão, aponte para a tag: <code class="tok">#v1.0.0</code> no fim da URL. Sem isso o npm segue a <code class="tok">main</code>, e uma mudança de token entra no seu projeto no próximo <code class="tok">npm install</code> sem você pedir.</p>
+        </div></div>
+
+        <div class="zaz-card zaz-card--muted"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">Regra que vale nos três</p>
+          <p class="zaz-muted" style="margin:0">Você nunca escreve um hexadecimal. Se precisou de uma cor que não é token, ou o token existe com outro nome, ou o sistema está incompleto — e aí a correção é abrir <code class="tok">tokens/zaz.tokens.json</code>, não escrever a cor na sua tela.</p>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- ================= MODELOS ================= -->
+    <section id="modelos">
+      <h2 class="sec">Modelos prontos</h2>
+      <p class="lede">Nem tudo que leva o nome ZAZ é aplicação. Cada modelo abaixo é um arquivo completo: abra, apague o conteúdo, escreva o seu.</p>
+
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Apresentação</h2></div>
+          <p class="zaz-muted" style="margin:0">Deck 1920×1080 com os seis layouts, navegação por seta, visão em grade e <kbd>Ctrl</kbd>+<kbd>P</kbd> gerando PDF em paisagem — um slide por página.</p>
+          <ul class="zaz-muted" style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px">
+            <li><kbd>→</kbd> <kbd>espaço</kbd> avança · <kbd>←</kbd> volta</li>
+            <li><kbd>G</kbd> mostra todos os slides · <kbd>F</kbd> tela cheia</li>
+            <li>O slide atual fica na URL: dá para mandar o link já aberto no slide 4</li>
+          </ul>
+          <div style="display:flex;gap:var(--zaz-space-3);margin-top:var(--zaz-space-2)">
+            <a class="zaz-btn zaz-btn--primary zaz-btn--sm" href="../templates/apresentacao.html">Abrir modelo</a>
+          </div>
+        </div></div>
+
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Aplicação</h2></div>
+          <p class="zaz-muted" style="margin:0">Shell completo: sidebar com navegação e contadores, header com busca e ações, métricas, lista com trilha lateral e alternador de tema que persiste.</p>
+          <ul class="zaz-muted" style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px">
+            <li>HTML puro — sem React, sem build, sem instalação</li>
+            <li>Tema aplicado antes do primeiro paint, sem piscar branco</li>
+            <li>Estado em <code class="tok">aria-current</code>: o CSS lê o mesmo atributo que o leitor de tela anuncia</li>
+          </ul>
+          <div style="display:flex;gap:var(--zaz-space-3);margin-top:var(--zaz-space-2)">
+            <a class="zaz-btn zaz-btn--primary zaz-btn--sm" href="../templates/app.html">Abrir modelo</a>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- ================= CORES ================= -->
+    <section id="cores">
+      <h2 class="sec">Cores</h2>
+      <p class="lede">O roxo <code class="tok">#591da9</code> é a cor institucional ZAZ. Os neutros vêm todos da escala slate — nenhum cinza fora dela.</p>
+
+      <h3 class="sub">Marca</h3>
+      <div class="grid grid--sw" id="sw-brand"></div>
+      <dl class="rule">
+        <dt>600</dt><dd>Primária: CTA, anel de foco, trilha ativa, ponto "ao vivo". Vale nos <strong>dois</strong> temas.</dd>
+        <dt>700</dt><dd>Hover da primária no tema claro.</dd>
+        <dt>500</dt><dd>Hover da primária no tema escuro.</dd>
+        <dt>50/100</dt><dd>Fundo de estado ativo, badge de marca, sombra de foco.</dd>
+      </dl>
+
+      <h3 class="sub">Marca como fundo × marca como texto</h3>
+      <p class="lede">A regra que mais dá errado quando alguém monta uma tela nova. São <strong>dois</strong> papéis, não um. No tema claro eles têm o mesmo valor e a distinção parece inútil — ela existe por causa do escuro.</p>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">Fundo — <code class="tok">--zaz-primary</code></p>
+          <p class="zaz-muted" style="margin:0">Continua <code class="tok">#591da9</code> no escuro. Com branco em cima dá 9,7:1.</p>
+          <div style="display:flex;gap:var(--zaz-space-3);flex-wrap:wrap;margin-top:var(--zaz-space-2)">
+            <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Botão primário</button>
+            <span class="zaz-live-dot" style="align-self:center"></span>
+            <span class="zaz-bar-track" style="flex:1;min-width:100px;align-self:center"><span class="zaz-bar-fill" style="width:64%"></span></span>
+          </div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">Texto — <code class="tok">--zaz-primary-text</code></p>
+          <p class="zaz-muted" style="margin:0">Clareia para <code class="tok">#a78bfa</code> no escuro: 6,7:1 contra os 2,7:1 do roxo de fundo.</p>
+          <div style="display:flex;gap:var(--zaz-space-4);flex-wrap:wrap;align-items:center;margin-top:var(--zaz-space-2)">
+            <a href="#cores" style="font-weight:600">Link de marca</a>
+            <span style="color:var(--zaz-primary-text);font-weight:700">Título em hover</span>
+            <span class="zaz-badge zaz-badge--brand">Badge</span>
+          </div>
+        </div></div>
+      </div>
+      <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-4)">
+        <div>
+          <p class="zaz-alert__title">Alterne o tema (botão no rodapé da navegação) e compare.</p>
+          <p>Usar o token errado não quebra nada e não estoura teste nenhum — só apaga o texto no tema escuro até ninguém conseguir ler. Foi exatamente o que a auditoria encontrou na primeira versão deste sistema.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Neutros (slate)</h3>
+      <div class="grid grid--sw" id="sw-neutral"></div>
+      <h3 class="sub">Camadas de superfície</h3>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Tema claro</p>
+          <div style="margin-top:var(--zaz-space-3);padding:var(--zaz-space-4);background:#f8fafc;border-radius:var(--zaz-radius-card)">
+            <div style="padding:var(--zaz-space-4);background:#fff;border:1px solid #e2e8f0;border-radius:var(--zaz-radius-card)">
+              <div style="padding:var(--zaz-space-3);background:#f8fafc;border-radius:var(--zaz-radius-control);font-size:var(--zaz-text-xs);color:#64748b">
+                app 50 → card branco → painel 50
+              </div>
+            </div>
+          </div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Tema escuro</p>
+          <div style="margin-top:var(--zaz-space-3);padding:var(--zaz-space-4);background:#020617;border-radius:var(--zaz-radius-card)">
+            <div style="padding:var(--zaz-space-4);background:#0f172a;border:1px solid #1e293b;border-radius:var(--zaz-radius-card)">
+              <div style="padding:var(--zaz-space-3);background:#020617;border-radius:var(--zaz-radius-control);font-size:var(--zaz-text-xs);color:#94a3b8">
+                app 950 → card 900 → painel 950
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <h3 class="sub">Status</h3>
+      <p class="zaz-muted">Sempre em trio: fundo + texto + borda. Cor cheia só em ponto, ícone ou barra — nunca como fundo de bloco.</p>
+      <div class="grid grid--3" style="margin-top:var(--zaz-space-4)" id="sw-status"></div>
+
+      <h3 class="sub">Acentos de área</h3>
+      <p class="zaz-muted">Cada área do Apolo tem um acento que colore <em>apenas</em> sua pílula no AreaSwitcher. Nunca o corpo da tela.</p>
+      <div class="demo" style="margin-top:var(--zaz-space-4)">
+        <button class="zaz-area-pill" data-area="tasklist">Tasklist</button>
+        <button class="zaz-area-pill" data-area="rh">RH</button>
+        <button class="zaz-area-pill" data-area="gestor">Gestor</button>
+        <button class="zaz-area-pill" data-area="promotor">Promotor</button>
+        <button class="zaz-area-pill" data-area="suporte-vero">Suporte VERO</button>
+        <button class="zaz-area-pill" data-area="agenda">Agenda</button>
+      </div>
+    </section>
+
+    <!-- ================= MARCAS ================= -->
+    <section id="marcas">
+      <h2 class="sec">Marcas parceiras</h2>
+      <p class="lede">Estas cores são de <strong>identificação interna</strong> dentro de produtos ZAZ. Não são a marca do parceiro e não substituem o manual de marca dele.</p>
+      <div class="grid grid--sw" id="sw-brands"></div>
+
+      <h3 class="sub">Regras de uso</h3>
+      <div class="grid grid--2">
+        <div class="zaz-alert zaz-alert--success"><div>
+          <p class="zaz-alert__title">Permitido</p>
+          <ul style="margin:var(--zaz-space-2) 0 0;padding-left:1.1rem">
+            <li>Tag ou badge identificando a fila/carteira</li>
+            <li>Ponto de legenda e série de gráfico</li>
+            <li>Filtro selecionado numa lista de marcas</li>
+          </ul>
+        </div></div>
+        <div class="zaz-alert zaz-alert--danger"><div>
+          <p class="zaz-alert__title">Proibido</p>
+          <ul style="margin:var(--zaz-space-2) 0 0;padding-left:1.1rem">
+            <li>Fundo de tela, header ou botão</li>
+            <li>Capa de slide ou fundo de seção</li>
+            <li>Substituir o roxo ZAZ em qualquer estado de foco</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <h3 class="sub">Componente</h3>
+      <p class="zaz-muted">A cor aparece só no ponto; o rótulo fica neutro e em CAIXA ALTA. Isso mantém nove marcas legíveis lado a lado sem virar arco-íris.</p>
+      <div class="demo" style="margin-top:var(--zaz-space-4)" id="demo-brands"></div>
+    </section>
+
+    <!-- ================= DADOS ================= -->
+    <section id="dados">
+      <h2 class="sec">Cores de dados</h2>
+      <p class="lede">Categórica de 8 posições, usada <strong>na ordem</strong> — a série 1 é sempre o roxo de marca. Acima de 8 séries, agrupe em "Outros".</p>
+      <div class="grid grid--sw" id="sw-data"></div>
+
+      <h3 class="sub">Rampa sequencial</h3>
+      <p class="zaz-muted">Para intensidade, heatmap e mapa: monocromática, sem mistura de matizes.</p>
+      <div style="display:flex;margin-top:var(--zaz-space-4);border-radius:var(--zaz-radius-control);overflow:hidden;border:1px solid var(--zaz-border)" id="sw-seq"></div>
+
+      <h3 class="sub">Em uso</h3>
+      <div class="zaz-card" style="margin-top:var(--zaz-space-4)">
+        <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Volume por marca</h2></div>
+          <span class="zaz-badge zaz-badge--brand">Últimos 30 dias</span></div>
+        <div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-4)" id="demo-bars"></div>
+        <div class="zaz-card__footer"><div class="zaz-legend" id="demo-legend"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= TIPOGRAFIA ================= -->
+    <section id="tipografia">
+      <h2 class="sec">Tipografia</h2>
+      <p class="lede">Inter (300–900) para tudo. JetBrains Mono para IDs de tarefa, CPFs e chaves Camunda.</p>
+      <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
+        <div><p class="zaz-eyebrow">Display · 4xl / 900 · uma vez por tela</p><p class="zaz-display" style="margin:var(--zaz-space-2) 0 0">Portal de Tarefas</p></div>
+        <div><p class="zaz-eyebrow">Título de tela · 2xl / 800</p><p class="zaz-h1" style="margin:var(--zaz-space-2) 0 0">Caixa de Entrada</p></div>
+        <div><p class="zaz-eyebrow">Título de card · xl / 700</p><p class="zaz-h2" style="margin:var(--zaz-space-2) 0 0">Filtros Avançados</p></div>
+        <div><p class="zaz-eyebrow">Corpo · sm / 400 · padrão em produto</p><p class="zaz-body" style="margin:var(--zaz-space-2) 0 0;max-width:60ch">Gestão inteligente de processos. O corpo padrão é 14px porque o Apolo é um console operacional denso — telas com dezenas de filas visíveis ao mesmo tempo.</p></div>
+        <div><p class="zaz-eyebrow">Eyebrow · xs / 700 / caixa alta com tracking</p><p class="zaz-eyebrow" style="margin:var(--zaz-space-2) 0 0">Identificação (CPF ou Usuário)</p></div>
+        <div><p class="zaz-eyebrow">Mono · xs</p><p class="zaz-mono" style="margin:var(--zaz-space-2) 0 0">TSK-8842-CRED · 000.000.000-00</p></div>
+      </div></div>
+      <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-6)"><div>
+        <p class="zaz-alert__title">Mínimos por meio</p>
+        <p style="margin:var(--zaz-space-1) 0 0">Slide 1920×1080: nunca abaixo de <strong>24px</strong>. Documento impresso: <strong>12pt</strong>. Alvo de toque em mockup mobile: <strong>44px</strong>.</p>
+      </div></div>
+    </section>
+
+    <!-- ================= ESPAÇO ================= -->
+    <section id="espaco">
+      <h2 class="sec">Espaço, raios e sombras</h2>
+      <p class="lede">Grade de 4px. Os raios são a assinatura do sistema — errar o raio é o jeito mais rápido de algo não parecer ZAZ.</p>
+
+      <h3 class="sub">Raios</h3>
+      <table class="spec">
+        <thead><tr><th>Token</th><th>Valor</th><th>Onde</th><th style="width:120px">Amostra</th></tr></thead>
+        <tbody>
+          <tr><td><code class="tok">radius-sm</code></td><td>6px</td><td>Checkbox, swatch</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-sm)"></div></td></tr>
+          <tr><td><code class="tok">radius-md</code></td><td>8px</td><td>Chip, miniatura, célula de calendário</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-md)"></div></td></tr>
+          <tr><td><code class="tok">radius-control</code></td><td>12px</td><td>Botão, input, nav, badge</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-control)"></div></td></tr>
+          <tr><td><code class="tok">radius-card</code></td><td>16px</td><td><strong>Card padrão</strong> — maioria dos contêineres</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-card)"></div></td></tr>
+          <tr><td><code class="tok">radius-hero</code></td><td>24px</td><td>Card herói e modal. Um por tela</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-hero)"></div></td></tr>
+          <tr><td><code class="tok">radius-pill</code></td><td>∞</td><td>Avatar, ponto, barra de progresso</td><td><div style="height:36px;background:var(--zaz-brand-100);border:1px solid var(--zaz-brand-200);border-radius:var(--zaz-radius-pill)"></div></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">Sombras</h3>
+      <div class="grid grid--3">
+        <div class="zaz-card" style="box-shadow:var(--zaz-shadow-sm)"><div class="zaz-card__body"><p class="zaz-eyebrow">sm</p><p class="zaz-muted" style="margin:4px 0 0">Cards, pílulas</p></div></div>
+        <div class="zaz-card" style="box-shadow:var(--zaz-shadow-md)"><div class="zaz-card__body"><p class="zaz-eyebrow">md</p><p class="zaz-muted" style="margin:4px 0 0">Popover, dropdown</p></div></div>
+        <div class="zaz-card" style="box-shadow:var(--zaz-shadow-lg)"><div class="zaz-card__body"><p class="zaz-eyebrow">lg</p><p class="zaz-muted" style="margin:4px 0 0">Modal, drawer</p></div></div>
+        <div class="zaz-card" style="box-shadow:var(--zaz-shadow-cta)"><div class="zaz-card__body"><p class="zaz-eyebrow">cta</p><p class="zaz-muted" style="margin:4px 0 0">Botão primário — brilho roxo</p></div></div>
+        <div class="zaz-card zaz-card--hero"><div class="zaz-card__body"><p class="zaz-eyebrow">hero</p><p class="zaz-muted" style="margin:4px 0 0">Única sombra tingida do sistema</p></div></div>
+      </div>
+
+      <h3 class="sub">Grade de espaçamento</h3>
+      <div class="demo demo--col" style="gap:var(--zaz-space-2)" id="demo-space"></div>
+    </section>
+
+    <!-- ================= BOTÕES ================= -->
+    <section id="botoes">
+      <h2 class="sec">Botões</h2>
+      <p class="lede">Title Case sempre. Um primário por área de decisão. <code class="tok">hover: -1px</code> e <code class="tok">active: scale(0.96)</code> — compacto e tátil, sem bounce.</p>
+      <div class="demo">
+        <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
+        <button class="zaz-btn zaz-btn--secondary">Filtros Avançados</button>
+        <button class="zaz-btn zaz-btn--ghost">Cancelar</button>
+        <button class="zaz-btn zaz-btn--danger">Suspender Tarefa</button>
+        <button class="zaz-btn zaz-btn--primary" disabled>Validando...</button>
+      </div>
+      <div class="demo" style="margin-top:var(--zaz-space-4)">
+        <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Pequeno</button>
+        <button class="zaz-btn zaz-btn--primary">Médio</button>
+        <button class="zaz-btn zaz-btn--primary zaz-btn--lg">Grande</button>
+      </div>
+    </section>
+
+    <!-- ================= FORMULÁRIOS ================= -->
+    <section id="formularios">
+      <h2 class="sec">Formulários</h2>
+      <p class="lede">Rótulos explicam o contexto — <code class="tok">Identificação (CPF ou Usuário)</code>, não <code class="tok">Login</code>. O ícone acende antes da borda: é o vocabulário de foco do Apolo.</p>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
+          <div class="zaz-field">
+            <label class="zaz-label" for="f1">Identificação (CPF ou Usuário)</label>
+            <span class="zaz-input-group">
+              <span class="zaz-input-group__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input class="zaz-input" id="f1" placeholder="000.000.000-00">
+            </span>
+            <p class="zaz-hint">Use o CPF cadastrado no Camunda.</p>
+          </div>
+          <div class="zaz-field">
+            <label class="zaz-label" for="f2">Fila</label>
+            <select class="zaz-select" id="f2">
+              <option>Credenciamento</option><option>Handshake</option><option>Pendência</option><option>Acompanhamento</option><option>Onboarding</option>
+            </select>
+          </div>
+          <div class="zaz-field zaz-field--invalid">
+            <label class="zaz-label" for="f3">Senha (Camunda)</label>
+            <input class="zaz-input" id="f3" type="password" value="123" aria-invalid="true">
+            <p class="zaz-error">Por favor, informe sua senha.</p>
+          </div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
+          <div class="zaz-field">
+            <label class="zaz-label" for="f4">Observação</label>
+            <textarea class="zaz-textarea" id="f4" placeholder="Descreva a pendência encontrada na análise documental."></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+            <label class="zaz-check"><input type="checkbox" checked> Incluir tarefas suspensas</label>
+            <label class="zaz-check"><input type="checkbox"> Somente minhas tarefas</label>
+            <label class="zaz-check"><input type="radio" name="ord" checked> Mais antigas primeiro</label>
+            <label class="zaz-check"><input type="radio" name="ord"> Mais recentes primeiro</label>
+            <label class="zaz-switch"><input type="checkbox" role="switch" checked> Atualização em tempo real</label>
+          </div>
+          <div style="display:flex;gap:var(--zaz-space-3);justify-content:flex-end">
+            <button class="zaz-btn zaz-btn--ghost">Limpar</button>
+            <button class="zaz-btn zaz-btn--primary">Aplicar Filtros</button>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- ================= CARDS ================= -->
+    <section id="cards">
+      <h2 class="sec">Cards e métricas</h2>
+      <p class="lede">Branco sobre <code class="tok">neutral-50</code>, borda de 1px, <code class="tok">shadow-sm</code>. Sem gradiente, sem vidro. A barra roxa de 4×40px marca o título da seção — <strong>proposta deste sistema</strong>, ainda não presente no Apolo (ver <a href="https://github.com/ZAZ-vendas/zaz-design-system/blob/main/AUDITORIA.md">auditoria</a>).</p>
+      <div class="grid grid--3">
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Em fila</span><strong class="zaz-metric__value">1.284</strong><span class="zaz-muted">+8% vs. semana anterior</span></div></div></div>
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Tempo médio</span><strong class="zaz-metric__value">2h 15m</strong><span class="zaz-muted">Meta: 4h</span></div></div></div>
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Atrasadas</span><strong class="zaz-metric__value" style="color:var(--zaz-danger-fg)">37</strong><span class="zaz-muted">Acima do limite de SLA</span></div></div></div>
+      </div>
+      <div class="zaz-card" style="margin-top:var(--zaz-space-4)">
+        <div class="zaz-card__header">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Resultados da Fila</h2></div>
+          <button class="zaz-btn zaz-btn--secondary zaz-btn--sm">Exportar</button>
+        </div>
+        <div class="zaz-card__body"><p class="zaz-muted" style="margin:0;max-width:60ch">O card com cabeçalho, corpo e rodapé é o contêiner padrão de tela. O rodapé usa fundo <code class="tok">bg-muted</code> para separar ação de conteúdo.</p></div>
+        <div class="zaz-card__footer" style="display:flex;justify-content:space-between;align-items:center">
+          <span class="zaz-muted">Mostrando 20 de 1.284</span>
+          <button class="zaz-btn zaz-btn--ghost zaz-btn--sm">Carregar mais</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATUS ================= -->
+    <section id="status">
+      <h2 class="sec">Badges e status</h2>
+      <p class="lede">10px, peso 700, caixa alta com tracking. O mapa de estado → tom é canônico: use <code class="tok">StatusBadge</code> em vez de escolher o tom à mão.</p>
+      <div class="demo">
+        <span class="zaz-badge">Em Fila</span>
+        <span class="zaz-badge zaz-badge--info">Em Andamento</span>
+        <span class="zaz-badge zaz-badge--warning">Pendência</span>
+        <span class="zaz-badge zaz-badge--danger">Atrasada</span>
+        <span class="zaz-badge zaz-badge--success">Concluída</span>
+        <span class="zaz-badge zaz-badge--brand">Handshake</span>
+        <span style="display:inline-flex;align-items:center;gap:var(--zaz-space-2)"><span class="zaz-live-dot"></span><span class="zaz-muted">Ponto "ao vivo"</span></span>
+      </div>
+      <h3 class="sub">Alertas</h3>
+      <div class="grid grid--2">
+        <div class="zaz-alert zaz-alert--danger"><div><p class="zaz-alert__title">Credenciais inválidas</p><p style="margin:2px 0 0">Verifique o CPF e a senha do Camunda.</p></div></div>
+        <div class="zaz-alert zaz-alert--info"><div><p class="zaz-alert__title">Integração Tempo Real</p><p style="margin:2px 0 0">Novas tarefas chegam automaticamente a cada 30 segundos.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ================= LISTAS ================= -->
+    <section id="listas">
+      <h2 class="sec">Tabelas e trilha lateral</h2>
+      <p class="lede">A trilha lateral é a assinatura de interação do Apolo: <code class="tok">border-left: 4px</code> transparente que vira roxo no hover e no ativo — foco sem trocar o fundo inteiro. Passe o mouse nas linhas.</p>
+      <div class="zaz-card" style="overflow:hidden">
+        <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div><span class="zaz-badge zaz-badge--brand">4 tarefas</span></div>
+        <div class="zaz-track" id="demo-track"></div>
+      </div>
+      <h3 class="sub">Tabela</h3>
+      <div class="zaz-card" style="overflow:hidden"><table class="zaz-table" id="demo-table"></table></div>
+      <h3 class="sub">Lista de definição (detalhe de tarefa)</h3>
+      <div class="zaz-card"><div class="zaz-card__body">
+        <dl class="zaz-dl">
+          <dt>ID da Tarefa</dt><dd><span class="zaz-mono">TSK-8842-CRED</span></dd>
+          <dt>Processo</dt><dd>Credenciamento VERO</dd>
+          <dt>Responsável</dt><dd>Não atribuída</dd>
+          <dt>Criada</dt><dd>há 2h 15m</dd>
+          <dt>Grupo</dt><dd><span class="zaz-mono">CSAdquirente</span></dd>
+        </dl>
+      </div></div>
+    </section>
+
+    <!-- ================= SHELL ================= -->
+    <section id="shell">
+      <h2 class="sec">Shell, sidebar e header</h2>
+      <p class="lede">Sidebar fixa de 256px, header de 64px, conteúdo com rolagem independente. Seções da sidebar são reordenáveis pelo usuário.</p>
+      <div class="zaz-card" style="overflow:hidden;padding:0">
+        <div style="overflow-x:auto">
+        <div class="zaz-shell" style="min-height:420px;min-width:960px">
+          <aside class="zaz-sidebar">
+            <div class="zaz-sidebar__brand"><img src="../assets/logo-zaz.png" alt="ZAZ" style="height:22px"><span style="font-weight:700">Apolo</span></div>
+            <nav class="zaz-sidebar__nav">
+              <p class="zaz-eyebrow zaz-sidebar__section">Tarefas</p>
+              <button class="zaz-nav-item" aria-current="page">Caixa de Entrada<span class="zaz-nav-item__count">1284</span></button>
+              <button class="zaz-nav-item">Minhas Tarefas<span class="zaz-nav-item__count">42</span></button>
+              <button class="zaz-nav-item">Suspensas<span class="zaz-nav-item__count">7</span></button>
+              <p class="zaz-eyebrow zaz-sidebar__section">Filas</p>
+              <button class="zaz-nav-item">Credenciamento<span class="zaz-nav-item__count">318</span></button>
+              <button class="zaz-nav-item">Handshake<span class="zaz-nav-item__count">204</span></button>
+              <button class="zaz-nav-item">Pendência<span class="zaz-nav-item__count">96</span></button>
+            </nav>
+            <div class="zaz-sidebar__footer" style="display:flex;align-items:center;gap:var(--zaz-space-3)">
+              <span class="zaz-avatar">MS</span>
+              <span style="flex:1;min-width:0">
+                <span style="display:block;font-size:var(--zaz-text-sm);font-weight:600">Marina Souza</span>
+                <span class="zaz-mono" style="display:block;color:var(--zaz-text-muted)">CSAdquirente</span>
+              </span>
+            </div>
+          </aside>
+          <div style="display:flex;flex-direction:column;min-width:0">
+            <header class="zaz-header">
+              <div class="zaz-header__title">
+                <span class="zaz-h2">Caixa de Entrada</span>
+                <span class="zaz-badge" style="flex:none">Tasklist</span>
+              </div>
+              <div class="zaz-header__actions">
+                <button class="zaz-area-pill" data-area="rh">RH</button>
+                <button class="zaz-btn zaz-btn--secondary zaz-btn--sm">Buscar</button>
+              </div>
+            </header>
+            <main class="zaz-main" style="flex:1;background:var(--zaz-bg-app)">
+              <div class="zaz-card zaz-card--muted"><div class="zaz-card__body"><p class="zaz-muted" style="margin:0">O conteúdo rola independente da sidebar e do header.</p></div></div>
+            </main>
+          </div>
+        </div>
+        </div>
+      </div>
+      <p class="zaz-muted" style="margin:var(--zaz-space-3) 0 0">Largura mínima operacional: 960px. Abaixo disso o título do header trunca com elipse e as ações da direita são preservadas.</p>
+    </section>
+
+    <!-- ================= SOBREPOSIÇÕES ================= -->
+    <section id="sobreposicoes">
+      <h2 class="sec">Modais, drawers e toasts</h2>
+      <p class="lede">Modal e drawer usam raio herói de 24px e <code class="tok">shadow-lg</code>. Toast leva trilha de 4px na cor do tom — a mesma gramática da lista.</p>
+      <div class="grid grid--2">
+        <div class="zaz-modal" style="animation:none;max-width:none">
+          <header class="zaz-modal__header"><h2 class="zaz-h2">Suspender tarefa?</h2><button class="zaz-btn zaz-btn--ghost zaz-btn--sm" aria-label="Fechar">✕</button></header>
+          <div class="zaz-modal__body">A tarefa sairá da fila ativa e deixará de contar no SLA até ser reativada manualmente.</div>
+          <footer class="zaz-modal__footer"><button class="zaz-btn zaz-btn--ghost">Cancelar</button><button class="zaz-btn zaz-btn--danger">Suspender Tarefa</button></footer>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <div class="zaz-toast zaz-toast--success" style="animation:none"><div><p class="zaz-toast__title">Tarefa concluída</p><p class="zaz-toast__desc">TSK-8842-CRED foi encaminhada para Acompanhamento.</p></div></div>
+          <div class="zaz-toast zaz-toast--warning" style="animation:none"><div><p class="zaz-toast__title">Pendência registrada</p><p class="zaz-toast__desc">O promotor será notificado por e-mail.</p></div></div>
+          <div class="zaz-toast zaz-toast--danger" style="animation:none"><div><p class="zaz-toast__title">Falha na integração</p><p class="zaz-toast__desc">Sem resposta do Camunda. Nova tentativa em 30s.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDES ================= -->
+    <section id="slides">
+      <h2 class="sec">Layouts de slide</h2>
+      <p class="lede">1920×1080, margem de segurança de 96px, texto nunca abaixo de 24px, no máximo duas cores de fundo por deck. As amostras abaixo estão em escala real, reduzidas.</p>
+      <div class="grid grid--2" id="demo-slides"></div>
+    </section>
+
+    <!-- ================= VOZ ================= -->
+    <section id="voz">
+      <h2 class="sec">Conteúdo e voz</h2>
+      <p class="lede">Português (pt-BR) sempre; inglês só em código. Tom institucional, claro, educado — nunca casual. Sem emoji, em nenhum lugar.</p>
+      <table class="spec">
+        <thead><tr><th style="width:220px">Regra</th><th>Certo</th><th>Errado</th></tr></thead>
+        <tbody>
+          <tr><td>Eyebrow e label</td><td class="yes">CAIXA ALTA com tracking: <code class="tok">SENHA (CAMUNDA)</code></td><td class="no">Caixa alta seca, ou Title Case</td></tr>
+          <tr><td>Botão e navegação</td><td class="yes">Title Case: <code class="tok">Entrar no Sistema</code></td><td class="no">ENTRAR NO SISTEMA</td></tr>
+          <tr><td>Corpo e dica</td><td class="yes">Sentence case: <code class="tok">Gestão inteligente de processos.</code></td><td class="no">Gestão Inteligente De Processos</td></tr>
+          <tr><td>Rótulo de campo</td><td class="yes">Identificação (CPF ou Usuário)</td><td class="no">Login</td></tr>
+          <tr><td>Marca parceira</td><td class="yes">VERO, SUA LUZ, PLUXEE</td><td class="no">Vero, Sua Luz</td></tr>
+          <tr><td>Etapa de processo</td><td class="yes">Credenciamento, Pendência</td><td class="no">CREDENCIAMENTO</td></tr>
+          <tr><td>Acentuação</td><td class="yes">Pendência, Ambiente Seguro</td><td class="no">Pendencia</td></tr>
+          <tr><td>Tempo relativo</td><td class="yes">há 3 min · há 2h 15m · há 1d 4h</td><td class="no">3 minutos atrás</td></tr>
+          <tr><td>Estado vazio</td><td class="yes">Nenhuma tarefa encontrada para este filtro.</td><td class="no">Nada aqui!</td></tr>
+          <tr><td>Rodapé</td><td class="yes">© 2026 Zaz Vendas. Apolo.</td><td class="no">Copyright 2026 ZAZ VENDAS LTDA</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================= ASSETS ================= -->
+    <section id="assets">
+      <h2 class="sec">Assets e ícones</h2>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Marca</p>
+          <div style="margin:var(--zaz-space-4) 0;padding:var(--zaz-space-6);background:var(--zaz-bg-muted);border-radius:var(--zaz-radius-card);display:grid;place-items:center">
+            <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:48px;width:auto">
+          </div>
+          <p class="zaz-muted" style="margin:0">Altura mínima 24px. Área de respiro igual a metade da altura do logo. Sem sombra, sem contorno, sem rotação.</p>
+          <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-4)"><div>
+            <p class="zaz-alert__title">Divergência de roxo</p>
+            <p style="margin:2px 0 0">O arquivo de logo usa <code class="tok">#6a1ca0</code>; a interface do Apolo usa <code class="tok">#591da9</code>. Mantivemos os dois separados — <code class="tok">brand-logo</code> para a marca, <code class="tok">brand-600</code> para UI — até o time de marca decidir qual vale.</p>
+            <p style="margin:6px 0 0">Formato: só temos PNG (2190×2430). Um SVG vetorial ainda é desejável para impressão e telas grandes.</p>
+          </div></div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Mascote Apolo</p>
+          <div style="margin:var(--zaz-space-4) 0;padding:var(--zaz-space-4);background:var(--zaz-bg-muted);border-radius:var(--zaz-radius-card);display:flex;gap:var(--zaz-space-3);align-items:flex-end;justify-content:center;min-height:120px">
+            <img src="../assets/apolo/apolo-head.png" alt="" style="height:64px;width:auto;object-fit:contain">
+            <img src="../assets/apolo/apolo-body.png" alt="" style="height:72px;width:auto;object-fit:contain">
+            <img src="../assets/apolo/apolo-flag.png" alt="" style="height:56px;width:auto;object-fit:contain">
+          </div>
+          <p class="zaz-muted" style="margin:0">Peças separadas (cabeça, corpo, braços, pés, mão, bandeira, sombra) para composição e animação. Uso em acolhimento, estados vazios e erro — nunca em tela operacional densa.</p>
+        </div></div>
+      </div>
+      <h3 class="sub">Ícones</h3>
+      <p class="zaz-muted">lucide exclusivamente, <code class="tok">^0.563.0</code>, via <code class="tok">https://esm.sh/lucide-react@^0.563.0</code>. Sem icon font, sem sprite, sem PNG de ícone. Tamanhos 14 / 16 / 18–20, <code class="tok">strokeWidth 2</code>.</p>
+      <footer style="margin-top:var(--zaz-space-16);padding-top:var(--zaz-space-6);border-top:1px solid var(--zaz-border)">
+        <p class="zaz-muted" style="margin:0">© 2026 Zaz Vendas. Apolo.</p>
+      </footer>
+    </section>
+
+  </main>
+</div>
+
+<script type="module">
+const el = (h) => { const t = document.createElement("template"); t.innerHTML = h.trim(); return t.content; };
+const set = (id, html) => { const n = document.getElementById(id); if (n) n.replaceChildren(el(html)); };
+
+/* --- swatches --------------------------------------------------------- */
+const swatch = (name, hex, note = "") => `
+  <div class="sw"><div class="sw__chip" style="background:${hex}"></div>
+  <div class="sw__meta"><span class="sw__name">${name}</span><span class="sw__hex">${hex}</span>
+  ${note ? `<span class="sw__hex" style="text-transform:none">${note}</span>` : ""}</div></div>`;
+
+const brand = [["brand-50","#f5f1fc"],["brand-100","#ebe2f9"],["brand-200","#d7c4f2"],["brand-300","#b795e6"],["brand-400","#9663d6"],["brand-500","#7538c2","primária no escuro"],["brand-600","#591da9","PRIMÁRIA"],["brand-700","#4a168c","hover"],["brand-800","#3b1270"],["brand-900","#2c0d54"],["brand-950","#1a0733"]];
+const neutral = [["neutral-0","#ffffff"],["neutral-50","#f8fafc"],["neutral-100","#f1f5f9"],["neutral-200","#e2e8f0"],["neutral-300","#cbd5e1"],["neutral-400","#94a3b8"],["neutral-500","#64748b"],["neutral-600","#475569"],["neutral-700","#334155"],["neutral-800","#1e293b"],["neutral-900","#0f172a"],["neutral-950","#020617"]];
+const brands = [["VERO","#7538c2"],["GETNET","#e01e2b"],["GUARA","#c2410c"],["SAFIRA","#1d4ed8"],["ORIGO","#047857"],["SUA LUZ","#ca8a04"],["SERENA","#0d9488"],["TICKET","#ea580c"],["PLUXEE","#221c46"]];
+const data = [["data-1","#591da9"],["data-2","#0ea5e9"],["data-3","#10b981"],["data-4","#f59e0b"],["data-5","#6366f1"],["data-6","#ef4444"],["data-7","#06b6d4"],["data-8","#b795e6"]];
+
+set("sw-brand", brand.map((s) => swatch(...s)).join(""));
+set("sw-neutral", neutral.map((s) => swatch(...s)).join(""));
+set("sw-brands", brands.map(([n, h]) => swatch(n, h)).join(""));
+set("sw-data", data.map(([n, h], i) => swatch(n, h, `série ${i + 1}`)).join(""));
+set("sw-seq", ["#ebe2f9","#d7c4f2","#b795e6","#9663d6","#7538c2","#591da9","#3b1270"]
+  .map((h) => `<div style="flex:1;height:56px;background:${h}"></div>`).join(""));
+
+set("sw-status", ["danger","warning","success","info","neutral"].map((t) => `
+  <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+    <span class="zaz-badge ${t === "neutral" ? "" : "zaz-badge--" + t}">${t}</span>
+    <div style="display:flex;gap:6px">
+      <span style="flex:1;height:28px;border-radius:6px;background:var(--zaz-${t === "neutral" ? "status" : t}-bg);border:1px solid var(--zaz-${t === "neutral" ? "status" : t}-border)"></span>
+      <span style="width:28px;height:28px;border-radius:6px;background:var(--zaz-${t === "neutral" ? "neutral-500" : t})"></span>
+    </div>
+    <span class="sw__hex" style="text-transform:none">bg + fg + border ${t === "neutral" ? "" : "+ solid"}</span>
+  </div></div>`).join(""));
+
+set("demo-brands", brands.map(([n]) =>
+  `<span class="zaz-brand-tag" data-brand="${n.toLowerCase().replace(/\s+/g, "-")}">${n}</span>`).join(""));
+
+/* --- barras e legenda ------------------------------------------------- */
+const vols = [["VERO", 1284], ["GETNET", 962], ["SAFIRA", 741], ["ORIGO", 512], ["TICKET", 388]];
+set("demo-bars", vols.map(([n, v], i) => `
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="display:flex;justify-content:space-between;font-size:var(--zaz-text-sm)">
+      <span style="font-weight:600">${n}</span><span class="zaz-mono">${v.toLocaleString("pt-BR")}</span></div>
+    <div class="zaz-bar-track"><div class="zaz-bar-fill" style="width:${(v / 1284) * 100}%;--_c:var(--zaz-data-${i + 1})"></div></div>
+  </div>`).join(""));
+set("demo-legend", vols.map(([n], i) =>
+  `<span class="zaz-legend__item"><span class="zaz-legend__swatch" style="--_c:var(--zaz-data-${i + 1})"></span>${n}</span>`).join(""));
+
+/* --- trilha lateral --------------------------------------------------- */
+const chev = `<span class="zaz-track__chevron" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>`;
+const tasks = [
+  ["Análise Documental — VERO", "vero", "TSK-8842-CRED", "há 3 min", "", true],
+  ["Handshake Parceiro — GETNET", "getnet", "TSK-8839-HAND", "há 2h 15m", "zaz-badge--info", true],
+  ["Pendência de Crédito — SAFIRA", "safira", "TSK-8801-PEND", "há 1d 4h", "zaz-badge--warning", true],
+  ["Onboarding Suspenso — ORIGO", "origo", "TSK-8794-ONB", "há 3d 6h", "", false],
+];
+const labels = { "": "Em Fila", "zaz-badge--info": "Em Andamento", "zaz-badge--warning": "Pendência" };
+set("demo-track", tasks.map(([t, b, id, when, tone, live]) => `
+  <button type="button" class="zaz-track__row">
+    ${live ? '<span class="zaz-live-dot"></span>' : '<span style="width:8px"></span>'}
+    <span class="zaz-track__main">
+      <span class="zaz-track__title">${t}</span>
+      <span class="zaz-track__meta"><span class="zaz-mono">${id}</span><span>${when}</span><span class="zaz-brand-tag" data-brand="${b}">${b.toUpperCase().replace("-", " ")}</span></span>
+    </span>
+    <span class="zaz-badge ${tone}">${labels[tone]}</span>
+    ${chev}
+  </button>`).join(""));
+
+/* --- tabela ----------------------------------------------------------- */
+set("demo-table", `
+  <thead><tr><th>Tarefa</th><th>Marca</th><th>Etapa</th><th>Responsável</th><th style="text-align:right">Espera</th></tr></thead>
+  <tbody>${[
+    ["TSK-8842-CRED", "vero", "Credenciamento", "Não atribuída", "3 min"],
+    ["TSK-8839-HAND", "getnet", "Handshake", "Marina Souza", "2h 15m"],
+    ["TSK-8801-PEND", "safira", "Pendência", "Carlos Lima", "1d 4h"],
+    ["TSK-8794-ONB", "origo", "Onboarding", "Não atribuída", "3d 6h"],
+  ].map(([id, b, st, who, w]) => `<tr>
+      <td><span class="zaz-mono">${id}</span></td>
+      <td><span class="zaz-brand-tag" data-brand="${b}">${b.toUpperCase()}</span></td>
+      <td>${st}</td><td>${who}</td><td class="zaz-num">${w}</td></tr>`).join("")}</tbody>`);
+
+/* --- espaçamento ------------------------------------------------------ */
+set("demo-space", [1,2,3,4,6,8,12,16].map((n) => `
+  <div style="display:flex;align-items:center;gap:var(--zaz-space-4)">
+    <span class="zaz-mono" style="width:120px">space-${n} · ${n * 4}px</span>
+    <span style="height:12px;width:var(--zaz-space-${n});background:var(--zaz-primary);border-radius:3px"></span>
+  </div>`).join(""));
+
+/* --- slides ----------------------------------------------------------- */
+const footer = (r) => `<footer class="zaz-slide__footer"><span>ZAZ Vendas · Apolo</span><span>${r}</span></footer>`;
+const slides = [
+  ["Capa", `<div class="zaz-slide zaz-slide--cover zaz-slide--dark">
+      <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:64px;width:auto;align-self:flex-start">
+      <p class="zaz-slide__eyebrow" style="margin-top:64px">Resultados operacionais · 2026</p>
+      <h1 class="zaz-slide__title">Gestão inteligente de processos.</h1>
+      <p class="zaz-slide__subtitle">Painel consolidado das filas de credenciamento e onboarding.</p>
+      ${footer("01")}</div>`],
+  ["Abertura de seção", `<div class="zaz-slide zaz-slide--section zaz-slide--brand">
+      <span class="zaz-slide__index">Seção 02</span>
+      <div style="display:flex;gap:32px;align-items:center"><span class="zaz-slide__rule"></span>
+        <h2 class="zaz-slide__title" style="font-size:72px">Filas por marca parceira</h2></div>
+      ${footer("07")}</div>`],
+  ["Conteúdo", `<div class="zaz-slide zaz-slide--content">
+      <div class="zaz-slide__head"><span class="zaz-slide__rule"></span><div>
+        <p class="zaz-slide__eyebrow">Diagnóstico</p>
+        <h2 class="zaz-slide__heading">Onde o tempo se perde hoje</h2></div></div>
+      <div class="zaz-slide__cols">
+        <ul class="zaz-slide__list" style="list-style:none;margin:0;padding:0">
+          <li class="zaz-slide__list-item">Análise documental concentra 46% da espera total.</li>
+          <li class="zaz-slide__list-item">Pendências reabrem em média 1,8 vez antes de fechar.</li>
+          <li class="zaz-slide__list-item">Handshake depende de resposta externa do parceiro.</li>
+        </ul>
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="padding:40px;border-radius:24px;background:var(--zaz-brand-50)">
+            <p class="zaz-slide__eyebrow">Impacto</p>
+            <p style="font-size:56px;font-weight:900;margin:12px 0 0;color:var(--zaz-brand-600)">2h 15m</p>
+            <p style="font-size:26px;color:var(--zaz-neutral-500);margin:8px 0 0">espera média na fila</p>
+          </div>
+        </div>
+      </div>${footer("12")}</div>`],
+  ["Dados", `<div class="zaz-slide zaz-slide--data">
+      <div style="display:flex;gap:32px;align-items:flex-start"><span class="zaz-slide__rule"></span><div>
+        <p class="zaz-slide__eyebrow">Últimos 30 dias</p>
+        <h2 class="zaz-slide__heading">Volume consolidado</h2></div></div>
+      <div class="zaz-slide__metrics">
+        <div class="zaz-slide__metric"><strong class="zaz-slide__metric-value">1.284</strong><span class="zaz-slide__metric-label">Tarefas em fila</span></div>
+        <div class="zaz-slide__metric"><strong class="zaz-slide__metric-value">96%</strong><span class="zaz-slide__metric-label">Dentro do SLA</span></div>
+        <div class="zaz-slide__metric"><strong class="zaz-slide__metric-value">9</strong><span class="zaz-slide__metric-label">Marcas atendidas</span></div>
+      </div>${footer("18")}</div>`],
+];
+set("demo-slides", slides.map(([label, html]) => `
+  <div><p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-3)">${label}</p>
+  <div class="slide-frame">${html}</div></div>`).join(""));
+
+const fit = () => document.querySelectorAll(".slide-frame").forEach((f) => {
+  const s = f.querySelector(".zaz-slide");
+  if (s) s.style.transform = `scale(${f.clientWidth / 1920})`;
+});
+fit(); addEventListener("resize", fit);
+if (document.fonts) document.fonts.ready.then(fit);
+
+/* --- copiar o markup de qualquer amostra ------------------------------
+   Em vez de escrever o snippet duas vezes (uma para renderizar, outra para
+   mostrar), o botão lê o próprio HTML já renderizado. Duas cópias do mesmo
+   markup sempre divergem: alguém corrige a demo e esquece o snippet, e a
+   documentação passa a ensinar código que não é o que está na tela.
+
+   Roda depois das demos serem montadas por script — por isso está no fim. */
+
+/**
+ * Copia texto, com dois caminhos porque o moderno falha em casos comuns:
+ * `navigator.clipboard` exige contexto seguro (https ou localhost) — abrir esta
+ * página direto do disco, em file://, já derruba ele. O caminho antigo
+ * (textarea invisível + execCommand) é feio, está formalmente obsoleto e
+ * funciona em todos os navegadores atuais, inclusive em file://.
+ */
+async function copiar(texto) {
+  try {
+    await navigator.clipboard.writeText(texto);
+    return true;
+  } catch {
+    const cx = document.createElement("textarea");
+    cx.value = texto;
+    // Fora da tela, mas ainda focável: display:none não permite seleção.
+    cx.style.cssText = "position:fixed;top:-1000px;opacity:0";
+    document.body.appendChild(cx);
+    cx.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch {}
+    cx.remove();
+    return ok;
+  }
+}
+
+/** Tira a indentação comum, que vem do lugar onde o bloco estava no arquivo. */
+const desindentar = (txt) => {
+  const linhas = txt.replace(/\t/g, "  ").split("\n");
+  while (linhas.length && !linhas[0].trim()) linhas.shift();
+  while (linhas.length && !linhas.at(-1).trim()) linhas.pop();
+  const menor = Math.min(...linhas.filter((l) => l.trim()).map((l) => l.match(/^ */)[0].length));
+  return linhas.map((l) => l.slice(menor)).join("\n");
+};
+
+for (const caixa of document.querySelectorAll(".demo, [data-copiar]")) {
+  if (caixa.querySelector(":scope > .copiar")) continue;
+  caixa.setAttribute("data-copiar", "");
+
+  const botao = document.createElement("button");
+  botao.type = "button";
+  botao.className = "copiar";
+  botao.textContent = "Copiar";
+  botao.title = "Copiar o HTML desta amostra";
+
+  botao.addEventListener("click", async () => {
+    // O próprio botão está dentro da caixa: clona e remove antes de ler,
+    // senão o usuário cola um botão "Copiar" junto com o componente.
+    const copia = caixa.cloneNode(true);
+    copia.querySelectorAll(".copiar").forEach((b) => b.remove());
+    const codigo = copia.querySelector("code");
+    const texto = desindentar(codigo ? codigo.textContent : copia.innerHTML);
+
+    const ok = await copiar(texto);
+    botao.textContent = ok ? "Copiado" : "Falhou";
+    botao.classList.toggle("copiar--feito", ok);
+    setTimeout(() => { botao.textContent = "Copiar"; botao.classList.remove("copiar--feito"); }, 1800);
+  });
+
+  caixa.appendChild(botao);
+}
+
+/* --- tema --------------------------------------------------------------
+   Persistido, e lido no <head> antes do primeiro paint (mesma técnica do
+   Apolo) para a página não abrir clara e escurecer depois. */
+document.getElementById("theme").addEventListener("click", () => {
+  const escuro = document.documentElement.classList.toggle("dark");
+  try { localStorage.setItem("tema", escuro ? "dark" : "light"); } catch {}
+  fit(); // os slides são escalados por JS; reajusta após a troca
+});
+</script>
+</body>
+</html>

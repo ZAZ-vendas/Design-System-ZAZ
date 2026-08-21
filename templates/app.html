@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aplicação ZAZ — modelo</title>
+
+<!-- Se este arquivo sair da pasta templates/, ajuste o caminho.
+     Pelo GitHub Pages:
+     https://zaz-vendas.github.io/zaz-design-system/css/zaz.css -->
+<link rel="stylesheet" href="../css/zaz.css">
+
+<script>
+  // Tema aplicado ANTES do primeiro paint. Se isso rodar depois — no fim do
+  // body, ou num efeito de framework — a tela pisca branca antes de escurecer.
+  // É o mesmo cuidado que está no index.html do Apolo.
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+
+<style>
+  /* Só ajustes desta página. Componente novo vai para css/components.css,
+     não para cá — senão o sistema morre em cópias locais. */
+  html, body { height: 100%; margin: 0; }
+  .conteudo { display: flex; flex-direction: column; height: 100vh; }
+  .zaz-main { flex: 1; overflow-y: auto; }
+  .ic { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .grade { display: grid; gap: var(--zaz-space-4); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+</style>
+</head>
+
+<body class="zaz-root">
+
+<div class="zaz-shell">
+
+  <!-- ===================================================================
+       SIDEBAR — marca, navegação, rodapé de usuário.
+       O item ativo é marcado com aria-current="page": ele carrega o estado
+       tanto para o CSS quanto para o leitor de tela. Não use uma classe
+       "ativo" à parte — seria a mesma informação em dois lugares, e um dos
+       dois vai desatualizar.
+       =================================================================== -->
+  <aside class="zaz-sidebar">
+    <div class="zaz-sidebar__brand">
+      <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:26px;width:auto">
+      <strong style="font-weight:800;letter-spacing:var(--zaz-tracking-tight)">Apolo</strong>
+    </div>
+
+    <nav class="zaz-sidebar__nav">
+      <div class="zaz-sidebar__section"><span class="zaz-eyebrow">Operação</span></div>
+
+      <button class="zaz-nav-item" aria-current="page">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        Caixa de Entrada
+        <span class="zaz-nav-item__count">24</span>
+      </button>
+      <button class="zaz-nav-item">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        Concluídas
+        <span class="zaz-nav-item__count">312</span>
+      </button>
+      <button class="zaz-nav-item">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+        Pendências
+        <span class="zaz-nav-item__count">7</span>
+      </button>
+
+      <div class="zaz-sidebar__section"><span class="zaz-eyebrow">Gestão</span></div>
+
+      <button class="zaz-nav-item">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        Indicadores
+      </button>
+      <button class="zaz-nav-item">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Equipe
+      </button>
+    </nav>
+
+    <div class="zaz-sidebar__footer">
+      <button class="zaz-nav-item">
+        <span class="zaz-avatar">FO</span>
+        <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.2">
+          <span style="font-weight:600;color:var(--zaz-text)">Felipe Oliveira</span>
+          <span style="font-size:var(--zaz-text-xs);color:var(--zaz-text-subtle)">Operações</span>
+        </span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===================================================================
+       CONTEÚDO — header fixo + área rolável.
+       =================================================================== -->
+  <div class="conteudo">
+
+    <header class="zaz-header">
+      <div class="zaz-header__title">
+        <h1 class="zaz-h1">Caixa de Entrada</h1>
+        <span class="zaz-badge zaz-badge--brand">24 tarefas</span>
+      </div>
+      <div class="zaz-header__actions">
+        <span class="zaz-input-group" style="width:16rem">
+          <span class="zaz-input-group__icon">
+            <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </span>
+          <input class="zaz-input" type="search" placeholder="CPF ou protocolo" aria-label="Buscar">
+        </span>
+        <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" id="tema" aria-label="Alternar tema">Tema</button>
+        <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Nova Tarefa</button>
+      </div>
+    </header>
+
+    <main class="zaz-main" style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
+
+      <!-- Métricas: valor grande, rótulo em eyebrow. -->
+      <div class="grade">
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Na fila</span><span class="zaz-metric__value">24</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Vencendo hoje</span><span class="zaz-metric__value">3</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Tempo médio</span><span class="zaz-metric__value">2,4 d</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Concluídas no mês</span><span class="zaz-metric__value">312</span>
+        </div></div>
+      </div>
+
+      <!-- Lista com trilha lateral: a linha inteira é o alvo de clique.
+           <button> e não <div onclick> — teclado e leitor de tela de graça. -->
+      <section class="zaz-card" style="overflow:hidden">
+        <div class="zaz-card__header">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Tarefas atribuídas a você</h2></div>
+          <button class="zaz-btn zaz-btn--secondary zaz-btn--sm">Filtros</button>
+        </div>
+
+        <div class="zaz-track">
+          <button class="zaz-track__row" aria-current="true">
+            <span class="zaz-live-dot" aria-hidden="true"></span>
+            <span class="zaz-track__main">
+              <span class="zaz-track__title">Auditoria de Documentos — Credenciamento</span>
+              <span class="zaz-track__meta">
+                <span class="zaz-brand-tag" data-brand="vero">VERO</span>
+                <span class="zaz-mono">TSK-48210</span>
+                <span>Criada há 2 dias</span>
+              </span>
+            </span>
+            <span class="zaz-badge zaz-badge--warning">Pendência</span>
+            <svg class="ic zaz-track__chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+
+          <button class="zaz-track__row">
+            <span class="zaz-live-dot" aria-hidden="true"></span>
+            <span class="zaz-track__main">
+              <span class="zaz-track__title">Validação de Dados Bancários</span>
+              <span class="zaz-track__meta">
+                <span class="zaz-brand-tag" data-brand="getnet">GETNET</span>
+                <span class="zaz-mono">TSK-48197</span>
+                <span>Criada ontem</span>
+              </span>
+            </span>
+            <span class="zaz-badge zaz-badge--success">Em dia</span>
+            <svg class="ic zaz-track__chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+
+          <button class="zaz-track__row">
+            <span class="zaz-track__main">
+              <span class="zaz-track__title">Onboarding — Assinatura de Contrato</span>
+              <span class="zaz-track__meta">
+                <span class="zaz-brand-tag" data-brand="origo">ORIGO</span>
+                <span class="zaz-mono">TSK-48155</span>
+                <span>Suspensa</span>
+              </span>
+            </span>
+            <span class="zaz-badge">Suspensa</span>
+            <svg class="ic zaz-track__chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="zaz-card__footer" style="display:flex;justify-content:space-between;align-items:center">
+          <span class="zaz-muted">Mostrando 3 de 24</span>
+          <button class="zaz-btn zaz-btn--ghost zaz-btn--sm">Ver todas</button>
+        </div>
+      </section>
+
+      <!-- Alerta: trio de status, nunca cor cheia como fundo de bloco. -->
+      <div class="zaz-alert zaz-alert--info">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div>
+          <p class="zaz-alert__title">Este arquivo é um modelo.</p>
+          <p>Apague o conteúdo e mantenha a estrutura: shell, sidebar, header, main. As classes já carregam o visual — você escreve só o que é seu.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('tema');
+  btn.onclick = () => {
+    const escuro = document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('tema', escuro ? 'dark' : 'light'); } catch (e) {}
+  };
+
+  // Marca a linha clicada. aria-current é o estado: o CSS lê o mesmo atributo
+  // que o leitor de tela anuncia.
+  document.querySelectorAll('.zaz-track__row').forEach(linha => {
+    linha.addEventListener('click', () => {
+      document.querySelectorAll('.zaz-track__row').forEach(l => l.removeAttribute('aria-current'));
+      linha.setAttribute('aria-current', 'true');
+    });
+  });
+
+  document.querySelectorAll('.zaz-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (!item.closest('.zaz-sidebar__nav')) return;
+      document.querySelectorAll('.zaz-sidebar__nav .zaz-nav-item').forEach(i => i.removeAttribute('aria-current'));
+      item.setAttribute('aria-current', 'page');
+    });
+  });
+</script>
+</body>
+</html>

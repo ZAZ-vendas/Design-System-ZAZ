@@ -1,0 +1,5 @@
+/* ZAZ Apolo Design System — entrada única.
+   <link rel="stylesheet" href="css/zaz.css"> e adicione class="zaz-root" no <body>. */
+@import "./tokens.css";
+@import "./components.css";
+@import "./slides.css";

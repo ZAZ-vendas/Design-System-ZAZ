@@ -1,0 +1,63 @@
+# Design System ZAZ — verificação e publicação da documentação.
+#
+# Dois jobs:
+#   verificar — roda em todo push e PR. Garante que o CSS não saiu de sincronia
+#               com os tokens e que nenhuma var(--zaz-*) ficou órfã.
+#   publicar  — só na main. Sobe o repositório para o GitHub Pages, de onde
+#               qualquer pessoa consome o CSS e lê a documentação.
+#
+# ANTES DO PRIMEIRO USO, uma vez, na mão:
+#   Settings > Pages > Build and deployment > Source: "GitHub Actions".
+# Sem isso o job `publicar` falha com "Pages not enabled".
+
+name: Design System
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # tokens.css e tailwind/theme.css são GERADOS de tokens/zaz.tokens.json.
+      # Se alguém editar o CSS à mão e esquecer de rodar o build, o próximo
+      # `npm run build:tokens` apaga a edição sem avisar. Este passo transforma
+      # esse acidente silencioso em falha de CI.
+      - name: Tokens em sincronia com o CSS
+        run: npm run check:tokens
+
+      # var(--zaz-nome-errado) não dá erro no navegador: a declaração é ignorada
+      # e o elemento herda o que estiver por perto. Bug invisível até alguém
+      # abrir a tela. Aqui vira erro.
+      - name: Nenhuma variável órfã
+        run: npm run check:vars
+
+  publicar:
+    needs: verificar
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4

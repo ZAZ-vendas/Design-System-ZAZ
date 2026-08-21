@@ -1,0 +1,262 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "ZAZ Apolo Design System — tokens canônicos. Fonte da verdade: este arquivo. CSS, Tailwind e React são gerados/derivados dele.",
+  "color": {
+    "$type": "color",
+    "brand": {
+      "$description": "Roxo institucional ZAZ. 600 é a primária de interface (#591da9, valor em produção no Apolo). ATENÇÃO: o logo oficial usa #6a1ca0 — ver token 'logo' e a nota de divergência no README.",
+      "logo":{ "$value": "#6a1ca0", "$description": "Roxo exato do arquivo de logo. Use apenas quando desenhar/reproduzir a marca ou casar um fundo com ela — não como cor de UI." },
+      "50":  { "$value": "#f5f1fc" },
+      "100": { "$value": "#ebe2f9" },
+      "200": { "$value": "#d7c4f2" },
+      "300": { "$value": "#b795e6" },
+      "400": { "$value": "#9663d6" },
+      "500": { "$value": "#7538c2" },
+      "600": { "$value": "#591da9" },
+      "700": { "$value": "#4a168c" },
+      "800": { "$value": "#3b1270" },
+      "900": { "$value": "#2c0d54" },
+      "950": { "$value": "#1a0733" }
+    },
+    "neutral": {
+      "$description": "Escala slate. Único conjunto neutro permitido — fundos, bordas e texto saem daqui.",
+      "0":   { "$value": "#ffffff" },
+      "50":  { "$value": "#f8fafc" },
+      "100": { "$value": "#f1f5f9" },
+      "200": { "$value": "#e2e8f0" },
+      "300": { "$value": "#cbd5e1" },
+      "400": { "$value": "#94a3b8" },
+      "500": { "$value": "#64748b" },
+      "600": { "$value": "#475569" },
+      "700": { "$value": "#334155" },
+      "800": { "$value": "#1e293b" },
+      "900": { "$value": "#0f172a" },
+      "950": { "$value": "#020617" }
+    },
+    "feedback": {
+      "$description": "Sempre em trio: fundo `-bg` + texto `-fg` + borda `-border`. A cor cheia (sufixo `solid`, que vira --zaz-danger sem sufixo) só entra em ponto, ícone ou barra fina — nunca como fundo de bloco. O grupo 'feedback' some do nome: color.feedback.danger.bg vira --zaz-danger-bg.",
+      "danger":  { "bg": { "$value": "#fef2f2" }, "border": { "$value": "#fecaca" }, "fg": { "$value": "#b91c1c" }, "solid": { "$value": "#ef4444" } },
+      "warning": { "bg": { "$value": "#fffbeb" }, "border": { "$value": "#fde68a" }, "fg": { "$value": "#b45309" }, "solid": { "$value": "#f59e0b" } },
+      "success": { "bg": { "$value": "#ecfdf5" }, "border": { "$value": "#a7f3d0" }, "fg": { "$value": "#047857" }, "solid": { "$value": "#10b981" } },
+      "info":    { "bg": { "$value": "#eff6ff" }, "border": { "$value": "#bfdbfe" }, "fg": { "$value": "#1d4ed8" }, "solid": { "$value": "#3b82f6" } },
+      "status":  { "$description": "O trio neutro — badge sem semântica de alerta.", "bg": { "$value": "#f8fafc" }, "border": { "$value": "#e2e8f0" }, "fg": { "$value": "#334155" }, "solid": { "$value": "#64748b" } }
+    },
+    "area": {
+      "$description": "Acento por área do Apolo. Colore apenas a pílula do AreaSwitcher e o marcador ativo da área — nunca o corpo da tela.",
+      "tasklist":     { "$value": "#591da9" },
+      "rh":           { "$value": "#f59e0b" },
+      "gestor":       { "$value": "#10b981" },
+      "promotor":     { "$value": "#0ea5e9" },
+      "suporteVero":  { "$value": "#06b6d4" },
+      "agenda":       { "$value": "#6366f1" }
+    },
+    "tag": {
+      "$description": "Cores de IDENTIFICAÇÃO INTERNA das marcas parceiras dentro de produtos ZAZ. Não são a marca do parceiro e não substituem o manual de marca dele. Uso permitido: tag/badge, ponto de legenda, série de gráfico. Uso proibido: fundo de tela, botão, header.",
+      "vero":    { "$value": "#7538c2" },
+      "getnet":  { "$value": "#e01e2b" },
+      "guara":   { "$value": "#c2410c" },
+      "safira":  { "$value": "#1d4ed8" },
+      "origo":   { "$value": "#047857" },
+      "suaLuz":  { "$value": "#ca8a04" },
+      "serena":  { "$value": "#0d9488" },
+      "ticket":  { "$value": "#ea580c" },
+      "pluxee":  { "$value": "#221c46" }
+    },
+    "data": {
+      "$description": "Paleta categórica para gráficos. Usar NA ORDEM — a série 1 é sempre o roxo de marca. Acima de 8 séries, agrupar em 'Outros'.",
+      "1": { "$value": "#591da9" },
+      "2": { "$value": "#0ea5e9" },
+      "3": { "$value": "#10b981" },
+      "4": { "$value": "#f59e0b" },
+      "5": { "$value": "#6366f1" },
+      "6": { "$value": "#ef4444" },
+      "7": { "$value": "#06b6d4" },
+      "8": { "$value": "#b795e6" }
+    },
+    "data-seq": {
+      "$description": "Rampa sequencial monocromática para heatmaps, intensidade e mapas.",
+      "1": { "$value": "#ebe2f9" },
+      "2": { "$value": "#d7c4f2" },
+      "3": { "$value": "#b795e6" },
+      "4": { "$value": "#9663d6" },
+      "5": { "$value": "#7538c2" },
+      "6": { "$value": "#591da9" },
+      "7": { "$value": "#3b1270" }
+    },
+    "chart": {
+      "$description": "Cromo do gráfico — a grade e o eixo. Ficam separados da paleta de séries porque mudam com o tema, e as séries não.",
+      "data-grid": { "$value": "{color.neutral.200}" },
+      "data-axis": { "$value": "{color.neutral.400}" }
+    },
+    "semantic": {
+      "$description": "Papéis do tema claro. É SÓ por aqui que a interface pinta — a escala crua (brand-600, neutral-200) nunca entra direto num componente. Trocar o tema é trocar estes, e nada mais.",
+      "primary":       { "$value": "{color.brand.600}", "$description": "Fundo de ação: botão primário, preenchimento de barra, ponto ao vivo." },
+      "primary-hover": { "$value": "{color.brand.700}" },
+      "primary-text":  { "$value": "{color.brand.600}", "$description": "Marca como TEXTO/ícone/borda sobre o fundo do app. Separado de 'primary' porque no tema escuro os dois divergem: fundo continua roxo forte, texto clareia para #a78bfa." },
+      "bg-app":        { "$value": "{color.neutral.50}" },
+      "bg-surface":    { "$value": "{color.neutral.0}" },
+      "bg-muted":      { "$value": "{color.neutral.50}" },
+      "bg-inset":      { "$value": "{color.neutral.100}" },
+      "border":        { "$value": "{color.neutral.200}" },
+      "border-soft":   { "$value": "{color.neutral.100}" },
+      "text":          { "$value": "{color.neutral.900}" },
+      "text-muted":    { "$value": "{color.neutral.500}" },
+      "text-subtle":   { "$value": "{color.neutral.400}" },
+      "text-invert":   { "$value": "{color.neutral.0}" },
+      "ring":          { "$value": "{color.brand.600}", "$description": "Anel de foco por teclado." },
+      "on-primary":     { "$value": "{color.neutral.0}", "$description": "O que vai EM CIMA de um fundo primário ou de perigo: texto de botão, botão do switch. Branco nos dois temas — o fundo é que é escuro, não o tema." },
+      "border-strong":  { "$value": "{color.neutral.300}", "$description": "Borda de controle vazio (checkbox, radio) e trilho do switch desligado. Precisa ser mais forte que --zaz-border: uma caixinha de 18px com borda fraca some da tela." },
+      "overlay":        { "$value": "rgb(15 23 42 / 0.45)", "$description": "Cortina atrás de modal e drawer." },
+      "veil":        { "$value": "color-mix(in srgb, {color.semantic.primary-text} 10%, transparent)", "$description": "Véu de marca: fundo de hover, linha de lista tocada, botão fantasma. Nasce de primary-text, então acompanha o tema sozinho — por isso não existe versão escura dele, e por isso nenhum componente precisa de uma regra `.dark` gêmea só para pintar fundo suave." },
+      "veil-strong": { "$value": "color-mix(in srgb, {color.semantic.primary-text} 16%, transparent)", "$description": "Mesma ideia, para estado ATIVO (item de nav selecionado, avatar) — precisa se distinguir do hover sem virar bloco chapado." },
+      "scrollbar":       { "$value": "{color.neutral.300}", "$description": "Barra de rolagem de 6px do Apolo — está no index.html de produção desde sempre." },
+      "scrollbar-hover": { "$value": "{color.neutral.400}" }
+    }
+  },
+  "dark": {
+    "$description": "Tema escuro. Tudo aqui vira o bloco `.dark` do CSS, com os MESMOS nomes de variável do tema claro — trocar de tema é trocar o valor de um papel, nunca a classe do componente. Nenhuma cor de escala é redefinida: brand-600 é brand-600 nos dois temas.",
+    "semantic": {
+      "primary":       { "$value": "{color.brand.600}", "$description": "Continua brand-600: como FUNDO, com texto branco em cima, dá 9,7:1. Clarear aqui quebra o botão primário — ver AUDITORIA.md." },
+      "primary-hover": { "$value": "{color.brand.500}" },
+      "primary-text":  { "$value": "#a78bfa", "$description": "Roxo de TEXTO no escuro: 6,7:1 sobre neutral-900, contra 2,7:1 do brand-500 que ocupava este papel antes. Valor colhido do Apolo em produção (67 usos)." },
+      "bg-app":        { "$value": "{color.neutral.950}" },
+      "bg-surface":    { "$value": "{color.neutral.900}" },
+      "bg-muted":      { "$value": "{color.neutral.950}" },
+      "bg-inset":      { "$value": "{color.neutral.800}" },
+      "border":        { "$value": "{color.neutral.800}" },
+      "border-soft":   { "$value": "{color.neutral.800}" },
+      "text":          { "$value": "{color.neutral.50}" },
+      "text-muted":    { "$value": "{color.neutral.400}" },
+      "text-subtle":   { "$value": "{color.neutral.500}" },
+      "text-invert":   { "$value": "{color.neutral.0}" },
+      "ring":          { "$value": "{color.brand.400}" },
+      "border-strong": { "$value": "{color.neutral.600}" },
+      "overlay":       { "$value": "rgb(2 6 23 / 0.65)", "$description": "Mais opaca que no claro: sobre um app já escuro, 45% não separa o modal do fundo." },
+      "scrollbar":       { "$value": "{color.neutral.600}" },
+      "scrollbar-hover": { "$value": "{color.neutral.500}" }
+    },
+    "feedback": {
+      "$description": "No escuro o trio vira véu translúcido sobre a superfície, não bloco opaco: o fundo é a própria cor a 12% e o texto sobe para o tom 300, que é o que mantém contraste sem virar néon.",
+      "danger":  { "bg": { "$value": "rgb(239 68 68 / 0.12)" },  "border": { "$value": "rgb(239 68 68 / 0.30)" },  "fg": { "$value": "#fca5a5" } },
+      "warning": { "bg": { "$value": "rgb(245 158 11 / 0.12)" }, "border": { "$value": "rgb(245 158 11 / 0.30)" }, "fg": { "$value": "#fcd34d" } },
+      "success": { "bg": { "$value": "rgb(16 185 129 / 0.12)" }, "border": { "$value": "rgb(16 185 129 / 0.30)" }, "fg": { "$value": "#6ee7b7" } },
+      "info":    { "bg": { "$value": "rgb(59 130 246 / 0.12)" }, "border": { "$value": "rgb(59 130 246 / 0.30)" }, "fg": { "$value": "#93c5fd" } },
+      "status":  { "bg": { "$value": "{color.neutral.800}" },    "border": { "$value": "{color.neutral.700}" },    "fg": { "$value": "{color.neutral.200}" } }
+    },
+    "chart": {
+      "data-grid": { "$value": "{color.neutral.800}" },
+      "data-axis": { "$value": "{color.neutral.600}" }
+    },
+    "shadow": {
+      "$description": "No escuro a sombra não pode ser tingida de azul-ardósia: o fundo já é quase preto e o tom some. Vira preto puro, mais opaco.",
+      "sm": { "$value": "0 1px 2px 0 rgb(0 0 0 / 0.40)" },
+      "md": { "$value": "0 4px 12px -2px rgb(0 0 0 / 0.50)" },
+      "lg": { "$value": "0 12px 24px -8px rgb(0 0 0 / 0.60)" }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "sans": { "$value": ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"] },
+    "mono": { "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"] }
+  },
+  "fontWeight": {
+    "$type": "fontWeight",
+    "light":    { "$value": 300 },
+    "regular":  { "$value": 400 },
+    "medium":   { "$value": 500 },
+    "semibold": { "$value": 600 },
+    "bold":     { "$value": 700 },
+    "extrabold":{ "$value": 800 },
+    "black":    { "$value": 900 }
+  },
+  "size": {
+    "$type": "dimension",
+    "text": {
+      "$description": "Escala de tipo. Corpo padrão é sm (14px) em produto; em slide o mínimo absoluto é 24px (2xl).",
+      "xs":   { "$value": "0.75rem" },
+      "sm":   { "$value": "0.875rem" },
+      "base": { "$value": "1rem" },
+      "lg":   { "$value": "1.125rem" },
+      "xl":   { "$value": "1.25rem" },
+      "2xl":  { "$value": "1.5rem" },
+      "3xl":  { "$value": "1.875rem" },
+      "4xl":  { "$value": "2.25rem" },
+      "5xl":  { "$value": "3rem" },
+      "6xl":  { "$value": "3.75rem" },
+      "7xl":  { "$value": "4.5rem" },
+      "8xl":  { "$value": "6rem" }
+    },
+    "tracking": {
+      "$description": "Espaçamento entre letras. Só dois valores, e cada um é obrigatório no seu contexto: eyebrow em CAIXA ALTA sem tracking fica ilegível; display sem tracking negativo fica frouxo.",
+      "eyebrow": { "$value": "0.08em" },
+      "tight":   { "$value": "-0.02em" }
+    },
+    "space": {
+      "$description": "Grade de 4px.",
+      "1": { "$value": "0.25rem" },
+      "2": { "$value": "0.5rem" },
+      "3": { "$value": "0.75rem" },
+      "4": { "$value": "1rem" },
+      "5": { "$value": "1.25rem" },
+      "6": { "$value": "1.5rem" },
+      "8": { "$value": "2rem" },
+      "10": { "$value": "2.5rem" },
+      "12": { "$value": "3rem" },
+      "16": { "$value": "4rem" },
+      "20": { "$value": "5rem" },
+      "24": { "$value": "6rem" }
+    },
+    "control": {
+      "$description": "Alturas de controle. sm em barras de filtro densas, md padrão, lg em formulários de entrada (login).",
+      "sm": { "$value": "2rem" },
+      "md": { "$value": "2.5rem" },
+      "lg": { "$value": "3.5rem" }
+    },
+    "layout": {
+      "sidebarW":   { "$value": "16rem" },
+      "headerH":    { "$value": "4rem" },
+      "contentMax": { "$value": "80rem" }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "A assinatura do Apolo está aqui: controle 12, card 16, herói 24.",
+    "none":    { "$value": "0" },
+    "sm":      { "$value": "0.375rem", "$description": "6px — checkbox, swatch de cor." },
+    "md":      { "$value": "0.5rem", "$description": "8px — chip, miniatura, célula de calendário, avatar quadrado. Quarto raio mais usado no Apolo (446 ocorrências de rounded-lg) e ausente da primeira versão deste arquivo." },
+    "control": { "$value": "0.75rem" },
+    "card":    { "$value": "1rem" },
+    "hero":    { "$value": "1.5rem" },
+    "pill":    { "$value": "9999px" }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "sm":   { "$value": "0 1px 2px 0 rgb(15 23 42 / 0.06)" },
+    "md":   { "$value": "0 4px 12px -2px rgb(15 23 42 / 0.10)" },
+    "lg":   { "$value": "0 12px 24px -8px rgb(15 23 42 / 0.16)" },
+    "cta":  { "$description": "Brilho roxo do botão primário em repouso.", "$value": "0 8px 20px -6px rgb(89 29 169 / 0.35)" },
+    "hero": { "$description": "Única sombra tingida do sistema — card herói do login.", "$value": "0 32px 64px -24px rgb(44 13 84 / 0.28)" }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast":   { "$value": "150ms" },
+      "base":   { "$value": "200ms" },
+      "slow":   { "$value": "300ms" },
+      "splash": { "$value": "800ms" }
+    },
+    "ease": {
+      "$type": "cubicBezier",
+      "standard": { "$value": [0.4, 0, 0.2, 1] },
+      "entrance": { "$value": [0.2, 0.8, 0.2, 1] }
+    }
+  },
+  "slide": {
+    "$type": "dimension",
+    "$description": "Apresentações ZAZ: 1920×1080, margem de segurança 96px, texto nunca abaixo de 24px.",
+    "w":       { "$value": "1920px" },
+    "h":       { "$value": "1080px" },
+    "margin":  { "$value": "96px" },
+    "textMin": { "$value": "24px" }
+  }
+}

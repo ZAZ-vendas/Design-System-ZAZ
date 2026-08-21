@@ -1,0 +1,41 @@
+{
+  "name": "@zaz/design-system",
+  "version": "1.0.0",
+  "description": "ZAZ Apolo Design System — tokens, CSS e componentes React para produtos, apresentações e materiais ZAZ.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "main": "./react/index.js",
+  "exports": {
+    ".": "./react/index.js",
+    "./css": "./css/zaz.css",
+    "./css/tokens": "./css/tokens.css",
+    "./css/components": "./css/components.css",
+    "./css/slides": "./css/slides.css",
+    "./tailwind": "./tailwind/theme.css",
+    "./tokens": "./tokens/zaz.tokens.json",
+    "./assets/*": "./assets/*"
+  },
+  "files": ["css", "react", "tailwind", "tokens", "assets", "templates"],
+  "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "check:tokens": "node scripts/build-tokens.mjs --check",
+    "check:vars": "node scripts/check-vars.mjs",
+    "check": "npm run check:tokens && npm run check:vars",
+    "start": "npx --yes serve ."
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true },
+    "react-dom": { "optional": true }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZAZ-vendas/zaz-design-system.git"
+  },
+  "homepage": "https://zaz-vendas.github.io/zaz-design-system/"
+}

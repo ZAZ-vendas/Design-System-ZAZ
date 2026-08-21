@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apresentação ZAZ — modelo</title>
+
+<!-- Se este arquivo sair da pasta templates/, ajuste o caminho abaixo.
+     Rodando pelo GitHub Pages, troque por:
+     https://zaz-vendas.github.io/zaz-design-system/css/zaz.css -->
+<link rel="stylesheet" href="../css/zaz.css">
+
+<style>
+/* ============================================================================
+   Só o mecanismo do deck mora aqui. Nada de cor, fonte ou espaçamento:
+   isso tudo vem de css/slides.css. Se você precisar mudar a APARÊNCIA de um
+   slide, mude lá (ou nos tokens) — não neste bloco.
+   ========================================================================== */
+
+/* `body.zaz-root` (0,1,1) vence um `body` pelado (0,0,1) e repinta o fundo com
+   --zaz-bg-app. Por isso a classe entra também neste seletor: sem ela o palco
+   fica claro, e um slide claro sobre fundo claro perde a borda. */
+body.zaz-root { margin: 0; background: var(--zaz-neutral-950); overflow: hidden; }
+
+/* O slide tem 1920×1080 fixos, sempre. Ele não se adapta à tela: a tela é que
+   o encolhe, com um scale() único aplicado no palco. É assim que o texto de
+   30px continua valendo 30px na projeção, em vez de virar tipografia elástica
+   que some no telão. --escala é calculada no JS, no fim do arquivo. */
+#palco {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+}
+#palco .zaz-slide {
+  transform: scale(var(--escala, 1));
+  transform-origin: center;
+  box-shadow: var(--zaz-shadow-hero);
+}
+#palco .zaz-slide:not(.ativo) { display: none; }
+
+/* Barra de controle — some depois de 2s parado. */
+#controles {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--zaz-space-2);
+  padding: var(--zaz-space-2) var(--zaz-space-3);
+  background: rgb(255 255 255 / 0.08); backdrop-filter: blur(8px);
+  border: 1px solid rgb(255 255 255 / 0.14); border-radius: var(--zaz-radius-pill);
+  color: #fff; font-family: var(--zaz-font-sans); font-size: var(--zaz-text-xs);
+  opacity: 0; transition: opacity var(--zaz-duration-base) var(--zaz-ease-standard);
+  z-index: 10;
+}
+#controles.visivel, #controles:hover { opacity: 1; }
+#controles button {
+  display: grid; place-items: center; width: 28px; height: 28px;
+  background: none; border: 0; border-radius: var(--zaz-radius-pill);
+  color: #fff; font-size: 15px; cursor: pointer;
+}
+#controles button:hover { background: rgb(255 255 255 / 0.16); }
+#contador { font-variant-numeric: tabular-nums; padding: 0 var(--zaz-space-2); letter-spacing: 0.04em; }
+
+/* Visão de grade (tecla G): todos os slides de uma vez, para achar um rápido.
+
+   Aqui é `zoom`, não `transform: scale()`. A diferença importa: scale() é
+   pintura — o elemento continua ocupando 1920×1080 no layout, então os slides
+   encavalam e o grid coloca um em cima do outro. `zoom` reduz a caixa de
+   verdade, e o grid enxerga o tamanho reduzido. Como o deck inteiro é medido
+   em px absolutos, o zoom escala tudo junto sem distorcer nada. */
+#palco.grade {
+  display: grid; place-items: start stretch;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px; padding: 32px; overflow: auto; align-content: start;
+}
+#palco.grade .zaz-slide {
+  display: flex; transform: none; zoom: 0.22; cursor: pointer;
+  outline: 1px solid rgb(255 255 255 / 0.14);
+}
+#palco.grade .zaz-slide:hover { outline: 3px solid var(--zaz-brand-400); }
+
+/* ---------------------------------------------------------------- impressão
+   Ctrl+P vira PDF: todos os slides, um por página, sem escala nem cortina.
+   `size` em pixels é o que faz o Chrome gerar páginas 16:9 exatas. */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  body { background: #fff; overflow: visible; }
+  #controles { display: none; }
+  #palco { position: static; display: block; }
+  #palco .zaz-slide,
+  #palco .zaz-slide:not(.ativo) { display: flex; transform: none; box-shadow: none; break-after: page; }
+}
+</style>
+</head>
+
+<body class="zaz-root">
+
+<div id="palco">
+
+  <!-- ====================================================================
+       1. CAPA — uma por deck. Assunto no eyebrow, promessa no título.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--cover zaz-slide--dark">
+    <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:72px;width:auto;align-self:flex-start;margin-bottom:24px">
+    <p class="zaz-slide__eyebrow">Reunião de Diretoria · Agosto de 2026</p>
+    <h1 class="zaz-slide__title">Apolo: o ano em que a operação virou processo.</h1>
+    <p class="zaz-slide__subtitle">Resultados consolidados e o que muda no próximo trimestre.</p>
+    <footer class="zaz-slide__footer"><span>Zaz Vendas</span><span>01</span></footer>
+  </section>
+
+  <!-- ====================================================================
+       2. ABERTURA DE SEÇÃO — separa blocos. Sem conteúdo, só respiro.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--section">
+    <p class="zaz-slide__index">01</p>
+    <div style="display:flex;gap:32px;align-items:center">
+      <span class="zaz-slide__rule"></span>
+      <h2 class="zaz-slide__title">Onde estamos</h2>
+    </div>
+    <footer class="zaz-slide__footer"><span>Apolo · Diretoria</span><span>02</span></footer>
+  </section>
+
+  <!-- ====================================================================
+       3. CONTEÚDO — título + colunas. Máximo 4 itens por coluna: acima
+          disso ninguém lê, e o slide vira documento.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--content">
+    <div class="zaz-slide__head">
+      <span class="zaz-slide__rule"></span>
+      <div>
+        <p class="zaz-slide__eyebrow">Diagnóstico</p>
+        <h2 class="zaz-slide__heading">Onde o tempo se perde hoje</h2>
+      </div>
+    </div>
+    <div class="zaz-slide__cols">
+      <ul class="zaz-slide__list" style="list-style:none;padding:0;margin:0">
+        <li class="zaz-slide__list-item">Credenciamento parado esperando documento que já chegou.</li>
+        <li class="zaz-slide__list-item">Fila sem dono: a tarefa existe, o responsável não.</li>
+        <li class="zaz-slide__list-item">Retrabalho de cadastro entre marcas parceiras.</li>
+      </ul>
+      <ul class="zaz-slide__list" style="list-style:none;padding:0;margin:0">
+        <li class="zaz-slide__list-item">Aprovação que depende de uma pessoa específica estar online.</li>
+        <li class="zaz-slide__list-item">Pendência comunicada por canal que ninguém acompanha.</li>
+      </ul>
+    </div>
+    <footer class="zaz-slide__footer"><span>Apolo · Diretoria</span><span>03</span></footer>
+  </section>
+
+  <!-- ====================================================================
+       4. DADOS — número grande primeiro, rótulo depois. Três por linha.
+          Um número que precisa de explicação não é um número de slide.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--data zaz-slide--muted">
+    <div class="zaz-slide__head" style="display:flex;gap:32px;align-items:flex-start">
+      <span class="zaz-slide__rule"></span>
+      <div>
+        <p class="zaz-slide__eyebrow">Consolidado do período</p>
+        <h2 class="zaz-slide__heading">Volume e tempo de esteira</h2>
+      </div>
+    </div>
+    <div class="zaz-slide__metrics">
+      <div class="zaz-slide__metric">
+        <span class="zaz-slide__metric-value">18.402</span>
+        <span class="zaz-slide__metric-label">Tarefas concluídas</span>
+      </div>
+      <div class="zaz-slide__metric">
+        <span class="zaz-slide__metric-value">2,4 d</span>
+        <span class="zaz-slide__metric-label">Tempo médio de credenciamento</span>
+      </div>
+      <div class="zaz-slide__metric">
+        <span class="zaz-slide__metric-value">9</span>
+        <span class="zaz-slide__metric-label">Marcas parceiras em operação</span>
+      </div>
+    </div>
+    <footer class="zaz-slide__footer"><span>Apolo · Diretoria</span><span>04</span></footer>
+  </section>
+
+  <!-- ====================================================================
+       5. DIVISÃO — argumento à esquerda, imagem/print à direita.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--split">
+    <!-- A barra fica ao LADO do texto, não solta acima dele: num pane estreito
+         ela viraria um traço órfão no meio do vazio. -->
+    <div class="zaz-slide__pane" style="flex-direction:row;gap:32px;align-items:flex-start">
+      <span class="zaz-slide__rule"></span>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <p class="zaz-slide__eyebrow">Próximo trimestre</p>
+        <h2 class="zaz-slide__heading">Uma fila, um dono, um prazo.</h2>
+        <p class="zaz-slide__body">Toda tarefa nasce com responsável e prazo definidos no próprio desenho do processo — não na combinação informal entre times.</p>
+      </div>
+    </div>
+    <div class="zaz-slide__media">
+      <!-- Troque por <img src="..." style="width:100%;height:100%;object-fit:cover"> -->
+      Espaço para print de tela ou foto
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       6. ENCERRAMENTO — uma frase. Nunca "Obrigado" sozinho.
+       ==================================================================== -->
+  <section class="zaz-slide zaz-slide--closing zaz-slide--brand">
+    <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:64px;width:auto">
+    <h2 class="zaz-slide__title">O processo é o produto.</h2>
+    <p class="zaz-slide__subtitle" style="max-width:36ch">Perguntas e próximos passos.</p>
+    <footer class="zaz-slide__footer"><span>© 2026 Zaz Vendas. Apolo.</span><span>06</span></footer>
+  </section>
+
+</div>
+
+<nav id="controles" aria-label="Controles da apresentação">
+  <button id="anterior" title="Anterior (←)" aria-label="Slide anterior">‹</button>
+  <span id="contador">1 / 6</span>
+  <button id="proximo" title="Próximo (→ ou espaço)" aria-label="Próximo slide">›</button>
+  <button id="grade" title="Ver todos (G)" aria-label="Ver todos os slides">▦</button>
+  <button id="cheia" title="Tela cheia (F)" aria-label="Tela cheia">⛶</button>
+</nav>
+
+<script>
+/* ============================================================================
+   Mecanismo do deck. ~60 linhas, sem biblioteca nenhuma.
+
+   Teclado:  → ↓ espaço PageDown  avançar     ← ↑ PageUp  voltar
+             Home / End  primeiro / último    G  grade    F  tela cheia
+   O slide atual fica no #hash da URL, então dá para mandar o link já aberto
+   no slide 4 — e F5 no meio da apresentação não volta para a capa.
+   ========================================================================== */
+
+const slides = [...document.querySelectorAll('.zaz-slide')];
+const palco = document.getElementById('palco');
+const contador = document.getElementById('contador');
+let atual = 0;
+
+/* A escala que faz 1920×1080 caber na janela. min() dos dois eixos: o menor
+   manda, senão o slide vaza por um dos lados.
+   Fora do modo tela cheia sobra uma folga de 6%, para o slide se ler como um
+   objeto sobre o palco e não como a página inteira. Apresentando de verdade
+   (F ou F11) a folga some e o slide ocupa tudo. */
+function escalar() {
+  const cabe = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  palco.style.setProperty('--escala', document.fullscreenElement ? cabe : cabe * 0.94);
+}
+
+function mostrar(i) {
+  atual = Math.max(0, Math.min(i, slides.length - 1));
+  slides.forEach((s, n) => s.classList.toggle('ativo', n === atual));
+  contador.textContent = `${atual + 1} / ${slides.length}`;
+  history.replaceState(null, '', `#${atual + 1}`);
+}
+
+function alternarGrade() {
+  const naGrade = palco.classList.toggle('grade');
+  if (!naGrade) mostrar(atual);
+  else slides.forEach(s => s.classList.add('ativo'));
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); mostrar(atual + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); mostrar(atual - 1); }
+  else if (e.key === 'Home') mostrar(0);
+  else if (e.key === 'End') mostrar(slides.length - 1);
+  else if (e.key.toLowerCase() === 'g') alternarGrade();
+  else if (e.key.toLowerCase() === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+});
+
+document.getElementById('proximo').onclick = () => mostrar(atual + 1);
+document.getElementById('anterior').onclick = () => mostrar(atual - 1);
+document.getElementById('grade').onclick = alternarGrade;
+document.getElementById('cheia').onclick = () =>
+  document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+
+/* Na grade, clicar num slide abre ele. */
+slides.forEach((s, i) => s.addEventListener('click', () => {
+  if (palco.classList.contains('grade')) { palco.classList.remove('grade'); mostrar(i); }
+}));
+
+/* Barra de controle aparece ao mover o mouse e some sozinha. */
+const controles = document.getElementById('controles');
+let sumir;
+addEventListener('mousemove', () => {
+  controles.classList.add('visivel');
+  clearTimeout(sumir);
+  sumir = setTimeout(() => controles.classList.remove('visivel'), 2000);
+});
+
+addEventListener('resize', escalar);
+document.addEventListener('fullscreenchange', escalar);
+escalar();
+mostrar(Number(location.hash.slice(1)) - 1 || 0);
+</script>
+</body>
+</html>

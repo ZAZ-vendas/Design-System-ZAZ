@@ -1,0 +1,265 @@
+/* ============================================================================
+   ZAZ Apolo Design System — tokens.css
+
+   Duas metades:
+     1. Entre GERADO:INICIO e GERADO:FIM — valores, vindos de
+        tokens/zaz.tokens.json. Mexeu no JSON? Rode `npm run build:tokens`.
+        Editar essa parte à mão é trabalho perdido: o próximo build sobrescreve.
+     2. Depois de GERADO:FIM — comportamento (reset, scrollbar, animação).
+        Escrito à mão, o gerador não encosta.
+
+   Tema escuro: adicione a classe `dark` num ancestral — o Apolo usa
+   <html class="dark">. Só os papéis semânticos trocam; brand-600 é brand-600
+   nos dois temas.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+/* GERADO:INICIO — não edite daqui até GERADO:FIM. Fonte: tokens/zaz.tokens.json */
+:root {
+  --zaz-brand-50: #f5f1fc;
+  --zaz-brand-100: #ebe2f9;
+  --zaz-brand-200: #d7c4f2;
+  --zaz-brand-300: #b795e6;
+  --zaz-brand-400: #9663d6;
+  --zaz-brand-500: #7538c2;
+  --zaz-brand-600: #591da9;
+  --zaz-brand-700: #4a168c;
+  --zaz-brand-800: #3b1270;
+  --zaz-brand-900: #2c0d54;
+  --zaz-brand-950: #1a0733;
+  --zaz-brand-logo: #6a1ca0;
+  --zaz-neutral-0: #ffffff;
+  --zaz-neutral-50: #f8fafc;
+  --zaz-neutral-100: #f1f5f9;
+  --zaz-neutral-200: #e2e8f0;
+  --zaz-neutral-300: #cbd5e1;
+  --zaz-neutral-400: #94a3b8;
+  --zaz-neutral-500: #64748b;
+  --zaz-neutral-600: #475569;
+  --zaz-neutral-700: #334155;
+  --zaz-neutral-800: #1e293b;
+  --zaz-neutral-900: #0f172a;
+  --zaz-neutral-950: #020617;
+  --zaz-danger-bg: #fef2f2;
+  --zaz-danger-border: #fecaca;
+  --zaz-danger-fg: #b91c1c;
+  --zaz-danger: #ef4444;
+  --zaz-warning-bg: #fffbeb;
+  --zaz-warning-border: #fde68a;
+  --zaz-warning-fg: #b45309;
+  --zaz-warning: #f59e0b;
+  --zaz-success-bg: #ecfdf5;
+  --zaz-success-border: #a7f3d0;
+  --zaz-success-fg: #047857;
+  --zaz-success: #10b981;
+  --zaz-info-bg: #eff6ff;
+  --zaz-info-border: #bfdbfe;
+  --zaz-info-fg: #1d4ed8;
+  --zaz-info: #3b82f6;
+  --zaz-status-bg: #f8fafc;
+  --zaz-status-border: #e2e8f0;
+  --zaz-status-fg: #334155;
+  --zaz-status: #64748b;
+  --zaz-area-tasklist: #591da9;
+  --zaz-area-rh: #f59e0b;
+  --zaz-area-gestor: #10b981;
+  --zaz-area-promotor: #0ea5e9;
+  --zaz-area-suporte-vero: #06b6d4;
+  --zaz-area-agenda: #6366f1;
+  --zaz-tag-vero: #7538c2;
+  --zaz-tag-getnet: #e01e2b;
+  --zaz-tag-guara: #c2410c;
+  --zaz-tag-safira: #1d4ed8;
+  --zaz-tag-origo: #047857;
+  --zaz-tag-sua-luz: #ca8a04;
+  --zaz-tag-serena: #0d9488;
+  --zaz-tag-ticket: #ea580c;
+  --zaz-tag-pluxee: #221c46;
+  --zaz-data-1: #591da9;
+  --zaz-data-2: #0ea5e9;
+  --zaz-data-3: #10b981;
+  --zaz-data-4: #f59e0b;
+  --zaz-data-5: #6366f1;
+  --zaz-data-6: #ef4444;
+  --zaz-data-7: #06b6d4;
+  --zaz-data-8: #b795e6;
+  --zaz-data-seq-1: #ebe2f9;
+  --zaz-data-seq-2: #d7c4f2;
+  --zaz-data-seq-3: #b795e6;
+  --zaz-data-seq-4: #9663d6;
+  --zaz-data-seq-5: #7538c2;
+  --zaz-data-seq-6: #591da9;
+  --zaz-data-seq-7: #3b1270;
+  --zaz-data-grid: var(--zaz-neutral-200);
+  --zaz-data-axis: var(--zaz-neutral-400);
+  --zaz-primary: var(--zaz-brand-600);
+  --zaz-primary-hover: var(--zaz-brand-700);
+  --zaz-primary-text: var(--zaz-brand-600);
+  --zaz-bg-app: var(--zaz-neutral-50);
+  --zaz-bg-surface: var(--zaz-neutral-0);
+  --zaz-bg-muted: var(--zaz-neutral-50);
+  --zaz-bg-inset: var(--zaz-neutral-100);
+  --zaz-border: var(--zaz-neutral-200);
+  --zaz-border-soft: var(--zaz-neutral-100);
+  --zaz-text: var(--zaz-neutral-900);
+  --zaz-text-muted: var(--zaz-neutral-500);
+  --zaz-text-subtle: var(--zaz-neutral-400);
+  --zaz-text-invert: var(--zaz-neutral-0);
+  --zaz-ring: var(--zaz-brand-600);
+  --zaz-on-primary: var(--zaz-neutral-0);
+  --zaz-border-strong: var(--zaz-neutral-300);
+  --zaz-overlay: rgb(15 23 42 / 0.45);
+  --zaz-veil: color-mix(in srgb, var(--zaz-primary-text) 10%, transparent);
+  --zaz-veil-strong: color-mix(in srgb, var(--zaz-primary-text) 16%, transparent);
+  --zaz-scrollbar: var(--zaz-neutral-300);
+  --zaz-scrollbar-hover: var(--zaz-neutral-400);
+  --zaz-font-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --zaz-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --zaz-font-weight-light: 300;
+  --zaz-font-weight-regular: 400;
+  --zaz-font-weight-medium: 500;
+  --zaz-font-weight-semibold: 600;
+  --zaz-font-weight-bold: 700;
+  --zaz-font-weight-extrabold: 800;
+  --zaz-font-weight-black: 900;
+  --zaz-text-xs: 0.75rem;
+  --zaz-text-sm: 0.875rem;
+  --zaz-text-base: 1rem;
+  --zaz-text-lg: 1.125rem;
+  --zaz-text-xl: 1.25rem;
+  --zaz-text-2xl: 1.5rem;
+  --zaz-text-3xl: 1.875rem;
+  --zaz-text-4xl: 2.25rem;
+  --zaz-text-5xl: 3rem;
+  --zaz-text-6xl: 3.75rem;
+  --zaz-text-7xl: 4.5rem;
+  --zaz-text-8xl: 6rem;
+  --zaz-tracking-eyebrow: 0.08em;
+  --zaz-tracking-tight: -0.02em;
+  --zaz-space-1: 0.25rem;
+  --zaz-space-2: 0.5rem;
+  --zaz-space-3: 0.75rem;
+  --zaz-space-4: 1rem;
+  --zaz-space-5: 1.25rem;
+  --zaz-space-6: 1.5rem;
+  --zaz-space-8: 2rem;
+  --zaz-space-10: 2.5rem;
+  --zaz-space-12: 3rem;
+  --zaz-space-16: 4rem;
+  --zaz-space-20: 5rem;
+  --zaz-space-24: 6rem;
+  --zaz-control-sm: 2rem;
+  --zaz-control-md: 2.5rem;
+  --zaz-control-lg: 3.5rem;
+  --zaz-sidebar-w: 16rem;
+  --zaz-header-h: 4rem;
+  --zaz-content-max: 80rem;
+  --zaz-radius-none: 0;
+  --zaz-radius-sm: 0.375rem;
+  --zaz-radius-md: 0.5rem;
+  --zaz-radius-control: 0.75rem;
+  --zaz-radius-card: 1rem;
+  --zaz-radius-hero: 1.5rem;
+  --zaz-radius-pill: 9999px;
+  --zaz-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.06);
+  --zaz-shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.10);
+  --zaz-shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 0.16);
+  --zaz-shadow-cta: 0 8px 20px -6px rgb(89 29 169 / 0.35);
+  --zaz-shadow-hero: 0 32px 64px -24px rgb(44 13 84 / 0.28);
+  --zaz-duration-fast: 150ms;
+  --zaz-duration-base: 200ms;
+  --zaz-duration-slow: 300ms;
+  --zaz-duration-splash: 800ms;
+  --zaz-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --zaz-ease-entrance: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --zaz-slide-w: 1920px;
+  --zaz-slide-h: 1080px;
+  --zaz-slide-margin: 96px;
+  --zaz-slide-text-min: 24px;
+}
+
+/* Tema escuro: trocam APENAS os papéis semânticos. Nenhuma cor de escala é
+   redefinida aqui — brand-600 vale o mesmo nos dois temas. */
+.dark {
+  --zaz-primary: var(--zaz-brand-600);
+  --zaz-primary-hover: var(--zaz-brand-500);
+  --zaz-primary-text: #a78bfa;
+  --zaz-bg-app: var(--zaz-neutral-950);
+  --zaz-bg-surface: var(--zaz-neutral-900);
+  --zaz-bg-muted: var(--zaz-neutral-950);
+  --zaz-bg-inset: var(--zaz-neutral-800);
+  --zaz-border: var(--zaz-neutral-800);
+  --zaz-border-soft: var(--zaz-neutral-800);
+  --zaz-text: var(--zaz-neutral-50);
+  --zaz-text-muted: var(--zaz-neutral-400);
+  --zaz-text-subtle: var(--zaz-neutral-500);
+  --zaz-text-invert: var(--zaz-neutral-0);
+  --zaz-ring: var(--zaz-brand-400);
+  --zaz-border-strong: var(--zaz-neutral-600);
+  --zaz-overlay: rgb(2 6 23 / 0.65);
+  --zaz-scrollbar: var(--zaz-neutral-600);
+  --zaz-scrollbar-hover: var(--zaz-neutral-500);
+  --zaz-danger-bg: rgb(239 68 68 / 0.12);
+  --zaz-danger-border: rgb(239 68 68 / 0.30);
+  --zaz-danger-fg: #fca5a5;
+  --zaz-warning-bg: rgb(245 158 11 / 0.12);
+  --zaz-warning-border: rgb(245 158 11 / 0.30);
+  --zaz-warning-fg: #fcd34d;
+  --zaz-success-bg: rgb(16 185 129 / 0.12);
+  --zaz-success-border: rgb(16 185 129 / 0.30);
+  --zaz-success-fg: #6ee7b7;
+  --zaz-info-bg: rgb(59 130 246 / 0.12);
+  --zaz-info-border: rgb(59 130 246 / 0.30);
+  --zaz-info-fg: #93c5fd;
+  --zaz-status-bg: var(--zaz-neutral-800);
+  --zaz-status-border: var(--zaz-neutral-700);
+  --zaz-status-fg: var(--zaz-neutral-200);
+  --zaz-data-grid: var(--zaz-neutral-800);
+  --zaz-data-axis: var(--zaz-neutral-600);
+  --zaz-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.40);
+  --zaz-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.50);
+  --zaz-shadow-lg: 0 12px 24px -8px rgb(0 0 0 / 0.60);
+}
+/* GERADO:FIM */
+
+/* ============================================================================
+   Daqui para baixo é escrito à mão.
+   ========================================================================== */
+
+/* --- Reset mínimo (opt-in via .zaz-root ou no <body>) --------------------- */
+.zaz-root,
+body.zaz-root {
+  background: var(--zaz-bg-app);
+  color: var(--zaz-text);
+  font-family: var(--zaz-font-sans);
+  font-size: var(--zaz-text-sm);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+.zaz-root a { color: var(--zaz-primary-text); text-decoration: none; }
+.zaz-root a:hover { color: var(--zaz-primary-hover); text-decoration: underline; }
+.zaz-root ::selection { background: var(--zaz-brand-200); color: var(--zaz-brand-900); }
+
+/* --- Barra de rolagem ------------------------------------------------------
+   6px, sem trilho, polegar neutro. Está no index.html do Apolo desde sempre;
+   entrou no sistema porque é o que faz uma tela nova "parecer Apolo" mesmo
+   antes de ter conteúdo. Só WebKit/Blink — Firefox usa scrollbar-color. */
+.zaz-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+.zaz-root ::-webkit-scrollbar-track { background: transparent; }
+.zaz-root ::-webkit-scrollbar-thumb { background: var(--zaz-scrollbar); border-radius: 3px; }
+.zaz-root ::-webkit-scrollbar-thumb:hover { background: var(--zaz-scrollbar-hover); }
+.zaz-root { scrollbar-width: thin; scrollbar-color: var(--zaz-scrollbar) transparent; }
+
+@keyframes zazLogoPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes zazFadeUp { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+@keyframes zazPulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .zaz-root *, .zaz-root *::before, .zaz-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZAZ Apolo Design System</title>
+<link rel="icon" href="assets/logo-zaz.png">
+<link rel="stylesheet" href="css/zaz.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+<style>
+  body { margin: 0; display: grid; place-items: center; min-height: 100vh; padding: var(--zaz-space-8); }
+  .capa { width: 100%; max-width: 60rem; display: flex; flex-direction: column; gap: var(--zaz-space-8); }
+  .portas { display: grid; gap: var(--zaz-space-4); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .porta { display: flex; flex-direction: column; gap: var(--zaz-space-2); padding: var(--zaz-space-6);
+    background: var(--zaz-bg-surface); border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card);
+    box-shadow: var(--zaz-shadow-sm); color: var(--zaz-text); text-decoration: none;
+    border-left: 4px solid transparent;
+    transition: border-color var(--zaz-duration-fast) var(--zaz-ease-standard),
+                box-shadow var(--zaz-duration-fast) var(--zaz-ease-standard),
+                transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  .porta:hover { border-left-color: var(--zaz-primary-text); box-shadow: var(--zaz-shadow-md);
+    transform: translateY(-2px); text-decoration: none; color: var(--zaz-text); }
+  .porta:hover h2 { color: var(--zaz-primary-text); }
+  .porta h2 { margin: 0; font-size: var(--zaz-text-lg); font-weight: 700; transition: color var(--zaz-duration-fast); }
+  .porta p { margin: 0; font-size: var(--zaz-text-sm); color: var(--zaz-text-muted); }
+</style>
+</head>
+<body class="zaz-root">
+
+<main class="capa">
+
+  <header style="display:flex;flex-direction:column;gap:var(--zaz-space-4)">
+    <img src="assets/logo-zaz.png" alt="ZAZ" style="height:44px;width:auto;align-self:flex-start">
+    <p class="zaz-eyebrow">ZAZ Vendas · Design System</p>
+    <h1 class="zaz-display" style="font-size:var(--zaz-text-5xl);max-width:20ch;margin:0">A base visual de tudo que leva o nome ZAZ.</h1>
+    <p class="zaz-muted" style="font-size:var(--zaz-text-base);max-width:62ch;margin:0">
+      Produto, apresentação, relatório ou página avulsa: tudo parte daqui. A fonte da
+      verdade é <code style="font-family:var(--zaz-font-mono)">tokens/zaz.tokens.json</code> —
+      o CSS, o preset Tailwind e os componentes React são derivados dele.
+    </p>
+  </header>
+
+  <nav class="portas">
+    <a class="porta" href="docs/">
+      <span class="zaz-eyebrow">Referência</span>
+      <h2>Documentação</h2>
+      <p>Cores, tipografia, espaçamento e todos os componentes, cada um com o markup pronto para copiar.</p>
+    </a>
+    <a class="porta" href="templates/apresentacao.html">
+      <span class="zaz-eyebrow">Modelo</span>
+      <h2>Apresentação</h2>
+      <p>Deck 1920×1080 com seis layouts, navegação por seta e exportação em PDF.</p>
+    </a>
+    <a class="porta" href="templates/app.html">
+      <span class="zaz-eyebrow">Modelo</span>
+      <h2>Aplicação</h2>
+      <p>Shell com sidebar, header, métricas e lista — HTML puro, sem build.</p>
+    </a>
+    <a class="porta" href="https://github.com/ZAZ-vendas/zaz-design-system/blob/main/AUDITORIA.md">
+      <span class="zaz-eyebrow">Prova</span>
+      <h2>Auditoria</h2>
+      <p>O que foi conferido contra o Apolo em produção, e o que não bateu.</p>
+    </a>
+  </nav>
+
+  <div class="zaz-card zaz-card--muted"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-2)">
+    <p class="zaz-eyebrow">Começar em uma linha</p>
+    <code style="font-family:var(--zaz-font-mono);font-size:var(--zaz-text-xs);display:block;padding:var(--zaz-space-3);background:var(--zaz-bg-inset);border-radius:var(--zaz-radius-control);overflow-x:auto">&lt;link rel="stylesheet" href="https://zaz-vendas.github.io/zaz-design-system/css/zaz.css"&gt;</code>
+    <p class="zaz-muted" style="margin:0">Depois, <code style="font-family:var(--zaz-font-mono)">class="zaz-root"</code> no <code style="font-family:var(--zaz-font-mono)">&lt;body&gt;</code>.</p>
+  </div></div>
+
+  <footer style="display:flex;justify-content:space-between;align-items:center;gap:var(--zaz-space-4)">
+    <p class="zaz-muted" style="margin:0">© 2026 Zaz Vendas. Apolo.</p>
+    <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" id="tema">Alternar tema</button>
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById('tema').onclick = () => {
+    const escuro = document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('tema', escuro ? 'dark' : 'light'); } catch (e) {}
+  };
+</script>
+</body>
+</html>
