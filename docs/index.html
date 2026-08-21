@@ -141,18 +141,84 @@
   kbd { font-family: var(--zaz-font-mono); font-size: 0.6875rem; padding: 1px 5px; border: 1px solid var(--zaz-border);
     border-bottom-width: 2px; border-radius: var(--zaz-radius-sm); background: var(--zaz-bg-surface); color: var(--zaz-text); }
 
-  /* Botão "copiar", injetado por script em toda amostra. Fica no canto e só
-     aparece no hover, para não competir com o componente que está sendo
-     demonstrado. */
+  /* --- Copiar ------------------------------------------------------------
+     Barra injetada por script em TODA amostra da pagina. Aparece no hover para
+     nao competir com o componente demonstrado, e some quando o mouse sai.
+
+     Cada amostra pode oferecer mais de um formato: o HTML pronto para colar, o
+     token CSS, a classe do Tailwind. Sao publicos diferentes lendo a mesma
+     pagina — quem escreve HTML na mao, quem usa Tailwind, e quem so quer o
+     valor da cor para levar a outro lugar. */
   [data-copiar] { position: relative; }
-  .copiar { position: absolute; top: 6px; right: 6px; z-index: 2;
-    padding: 3px 9px; border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-sm);
-    background: var(--zaz-bg-surface); color: var(--zaz-text-muted);
+  .barra-copia { position: absolute; top: 6px; right: 6px; z-index: 3;
+    display: flex; gap: 3px; padding: 3px;
+    background: var(--zaz-bg-surface); border: 1px solid var(--zaz-border);
+    border-radius: var(--zaz-radius-md); box-shadow: var(--zaz-shadow-sm);
+    opacity: 0; transform: translateY(-2px); pointer-events: none;
+    transition: opacity var(--zaz-duration-fast) var(--zaz-ease-standard),
+                transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  [data-copiar]:hover > .barra-copia,
+  [data-copiar]:focus-within > .barra-copia { opacity: 1; transform: none; pointer-events: auto; }
+
+  .barra-copia button { padding: 3px 8px; border: 0; border-radius: var(--zaz-radius-sm);
+    background: transparent; color: var(--zaz-text-muted);
     font-family: var(--zaz-font-sans); font-size: 0.625rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow);
-    cursor: pointer; opacity: 0; transition: opacity var(--zaz-duration-fast) var(--zaz-ease-standard); }
-  [data-copiar]:hover .copiar, .copiar:focus-visible { opacity: 1; }
-  .copiar--feito { color: var(--zaz-success-fg); border-color: var(--zaz-success-border); background: var(--zaz-success-bg); }
+    cursor: pointer; white-space: nowrap;
+    transition: background var(--zaz-duration-fast), color var(--zaz-duration-fast); }
+  .barra-copia button:hover { background: var(--zaz-veil); color: var(--zaz-primary-text); }
+  .barra-copia button:focus-visible { outline: 2px solid var(--zaz-ring); outline-offset: 1px; }
+  .barra-copia button.feito { background: var(--zaz-success-bg); color: var(--zaz-success-fg); }
+
+  /* Swatch de cor: a amostra inteira e clicavel, porque o alvo natural do
+     clique num quadrado de cor e o quadrado, nao um botao ao lado dele. */
+  .sw { cursor: pointer; }
+  .sw:hover { border-color: var(--zaz-primary-text); }
+  /* A barra desce para a faixa de texto: no topo ela cobria justamente o chip
+     de cor, que e o que a pessoa esta olhando. Aqui embaixo, a direita esta
+     livre — o nome e o hex ficam alinhados a esquerda. */
+  .sw > .barra-copia { top: auto; bottom: 6px; right: 6px; }
+
+  /* --- Termo explicado ---------------------------------------------------
+     Palavra tecnica com a traducao em portugues comum atras. Nao e enfeite:
+     "shell", "drawer" e "eyebrow" sao jargao de quem faz interface, e quem
+     pede uma tela nao tem obrigacao de conhecer. */
+  .termo { position: relative; border-bottom: 1px dashed var(--zaz-text-subtle);
+    cursor: help; font-weight: 600; }
+  .termo::after {
+    content: attr(data-explica);
+    position: absolute; left: 0; top: calc(100% + 8px); z-index: 20;
+    width: max-content; max-width: 300px;
+    padding: var(--zaz-space-3) var(--zaz-space-4);
+    background: var(--zaz-neutral-900); color: var(--zaz-neutral-50);
+    border-radius: var(--zaz-radius-control); box-shadow: var(--zaz-shadow-lg);
+    font-size: var(--zaz-text-xs); font-weight: 400; line-height: 1.5;
+    text-transform: none; letter-spacing: 0; white-space: normal;
+    opacity: 0; pointer-events: none;
+    transition: opacity var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  .termo:hover::after, .termo:focus-visible::after { opacity: 1; }
+
+  /* Explicacao em linguagem comum, no comeco de cada secao de componente. */
+  /* Bloco de texto corrido, nao layout de colunas. Estava como `display: flex`
+     — pensado para icone + texto — e cada <b> no meio da frase virava um item
+     do flex, quebrando a explicacao em colunas verticais de uma palavra. */
+  .simples { display: block; max-width: 78ch; margin: 0 0 var(--zaz-space-6);
+    padding: var(--zaz-space-4) var(--zaz-space-5);
+    background: var(--zaz-veil); border-left: 4px solid var(--zaz-primary-text);
+    border-radius: 0 var(--zaz-radius-control) var(--zaz-radius-control) 0;
+    font-size: var(--zaz-text-sm); line-height: 1.65; color: var(--zaz-text); }
+  .simples b { font-weight: 700; color: var(--zaz-text); }
+
+  /* Botao fixo para levar o sistema inteiro a uma IA. */
+  .para-ia { position: fixed; right: var(--zaz-space-6); bottom: var(--zaz-space-6); z-index: 40;
+    display: inline-flex; align-items: center; gap: var(--zaz-space-2);
+    height: var(--zaz-control-md); padding: 0 var(--zaz-space-5);
+    background: var(--zaz-primary); color: var(--zaz-on-primary);
+    border: 0; border-radius: var(--zaz-radius-pill); box-shadow: var(--zaz-shadow-cta);
+    font-family: var(--zaz-font-sans); font-size: var(--zaz-text-sm); font-weight: 600;
+    cursor: pointer; transition: transform var(--zaz-duration-fast) var(--zaz-ease-standard); }
+  .para-ia:hover { transform: translateY(-1px); }
+  .para-ia.feito { background: var(--zaz-success); }
 
   @media (max-width: 900px) { .docs { grid-template-columns: 1fr; } .docs__nav { position: static; height: auto; } .docs__main { padding: var(--zaz-space-6); } }
 </style>
@@ -424,6 +490,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= TIPOGRAFIA ================= -->
     <section id="tipografia">
       <h2 class="sec">Tipografia</h2>
+      <p class="simples"><b>Em portugues comum:</b> os tamanhos e pesos de letra, e quando usar cada um. <b>Eyebrow</b> ("sobrancelha") e aquele rotulo pequeno em CAIXA ALTA que fica acima de um titulo. <b>Display</b> e a letra bem grande, de abertura de tela, usada uma vez so. <b>Mono</b> e a letra de largura fixa, para numeros e codigos que precisam alinhar.</p>
       <p class="lede">Inter (300–900) para tudo. JetBrains Mono para IDs de tarefa, CPFs e chaves Camunda.</p>
       <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
         <div><p class="zaz-eyebrow">Display · 4xl / 900 · uma vez por tela</p><p class="zaz-display" style="margin:var(--zaz-space-2) 0 0">Portal de Tarefas</p></div>
@@ -473,6 +540,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= BOTÕES ================= -->
     <section id="botoes">
       <h2 class="sec">Botões</h2>
+      <p class="simples"><b>Em portugues comum:</b> o que a pessoa clica para fazer algo acontecer. O <b>primario</b> e roxo cheio e existe um so por tela — e a acao principal, tipo "Entrar" ou "Salvar". O <b>secundario</b> tem so borda, para acoes que nao sao a principal. O <b>fantasma</b> nao tem nem borda, para "Cancelar" e coisas que a pessoa raramente vai querer.</p>
       <p class="lede">Title Case sempre. Um primário por área de decisão. <code class="tok">hover: -1px</code> e <code class="tok">active: scale(0.96)</code> — compacto e tátil, sem bounce.</p>
       <div class="demo">
         <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
@@ -491,6 +559,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= FORMULÁRIOS ================= -->
     <section id="formularios">
       <h2 class="sec">Formulários</h2>
+      <p class="simples"><b>Em portugues comum:</b> os campos onde a pessoa digita ou escolhe alguma coisa — caixa de texto, lista suspensa, caixinha de marcar, chave de liga e desliga. O <b>rotulo</b> e o titulo acima do campo, e ele existe para dizer o que entra ali.</p>
       <p class="lede">Rótulos explicam o contexto — <code class="tok">Identificação (CPF ou Usuário)</code>, não <code class="tok">Login</code>. O ícone acende antes da borda: é o vocabulário de foco do Apolo.</p>
       <div class="grid grid--2">
         <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
@@ -539,6 +608,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= CARDS ================= -->
     <section id="cards">
       <h2 class="sec">Cards e métricas</h2>
+      <p class="simples"><b>Em portugues comum:</b> o <b>card</b> e a caixa branca com borda que agrupa um assunto — como uma ficha sobre a mesa. A <b>metrica</b> e o numero grande com um rotulo pequeno em cima, usado em painel para mostrar quantidade.</p>
       <p class="lede">Branco sobre <code class="tok">neutral-50</code>, borda de 1px, <code class="tok">shadow-sm</code>. Sem gradiente, sem vidro. A barra roxa de 4×40px marca o título da seção — <strong>proposta deste sistema</strong>, ainda não presente no Apolo (ver <a href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">auditoria</a>).</p>
       <div class="grid grid--3">
         <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Em fila</span><strong class="zaz-metric__value">1.284</strong><span class="zaz-muted">+8% vs. semana anterior</span></div></div></div>
@@ -561,6 +631,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= STATUS ================= -->
     <section id="status">
       <h2 class="sec">Badges e status</h2>
+      <p class="simples"><b>Em portugues comum:</b> <b>badge</b> (pronuncia-se "bedj") e a etiqueta pequena e colorida que diz em que pe esta alguma coisa: "Pendencia", "Em dia", "Vencida". A cor nao e enfeite — ela carrega o significado, e por isso o mapa de estado para cor e fixo.</p>
       <p class="lede">10px, peso 700, caixa alta com tracking. O mapa de estado → tom é canônico: use <code class="tok">StatusBadge</code> em vez de escolher o tom à mão.</p>
       <div class="demo">
         <span class="zaz-badge">Em Fila</span>
@@ -581,6 +652,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= LISTAS ================= -->
     <section id="listas">
       <h2 class="sec">Tabelas e trilha lateral</h2>
+      <p class="simples"><b>Em portugues comum:</b> <b>trilha lateral</b> e aquela barrinha roxa que aparece na borda esquerda da linha quando voce passa o mouse ou seleciona. Ela marca onde voce esta sem pintar a linha inteira. E o jeito do Apolo de mostrar foco — passe o mouse nas linhas abaixo para ver.</p>
       <p class="lede">A trilha lateral é a assinatura de interação do Apolo: <code class="tok">border-left: 4px</code> transparente que vira roxo no hover e no ativo — foco sem trocar o fundo inteiro. Passe o mouse nas linhas.</p>
       <div class="zaz-card" style="overflow:hidden">
         <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div><span class="zaz-badge zaz-badge--brand">4 tarefas</span></div>
@@ -603,6 +675,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SHELL ================= -->
     <section id="shell">
       <h2 class="sec">Shell, sidebar e header</h2>
+      <p class="simples"><b>Em portugues comum:</b> e o "esqueleto" da tela, a parte que nao muda enquanto a pessoa navega. <b>Shell</b> ("casca") e esse esqueleto inteiro. <b>Sidebar</b> e a coluna de menu na esquerda. <b>Header</b> e a faixa do topo, com o titulo da tela e os botoes de acao. So o miolo troca de conteudo.</p>
       <p class="lede">Sidebar fixa de 256px, header de 64px, conteúdo com rolagem independente. Seções da sidebar são reordenáveis pelo usuário.</p>
       <div class="zaz-card" style="overflow:hidden;padding:0">
         <div style="overflow-x:auto">
@@ -651,6 +724,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SOBREPOSIÇÕES ================= -->
     <section id="sobreposicoes">
       <h2 class="sec">Modais, drawers e toasts</h2>
+      <p class="simples"><b>Em portugues comum:</b> tres jeitos de mostrar algo por cima da tela. <b>Modal</b> e a janelinha no centro que escurece o fundo e exige uma resposta antes de continuar. <b>Drawer</b> ("gaveta") desliza pela lateral e mostra detalhes sem tirar voce de onde estava. <b>Toast</b> ("torrada", porque pula como uma) e o aviso pequeno no canto que some sozinho.</p>
       <p class="lede">Modal e drawer usam raio herói de 24px e <code class="tok">shadow-lg</code>. Toast leva trilha de 4px na cor do tom — a mesma gramática da lista.</p>
       <div class="grid grid--2">
         <div class="zaz-modal" style="animation:none;max-width:none">
@@ -669,6 +743,7 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
     <!-- ================= SLIDES ================= -->
     <section id="slides">
       <h2 class="sec">Layouts de slide</h2>
+      <p class="simples"><b>Em portugues comum:</b> modelos de slide de apresentacao, do tamanho de tela cheia (1920x1080). <b>Capa</b> abre o deck, <b>secao</b> separa assuntos, <b>conteudo</b> leva texto em colunas, <b>dados</b> mostra numeros grandes, <b>divisao</b> poe texto de um lado e imagem do outro, e <b>encerramento</b> fecha. <b>Deck</b> e o conjunto de slides.</p>
       <p class="lede">1920×1080, margem de segurança de 96px, texto nunca abaixo de 24px, no máximo duas cores de fundo por deck. As amostras abaixo estão em escala real, reduzidas.</p>
       <div class="grid grid--2" id="demo-slides"></div>
     </section>
@@ -735,8 +810,12 @@ const el = (h) => { const t = document.createElement("template"); t.innerHTML = 
 const set = (id, html) => { const n = document.getElementById(id); if (n) n.replaceChildren(el(html)); };
 
 /* --- swatches --------------------------------------------------------- */
+/* data-token e data-hex carregam o que a barra de copia vai oferecer. Ficam no
+   proprio elemento, e nao numa tabela paralela em JS, para o dia em que alguem
+   acrescentar uma cor: o valor vem junto ou nao vem — nunca meio. */
 const swatch = (name, hex, note = "") => `
-  <div class="sw"><div class="sw__chip" style="background:${hex}"></div>
+  <div class="sw" data-token="${name}" data-hex="${hex}" title="Clique para copiar var(--zaz-${name})">
+  <div class="sw__chip" style="background:${hex}"></div>
   <div class="sw__meta"><span class="sw__name">${name}</span><span class="sw__hex">${hex}</span>
   ${note ? `<span class="sw__hex" style="text-transform:none">${note}</span>` : ""}</div></div>`;
 
@@ -869,19 +948,23 @@ const fit = () => document.querySelectorAll(".slide-frame").forEach((f) => {
 fit(); addEventListener("resize", fit);
 if (document.fonts) document.fonts.ready.then(fit);
 
-/* --- copiar o markup de qualquer amostra ------------------------------
-   Em vez de escrever o snippet duas vezes (uma para renderizar, outra para
-   mostrar), o botão lê o próprio HTML já renderizado. Duas cópias do mesmo
-   markup sempre divergem: alguém corrige a demo e esquece o snippet, e a
-   documentação passa a ensinar código que não é o que está na tela.
+/* --- Copiar: o que a pessoa leva daqui --------------------------------
+   Nem todo mundo vai clonar o repositorio. A maioria abre esta pagina, ve um
+   componente e quer levar aquilo para o codigo dela — ou colar num chat de IA
+   e pedir "faz uma tela assim". Entao TODA amostra oferece o que copiar, e em
+   mais de um formato, porque sao publicos diferentes: quem escreve HTML na
+   mao, quem usa Tailwind, e quem so quer o valor da cor.
 
-   Roda depois das demos serem montadas por script — por isso está no fim. */
+   O HTML sai do proprio elemento renderizado, nunca de uma copia escrita a
+   parte: duas versoes do mesmo markup sempre divergem, e a documentacao acaba
+   ensinando um codigo que nao e o que esta na tela.
+   ------------------------------------------------------------------------ */
 
 /**
  * Copia texto, com dois caminhos porque o moderno falha em casos comuns:
  * `navigator.clipboard` exige contexto seguro (https ou localhost) — abrir esta
- * página direto do disco, em file://, já derruba ele. O caminho antigo
- * (textarea invisível + execCommand) é feio, está formalmente obsoleto e
+ * pagina direto do disco, em file://, ja derruba ele. O caminho antigo
+ * (textarea invisivel + execCommand) e feio, esta formalmente obsoleto e
  * funciona em todos os navegadores atuais, inclusive em file://.
  */
 async function copiar(texto) {
@@ -891,7 +974,6 @@ async function copiar(texto) {
   } catch {
     const cx = document.createElement("textarea");
     cx.value = texto;
-    // Fora da tela, mas ainda focável: display:none não permite seleção.
     cx.style.cssText = "position:fixed;top:-1000px;opacity:0";
     document.body.appendChild(cx);
     cx.select();
@@ -902,41 +984,172 @@ async function copiar(texto) {
   }
 }
 
-/** Tira a indentação comum, que vem do lugar onde o bloco estava no arquivo. */
+/** Tira a indentacao comum, que vem de onde o bloco estava no arquivo. */
 const desindentar = (txt) => {
   const linhas = txt.replace(/\t/g, "  ").split("\n");
   while (linhas.length && !linhas[0].trim()) linhas.shift();
   while (linhas.length && !linhas.at(-1).trim()) linhas.pop();
+  if (!linhas.length) return "";
   const menor = Math.min(...linhas.filter((l) => l.trim()).map((l) => l.match(/^ */)[0].length));
   return linhas.map((l) => l.slice(menor)).join("\n");
 };
 
-for (const caixa of document.querySelectorAll(".demo, [data-copiar]")) {
-  if (caixa.querySelector(":scope > .copiar")) continue;
-  caixa.setAttribute("data-copiar", "");
-
-  const botao = document.createElement("button");
-  botao.type = "button";
-  botao.className = "copiar";
-  botao.textContent = "Copiar";
-  botao.title = "Copiar o HTML desta amostra";
-
-  botao.addEventListener("click", async () => {
-    // O próprio botão está dentro da caixa: clona e remove antes de ler,
-    // senão o usuário cola um botão "Copiar" junto com o componente.
-    const copia = caixa.cloneNode(true);
-    copia.querySelectorAll(".copiar").forEach((b) => b.remove());
+/**
+ * HTML do elemento, sem os controles que esta pagina injetou por cima dele.
+ *
+ * A busca por <code> so vale quando o proprio elemento E um bloco de codigo.
+ * Procurar <code> em qualquer amostra quebra os cards que citam classes no meio
+ * do texto com <code class="tok">: o primeiro encontrado seria um "bg-brand-600"
+ * solto, e copiar o card devolveria essa palavra em vez do markup inteiro.
+ */
+const markupDe = (elemento) => {
+  const copia = elemento.cloneNode(true);
+  copia.querySelectorAll(".barra-copia").forEach((b) => b.remove());
+  if (elemento.matches("pre, .cod")) {
     const codigo = copia.querySelector("code");
-    const texto = desindentar(codigo ? codigo.textContent : copia.innerHTML);
+    return desindentar(codigo ? codigo.textContent : copia.textContent);
+  }
+  return desindentar(copia.innerHTML);
+};
 
-    const ok = await copiar(texto);
-    botao.textContent = ok ? "Copiado" : "Falhou";
-    botao.classList.toggle("copiar--feito", ok);
-    setTimeout(() => { botao.textContent = "Copiar"; botao.classList.remove("copiar--feito"); }, 1800);
-  });
-
-  caixa.appendChild(botao);
+/** Pisca o retorno no proprio botao — sem toast, sem alerta, sem tirar o foco. */
+async function avisar(botao, texto) {
+  const rotulo = botao.dataset.rotulo || botao.textContent;
+  botao.dataset.rotulo = rotulo;
+  const ok = await copiar(texto);
+  botao.textContent = ok ? "Copiado" : "Falhou";
+  botao.classList.toggle("feito", ok);
+  setTimeout(() => { botao.textContent = rotulo; botao.classList.remove("feito"); }, 1600);
 }
+
+/**
+ * Instala a barra de copia num elemento.
+ * `formatos` e uma lista de [rotulo, funcao que devolve o texto].
+ */
+function instalarCopia(alvo, formatos) {
+  if (alvo.querySelector(":scope > .barra-copia")) return;
+  alvo.setAttribute("data-copiar", "");
+
+  const barra = document.createElement("div");
+  barra.className = "barra-copia";
+
+  for (const [rotulo, obter] of formatos) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = rotulo;
+    b.dataset.rotulo = rotulo;
+    b.title = "Copiar " + rotulo.toLowerCase();
+    b.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); avisar(b, obter()); });
+    barra.appendChild(b);
+  }
+  alvo.appendChild(barra);
+}
+
+/* Toda amostra de componente da pagina, e nao so as que estao dentro de uma
+   caixa .demo. A primeira versao disto cobria 7 secoes e deixava 10 sem nada —
+   justamente as de componente (formularios, cards, listas, shell, modais),
+   que sao as que alguem mais quer levar embora.
+
+   Um elemento so ganha barra se nenhum ancestral ja tiver ganhado: senao um
+   card dentro de um card renderiza dois botoes empilhados, e o de fora copia o
+   de dentro junto. Vence o mais externo, que e a amostra completa. */
+const SELETOR_AMOSTRA = [
+  ".demo", ".cod", "[data-amostra]",
+  ".zaz-card", ".zaz-shell", ".zaz-modal", ".zaz-drawer",
+  ".zaz-toast-stack", ".zaz-alert", ".zaz-table", ".zaz-track",
+  ".zaz-dl", ".zaz-legend", ".slide-frame",
+].join(", ");
+
+for (const caixa of document.querySelectorAll(".docs__main " + SELETOR_AMOSTRA.split(", ").join(", .docs__main "))) {
+  if (caixa.parentElement && caixa.parentElement.closest("[data-copiar]")) continue;
+  instalarCopia(caixa, [["HTML", () => markupDe(caixa)]]);
+}
+
+/* Swatches de cor: tres formatos, porque a mesma cor e pedida de tres jeitos
+   diferentes dependendo de como a pessoa escreve interface. */
+for (const sw of document.querySelectorAll(".sw[data-token]")) {
+  const token = sw.dataset.token;
+  const hex = sw.dataset.hex;
+  instalarCopia(sw, [
+    ["Token", () => "var(--zaz-" + token + ")"],
+    ["Hex", () => hex],
+    ["Tailwind", () => "bg-" + token],
+  ]);
+  // A amostra inteira e clicavel: o alvo natural do clique num quadrado de cor
+  // e o quadrado. Clique no meio copia o token, que e o uso recomendado.
+  sw.addEventListener("click", (e) => {
+    if (e.target.closest(".barra-copia")) return;
+    const botao = sw.querySelector(".barra-copia button");
+    if (botao) avisar(botao, "var(--zaz-" + token + ")");
+  });
+}
+
+/* --- Levar o sistema inteiro para uma IA -------------------------------
+   O caso que copiar peca por peca nao resolve: a pessoa quer uma tela nova e
+   vai pedir para uma IA. Sem contexto, a IA inventa um roxo qualquer e um raio
+   qualquer. Com este texto colado antes do pedido, ela segue as regras da ZAZ.
+
+   Os valores sao lidos dos tokens em tempo de execucao, e nao escritos a mao
+   aqui, para o guia nao virar mais uma copia que envelhece sozinha. */
+function guiaParaIA() {
+  const v = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  return [
+    "Siga o ZAZ Apolo Design System nas telas, componentes e slides que voce gerar.",
+    "",
+    "CSS pronto (uma linha, sem build):",
+    '<link rel="stylesheet" href="https://apolo.zaz.vc/design-system/css/zaz.css">',
+    '<body class="zaz-root">',
+    "Documentacao: https://apolo.zaz.vc/design-system/docs/",
+    "",
+    "REGRAS QUE NAO SE NEGOCIAM",
+    "1. Nunca escreva um hexadecimal. Use os tokens CSS: var(--zaz-*).",
+    "2. Marca como FUNDO e var(--zaz-primary); marca como TEXTO, icone ou borda",
+    "   e var(--zaz-primary-text). No tema claro sao iguais; no escuro o texto",
+    "   clareia para #a78bfa. Trocar um pelo outro apaga o texto no tema escuro.",
+    "3. Neutros so da escala slate (--zaz-neutral-50 a 950). Nenhum cinza fora dela.",
+    "4. Status sempre em trio: fundo *-bg, texto *-fg, borda *-border. A cor cheia",
+    "   (--zaz-danger, --zaz-success...) so em ponto, icone ou barra fina.",
+    "5. Portugues (pt-BR) sempre. Sem emoji. Title Case em botao e navegacao,",
+    "   CAIXA ALTA com letter-spacing em rotulo, sentence case em texto corrido.",
+    "",
+    "VALORES",
+    "Primaria " + v("--zaz-brand-600") + " | hover claro " + v("--zaz-brand-700") + " | hover escuro " + v("--zaz-brand-500"),
+    "Fonte: Inter (texto), JetBrains Mono (IDs, CPF, chaves Camunda).",
+    "Grade de 4px. Raios: 6 (sm), 8 (md), 12 (control: botao/input/badge),",
+    "16 (card: o padrao), 24 (hero: um por tela), 9999 (pill).",
+    "Alturas de controle: 32 / 40 / 56px. Sidebar 256px, header 64px.",
+    "",
+    "CLASSES PRONTAS",
+    "Acao: .zaz-btn + .zaz-btn--primary | --secondary | --ghost | --danger,",
+    "      tamanhos --sm | --lg",
+    "Campo: .zaz-field .zaz-label .zaz-input .zaz-select .zaz-textarea .zaz-check .zaz-switch",
+    "Conteiner: .zaz-card + __header __body __footer, .zaz-metric, .zaz-section-heading",
+    "Status: .zaz-badge (--danger --warning --success --info --brand), .zaz-alert, .zaz-live-dot",
+    "Dados: .zaz-table, .zaz-track + .zaz-track__row, .zaz-dl, .zaz-legend, .zaz-bar-track",
+    "Estrutura: .zaz-shell .zaz-sidebar .zaz-header .zaz-main .zaz-nav-item .zaz-avatar",
+    "Sobreposicao: .zaz-overlay .zaz-modal .zaz-drawer .zaz-toast",
+    "Slide 1920x1080: .zaz-slide + --cover --section --content --data --split --closing",
+    "",
+    "ASSINATURA VISUAL",
+    "Linha de lista usa border-left de 4px transparente que vira roxo no hover e",
+    "no estado ativo (aria-current). O icone dentro de um campo acende antes da",
+    "borda, em :focus-within. Botao sobe 1px no hover e encolhe para 0.96 no",
+    "clique. Tema escuro pela classe .dark no elemento raiz, nunca por media query.",
+  ].join("\n");
+}
+
+const botaoIA = document.createElement("button");
+botaoIA.type = "button";
+botaoIA.className = "para-ia";
+botaoIA.textContent = "Copiar guia para IA";
+botaoIA.title = "Copia as regras do sistema para colar num chat de IA antes do seu pedido";
+botaoIA.addEventListener("click", async () => {
+  const ok = await copiar(guiaParaIA());
+  botaoIA.textContent = ok ? "Copiado — cole no chat" : "Falhou";
+  botaoIA.classList.toggle("feito", ok);
+  setTimeout(() => { botaoIA.textContent = "Copiar guia para IA"; botaoIA.classList.remove("feito"); }, 2600);
+});
+document.body.appendChild(botaoIA);
 
 /* --- navegacao que segue o scroll --------------------------------------
    IntersectionObserver, nao evento de scroll: o observer so dispara quando uma
