@@ -1,6 +1,7 @@
 # Auditoria — Design System × Apolo em produção
 
-Data: **20 de agosto de 2026**
+Levantamento original: **20 de agosto de 2026**
+Revisto em: **21 de agosto de 2026**, após o realinhamento ao Manual de identidade
 Fonte comparada: `zaz-tasklist/components/*.tsx` (46 componentes) + `zaz-tasklist/index.html`, branch `main`.
 
 Um design system que descreve uma tela imaginária é pior que nenhum: ele fabrica
@@ -9,18 +10,45 @@ diferente do produto que ela deveria imitar. Este documento é a prova de que
 cada regra do sistema foi conferida contra o código que está no ar — e a lista
 honesta do que **não** bateu.
 
-Método: contagem de ocorrências reais no código (`grep`), não leitura de
-mockup. Onde há divergência, vence o que está em produção, salvo quando o valor
-de produção reprova em acessibilidade — esses casos estão marcados e explicados.
+Método: contagem de ocorrências reais no código (`grep`), não leitura de mockup.
+
+---
+
+## 0. Leia isto primeiro: o sistema agora diverge do produto **de propósito**
+
+Até 20 de agosto, este documento provava uma coisa simples: o sistema descrevia o
+Apolo. Todo valor tinha sido extraído do produto.
+
+Em 21 de agosto o sistema foi **realinhado ao Manual de identidade da ZAZ**. Isso
+inverteu a relação em dois pontos — e é uma decisão deliberada, não um erro:
+
+| | Apolo em produção | Sistema, a partir de agora | Origem |
+|---|---|---|---|
+| Primária | `#591da9` (361 usos) | **`#5c229c`** | Roxo ZAZ oficial: Pantone P 96-8 C, CMYK 72/88/0/0 |
+| Hover | `#4a168c` | `#4c1c83` | derivado da nova primária |
+| Corpo | Inter | **Nunito Sans** | o manual indica textualmente para "textos corridos e interfaces" |
+| Títulos | Inter | **Nunito** | tipografia principal do manual |
+| Secundária | — | verde `#77bc00` | CMYK 60/0/100/0 |
+
+**A regra prática:** em tela **nova**, use os valores do sistema. Dentro do Apolo
+existente, `#591da9` segue no ar em centenas de lugares — trocar isso é migração,
+com decisão e teste próprios, não conserto de auditoria.
+
+O que **não** mudou, e por isso continua valendo como descrição fiel do produto:
+a escala neutra (slate), todos os raios, todas as medidas de layout, a mecânica
+de tema e a gramática de interação. É a maior parte do sistema.
+
+---
 
 ---
 
 ## 1. Confirmado — o sistema descreve o produto
 
+> Cor de marca e tipografia **saíram desta tabela** em 21/08: não são mais
+> descrição do produto, e sim a decisão do Manual de identidade. Ver a seção 0.
+
 | Regra do sistema | Evidência em produção |
 |---|---|
-| `brand-600` = `#591da9` é a primária | **361** ocorrências; nenhum outro roxo chega perto |
-| `brand-700` = `#4a168c` é o hover | **32** ocorrências |
 | Escala neutra é slate, e só ela | `bg-slate-50 dark:bg-slate-950` no `<body>`; nenhum gray/zinc/stone |
 | `radius-control` = 12px | `rounded-xl`, **1140** ocorrências — o raio mais usado do produto |
 | `radius-card` = 16px | `rounded-2xl`, **803** |
@@ -31,9 +59,10 @@ de produção reprova em acessibilidade — esses casos estão marcados e explic
 | `control-lg` = 3.5rem | `h-14`, **51** ocorrências, todas em campo de formulário |
 | Trilha lateral de 4px | `border-l-4`, **15** ocorrências |
 | Tema por classe, não por media query | `darkMode: 'class'` + classe aplicada antes do paint |
-| Inter 300–900 | `<link>` do Google Fonts no `index.html` |
 
-Treze regras conferidas, treze batendo. A base do sistema é sólida.
+Dez regras conferidas, dez batendo — estas continuam sendo descrição fiel do que
+está no ar. As três que saíram (primária, hover e tipografia) não falharam: foram
+substituídas por decisão de marca, e estão explicadas na seção 0.
 
 ---
 
@@ -151,12 +180,38 @@ O produto é integralmente em português e declara inglês. Isso muda hifenizaç
 corretor ortográfico e a pronúncia de leitor de tela. Correção de uma linha em
 `zaz-tasklist/index.html`, fora do escopo deste pacote.
 
-### 3.5 Divergência de roxo do logo — continua aberta
+### 3.5 Títulos sem acento dentro do próprio produto
 
-O arquivo de logo usa `#6a1ca0`; a interface usa `#591da9`. Os dois seguem
-registrados e separados (`brand-logo` × `brand-600`), à espera do time de marca.
-Quando a decisão sair, um dos dois some e a escala inteira é rederivada a partir
-do vencedor.
+Vários cabeçalhos do Apolo estão escritos sem acentuação: `Configuracoes`,
+`Depuracao em Massa`, `Validacao Semanal`, `Seguranca`, `Relatorios`.
+
+A seção de Conteúdo e voz deste sistema manda "acentuação completa, sempre;
+nunca ASCII". O produto quebra a regra na própria interface, à vista do usuário.
+Correção barata e sem risco visual — mas é edição de texto em vários arquivos,
+então vale uma tarefa própria.
+
+### 3.6 Emoji em produção, contra a regra explícita
+
+`MinhaAgendaView.tsx` usa 👋 no título e 🎉 no estado vazio; `PendenciaBell.tsx`
+usa 🎉. O sistema diz **sem emoji, em nenhum lugar** — e a razão não é gosto: o
+emoji renderiza diferente em cada sistema operacional, não tem equivalente em
+leitor de tela e destoa do tom institucional que o resto do produto mantém.
+
+Três ocorrências, três remoções. É a divergência mais barata da lista.
+
+### 3.7 Roxo do logo — **resolvida**
+
+Ficava aberta desde o primeiro levantamento: o arquivo de logo usava `#6a1ca0`,
+a interface usava `#591da9`, e os dois seguiam registrados lado a lado
+(`brand-logo` × `brand-600`) à espera do time de marca.
+
+**A decisão saiu.** O Manual de identidade define o Roxo ZAZ em `#5c229c`
+(Pantone P 96-8 C). Nenhum dos dois candidatos venceu — o valor oficial é um
+terceiro. O token `brand-logo` foi removido e a escala inteira foi rederivada a
+partir de `#5c229c`.
+
+Fica o trabalho do outro lado: o Apolo em produção continua com `#591da9` em
+361 lugares. Migração, com decisão e teste próprios.
 
 ---
 

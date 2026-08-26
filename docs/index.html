@@ -39,6 +39,24 @@
     border-left-color: var(--zaz-primary-text); font-weight: 600; }
   .docs__nav strong { padding: var(--zaz-space-5) var(--zaz-space-3) var(--zaz-space-1); }
 
+  /* --- Busca -------------------------------------------------------------
+     Some da navegação o que não casa e esconde as seções sem acerto, para a
+     rolagem passar a valer só o que sobrou. Sem índice e sem biblioteca: o
+     texto da página já está no DOM, e ler textContent de 18 seções é instantâneo.
+     Os termos ficam num data-busca por seção — assim "toast" acha a seção de
+     Sobreposições, cujo título não tem essa palavra. */
+  .busca { padding: 0 var(--zaz-space-3) var(--zaz-space-2); }
+  .busca input { width: 100%; }
+  .busca__contagem { margin: var(--zaz-space-2) 0 0; font-size: var(--zaz-text-xs); color: var(--zaz-text-muted); min-height: 1em; }
+  .docs__nav a[hidden], .docs__nav strong[hidden] { display: none; }
+  /* [hidden] sozinho perde para o `display` que a seção já tem — daí o !important
+     implícito de uma regra mais específica: sem ela a seção "escondida" continua
+     ocupando a página inteira. */
+  section[id][hidden] { display: none; }
+  /* Buscando, a capa sai da frente: ela tem altura de tela cheia, e com ela no
+     topo o primeiro resultado nasceria abaixo da dobra. */
+  body.buscando .capa { display: none; }
+
   /* O conteudo respira ate 1320px e fica CENTRADO na coluna. Antes travava em
      1100px alinhado a esquerda: numa tela de 2133px sobravam 777px de vazio de
      um lado so, e a pagina parecia desmontada. */
@@ -64,6 +82,50 @@
     margin: 0 0 var(--zaz-space-8); line-height: 1.6; }
   h3.sub { font-size: var(--zaz-text-xl); font-weight: 700; letter-spacing: var(--zaz-tracking-tight);
     margin: var(--zaz-space-12) 0 var(--zaz-space-4); }
+
+  /* --- Anatomia de seção (do handoff de design) --------------------------
+     Quatro peças fixas, na mesma ordem em toda seção: por que existe →
+     exemplos ao vivo → regras para IA → de onde veio. A repetição é o ponto:
+     quem leu uma seção sabe onde procurar em qualquer outra. */
+
+  /* "Por que existe" — o parágrafo que serve a quem não é de tecnologia. */
+  .porque { max-width: 68ch; font-size: var(--zaz-text-base); line-height: 1.65;
+    color: var(--zaz-text-muted); margin: 0 0 var(--zaz-space-6); }
+  .porque strong:first-child { color: var(--zaz-text); }
+
+  /* Bloco de regras para IA. Fundo escuro nos DOIS temas de propósito: é um
+     bloco de texto para copiar, não interface — e a mudança de superfície é o
+     que faz o olho pular direto para ele ao percorrer a página. */
+  .ia { margin-top: var(--zaz-space-8); border-radius: var(--zaz-radius-card);
+    background: var(--zaz-neutral-900); border: 1px solid var(--zaz-neutral-800); overflow: hidden; }
+  .ia__topo { display: flex; align-items: center; justify-content: space-between; gap: var(--zaz-space-4);
+    padding: var(--zaz-space-3) var(--zaz-space-4); border-bottom: 1px solid var(--zaz-neutral-800); }
+  .ia__topo span { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+    letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-neutral-400); }
+  .ia__copiar { background: var(--zaz-neutral-800); color: var(--zaz-neutral-200);
+    border: 1px solid var(--zaz-neutral-700); border-radius: var(--zaz-radius-control);
+    padding: var(--zaz-space-1) var(--zaz-space-3); font: inherit; font-size: var(--zaz-text-xs);
+    font-weight: 600; cursor: pointer; }
+  .ia__copiar:hover { background: var(--zaz-neutral-700); }
+  .ia pre { margin: 0; padding: var(--zaz-space-4); overflow-x: auto;
+    font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); line-height: 1.6;
+    color: var(--zaz-neutral-300); white-space: pre-wrap; }
+
+  /* Rodapé de origem: de qual arquivo do produto o valor foi lido. É o que
+     separa este documento de uma proposta — cada número tem procedência. */
+  .fonte { margin-top: var(--zaz-space-4); font-size: var(--zaz-text-xs);
+    color: var(--zaz-text-subtle); }
+  .fonte code { font-family: var(--zaz-font-mono); }
+
+  /* Moldura de tela: a recriação roda em tamanho real e é reduzida por
+     `scale`. Encolher os valores à mão faria a tela documentada divergir da
+     real — aqui ela É a real, só menor. */
+  .moldura { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card);
+    overflow: hidden; background: var(--zaz-bg-inset);
+    /* Largura da caixa = largura real x escala. Sem isso a caixa ocupa a coluna
+       inteira e sobra um vazio à direita do tamanho da diferença. */
+    width: 600px; max-width: 100%; }
+  .moldura > div { transform-origin: top left; }
 
   /* --- Grades ------------------------------------------------------------
      Colunas FIXAS por faixa, nao auto-fit. Com auto-fit, 4 cards numa largura
@@ -282,8 +344,16 @@
       <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:24px;width:auto">
       <span style="font-weight:800;letter-spacing:var(--zaz-tracking-tight)">Design System</span>
     </div>
+    <!-- Busca. Filtra a própria navegação e as seções: com 18 seções numa
+         página só, rolar até achar "toast" era o custo real de usar esta doc. -->
+    <div class="busca">
+      <input id="busca" type="search" class="zaz-input" placeholder="Buscar   /"
+             autocomplete="off" aria-label="Buscar na documentação" aria-describedby="busca-contagem">
+      <p id="busca-contagem" class="busca__contagem" role="status" aria-live="polite"></p>
+    </div>
     <strong class="zaz-eyebrow">Começar</strong>
     <a href="#usar">Como consumir</a>
+    <a href="#regra-de-ouro">A regra de ouro</a>
     <a href="#modelos">Modelos prontos</a>
     <strong class="zaz-eyebrow">Fundamentos</strong>
     <a href="#cores">Cores</a>
@@ -291,18 +361,29 @@
     <a href="#dados">Cores de dados</a>
     <a href="#tipografia">Tipografia</a>
     <a href="#espaco">Espaço, raios, sombras</a>
+    <a href="#tema">Tema claro e escuro</a>
+    <a href="#icones">Ícones e movimento</a>
+    <strong class="zaz-eyebrow">Estrutura</strong>
+    <a href="#shell">Shell: sidebar + header</a>
+    <a href="#sidebar-item">SidebarItem e seções</a>
+    <a href="#area-switcher">AreaSwitcher e áreas</a>
     <strong class="zaz-eyebrow">Componentes</strong>
     <a href="#botoes">Botões</a>
     <a href="#formularios">Formulários</a>
     <a href="#cards">Cards e métricas</a>
     <a href="#status">Badges e status</a>
     <a href="#listas">Tabelas e trilha lateral</a>
-    <a href="#shell">Shell, sidebar, header</a>
     <a href="#sobreposicoes">Modais, drawers, toasts</a>
-    <strong class="zaz-eyebrow">Aplicação</strong>
+    <strong class="zaz-eyebrow">Marca</strong>
+    <a href="#assets">Logo e mascote</a>
     <a href="#slides">Layouts de slide</a>
     <a href="#voz">Conteúdo e voz</a>
-    <a href="#assets">Assets</a>
+    <strong class="zaz-eyebrow">Telas reais</strong>
+    <a href="#tela-login">Login</a>
+    <a href="#tela-splash">Splash</a>
+    <a href="#tela-agenda">Minha Agenda</a>
+    <strong class="zaz-eyebrow">Adoção</strong>
+    <a href="#divergencias">Divergências abertas</a>
     <div style="margin-top:auto;padding-top:var(--zaz-space-6)">
       <button class="zaz-btn zaz-btn--secondary zaz-btn--sm zaz-btn--block" id="theme">Alternar tema</button>
     </div>
@@ -329,8 +410,8 @@
       </p>
 
       <dl class="ficha">
-        <div><dt>Primária</dt><dd class="ficha__cor">#591da9</dd></div>
-        <div><dt>Tipo</dt><dd>Inter</dd></div>
+        <div><dt>Primária</dt><dd class="ficha__cor">#5c229c</dd></div>
+        <div><dt>Tipo</dt><dd>Nunito</dd></div>
         <div><dt>Grade</dt><dd>4px</dd></div>
         <div><dt>Idioma</dt><dd>pt-BR</dd></div>
       </dl>
@@ -375,7 +456,61 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </div>
     </section>
 
-    <!-- ================= MODELOS ================= -->
+    <!-- ================= REGRA DE OURO ================= -->
+    <section id="regra-de-ouro">
+      <h2 class="sec">A regra de ouro: fundo × texto</h2>
+      <p class="porque"><strong>Por que existe.</strong> É o erro que mais aparece quando alguém monta uma tela nova, e o único deste documento que merece uma seção só para ele. O roxo da marca tem <strong>dois</strong> papéis, não um: pintar o fundo de uma ação e pintar um texto. No tema claro os dois valem a mesma coisa e a distinção parece burocracia — ela existe por causa do tema escuro, onde usar um no lugar do outro apaga o texto da tela.</p>
+
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">Fundo — <code class="tok">--zaz-primary</code></p>
+          <p class="zaz-muted" style="margin:0">Continua <code class="tok">#5c229c</code> no escuro. Com branco em cima dá 9,7:1.</p>
+          <div style="display:flex;gap:var(--zaz-space-3);flex-wrap:wrap;margin-top:var(--zaz-space-2)">
+            <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Botão primário</button>
+            <span class="zaz-live-dot" style="align-self:center"></span>
+            <span class="zaz-bar-track" style="flex:1;min-width:100px;align-self:center"><span class="zaz-bar-fill" style="width:64%"></span></span>
+          </div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <p class="zaz-eyebrow">Texto — <code class="tok">--zaz-primary-text</code></p>
+          <p class="zaz-muted" style="margin:0">Clareia para <code class="tok">brand-300</code> no escuro: 7,2:1, contra os 3,0:1 que a primária daria como texto.</p>
+          <div style="display:flex;gap:var(--zaz-space-4);flex-wrap:wrap;align-items:center;margin-top:var(--zaz-space-2)">
+            <a href="#cores" style="font-weight:600">Link de marca</a>
+            <span style="color:var(--zaz-primary-text);font-weight:700">Título em hover</span>
+            <span class="zaz-badge zaz-badge--brand">Badge</span>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-4)">
+        <div>
+          <p class="zaz-alert__title">Alterne o tema (botão no rodapé da navegação) e compare.</p>
+          <p>Usar o token errado não quebra build, não estoura teste e não aparece em revisão de código — só apaga o texto no tema escuro até ninguém conseguir ler. Foi exatamente o que a auditoria encontrou na primeira versão deste sistema.</p>
+        </div>
+      </div>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>Roxo de marca tem dois papéis. Não os troque.
+
+FUNDO de ação (botão, barra, ponto, avatar):
+  var(--zaz-primary) nos dois temas.
+  Hover: var(--zaz-primary-hover). Texto em cima: var(--zaz-on-primary).
+
+TEXTO, ÍCONE ou BORDA de marca:
+  var(--zaz-primary-text) — ele já muda sozinho no tema escuro.
+
+Motivo: o roxo de fundo usado como TEXTO sobre superfície escura dá 2,7:1,
+abaixo do mínimo WCAG de 4,5:1. O primary-text clareia para brand-300 no
+escuro e dá 6,7:1. Como fundo, com branco em cima, dá 9,7:1.
+
+Em Tailwind, sem os tokens, o par é sempre escrito junto:
+  text-[#5c229c] dark:text-[#a78bfa]
+Nunca só a primeira metade.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>css/tokens.css</code>, <code>AUDITORIA.md</code>, <code>ui/SidebarItem.tsx</code>.</p>
+    </section>
+
     <section id="modelos">
       <h2 class="sec">Modelos prontos</h2>
       <p class="lede">Nem tudo que leva o nome ZAZ é aplicação. Cada modelo abaixo é um arquivo completo: abra, apague o conteúdo, escreva o seu.</p>
@@ -409,10 +544,9 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </div>
     </section>
 
-    <!-- ================= CORES ================= -->
     <section id="cores">
       <h2 class="sec">Cores</h2>
-      <p class="lede">O roxo <code class="tok">#591da9</code> é a cor institucional ZAZ. Os neutros vêm todos da escala slate — nenhum cinza fora dela.</p>
+      <p class="lede">O <strong>Manual de identidade da marca ZAZ 2022</strong> define três cores primárias: o Roxo ZAZ <code class="tok">#5c229c</code>, o branco e o Verde ZAZ <code class="tok">#a8d812</code> — com o roxo sempre como protagonista. Os neutros vêm todos da escala slate; nenhum cinza fora dela.</p>
 
       <h3 class="sub">Marca</h3>
       <div class="grid grid--sw" id="sw-brand"></div>
@@ -423,32 +557,24 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
         <dt>50/100</dt><dd>Fundo de estado ativo, badge de marca, sombra de foco.</dd>
       </dl>
 
-      <h3 class="sub">Marca como fundo × marca como texto</h3>
-      <p class="lede">A regra que mais dá errado quando alguém monta uma tela nova. São <strong>dois</strong> papéis, não um. No tema claro eles têm o mesmo valor e a distinção parece inútil — ela existe por causa do escuro.</p>
-      <div class="grid grid--2">
-        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
-          <p class="zaz-eyebrow">Fundo — <code class="tok">--zaz-primary</code></p>
-          <p class="zaz-muted" style="margin:0">Continua <code class="tok">#591da9</code> no escuro. Com branco em cima dá 9,7:1.</p>
-          <div style="display:flex;gap:var(--zaz-space-3);flex-wrap:wrap;margin-top:var(--zaz-space-2)">
-            <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Botão primário</button>
-            <span class="zaz-live-dot" style="align-self:center"></span>
-            <span class="zaz-bar-track" style="flex:1;min-width:100px;align-self:center"><span class="zaz-bar-fill" style="width:64%"></span></span>
-          </div>
-        </div></div>
-        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
-          <p class="zaz-eyebrow">Texto — <code class="tok">--zaz-primary-text</code></p>
-          <p class="zaz-muted" style="margin:0">Clareia para <code class="tok">#a78bfa</code> no escuro: 6,7:1 contra os 2,7:1 do roxo de fundo.</p>
-          <div style="display:flex;gap:var(--zaz-space-4);flex-wrap:wrap;align-items:center;margin-top:var(--zaz-space-2)">
-            <a href="#cores" style="font-weight:600">Link de marca</a>
-            <span style="color:var(--zaz-primary-text);font-weight:700">Título em hover</span>
-            <span class="zaz-badge zaz-badge--brand">Badge</span>
-          </div>
-        </div></div>
-      </div>
-      <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-4)">
-        <div>
-          <p class="zaz-alert__title">Alterne o tema (botão no rodapé da navegação) e compare.</p>
-          <p>Usar o token errado não quebra nada e não estoura teste nenhum — só apaga o texto no tema escuro até ninguém conseguir ler. Foi exatamente o que a auditoria encontrou na primeira versão deste sistema.</p>
+      <h3 class="sub">Verde ZAZ — a segunda primária</h3>
+      <p class="lede">O manual coloca o Verde ZAZ <code class="tok">#a8d812</code> ao lado do roxo e do branco como cor primária. Na interface ele é <strong>acento e superfície</strong>, nunca ação: sobre branco ele dá <strong>1,68:1</strong>, e não existe texto que passe em cima dele. Quatro degraus da escala são cores oficiais do manual; o resto sai da interpolação entre elas.</p>
+      <div class="grid grid--sw" id="sw-accent"></div>
+      <dl class="rule">
+        <dt>300</dt><dd>O Verde ZAZ. Ponto, barra de dado, borda de destaque, marcador — nunca fundo de botão, nunca texto.</dd>
+        <dt>700</dt><dd>Verde como <strong>texto</strong> sobre fundo claro: 6,5:1. O 600 dá 3,8:1 e só passa em texto grande.</dd>
+        <dt>100/200</dt><dd>Superfície e borda do bloco de destaque.</dd>
+        <dt>800</dt><dd>Verde escuro do manual — texto sobre a superfície verde, 9,7:1.</dd>
+      </dl>
+      <div class="demo demo--col" style="gap:var(--zaz-space-4);margin-top:var(--zaz-space-4)">
+        <div class="zaz-highlight">
+          <div class="zaz-highlight__title">Bloco de destaque</div>
+          <p style="margin:0">O uso de superfície do verde: fundo <code class="tok">--zaz-accent-surface</code>, barra lateral no Verde ZAZ puro. A barra carrega a cor sem precisar carregar texto — que é a única condição em que <code class="tok">#a8d812</code> funciona.</p>
+        </div>
+        <div style="display:flex;gap:var(--zaz-space-3);flex-wrap:wrap;align-items:center">
+          <span class="zaz-badge zaz-badge--accent">Novidade</span>
+          <span class="zaz-badge zaz-badge--success">Concluído</span>
+          <span class="zaz-muted" style="margin:0">O verde de marca à esquerda não é o verde de <em>sucesso</em> à direita — um é identidade, o outro é status. Misturar os dois faz a marca virar semáforo.</span>
         </div>
       </div>
 
@@ -483,18 +609,20 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       <div class="grid grid--3" style="margin-top:var(--zaz-space-4)" id="sw-status"></div>
 
       <h3 class="sub">Acentos de área</h3>
-      <p class="zaz-muted">Cada área do Apolo tem um acento que colore <em>apenas</em> sua pílula no AreaSwitcher. Nunca o corpo da tela.</p>
+      <p class="zaz-muted">São <strong>oito áreas</strong>, nesta ordem. No AreaSwitcher a cor vive no <strong>ponto</strong> da opção — que é fundo — e no marcador da área ativa. Nunca no texto do rótulo, nunca no corpo da tela. Áreas vindas do banco entram depois destas.</p>
+      <p class="zaz-muted" style="margin-top:var(--zaz-space-2)">Ícone lucide de cada uma: <code class="tok">briefcase</code> · <code class="tok">users</code> · <code class="tok">user-cog</code> · <code class="tok">megaphone</code> · <code class="tok">headphones</code> · <code class="tok">shield-alert</code> · <code class="tok">calendar</code> · <code class="tok">wallet</code>.</p>
       <div class="demo" style="margin-top:var(--zaz-space-4)">
         <button class="zaz-area-pill" data-area="tasklist">Tasklist</button>
         <button class="zaz-area-pill" data-area="rh">RH</button>
         <button class="zaz-area-pill" data-area="gestor">Gestor</button>
         <button class="zaz-area-pill" data-area="promotor">Promotor</button>
         <button class="zaz-area-pill" data-area="suporte-vero">Suporte VERO</button>
+        <button class="zaz-area-pill" data-area="antifraude">Antifraude</button>
         <button class="zaz-area-pill" data-area="agenda">Agenda</button>
+        <button class="zaz-area-pill" data-area="financeiro">Financeiro</button>
       </div>
     </section>
 
-    <!-- ================= MARCAS ================= -->
     <section id="marcas">
       <h2 class="sec">Marcas parceiras</h2>
       <p class="lede">Estas cores são de <strong>identificação interna</strong> dentro de produtos ZAZ. Não são a marca do parceiro e não substituem o manual de marca dele.</p>
@@ -525,7 +653,6 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       <div class="demo" style="margin-top:var(--zaz-space-4)" id="demo-brands"></div>
     </section>
 
-    <!-- ================= DADOS ================= -->
     <section id="dados">
       <h2 class="sec">Cores de dados</h2>
       <p class="lede">Categórica de 8 posições, usada <strong>na ordem</strong> — a série 1 é sempre o roxo de marca. Acima de 8 séries, agrupe em "Outros".</p>
@@ -544,18 +671,22 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </div>
     </section>
 
-    <!-- ================= TIPOGRAFIA ================= -->
     <section id="tipografia">
       <h2 class="sec">Tipografia</h2>
       <p class="simples"><b>Em português comum:</b> os tamanhos e pesos de letra, e quando usar cada um. <b>Eyebrow</b> ("sobrancelha") é aquele rótulo pequeno em CAIXA ALTA que fica acima de um título. <b>Display</b> é a letra bem grande, de abertura de tela, usada uma vez só. <b>Mono</b> é a letra de largura fixa, para números e códigos que precisam alinhar.</p>
-      <p class="lede">Inter (300–900) para tudo. JetBrains Mono para IDs de tarefa, CPFs e chaves Camunda.</p>
+      <p class="lede">Três famílias, e a divisão é do manual de marca: <strong>Nunito</strong> nos títulos, <strong>Nunito Sans</strong> no corpo e na interface — o manual a indica textualmente para "textos corridos e interfaces" —, e <strong>Gochi Hand</strong> como assinatura manuscrita, de uso restrito. JetBrains Mono continua nos IDs de tarefa, CPFs e chaves Camunda, onde o dígito precisa alinhar.</p>
       <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
         <div><p class="zaz-eyebrow">Display · 4xl / 900 · uma vez por tela</p><p class="zaz-display" style="margin:var(--zaz-space-2) 0 0">Portal de Tarefas</p></div>
         <div><p class="zaz-eyebrow">Título de tela · 2xl / 800</p><p class="zaz-h1" style="margin:var(--zaz-space-2) 0 0">Caixa de Entrada</p></div>
         <div><p class="zaz-eyebrow">Título de card · xl / 700</p><p class="zaz-h2" style="margin:var(--zaz-space-2) 0 0">Filtros Avançados</p></div>
         <div><p class="zaz-eyebrow">Corpo · sm / 400 · padrão em produto</p><p class="zaz-body" style="margin:var(--zaz-space-2) 0 0;max-width:60ch">Gestão inteligente de processos. O corpo padrão é 14px porque o Apolo é um console operacional denso — telas com dezenas de filas visíveis ao mesmo tempo.</p></div>
         <div><p class="zaz-eyebrow">Eyebrow · xs / 700 / caixa alta com tracking</p><p class="zaz-eyebrow" style="margin:var(--zaz-space-2) 0 0">Identificação (CPF ou Usuário)</p></div>
+        <div><p class="zaz-eyebrow">Manuscrita · Gochi Hand · citação e destaque</p><p class="zaz-hand" style="margin:var(--zaz-space-2) 0 0;font-size:var(--zaz-text-2xl);color:var(--zaz-primary-text)">Primeira salestech brasileira</p></div>
         <div><p class="zaz-eyebrow">Mono · xs</p><p class="zaz-mono" style="margin:var(--zaz-space-2) 0 0">TSK-8842-CRED · 000.000.000-00</p></div>
+      </div></div>
+      <div class="zaz-alert zaz-alert--danger" style="margin-top:var(--zaz-space-6)"><div>
+        <p class="zaz-alert__title">A Gochi Hand tem limite</p>
+        <p style="margin:var(--zaz-space-1) 0 0">O manual pede uso <strong>muito restrito</strong>: uma citação, uma palavra sublinhada de destaque, a assinatura de um título curto. Nunca em interface, nunca em bloco de texto, nunca em algo que alguém precise ler rápido. E o nome da empresa é sempre <strong>ZAZ</strong>, em caixa alta.</p>
       </div></div>
       <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-6)"><div>
         <p class="zaz-alert__title">Mínimos por meio</p>
@@ -563,7 +694,6 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </div></div>
     </section>
 
-    <!-- ================= ESPAÇO ================= -->
     <section id="espaco">
       <h2 class="sec">Espaço, raios e sombras</h2>
       <p class="lede">Grade de 4px. Os raios são a assinatura do sistema — errar o raio é o jeito mais rápido de algo não parecer ZAZ.</p>
@@ -594,142 +724,141 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       <div class="demo demo--col" style="gap:var(--zaz-space-2)" id="demo-space"></div>
     </section>
 
-    <!-- ================= BOTÕES ================= -->
-    <section id="botoes">
-      <h2 class="sec">Botões</h2>
-      <p class="simples"><b>Em português comum:</b> o que a pessoa clica para fazer algo acontecer. O <b>primário</b> é roxo cheio e existe um só por tela — é a ação principal, tipo "Entrar" ou "Salvar". O <b>secundário</b> tem só borda, para ações que não são a principal. O <b>fantasma</b> não tem nem borda, para "Cancelar" e coisas que a pessoa raramente vai querer.</p>
-      <p class="lede">Title Case sempre. Um primário por área de decisão. <code class="tok">hover: -1px</code> e <code class="tok">active: scale(0.96)</code> — compacto e tátil, sem bounce.</p>
-      <div class="demo">
-        <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
-        <button class="zaz-btn zaz-btn--secondary">Filtros Avançados</button>
-        <button class="zaz-btn zaz-btn--ghost">Cancelar</button>
-        <button class="zaz-btn zaz-btn--danger">Suspender Tarefa</button>
-        <button class="zaz-btn zaz-btn--primary" disabled>Validando...</button>
-      </div>
-      <div class="demo" style="margin-top:var(--zaz-space-4)">
-        <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Pequeno</button>
-        <button class="zaz-btn zaz-btn--primary">Médio</button>
-        <button class="zaz-btn zaz-btn--primary zaz-btn--lg">Grande</button>
-      </div>
-    </section>
+    <!-- ================= TEMA ================= -->
+    <section id="tema">
+      <h2 class="sec">Tema claro e escuro</h2>
+      <p class="porque"><strong>Por que existe.</strong> O Apolo é um console que fica aberto o dia inteiro, e boa parte do time trabalha no escuro. O tema não é enfeite: é a mesma tela em duas superfícies. A regra que sustenta isso é chata e inegociável — <strong>toda cor se escreve em par</strong>, o claro e o escuro juntos, na mesma linha. Quem escreve só a metade clara produz uma tela que funciona na sua máquina e some na do vizinho.</p>
 
-    <!-- ================= FORMULÁRIOS ================= -->
-    <section id="formularios">
-      <h2 class="sec">Formulários</h2>
-      <p class="simples"><b>Em português comum:</b> os campos onde a pessoa digita ou escolhe alguma coisa — caixa de texto, lista suspensa, caixinha de marcar, chave de liga e desliga. O <b>rótulo</b> é o título acima do campo, e ele existe para dizer o que entra ali.</p>
-      <p class="lede">Rótulos explicam o contexto — <code class="tok">Identificação (CPF ou Usuário)</code>, não <code class="tok">Login</code>. O ícone acende antes da borda: é o vocabulário de foco do Apolo.</p>
-      <div class="grid grid--2">
-        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
-          <div class="zaz-field">
-            <label class="zaz-label" for="f1">Identificação (CPF ou Usuário)</label>
-            <span class="zaz-input-group">
-              <span class="zaz-input-group__icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </span>
-              <input class="zaz-input" id="f1" placeholder="000.000.000-00">
-            </span>
-            <p class="zaz-hint">Use o CPF cadastrado no Camunda.</p>
-          </div>
-          <div class="zaz-field">
-            <label class="zaz-label" for="f2">Fila</label>
-            <select class="zaz-select" id="f2">
-              <option>Credenciamento</option><option>Handshake</option><option>Pendência</option><option>Acompanhamento</option><option>Onboarding</option>
-            </select>
-          </div>
-          <div class="zaz-field zaz-field--invalid">
-            <label class="zaz-label" for="f3">Senha (Camunda)</label>
-            <input class="zaz-input" id="f3" type="password" value="123" aria-invalid="true">
-            <p class="zaz-error">Por favor, informe sua senha.</p>
-          </div>
-        </div></div>
-        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
-          <div class="zaz-field">
-            <label class="zaz-label" for="f4">Observação</label>
-            <textarea class="zaz-textarea" id="f4" placeholder="Descreva a pendência encontrada na análise documental."></textarea>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
-            <label class="zaz-check"><input type="checkbox" checked> Incluir tarefas suspensas</label>
-            <label class="zaz-check"><input type="checkbox"> Somente minhas tarefas</label>
-            <label class="zaz-check"><input type="radio" name="ord" checked> Mais antigas primeiro</label>
-            <label class="zaz-check"><input type="radio" name="ord"> Mais recentes primeiro</label>
-            <label class="zaz-switch"><input type="checkbox" role="switch" checked> Atualização em tempo real</label>
-          </div>
-          <div style="display:flex;gap:var(--zaz-space-3);justify-content:flex-end">
-            <button class="zaz-btn zaz-btn--ghost">Limpar</button>
-            <button class="zaz-btn zaz-btn--primary">Aplicar Filtros</button>
-          </div>
-        </div></div>
-      </div>
-    </section>
-
-    <!-- ================= CARDS ================= -->
-    <section id="cards">
-      <h2 class="sec">Cards e métricas</h2>
-      <p class="simples"><b>Em português comum:</b> o <b>card</b> é a caixa branca com borda que agrupa um assunto — como uma ficha sobre a mesa. A <b>métrica</b> é o número grande com um rótulo pequeno em cima, usado em painel para mostrar quantidade.</p>
-      <p class="lede">Branco sobre <code class="tok">neutral-50</code>, borda de 1px, <code class="tok">shadow-sm</code>. Sem gradiente, sem vidro. A barra roxa de 4×40px marca o título da seção — <strong>proposta deste sistema</strong>, ainda não presente no Apolo (ver <a href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">auditoria</a>).</p>
-      <div class="grid grid--3">
-        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Em fila</span><strong class="zaz-metric__value">1.284</strong><span class="zaz-muted">+8% vs. semana anterior</span></div></div></div>
-        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Tempo médio</span><strong class="zaz-metric__value">2h 15m</strong><span class="zaz-muted">Meta: 4h</span></div></div></div>
-        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Atrasadas</span><strong class="zaz-metric__value" style="color:var(--zaz-danger-fg)">37</strong><span class="zaz-muted">Acima do limite de SLA</span></div></div></div>
-      </div>
-      <div class="zaz-card" style="margin-top:var(--zaz-space-4)">
-        <div class="zaz-card__header">
-          <div class="zaz-section-heading"><h2 class="zaz-h2">Resultados da Fila</h2></div>
-          <button class="zaz-btn zaz-btn--secondary zaz-btn--sm">Exportar</button>
-        </div>
-        <div class="zaz-card__body"><p class="zaz-muted" style="margin:0;max-width:60ch">O card com cabeçalho, corpo e rodapé é o contêiner padrão de tela. O rodapé usa fundo <code class="tok">bg-muted</code> para separar ação de conteúdo.</p></div>
-        <div class="zaz-card__footer" style="display:flex;justify-content:space-between;align-items:center">
-          <span class="zaz-muted">Mostrando 20 de 1.284</span>
-          <button class="zaz-btn zaz-btn--ghost zaz-btn--sm">Carregar mais</button>
+      <h3 class="sub">Como o tema é ligado</h3>
+      <p class="lede">Por <strong>classe</strong>, nunca por <code class="tok">prefers-color-scheme</code>: a pessoa escolhe, e a escolha persiste. A classe <code class="tok">dark</code> vai no elemento <code class="tok">&lt;html&gt;</code>.</p>
+      <div class="zaz-alert zaz-alert--danger">
+        <div>
+          <p class="zaz-alert__title">Aplique antes do primeiro paint</p>
+          <p>A leitura do <code class="tok">localStorage</code> e a classe no <code class="tok">&lt;html&gt;</code> vão num <code class="tok">&lt;script&gt;</code> inline no <code class="tok">&lt;head&gt;</code>, antes de qualquer render. Se isso rodar num <code class="tok">useEffect</code>, a página abre branca e escurece depois — o flash é visível e some a impressão de app nativo. Esta própria documentação faz assim.</p>
         </div>
       </div>
-    </section>
 
-    <!-- ================= STATUS ================= -->
-    <section id="status">
-      <h2 class="sec">Badges e status</h2>
-      <p class="simples"><b>Em português comum:</b> <b>badge</b> (pronuncia-se "bédj") é a etiqueta pequena e colorida que diz em que pé está alguma coisa: "Pendência", "Em dia", "Vencida". A cor não é enfeite — ela carrega o significado, e por isso o mapa de estado para cor é fixo.</p>
-      <p class="lede">10px, peso 700, caixa alta com tracking. O mapa de estado → tom é canônico: use <code class="tok">StatusBadge</code> em vez de escolher o tom à mão.</p>
-      <div class="demo">
-        <span class="zaz-badge">Em Fila</span>
-        <span class="zaz-badge zaz-badge--info">Em Andamento</span>
-        <span class="zaz-badge zaz-badge--warning">Pendência</span>
-        <span class="zaz-badge zaz-badge--danger">Atrasada</span>
-        <span class="zaz-badge zaz-badge--success">Concluída</span>
-        <span class="zaz-badge zaz-badge--brand">Handshake</span>
-        <span style="display:inline-flex;align-items:center;gap:var(--zaz-space-2)"><span class="zaz-live-dot"></span><span class="zaz-muted">Ponto "ao vivo"</span></span>
-      </div>
-      <h3 class="sub">Alertas</h3>
+      <h3 class="sub">O que muda, e o que não muda</h3>
+      <p class="lede">Só os <strong>papéis semânticos</strong> trocam de valor. Nenhuma cor de escala é redefinida no escuro: <code class="tok">--zaz-brand-600</code> vale a mesma coisa nos dois temas. Trocar de tema é trocar o valor de um papel, nunca a classe de um componente.</p>
       <div class="grid grid--2">
-        <div class="zaz-alert zaz-alert--danger"><div><p class="zaz-alert__title">Credenciais inválidas</p><p style="margin:2px 0 0">Verifique o CPF e a senha do Camunda.</p></div></div>
-        <div class="zaz-alert zaz-alert--info"><div><p class="zaz-alert__title">Integração Tempo Real</p><p style="margin:2px 0 0">Novas tarefas chegam automaticamente a cada 30 segundos.</p></div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Trocam</p>
+          <ul class="zaz-muted" style="margin:var(--zaz-space-3) 0 0;padding-left:var(--zaz-space-5);line-height:1.9">
+            <li>Fundos e bordas (<code class="tok">--zaz-bg-*</code>, <code class="tok">--zaz-border*</code>)</li>
+            <li>Texto (<code class="tok">--zaz-text*</code>)</li>
+            <li><code class="tok">--zaz-primary-text</code>, que clareia</li>
+            <li>O trio de cada status, que vira véu translúcido</li>
+            <li>As sombras, que perdem o tingimento azulado</li>
+          </ul>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Não trocam</p>
+          <ul class="zaz-muted" style="margin:var(--zaz-space-3) 0 0;padding-left:var(--zaz-space-5);line-height:1.9">
+            <li>A escala de marca inteira</li>
+            <li><code class="tok">--zaz-primary</code> como fundo</li>
+            <li><code class="tok">--zaz-on-primary</code>, branco nos dois</li>
+            <li>As cores das marcas parceiras</li>
+            <li>A paleta de séries de gráfico</li>
+          </ul>
+        </div></div>
       </div>
+
+      <h3 class="sub">O véu resolve o hover sozinho</h3>
+      <p class="lede">Fundo de hover, linha de lista tocada e item de navegação ativo saem de <code class="tok">--zaz-veil</code> e <code class="tok">--zaz-veil-strong</code>, que nascem de <code class="tok">color-mix</code> sobre o <code class="tok">--zaz-primary-text</code>. Como o primary-text já muda no escuro, o véu acompanha — e nenhum componente precisa de uma regra <code class="tok">.dark</code> gêmea só para pintar fundo suave.</p>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>TEMA — por classe, nunca por media query.
+
+  darkMode: 'class'; a classe `dark` vai no elemento &lt;html&gt;.
+  Persistência: localStorage.getItem('theme') === 'dark'.
+  Aplicar num &lt;script&gt; inline no &lt;head&gt;, ANTES do primeiro render.
+  Num useEffect a abertura pisca branca antes de escurecer.
+
+Usando os tokens do sistema, não existe par a escrever: a variável já
+carrega os dois temas. Prefira sempre esta forma.
+  background: var(--zaz-bg-surface);
+  color: var(--zaz-text);
+  border-color: var(--zaz-border);
+
+Em Tailwind cru, sem os tokens, todo par se escreve junto:
+  bg-white dark:bg-slate-900
+  bg-slate-50 dark:bg-slate-950
+  border-slate-200 dark:border-slate-800
+  text-slate-800 dark:text-white
+  text-slate-500 dark:text-slate-400
+  hover:bg-slate-100 dark:hover:bg-slate-800
+  text-[#5c229c] dark:text-[#a78bfa]
+
+Hover e item ativo: use --zaz-veil e --zaz-veil-strong. Eles acompanham o
+tema sozinhos — não escreva um fundo claro e um escuro à mão.
+
+Transição de tema: transition-colors duration-300 no shell e no header.
+Nada mais: animar a página inteira faz a troca parecer travada.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>zaz-tasklist/index.html</code>, <code>tokens/zaz.tokens.json</code> (grupo <code>dark</code>).</p>
     </section>
 
-    <!-- ================= LISTAS ================= -->
-    <section id="listas">
-      <h2 class="sec">Tabelas e trilha lateral</h2>
-      <p class="simples"><b>Em português comum:</b> <b>trilha lateral</b> é aquela barrinha roxa que aparece na borda esquerda da linha quando você passa o mouse ou seleciona. Ela marca onde você está sem pintar a linha inteira. É o jeito do Apolo de mostrar foco — passe o mouse nas linhas abaixo para ver.</p>
-      <p class="lede">A trilha lateral é a assinatura de interação do Apolo: <code class="tok">border-left: 4px</code> transparente que vira roxo no hover e no ativo — foco sem trocar o fundo inteiro. Passe o mouse nas linhas.</p>
-      <div class="zaz-card" style="overflow:hidden">
-        <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div><span class="zaz-badge zaz-badge--brand">4 tarefas</span></div>
-        <div class="zaz-track" id="demo-track"></div>
+    <!-- ================= ÍCONES E MOVIMENTO ================= -->
+    <section id="icones">
+      <h2 class="sec">Ícones e movimento</h2>
+      <p class="porque"><strong>Por que existe.</strong> Ícone e animação são onde um produto perde a unidade mais rápido: cada tela nova traz um pacote de ícones diferente e uma animação "só um pouquinho" mais longa, e em seis meses nada mais parece do mesmo lugar. Aqui há uma biblioteca só, quatro tamanhos e uma faixa de duração — e nenhum dos três é sugestão.</p>
+
+      <h3 class="sub">Ícones</h3>
+      <p class="lede"><strong>Lucide, exclusivamente.</strong> Sem fonte de ícone, sem sprite, sem PNG de ícone. Espessura de traço 2, que é o padrão da biblioteca — mexer nisso faz o ícone parecer de outro conjunto.</p>
+      <div class="zaz-card"><table class="zaz-table">
+        <thead><tr><th>Tamanho</th><th>Onde</th></tr></thead>
+        <tbody>
+          <tr><td><code class="tok">14</code></td><td>Meta em linha, chevron de seção, alça de arraste</td></tr>
+          <tr><td><code class="tok">16</code></td><td>Dentro de botão, logout, link de rodapé</td></tr>
+          <tr><td><code class="tok">18</code></td><td>Item de barra lateral — <strong>o mais usado</strong></td></tr>
+          <tr><td><code class="tok">20</code></td><td>Adorno de campo, sino, ícone solto</td></tr>
+        </tbody>
+      </table></div>
+      <p class="zaz-muted" style="margin-top:var(--zaz-space-3)">Cor padrão: <code class="tok">--zaz-text-subtle</code>. Em estado ativo ou foco: <code class="tok">--zaz-primary-text</code>.</p>
+
+      <h3 class="sub">Movimento</h3>
+      <p class="lede">De 150 a 300ms, e nada além. <strong>Sem bounce, sem spring, sem animação de entrada em item de lista</strong> — numa fila de 300 tarefas, entrada animada vira tela tremendo.</p>
+      <div class="zaz-card"><table class="zaz-table">
+        <thead><tr><th>Onde</th><th>O quê</th></tr></thead>
+        <tbody>
+          <tr><td>Botão</td><td>sobe 1px no hover, <code class="tok">scale(0.96)</code> no clique</td></tr>
+          <tr><td>Linha de lista</td><td>tinta de fundo + chevron desliza 4px</td></tr>
+          <tr><td>Chevron de seção</td><td>gira 180° (aberto) ou −90° (colapsado), 200ms</td></tr>
+          <tr><td>Troca de tema</td><td><code class="tok">transition-colors</code> 300ms, só shell e header</td></tr>
+          <tr><td>Ponto ao vivo</td><td>pulso contínuo; ponto de seção ganha um <em>ping</em> a 30% de opacidade</td></tr>
+        </tbody>
+      </table></div>
+      <div class="zaz-alert zaz-alert--info" style="margin-top:var(--zaz-space-4)">
+        <div>
+          <p class="zaz-alert__title">Movimento reduzido não é opcional</p>
+          <p>Todo bloco de animação vem acompanhado de <code class="tok">@media (prefers-reduced-motion: reduce)</code> zerando duração. Para quem tem sensibilidade vestibular, animação decorativa causa mal-estar físico — não é preferência estética.</p>
+        </div>
       </div>
-      <h3 class="sub">Tabela</h3>
-      <div class="zaz-card" style="overflow:hidden"><table class="zaz-table" id="demo-table"></table></div>
-      <h3 class="sub">Lista de definição (detalhe de tarefa)</h3>
-      <div class="zaz-card"><div class="zaz-card__body">
-        <dl class="zaz-dl">
-          <dt>ID da Tarefa</dt><dd><span class="zaz-mono">TSK-8842-CRED</span></dd>
-          <dt>Processo</dt><dd>Credenciamento VERO</dd>
-          <dt>Responsável</dt><dd>Não atribuída</dd>
-          <dt>Criada</dt><dd>há 2h 15m</dd>
-          <dt>Grupo</dt><dd><span class="zaz-mono">CSAdquirente</span></dd>
-        </dl>
-      </div></div>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>ÍCONES: lucide, exclusivamente. Sem icon font, sem sprite, sem PNG de
+ícone. strokeWidth 2 (padrão do lucide).
+  size 14  meta inline, chevron de seção, grip de arraste
+  size 16  junto a botão, logout, link de rodapé
+  size 18  item de sidebar — o mais usado
+  size 20  adorno de input, sino, ícone standalone
+Cor: var(--zaz-text-subtle) por padrão; var(--zaz-primary-text) em ativo/foco.
+
+MOVIMENTO: 150–300ms. Sem bounce, sem spring, sem animação de entrada em
+item de lista.
+  botão      hover sobe 1px; active scale(0.96)
+  linha      tinta de fundo + chevron desliza 4px
+  chevron    rotate 180 (aberto) / -90 (colapsado), 200ms
+  tema       transition-colors 300ms, só no shell e no header
+  ponto vivo pulso; ponto de seção ganha ping a 30% de opacidade
+  curva      var(--zaz-ease-standard); entradas usam --zaz-ease-entrance
+  SEMPRE com @media (prefers-reduced-motion: reduce) zerando a duração.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>ui/SidebarItem.tsx</code>, <code>sidebar/SortableSidebarSection.tsx</code>, <code>css/components.css</code>.</p>
     </section>
 
-    <!-- ================= SHELL ================= -->
     <section id="shell">
       <h2 class="sec">Shell, sidebar e header</h2>
       <p class="simples"><b>Em português comum:</b> é o "esqueleto" da tela, a parte que não muda enquanto a pessoa navega. <b>Shell</b> ("casca") é esse esqueleto inteiro. <b>Sidebar</b> é a coluna de menu na esquerda. <b>Header</b> é a faixa do topo, com o título da tela e os botões de ação. Só o miolo troca de conteúdo.</p>
@@ -778,7 +907,278 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       <p class="zaz-muted" style="margin:var(--zaz-space-3) 0 0">Largura mínima operacional: 960px. Abaixo disso o título do header trunca com elipse e as ações da direita são preservadas.</p>
     </section>
 
-    <!-- ================= SOBREPOSIÇÕES ================= -->
+    <!-- ================= SIDEBARITEM ================= -->
+    <section id="sidebar-item">
+      <h2 class="sec">SidebarItem e seções</h2>
+      <p class="porque"><strong>Por que existe.</strong> A barra lateral é a única parte do Apolo que a pessoa vê o dia inteiro, em toda tela. Cada linha dela carrega três informações ao mesmo tempo — para onde vai, se é aqui que estou, e quantas tarefas esperam ali. Fazer isso caber em 40 pixels de altura sem virar poluição é o que esta seção documenta.</p>
+
+      <h3 class="sub">Os quatro estados</h3>
+      <div class="zaz-card"><div class="zaz-card__body" style="max-width:320px">
+        <nav class="zaz-sidebar__nav">
+          <button class="zaz-nav-item" aria-current="page">Caixa de Entrada<span class="zaz-nav-item__count">1284</span></button>
+          <button class="zaz-nav-item">Credenciamento VERO<span class="zaz-nav-item__count">42</span></button>
+          <button class="zaz-nav-item">Auditoria PLUXEE</button>
+          <button class="zaz-nav-item" disabled style="opacity:.4;cursor:not-allowed">Antifraude (em breve)</button>
+        </nav>
+      </div></div>
+      <dl class="rule">
+        <dt>Ativo</dt><dd>Véu de marca no fundo, texto e ícone em <code class="tok">--zaz-primary-text</code>, peso 600, e o contador inverte para fundo de marca com texto branco. O estado vive em <code class="tok">aria-current</code> — o CSS lê o mesmo atributo que o leitor de tela anuncia, e não existe uma classe "ativo" paralela para sair de sincronia.</dd>
+        <dt>Inativo</dt><dd>Texto neutro, ícone mais fraco que o texto, fundo só no hover.</dd>
+        <dt>Desabilitado</dt><dd>40% de opacidade e cursor bloqueado. É o vocabulário de "em breve", não de "sem permissão" — o que a pessoa não pode ver não aparece.</dd>
+        <dt>Contador</dt><dd><strong>Zero e indefinido não desenham nada.</strong> Um badge "0" ocupa espaço para informar ausência; a ausência já se informa sozinha.</dd>
+      </dl>
+
+      <h3 class="sub">Seção de operação</h3>
+      <p class="lede">Colapsável e arrastável. O estado de colapso persiste em <code class="tok">localStorage</code>, por seção — quem trabalha só com VERO fecha o resto uma vez e não fecha de novo no dia seguinte. Cada seção tem um ponto colorido com um <em>ping</em> por trás, e a cor identifica a operação.</p>
+      <div class="demo" style="gap:var(--zaz-space-4);flex-wrap:wrap">
+        <span class="zaz-brand-tag" data-brand="vero">VERO</span>
+        <span class="zaz-brand-tag" data-brand="getnet">GETNET</span>
+        <span class="zaz-brand-tag" data-brand="guara">GUARA</span>
+        <span class="zaz-brand-tag" data-brand="ticket">TICKET</span>
+        <span class="zaz-brand-tag" data-brand="pluxee">PLUXEE</span>
+      </div>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>SIDEBARITEM — flex, gap 12px, padding 10px 12px, raio --zaz-radius-md.
+  sub-item de operação: recuo de 16px à esquerda
+  ícone 18 · rótulo 14px, ocupa o espaço livre
+  contador: 10px, padding 2px 6px, raio pill, com borda
+  contador com valor 0 ou indefinido NÃO desenha nada
+
+  ATIVO   fundo var(--zaz-veil-strong)
+          texto e ícone var(--zaz-primary-text), peso 600
+          contador: fundo var(--zaz-primary), texto var(--zaz-on-primary)
+          marcado em aria-current, NUNCA numa classe "ativo" paralela
+  INATIVO texto var(--zaz-text-muted), ícone var(--zaz-text-subtle)
+          hover: fundo var(--zaz-veil)
+  DESABILITADO opacity .4 e cursor not-allowed (só para "em breve")
+
+TÍTULO DE GRUPO (Geral, Operações, Gestão, Sistema…):
+  12px, peso 700, CAIXA ALTA com tracking de eyebrow,
+  cor var(--zaz-text-subtle), padding lateral 12px
+
+SEÇÃO DE OPERAÇÃO (colapsável + arrastável):
+  container  fundo var(--zaz-bg-muted), raio --zaz-radius-control
+  grip       cursor grab / grabbing, ícone grip-vertical 14
+  cabeçalho  14px peso 600, cursor pointer, select-none
+  chevron    14, gira -90 quando colapsado, 200ms
+  ponto      dois círculos de 8px sobrepostos: o ponto e uma cópia
+             absoluta com ping a 30% de opacidade
+  arrastando opacidade 90%, sombra lg, anel de marca a 30%
+  colapso persistido: localStorage sidebar_&lt;id&gt; = '1' | '0'
+
+A cor do ponto identifica a operação e sai da paleta de marcas parceiras.
+Ela mora SÓ no ponto: o rótulo fica neutro.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>ui/SidebarItem.tsx</code>, <code>sidebar/SortableSidebarSection.tsx</code>, <code>sidebar/GenericSection.tsx</code>, <code>sidebar/sidebarSections.ts</code>.</p>
+    </section>
+
+    <!-- ================= AREASWITCHER ================= -->
+    <section id="area-switcher">
+      <h2 class="sec">AreaSwitcher e áreas</h2>
+      <p class="porque"><strong>Por que existe.</strong> A mesma pessoa pode ser do TaskList de manhã e do RH à tarde. O AreaSwitcher é o que troca de contexto sem trocar de sistema — e ele acumula duas funções de propósito: <strong>é a marca no topo da barra lateral e é o seletor</strong>. Juntar as duas economiza os 64px que um cabeçalho de marca separado custaria em toda tela, e deixa claro que "onde estou" e "de quem é isto" são a mesma pergunta.</p>
+
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Onde vive</p>
+          <p class="zaz-muted" style="margin-top:var(--zaz-space-2)">Dentro do topo do <code class="tok">&lt;aside&gt;</code>, nunca no header da página. Abre <strong>só no clique</strong> — nunca no hover, porque um menu que abre sozinho ao passar o mouse é um menu que abre quando ninguém pediu.</p>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Com uma área só</p>
+          <p class="zaz-muted" style="margin-top:var(--zaz-space-2)">Sem menu: só a marca e o nome, sem chevron. <strong>Nunca retorne nada</strong> — o topo da lateral ficaria em branco, e a tela perderia a marca.</p>
+        </div></div>
+      </div>
+
+      <h3 class="sub">As áreas</h3>
+      <p class="lede">Cada uma tem um ícone e uma cor. A cor da área vive <strong>no ponto</strong>, que é fundo — nunca no texto do rótulo, onde metade delas reprovaria em contraste. Áreas criadas no banco entram depois destas, na ordem que o admin definir.</p>
+      <div class="demo" style="gap:var(--zaz-space-3);flex-wrap:wrap">
+        <button class="zaz-area-pill" data-area="tasklist">TaskList</button>
+        <button class="zaz-area-pill" data-area="rh">RH</button>
+        <button class="zaz-area-pill" data-area="gestor">Gestor</button>
+        <button class="zaz-area-pill" data-area="promotor">Promotor</button>
+        <button class="zaz-area-pill" data-area="suporteVero">Suporte VERO</button>
+        <button class="zaz-area-pill" data-area="agenda">Agenda</button>
+      </div>
+
+      <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-6)">
+        <div>
+          <p class="zaz-alert__title">O acento de área tem fronteira</p>
+          <p>Ele colore a pílula do seletor, o marcador da área ativa e o avatar do rodapé daquele layout. <strong>Nunca o corpo da tela.</strong> Uma área inteira tingida de âmbar deixa de ser Apolo e vira outro produto — e o roxo, que é o protagonista da marca, some.</p>
+        </div>
+      </div>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>AREASWITCHER — o cabeçalho da barra lateral. Ele É a marca E o seletor.
+Vive no topo do &lt;aside&gt;, nunca no header da página.
+
+GATILHO:
+  largura total, flex, gap 12px, padding 8px, raio --zaz-radius-control
+  hover: fundo var(--zaz-veil)
+  aria-haspopup="listbox" e aria-expanded
+  Abre SÓ no clique. Nunca no hover.
+  marca   caixa 40x40 com a imagem em 48x48 object-contain (transborda
+          de propósito — é o respiro da marca)
+  nome    peso 700, tracking tight, truncate. Tamanho pelo comprimento:
+          mais de 16 caracteres → 14px · mais de 11 → 16px · senão 20px
+  chevron 16, gira 180 quando aberto, 200ms
+
+PAINEL: absoluto, largura do gatilho, 8px abaixo, z-index alto
+  fundo var(--zaz-bg-surface), raio --zaz-radius-control, sombra lg
+  borda var(--zaz-border), altura máxima 60vh com rolagem
+  role="listbox"
+
+OPÇÃO: largura total, flex, gap 10px, padding 10px 12px, 14px peso 500
+  role="option" com aria-selected
+  ativa   fundo var(--zaz-bg-inset), texto var(--zaz-text)
+  inativa texto var(--zaz-text-muted), hover fundo var(--zaz-veil)
+  ordem dos filhos: ícone 16 → ponto 8px na cor da área → rótulo →
+        check 15 só na ativa
+  A COR DA ÁREA VIVE NO PONTO, que é fundo. NUNCA no texto do rótulo.
+
+ÁREAS, na ordem, com ícone lucide:
+  TaskList briefcase · RH users · Gestor user-cog · Promotor megaphone
+  Suporte VERO headphones · Antifraude shield-alert · Agenda calendar
+  Financeiro wallet
+Áreas vindas do banco entram DEPOIS destas.
+
+Fecha ao clicar fora e no Esc. Com uma área só: sem menu, só marca e nome
+— nunca renderize nada, ou o topo da lateral fica em branco.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>ui/AreaSwitcher.tsx</code>, <code>Layout.tsx</code>, <code>RHLayout.tsx</code>, <code>GestorLayout.tsx</code>.</p>
+    </section>
+
+    <section id="botoes">
+      <h2 class="sec">Botões</h2>
+      <p class="simples"><b>Em português comum:</b> o que a pessoa clica para fazer algo acontecer. O <b>primário</b> é roxo cheio e existe um só por tela — é a ação principal, tipo "Entrar" ou "Salvar". O <b>secundário</b> tem só borda, para ações que não são a principal. O <b>fantasma</b> não tem nem borda, para "Cancelar" e coisas que a pessoa raramente vai querer.</p>
+      <p class="lede">Title Case sempre. Um primário por área de decisão. <code class="tok">hover: -1px</code> e <code class="tok">active: scale(0.96)</code> — compacto e tátil, sem bounce.</p>
+      <div class="demo">
+        <button class="zaz-btn zaz-btn--primary">Entrar no Sistema</button>
+        <button class="zaz-btn zaz-btn--secondary">Filtros Avançados</button>
+        <button class="zaz-btn zaz-btn--ghost">Cancelar</button>
+        <button class="zaz-btn zaz-btn--danger">Suspender Tarefa</button>
+        <button class="zaz-btn zaz-btn--primary" disabled>Validando...</button>
+      </div>
+      <div class="demo" style="margin-top:var(--zaz-space-4)">
+        <button class="zaz-btn zaz-btn--primary zaz-btn--sm">Pequeno</button>
+        <button class="zaz-btn zaz-btn--primary">Médio</button>
+        <button class="zaz-btn zaz-btn--primary zaz-btn--lg">Grande</button>
+      </div>
+    </section>
+
+    <section id="formularios">
+      <h2 class="sec">Formulários</h2>
+      <p class="simples"><b>Em português comum:</b> os campos onde a pessoa digita ou escolhe alguma coisa — caixa de texto, lista suspensa, caixinha de marcar, chave de liga e desliga. O <b>rótulo</b> é o título acima do campo, e ele existe para dizer o que entra ali.</p>
+      <p class="lede">Rótulos explicam o contexto — <code class="tok">Identificação (CPF ou Usuário)</code>, não <code class="tok">Login</code>. O ícone acende antes da borda: é o vocabulário de foco do Apolo.</p>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
+          <div class="zaz-field">
+            <label class="zaz-label" for="f1">Identificação (CPF ou Usuário)</label>
+            <span class="zaz-input-group">
+              <span class="zaz-input-group__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input class="zaz-input" id="f1" placeholder="000.000.000-00">
+            </span>
+            <p class="zaz-hint">Use o CPF cadastrado no Camunda.</p>
+          </div>
+          <div class="zaz-field">
+            <label class="zaz-label" for="f2">Fila</label>
+            <select class="zaz-select" id="f2">
+              <option>Credenciamento</option><option>Handshake</option><option>Pendência</option><option>Acompanhamento</option><option>Onboarding</option>
+            </select>
+          </div>
+          <div class="zaz-field zaz-field--invalid">
+            <label class="zaz-label" for="f3">Senha (Camunda)</label>
+            <input class="zaz-input" id="f3" type="password" value="123" aria-invalid="true">
+            <p class="zaz-error">Por favor, informe sua senha.</p>
+          </div>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body" style="display:flex;flex-direction:column;gap:var(--zaz-space-5)">
+          <div class="zaz-field">
+            <label class="zaz-label" for="f4">Observação</label>
+            <textarea class="zaz-textarea" id="f4" placeholder="Descreva a pendência encontrada na análise documental."></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+            <label class="zaz-check"><input type="checkbox" checked> Incluir tarefas suspensas</label>
+            <label class="zaz-check"><input type="checkbox"> Somente minhas tarefas</label>
+            <label class="zaz-check"><input type="radio" name="ord" checked> Mais antigas primeiro</label>
+            <label class="zaz-check"><input type="radio" name="ord"> Mais recentes primeiro</label>
+            <label class="zaz-switch"><input type="checkbox" role="switch" checked> Atualização em tempo real</label>
+          </div>
+          <div style="display:flex;gap:var(--zaz-space-3);justify-content:flex-end">
+            <button class="zaz-btn zaz-btn--ghost">Limpar</button>
+            <button class="zaz-btn zaz-btn--primary">Aplicar Filtros</button>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="cards">
+      <h2 class="sec">Cards e métricas</h2>
+      <p class="simples"><b>Em português comum:</b> o <b>card</b> é a caixa branca com borda que agrupa um assunto — como uma ficha sobre a mesa. A <b>métrica</b> é o número grande com um rótulo pequeno em cima, usado em painel para mostrar quantidade.</p>
+      <p class="lede">Branco sobre <code class="tok">neutral-50</code>, borda de 1px, <code class="tok">shadow-sm</code>. Sem gradiente, sem vidro. A barra roxa de 4×40px marca o título da seção — <strong>proposta deste sistema</strong>, ainda não presente no Apolo (ver <a href="https://github.com/ZAZ-vendas/Design-System-ZAZ/blob/main/AUDITORIA.md">auditoria</a>).</p>
+      <div class="grid grid--3">
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Em fila</span><strong class="zaz-metric__value">1.284</strong><span class="zaz-muted">+8% vs. semana anterior</span></div></div></div>
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Tempo médio</span><strong class="zaz-metric__value">2h 15m</strong><span class="zaz-muted">Meta: 4h</span></div></div></div>
+        <div class="zaz-card"><div class="zaz-card__body"><div class="zaz-metric"><span class="zaz-eyebrow">Atrasadas</span><strong class="zaz-metric__value" style="color:var(--zaz-danger-fg)">37</strong><span class="zaz-muted">Acima do limite de SLA</span></div></div></div>
+      </div>
+      <div class="zaz-card" style="margin-top:var(--zaz-space-4)">
+        <div class="zaz-card__header">
+          <div class="zaz-section-heading"><h2 class="zaz-h2">Resultados da Fila</h2></div>
+          <button class="zaz-btn zaz-btn--secondary zaz-btn--sm">Exportar</button>
+        </div>
+        <div class="zaz-card__body"><p class="zaz-muted" style="margin:0;max-width:60ch">O card com cabeçalho, corpo e rodapé é o contêiner padrão de tela. O rodapé usa fundo <code class="tok">bg-muted</code> para separar ação de conteúdo.</p></div>
+        <div class="zaz-card__footer" style="display:flex;justify-content:space-between;align-items:center">
+          <span class="zaz-muted">Mostrando 20 de 1.284</span>
+          <button class="zaz-btn zaz-btn--ghost zaz-btn--sm">Carregar mais</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="status">
+      <h2 class="sec">Badges e status</h2>
+      <p class="simples"><b>Em português comum:</b> <b>badge</b> (pronuncia-se "bédj") é a etiqueta pequena e colorida que diz em que pé está alguma coisa: "Pendência", "Em dia", "Vencida". A cor não é enfeite — ela carrega o significado, e por isso o mapa de estado para cor é fixo.</p>
+      <p class="lede">10px, peso 700, caixa alta com tracking. O mapa de estado → tom é canônico: use <code class="tok">StatusBadge</code> em vez de escolher o tom à mão.</p>
+      <div class="demo">
+        <span class="zaz-badge">Em Fila</span>
+        <span class="zaz-badge zaz-badge--info">Em Andamento</span>
+        <span class="zaz-badge zaz-badge--warning">Pendência</span>
+        <span class="zaz-badge zaz-badge--danger">Atrasada</span>
+        <span class="zaz-badge zaz-badge--success">Concluída</span>
+        <span class="zaz-badge zaz-badge--brand">Handshake</span>
+        <span style="display:inline-flex;align-items:center;gap:var(--zaz-space-2)"><span class="zaz-live-dot"></span><span class="zaz-muted">Ponto "ao vivo"</span></span>
+      </div>
+      <h3 class="sub">Alertas</h3>
+      <div class="grid grid--2">
+        <div class="zaz-alert zaz-alert--danger"><div><p class="zaz-alert__title">Credenciais inválidas</p><p style="margin:2px 0 0">Verifique o CPF e a senha do Camunda.</p></div></div>
+        <div class="zaz-alert zaz-alert--info"><div><p class="zaz-alert__title">Integração Tempo Real</p><p style="margin:2px 0 0">Novas tarefas chegam automaticamente a cada 30 segundos.</p></div></div>
+      </div>
+    </section>
+
+    <section id="listas">
+      <h2 class="sec">Tabelas e trilha lateral</h2>
+      <p class="simples"><b>Em português comum:</b> <b>trilha lateral</b> é aquela barrinha roxa que aparece na borda esquerda da linha quando você passa o mouse ou seleciona. Ela marca onde você está sem pintar a linha inteira. É o jeito do Apolo de mostrar foco — passe o mouse nas linhas abaixo para ver.</p>
+      <p class="lede">A trilha lateral é a assinatura de interação do Apolo: <code class="tok">border-left: 4px</code> transparente que vira roxo no hover e no ativo — foco sem trocar o fundo inteiro. Passe o mouse nas linhas.</p>
+      <div class="zaz-card" style="overflow:hidden">
+        <div class="zaz-card__header"><div class="zaz-section-heading"><h2 class="zaz-h2">Caixa de Entrada</h2></div><span class="zaz-badge zaz-badge--brand">4 tarefas</span></div>
+        <div class="zaz-track" id="demo-track"></div>
+      </div>
+      <h3 class="sub">Tabela</h3>
+      <div class="zaz-card" style="overflow:hidden"><table class="zaz-table" id="demo-table"></table></div>
+      <h3 class="sub">Lista de definição (detalhe de tarefa)</h3>
+      <div class="zaz-card"><div class="zaz-card__body">
+        <dl class="zaz-dl">
+          <dt>ID da Tarefa</dt><dd><span class="zaz-mono">TSK-8842-CRED</span></dd>
+          <dt>Processo</dt><dd>Credenciamento VERO</dd>
+          <dt>Responsável</dt><dd>Não atribuída</dd>
+          <dt>Criada</dt><dd>há 2h 15m</dd>
+          <dt>Grupo</dt><dd><span class="zaz-mono">CSAdquirente</span></dd>
+        </dl>
+      </div></div>
+    </section>
+
     <section id="sobreposicoes">
       <h2 class="sec">Modais, drawers e toasts</h2>
       <p class="simples"><b>Em português comum:</b> três jeitos de mostrar algo por cima da tela. <b>Modal</b> é a janelinha no centro que escurece o fundo e exige uma resposta antes de continuar. <b>Drawer</b> ("gaveta") desliza pela lateral e mostra detalhes sem tirar você de onde estava. <b>Toast</b> ("torrada", porque pula como uma) é o aviso pequeno no canto que some sozinho.</p>
@@ -797,36 +1197,6 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </div>
     </section>
 
-    <!-- ================= SLIDES ================= -->
-    <section id="slides">
-      <h2 class="sec">Layouts de slide</h2>
-      <p class="simples"><b>Em português comum:</b> modelos de slide de apresentação, do tamanho de tela cheia (1920×1080). <b>Capa</b> abre o deck, <b>seção</b> separa assuntos, <b>conteúdo</b> leva texto em colunas, <b>dados</b> mostra números grandes, <b>divisão</b> põe texto de um lado e imagem do outro, e <b>encerramento</b> fecha. <b>Deck</b> é o conjunto de slides.</p>
-      <p class="lede">1920×1080, margem de segurança de 96px, texto nunca abaixo de 24px, no máximo duas cores de fundo por deck. As amostras abaixo estão em escala real, reduzidas.</p>
-      <div class="grid grid--2" id="demo-slides"></div>
-    </section>
-
-    <!-- ================= VOZ ================= -->
-    <section id="voz">
-      <h2 class="sec">Conteúdo e voz</h2>
-      <p class="lede">Português (pt-BR) sempre; inglês só em código. Tom institucional, claro, educado — nunca casual. Sem emoji, em nenhum lugar.</p>
-      <table class="spec">
-        <thead><tr><th style="width:220px">Regra</th><th>Certo</th><th>Errado</th></tr></thead>
-        <tbody>
-          <tr><td>Eyebrow e label</td><td class="yes">CAIXA ALTA com tracking: <code class="tok">SENHA (CAMUNDA)</code></td><td class="no">Caixa alta seca, ou Title Case</td></tr>
-          <tr><td>Botão e navegação</td><td class="yes">Title Case: <code class="tok">Entrar no Sistema</code></td><td class="no">ENTRAR NO SISTEMA</td></tr>
-          <tr><td>Corpo e dica</td><td class="yes">Sentence case: <code class="tok">Gestão inteligente de processos.</code></td><td class="no">Gestão Inteligente De Processos</td></tr>
-          <tr><td>Rótulo de campo</td><td class="yes">Identificação (CPF ou Usuário)</td><td class="no">Login</td></tr>
-          <tr><td>Marca parceira</td><td class="yes">VERO, SUA LUZ, PLUXEE</td><td class="no">Vero, Sua Luz</td></tr>
-          <tr><td>Etapa de processo</td><td class="yes">Credenciamento, Pendência</td><td class="no">CREDENCIAMENTO</td></tr>
-          <tr><td>Acentuação</td><td class="yes">Pendência, Ambiente Seguro</td><td class="no">Pendencia</td></tr>
-          <tr><td>Tempo relativo</td><td class="yes">há 3 min · há 2h 15m · há 1d 4h</td><td class="no">3 minutos atrás</td></tr>
-          <tr><td>Estado vazio</td><td class="yes">Nenhuma tarefa encontrada para este filtro.</td><td class="no">Nada aqui!</td></tr>
-          <tr><td>Rodapé</td><td class="yes">© 2026 Zaz Vendas. Apolo.</td><td class="no">Copyright 2026 ZAZ VENDAS LTDA</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ================= ASSETS ================= -->
     <section id="assets">
       <h2 class="sec">Assets e ícones</h2>
       <div class="grid grid--2">
@@ -835,10 +1205,10 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
           <div style="margin:var(--zaz-space-4) 0;padding:var(--zaz-space-6);background:var(--zaz-bg-muted);border-radius:var(--zaz-radius-card);display:grid;place-items:center">
             <img src="../assets/logo-zaz.png" alt="ZAZ" style="height:48px;width:auto">
           </div>
-          <p class="zaz-muted" style="margin:0">Altura mínima 24px. Área de respiro igual a metade da altura do logo. Sem sombra, sem contorno, sem rotação.</p>
-          <div class="zaz-alert zaz-alert--warning" style="margin-top:var(--zaz-space-4)"><div>
-            <p class="zaz-alert__title">Divergência de roxo</p>
-            <p style="margin:2px 0 0">O arquivo de logo usa <code class="tok">#6a1ca0</code>; a interface do Apolo usa <code class="tok">#591da9</code>. Mantivemos os dois separados — <code class="tok">brand-logo</code> para a marca, <code class="tok">brand-600</code> para UI — até o time de marca decidir qual vale.</p>
+          <p class="zaz-muted" style="margin:0">Altura mínima 24px. <strong>Área de proteção: a largura da letra "Z" do próprio logo</strong> — é essa medida que o manual usa, e ela acompanha o tamanho da aplicação sozinha. Nada pode invadir esse respiro. Sem sombra, sem contorno e <strong>nunca girado</strong>: o manual proíbe qualquer ângulo fora do original.</p>
+          <div class="zaz-alert zaz-alert--info" style="margin-top:var(--zaz-space-4)"><div>
+            <p class="zaz-alert__title">O roxo do logo está resolvido</p>
+            <p style="margin:2px 0 0">Havia aqui uma divergência entre <code class="tok">#6a1ca0</code> (lido do arquivo de logo) e o roxo de interface. O Manual de identidade 2022 encerra a questão: o Roxo ZAZ é <code class="tok">#5c229c</code>, e é dele que a escala inteira deriva. O token <code class="tok">brand-logo</code> deixou de existir.</p>
             <p style="margin:6px 0 0">Formato: só temos PNG (2190×2430). Um SVG vetorial ainda é desejável para impressão e telas grandes.</p>
           </div></div>
         </div></div>
@@ -859,6 +1229,396 @@ import { Button, Card, StatusBadge } from "@zaz/design-system";</code></pre>
       </footer>
     </section>
 
+    <section id="slides">
+      <h2 class="sec">Layouts de slide</h2>
+      <p class="simples"><b>Em português comum:</b> modelos de slide de apresentação, do tamanho de tela cheia (1920×1080). <b>Capa</b> abre o deck, <b>seção</b> separa assuntos, <b>conteúdo</b> leva texto em colunas, <b>dados</b> mostra números grandes, <b>divisão</b> põe texto de um lado e imagem do outro, e <b>encerramento</b> fecha. <b>Deck</b> é o conjunto de slides.</p>
+      <p class="lede">1920×1080, margem de segurança de 96px, texto nunca abaixo de 24px, no máximo duas cores de fundo por deck. As amostras abaixo estão em escala real, reduzidas.</p>
+      <div class="grid grid--2" id="demo-slides"></div>
+    </section>
+
+    <section id="voz">
+      <h2 class="sec">Conteúdo e voz</h2>
+      <p class="lede">Português (pt-BR) sempre; inglês só em código. Tom institucional, claro, educado — nunca casual. Sem emoji, em nenhum lugar.</p>
+      <table class="spec">
+        <thead><tr><th style="width:220px">Regra</th><th>Certo</th><th>Errado</th></tr></thead>
+        <tbody>
+          <tr><td>Eyebrow e label</td><td class="yes">CAIXA ALTA com tracking: <code class="tok">SENHA (CAMUNDA)</code></td><td class="no">Caixa alta seca, ou Title Case</td></tr>
+          <tr><td>Botão e navegação</td><td class="yes">Title Case: <code class="tok">Entrar no Sistema</code></td><td class="no">ENTRAR NO SISTEMA</td></tr>
+          <tr><td>Corpo e dica</td><td class="yes">Sentence case: <code class="tok">Gestão inteligente de processos.</code></td><td class="no">Gestão Inteligente De Processos</td></tr>
+          <tr><td>Rótulo de campo</td><td class="yes">Identificação (CPF ou Usuário)</td><td class="no">Login</td></tr>
+          <tr><td>Marca parceira</td><td class="yes">VERO, SUA LUZ, PLUXEE</td><td class="no">Vero, Sua Luz</td></tr>
+          <tr><td>Etapa de processo</td><td class="yes">Credenciamento, Pendência</td><td class="no">CREDENCIAMENTO</td></tr>
+          <tr><td>Acentuação</td><td class="yes">Pendência, Ambiente Seguro</td><td class="no">Pendencia</td></tr>
+          <tr><td>Tempo relativo</td><td class="yes">há 3 min · há 2h 15m · há 1d 4h</td><td class="no">3 minutos atrás</td></tr>
+          <tr><td>Estado vazio</td><td class="yes">Nenhuma tarefa encontrada para este filtro.</td><td class="no">Nada aqui!</td></tr>
+          <tr><td>Rodapé</td><td class="yes">© 2026 Zaz Vendas. Apolo.</td><td class="no">Copyright 2026 ZAZ VENDAS LTDA</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================= TELA DE LOGIN ================= -->
+    <section id="tela-login">
+      <h2 class="sec">Login</h2>
+      <p class="porque"><strong>Por que existe.</strong> É a única tela que alguém de fora do time vê, e a primeira que todo mundo vê todo dia. Por isso ela tem paleta própria — a "Aurora" —, que <strong>não</strong> usa o vocabulário operacional do resto do produto. Um login com o cinza-ardósia e o raio de 16px das telas de fila é correto e esquecível; aqui a marca tem permissão de aparecer.</p>
+
+      <div class="zaz-alert zaz-alert--warning">
+        <div>
+          <p class="zaz-alert__title">Esta paleta não sai daqui</p>
+          <p>Os valores da Aurora valem no login e no splash, e em nenhum outro lugar. Levá-los para uma tela operacional é o caminho mais rápido de fazer o Apolo parecer dois produtos.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">A composição</h3>
+      <p class="lede">Desktop em duas colunas (1,06fr / 0,94fr) ocupando a altura da janela: à esquerda a marca, a chamada e o palco do mascote; à direita o cartão de acesso, com desfoque de fundo. Abaixo de 900px o cartão vira <em>bottom sheet</em>, os rótulos somem (fica só o <em>placeholder</em>) e o mascote encolhe.</p>
+
+      <div class="moldura" style="height:340px">
+        <div style="width:1200px;height:680px;transform:scale(.5);display:grid;grid-template-columns:1.06fr .94fr;background:var(--zaz-bg-surface)">
+          <div style="padding:52px 48px;display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden">
+            <div style="position:absolute;top:-12%;left:-8%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,var(--zaz-brand-300),transparent 68%);opacity:.55;filter:blur(30px)"></div>
+            <div style="position:relative;display:flex;align-items:center;gap:12px">
+              <img src="../assets/logo-zaz.png" alt="" style="height:38px;width:auto">
+              <span style="font-size:19px;font-weight:800;letter-spacing:.24em">APOLO</span>
+              <span class="zaz-badge zaz-badge--brand">Camunda 7</span>
+            </div>
+            <div style="position:relative;margin-top:auto">
+              <p style="font-family:var(--zaz-font-display);font-size:50px;font-weight:900;letter-spacing:-.035em;line-height:1.02;margin:0">Bom te ver<br>de novo.</p>
+              <p class="zaz-muted" style="font-size:16px;max-width:390px;margin-top:var(--zaz-space-4)">Gestão inteligente de processos. Suas tarefas, seus prazos e seu time num lugar só.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;padding:40px 56px">
+            <div class="zaz-card" style="width:100%;max-width:400px;border-radius:30px;padding:38px 34px 30px">
+              <p class="zaz-h1" style="font-size:23px">Acesse sua conta</p>
+              <p class="zaz-muted" style="font-size:13.5px;margin-top:4px">Use seu CPF ou o usuário da ZAZ.</p>
+              <div style="display:flex;flex-direction:column;gap:18px;margin-top:26px">
+                <div class="zaz-field">
+                  <label class="zaz-label">Identificação (CPF ou Usuário)</label>
+                  <input class="zaz-input" style="height:52px;border-radius:15px" value="000.000.000-00" readonly>
+                </div>
+                <div class="zaz-field">
+                  <label class="zaz-label">Senha</label>
+                  <input class="zaz-input" type="password" style="height:52px;border-radius:15px" value="12345678" readonly>
+                </div>
+                <button class="zaz-btn zaz-btn--primary" style="height:56px;border-radius:16px;font-size:15.5px;font-weight:800;background:linear-gradient(100deg,var(--zaz-brand-600),var(--zaz-brand-500) 55%,#a21caf)">Entrar no Apolo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="zaz-muted" style="margin-top:var(--zaz-space-3);font-size:var(--zaz-text-xs)">Recriação reduzida a 50%, com as classes do sistema. A tela completa — com a aurora animada, o parallax e o mascote — está no arquivo de design do handoff.</p>
+
+      <h3 class="sub">O mascote reage ao formulário</h3>
+      <p class="lede">É o detalhe que faz a tela ser lembrada: ele <strong>cobre os olhos</strong> quando o campo de senha recebe foco, destapa no <em>blur</em>, pensa ao enviar, lamenta no erro e comemora no acerto. No sucesso, espere 900ms antes de trocar de tela — sem essa pausa a comemoração não chega a ser vista.</p>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>LOGIN — paleta "Aurora", própria desta tela. NÃO use o vocabulário
+operacional (shell, superfície 50, raio de card) aqui.
+
+CLARO  fundo #fbfaff · tinta #160d29 · corpo #6a6183 · label #8b83a3
+       cartão rgba(255,255,255,.86), borda rgba(92,34,156,.12)
+       sombra do cartão 0 30px 70px rgba(40,12,90,.14)
+       input #faf8ff (foco #fff), borda #e6e0f2
+       foco: borda var(--zaz-brand-600) + anel 4px rgba(92,34,156,.14)
+ESCURO fundo #0b0616 · tinta #fff · corpo #a99fc4
+       cartão rgba(22,13,41,.72), borda rgba(167,139,250,.16)
+       input #150c28 (foco #1b1033), borda #2e2150
+       acento #a78bfa (hover #c4b5fd)
+
+DESKTOP: grid 1.06fr .94fr, altura da janela.
+  esquerda padding 52px 48px 24px, coluna com gap 18px
+    marca    logo 34x38 + "APOLO" 19px/800 tracking .24em + badge
+    headline 50px/900 tracking -.035em, entrelinha 1.02
+    palco    mascote height 250, range 150
+             align-items: safe center (corta os pés, nunca a cabeça)
+  direita  cartão máx. 400px, raio 30px, padding 38px 34px 30px,
+           backdrop-filter blur(18px)
+    label 10.5px/800 tracking .12em · input padding 15px 16px raio 15px
+    botão padding 17px, raio 16px, 15.5px/800
+          fundo linear-gradient(100deg,#5c229c,#7c3aed 55%,#a21caf)
+          rótulos: "Entrar no Apolo" → "Validando acesso" → "Acesso liberado"
+
+MOBILE (até 900px): bottom sheet, raio 30px 30px 0 0, sem label (só
+placeholder), mascote height 150, título 29px.
+
+AURORA (orbes de fundo, pointer-events none, parallax lerp 0.06,
+desligado em reduced-motion):
+  topo -12% esq -8%    620px #a78bfa opacidade .55
+  base -24% esq 14%    560px #5c229c opacidade .30
+  topo 18% dir -6%     520px #22d3ee opacidade .22
+
+MASCOTE: shy() no foco da senha, unshy() no blur, thinking() ao enviar,
+fail() no erro, win() no sucesso — e espere 900ms antes de trocar de tela.
+
+ERRO: role="alert", padding 12px 14px, raio 14px, fundo rgba(220,38,38,.07),
+borda rgba(220,38,38,.2), ponto 7px #dc2626, texto 12.5px/600.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>LoginPage.tsx</code>, <code>ApoloMascote.tsx</code>.</p>
+    </section>
+
+    <!-- ================= SPLASH ================= -->
+    <section id="tela-splash">
+      <h2 class="sec">Splash</h2>
+      <p class="porque"><strong>Por que existe.</strong> O Apolo conversa com o Camunda antes de ter qualquer coisa para mostrar, e essa espera é real. O splash faz duas coisas ao mesmo tempo: ocupa o tempo com a marca em vez de uma tela branca, e <strong>diz o que está acontecendo</strong> — "Conectando ao Camunda 7" é informação, "Carregando…" não é. Quando algo trava, quem abriu sabe dizer onde travou.</p>
+
+      <h3 class="sub">Duas variantes</h3>
+      <div class="grid grid--2">
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Boot — antes do login</p>
+          <p class="zaz-muted" style="margin-top:var(--zaz-space-2)">Só a marca e os anéis orbitais. Não há usuário ainda: não há o que saudar nem progresso pessoal a mostrar.</p>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body">
+          <p class="zaz-eyebrow">Welcome — depois do login</p>
+          <p class="zaz-muted" style="margin-top:var(--zaz-space-2)">Marca, mascote, barra de progresso e saudação com o primeiro nome. Aqui já se sabe quem entrou e o que está sendo carregado.</p>
+        </div></div>
+      </div>
+
+      <h3 class="sub">As quatro etapas</h3>
+      <p class="lede">A barra não é decorativa: cada parada corresponde a uma etapa real da inicialização.</p>
+      <div class="zaz-card"><table class="zaz-table">
+        <thead><tr><th>Tempo</th><th>%</th><th>Rótulo</th></tr></thead>
+        <tbody>
+          <tr><td>—</td><td class="num">4%</td><td>Iniciando o Apolo</td></tr>
+          <tr><td>900ms</td><td class="num">18%</td><td>Autenticando na ZAZ</td></tr>
+          <tr><td>1500ms</td><td class="num">46%</td><td>Conectando ao Camunda 7</td></tr>
+          <tr><td>2100ms</td><td class="num">72%</td><td>Carregando suas tarefas</td></tr>
+          <tr><td>2800ms</td><td class="num">94%</td><td>Montando seu painel</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="zaz-alert zaz-alert--danger" style="margin-top:var(--zaz-space-6)">
+        <div>
+          <p class="zaz-alert__title">A saída tem piso e teto — nunca um tempo fixo</p>
+          <p>O splash sai quando os dados chegaram <strong>e</strong> o piso passou (1800ms no boot, 2200ms no welcome), ou quando o teto estoura (6s e 12s). O piso existe para a marca completar a entrada; o teto existe para a tela nunca ficar presa quando o Camunda não responde. Um <code class="tok">setTimeout</code> fixo erra dos dois lados.</p>
+        </div>
+      </div>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>SPLASH — duas variantes, mesma paleta (a do TEMA do app):
+  boot     antes do login. SÓ a marca + anéis orbitais.
+  welcome  depois do login. Marca + mascote + barra + saudação.
+
+raiz  fixed inset-0, z alto, overflow hidden, transição de opacidade 600ms
+      claro  fundo #fbfaff · tinta #160d29 · trilho rgba(92,34,156,.14)
+      escuro fundo #0b0616 · tinta #fff · trilho rgba(255,255,255,.14)
+centro coluna centrada, gap 26px
+
+MARCA:
+  tile 76x76 raio 24px, fundo linear-gradient(150deg,#fff,#efe9ff)
+       sombra 0 22px 50px rgba(92,34,156,.45), logo em 38x43
+       dois anéis (inset -6px, raio 30px) girando 2.6s, o segundo com
+       1.3s de atraso, só no desktop
+  palavra APOLO letra por letra, 58px/900 tracking .16em
+       cada letra entra com atraso de 0.30 + i x 0.08s
+
+ANÉIS ORBITAIS (só no boot):
+  940px, borda 1px sólida, gira 80s horário, satélite ciano 8px
+  660px, borda 1px tracejada, gira 54s anti-horário, satélite lilás 10px
+
+ESTRELAS: só no tema escuro. Em fundo claro viram sujeira.
+
+BARRA (só no welcome):
+  largura 420px, trilho 5px raio 99px
+  preenchimento linear-gradient(90deg,#a78bfa,#22d3ee), transição .8s
+  varredura de 70px animando 1.6s linear infinite
+  role="progressbar" com aria-valuenow/min/max
+  ETAPAS: 900ms 18% Autenticando na ZAZ · 1500ms 46% Conectando ao
+  Camunda 7 · 2100ms 72% Carregando suas tarefas · 2800ms 94% Montando
+  seu painel. Antes da primeira: "Iniciando o Apolo" a 4%.
+
+SAUDAÇÃO (welcome): 38px/900 tracking -.035em — "Bom dia" antes das 12h,
+"Boa tarde" antes das 18h, "Boa noite" — com ", {primeiro nome}."
+
+SAÍDA — não use setTimeout fixo:
+  piso  boot 1800ms · welcome 2200ms  (a marca precisa completar a entrada)
+  teto  boot 6000ms · welcome 12000ms (a tela nunca fica presa)
+  sai quando ready === true E o piso passou; ou quando o teto estoura.
+  Guarde o onDone num ref: como arrow inline ele muda de identidade a cada
+  render, o efeito reempilha os timers e a tela trava.
+
+MASCOTE no welcome: ambient false, height 132 (86 no mobile).
+  hush() em 560ms (ele já saudou no login), fly(1400) em 1000ms,
+  say('Separando o que é seu...') em 2600ms.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>SplashApolo.tsx</code>, <code>ApoloMascote.tsx</code>.</p>
+    </section>
+
+    <!-- ================= MINHA AGENDA ================= -->
+    <section id="tela-agenda">
+      <h2 class="sec">Minha Agenda</h2>
+      <p class="porque"><strong>Por que existe.</strong> É a tela pessoal: o que <em>eu</em> tenho para fazer hoje, em vez da fila inteira do time. Ela também é o exemplo de visualização de dados do sistema — é aqui que estão as decisões sobre como o Apolo mostra número, série temporal e intensidade sem transformar a tela num painel de aeroporto.</p>
+
+      <h3 class="sub">Os quatro números</h3>
+      <div class="grid grid--sw">
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Vencendo hoje</span><span class="zaz-metric__value">7</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Atrasadas</span><span class="zaz-metric__value">3</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Concluídas hoje</span><span class="zaz-metric__value">11</span>
+        </div></div>
+        <div class="zaz-card"><div class="zaz-card__body zaz-metric">
+          <span class="zaz-eyebrow">Na semana</span><span class="zaz-metric__value">—</span>
+        </div></div>
+      </div>
+      <dl class="rule">
+        <dt>"—" e não 0</dt><dd>Enquanto carrega, o valor é um travessão. <strong>Zero é um dado</strong> — significa "não há nada". O travessão significa "ainda não sei". Mostrar 0 durante o carregamento faz a pessoa acreditar numa informação que ninguém apurou.</dd>
+        <dt>Rótulo pequeno, valor grande</dt><dd>Nunca o contrário. O número é o que se lê de longe; o rótulo só confirma o que ele é.</dd>
+      </dl>
+
+      <h3 class="sub">Três listas, e a ordem importa</h3>
+      <p class="lede"><strong>Atrasadas → Vencendo hoje → Bloqueadas há mais de 24h.</strong> É a ordem em que a pessoa deve agir, não a alfabética nem a cronológica.</p>
+      <div class="zaz-alert zaz-alert--warning">
+        <div>
+          <p class="zaz-alert__title">A mesma tarefa não aparece em duas listas</p>
+          <p>Atrasadas exclui o que cai na janela de "vencendo hoje"; Bloqueadas exclui, por conjunto de ids, tudo que já apareceu nas duas anteriores. Sem isso, uma tarefa em três listas faz a pessoa achar que tem o triplo de trabalho — e a tela que deveria organizar o dia passa a desanimar.</p>
+        </div>
+      </div>
+      <p class="zaz-muted" style="margin-top:var(--zaz-space-4)">Cada lista vazia tem frase própria, nunca um "nenhum resultado" genérico: <em>"Nada atrasado."</em>, <em>"Sem prazos pra hoje."</em>, <em>"Nada parado por aqui."</em></p>
+
+      <h3 class="sub">O heatmap do mês</h3>
+      <p class="lede">Grade de sete colunas, uma cor só em cinco intensidades, semana começando na segunda. Duas decisões que parecem detalhe e não são:</p>
+      <dl class="rule">
+        <dt>Dia sem nada não é o degrau mais claro</dt><dd>É superfície neutra. Se "não trabalhei" e "trabalhei pouco" forem os dois tons de roxo mais claros, o mapa mente sobre o mês inteiro.</dd>
+        <dt>Sempre com legenda</dt><dd>"menos ▢▢▢▢▢ mais". Sem ela, um tom de roxo não quer dizer nada — é decoração com aparência de dado.</dd>
+        <dt>Mês futuro fica desabilitado</dt><dd>Não há o que mostrar adiante: seriam só zeros, e zero aqui parece queda de produtividade.</dd>
+      </dl>
+
+      <div class="ia">
+        <div class="ia__topo"><span>Regras para IA</span><button class="ia__copiar" type="button">Copiar</button></div>
+        <pre data-ia>MINHA AGENDA — tela pessoal, acento índigo. Container próprio: largura
+total com padding lateral 24-32px e respiro vertical 24px (não usa o
+p-8 max-w-7xl do shell).
+
+CABEÇALHO: título 30px/900 "&lt;Saudação&gt;, &lt;primeiro nome&gt;!"
+  Bom dia (&lt;12h) · Boa tarde (&lt;18h) · Boa noite
+  linha da data 14px, primeira letra maiúscula, ícone calendar 14
+  Intl.DateTimeFormat('pt-BR', {weekday:'long', day:'2-digit', month:'long'})
+  Botão Atualizar à direita, secundário, com spinner ao carregar.
+  SEM EMOJI.
+
+STATCARD (4, grade 2 colunas / 4 em telas largas):
+  flex, gap 16px, card padrão, padding 24px
+  ícone em tile: padding 16px, raio --zaz-radius-control, fundo do tom
+  valor 36px/900 tabular-nums · rótulo eyebrow
+  Enquanto carrega o valor é "—", NUNCA 0 — zero é um dado, "—" é ausência.
+  Vencendo hoje alarm-clock âmbar · Atrasadas flame vermelho
+  Concluídas hoje check-circle-2 esmeralda · Semana bar-chart-3 índigo
+
+LAYOUT: grade de 3 colunas em tela larga, alinhada ao topo
+  esquerda (2 colunas) as três listas · direita os dois gráficos
+
+SECTIONCARD: card padrão. Título 16px/700 com ícone 18 na cor do tom;
+  contador à direita 14px/900 tabular-nums.
+  A BORDA é tingida pelo tom da seção.
+  Lista com altura máxima e rolagem própria.
+  Vazio: 14px itálico, com frase própria por seção —
+    "Nada atrasado." · "Sem prazos pra hoje." · "Nada parado por aqui."
+
+TASKROW: button (nunca div com onClick), largura total, padding 12px,
+  raio --zaz-radius-control, fundo var(--zaz-bg-muted)
+  nome 14px/500 truncado · meta 12px "&lt;8 chars do id&gt; · criada &lt;hora&gt;"
+  pílula à direita 11px/700 no tom da seção · arrow-right 14
+
+ORDEM DAS LISTAS: Atrasadas → Vencendo hoje → Bloqueadas há +24h.
+É a ordem em que a pessoa deve agir, não a alfabética.
+
+TAREFA NÃO REPETE ENTRE LISTAS: Atrasadas exclui o que cai em "vencendo
+hoje"; Bloqueadas exclui, por Set de ids, tudo que já apareceu acima.
+
+TEMPO RELATIVO: "em 2h", "30min atrás", "em 3d".
+  &lt;60min → min · &lt;24h → h · senão → d. Negativo recebe " atrás".
+
+MINI BAR CHART (semana): colunas alinhadas à base, altura 128px
+  valor em cima 10px/700 tabular-nums
+  barra com topo arredondado, altura em % do máximo, mínimo 4px
+  hoje no tom cheio, demais no tom claro
+  rótulo do dia 10px; o de hoje em negrito e na cor do tom
+
+HEATMAP DE CALENDÁRIO (mês): 7 colunas, célula quadrada, raio md
+  cabeçalho S T Q Q S S D em 10px
+  Semana começa na SEGUNDA: deslocamento = (getDay() + 6) % 7
+  Escala sequencial de UM tom, claro → escuro (use --zaz-data-seq-*)
+  DIA SEM NADA NÃO É O DEGRAU MAIS CLARO — é superfície neutra.
+    Senão "não trabalhei" e "trabalhei pouco" viram a mesma cor.
+  Hoje recebe anel de 2px na cor do tom
+  Número do dia 9px/700; vira branco quando passa de 60% do máximo do mês
+  title por célula: "26/08 · 11 concluídas"
+  SEMPRE com legenda "menos [swatches] mais".
+  Navegação de mês não recarrega o resto da tela, e o botão de próximo
+  mês fica desabilitado no mês corrente: mês futuro só teria zeros.</pre>
+      </div>
+      <p class="fonte">Fonte: <code>MinhaAgendaView.tsx</code>, <code>ui/CalendarioMes.tsx</code>, <code>ui/DonutChart.tsx</code>.</p>
+    </section>
+
+    <!-- ================= DIVERGÊNCIAS ================= -->
+    <section id="divergencias">
+      <h2 class="sec">Divergências abertas</h2>
+      <p class="porque"><strong>Por que existe.</strong> Um design system que só descreve o mundo ideal vira ficção no primeiro mês. Esta lista é a distância medida entre o que está escrito aqui e o que está rodando no Apolo hoje. Ela existe para uma coisa: <strong>em tela nova, escreva certo — não copie o erro do vizinho.</strong></p>
+
+      <div class="zaz-alert zaz-alert--info">
+        <div>
+          <p class="zaz-alert__title">Como ler esta lista</p>
+          <p>Nenhum item aqui é bug de produção: tudo funciona. São dívidas de consistência. Três delas são correção de uma linha; uma é migração de verdade. Vale abrir uma tarefa separada para cada, antes de mexer em cor.</p>
+        </div>
+      </div>
+
+      <div class="zaz-card" style="margin-top:var(--zaz-space-6)"><table class="zaz-table">
+        <thead><tr><th style="width:2.5rem">#</th><th>Divergência</th><th style="width:9rem">Tamanho</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="num">1</td>
+            <td><strong>O Apolo ainda usa o roxo antigo.</strong> O sistema adotou o Roxo ZAZ <code class="tok">#5c229c</code> do manual de marca; o produto em produção segue com <code class="tok">#591da9</code>, em 361 ocorrências. Os dois são visualmente quase idênticos e o contraste é o mesmo — não há pressa, mas há divergência.</td>
+            <td>Migração</td>
+          </tr>
+          <tr>
+            <td class="num">2</td>
+            <td><strong>A tipografia do produto não é a do manual.</strong> O sistema passou a Nunito e Nunito Sans; o <code class="tok">index.html</code> do Apolo carrega Inter. Trocar muda a aparência de toda tela, então é decisão, não conserto.</td>
+            <td>Migração</td>
+          </tr>
+          <tr>
+            <td class="num">3</td>
+            <td><strong>JetBrains Mono é especificada e não é carregada.</strong> <code class="tok">font-mono</code> aparece em 184 lugares, mas a fonte nunca entra na página. Hoje todo CPF, ID de tarefa e chave Camunda renderiza na monoespaçada do sistema operacional.</td>
+            <td>Uma linha</td>
+          </tr>
+          <tr>
+            <td class="num">4</td>
+            <td><strong><code class="tok">&lt;html lang="en"&gt;</code> num produto inteiramente em português.</strong> Muda hifenização, corretor ortográfico e a pronúncia do leitor de tela.</td>
+            <td>Uma linha</td>
+          </tr>
+          <tr>
+            <td class="num">5</td>
+            <td><strong>Emoji contra a própria regra.</strong> <code class="tok">MinhaAgendaView.tsx</code> tem 👋 no título e 🎉 no estado vazio; <code class="tok">PendenciaBell.tsx</code> tem 🎉. O sistema diz "sem emoji, em nenhum lugar".</td>
+            <td>Uma linha</td>
+          </tr>
+          <tr>
+            <td class="num">6</td>
+            <td><strong>Títulos sem acento</strong> em vários cabeçalhos: <em>Configuracoes</em>, <em>Depuracao em Massa</em>, <em>Validacao Semanal</em>, <em>Seguranca</em>, <em>Relatorios</em>.</td>
+            <td>Pequeno</td>
+          </tr>
+          <tr>
+            <td class="num">7</td>
+            <td><strong>A barra roxa de seção não existe no Apolo.</strong> O retângulo de 4×40px à esquerda de títulos dentro de cards é <strong>proposta</strong> deste sistema — zero ocorrências em produção. Boa e barata, mas não é padrão observado, e este documento não deve afirmar que é.</td>
+            <td>Proposta</td>
+          </tr>
+          <tr>
+            <td class="num">8</td>
+            <td><strong>Roxos fora da escala em produção.</strong> <code class="tok">dark:bg-purple-900</code> (115 usos), <code class="tok">dark:text-purple-400</code> (92), <code class="tok">dark:text-purple-300</code> (56), mais <code class="tok">#7c3aed</code>, <code class="tok">#8b5cf6</code>, <code class="tok">#a855f7</code>, <code class="tok">#a21caf</code> e três variações de um dígito de <code class="tok">#4a168c</code> — <code class="tok">#4a1790</code>, <code class="tok">#4a1890</code>, <code class="tok">#4a1789</code>, erro de digitação propagado por cópia.</td>
+            <td>Migração</td>
+          </tr>
+          <tr>
+            <td class="num">9</td>
+            <td><strong>Não temos o logo em vetor.</strong> O <code class="tok">logo.svg</code> do produto é um PNG embrulhado num SVG (<code class="tok">&lt;image href="data:image/png;base64,…"&gt;</code>), com 270 KB. Para impressão e telas grandes ainda falta uma vetorização de verdade. Faltam também as versões que o manual prevê: com tagline, negativa colorida e em tons de cinza.</td>
+            <td>Com o time de marca</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <p class="fonte">As oito primeiras vieram do handoff de documentação do front-end do Apolo; a nona foi apurada ao adotar o Manual de identidade 2022.</p>
+    </section>
+
   </main>
 </div>
 
@@ -876,16 +1636,18 @@ const swatch = (name, hex, note = "") => `
   <div class="sw__meta"><span class="sw__name">${name}</span><span class="sw__hex">${hex}</span>
   ${note ? `<span class="sw__hex" style="text-transform:none">${note}</span>` : ""}</div></div>`;
 
-const brand = [["brand-50","#f5f1fc"],["brand-100","#ebe2f9"],["brand-200","#d7c4f2"],["brand-300","#b795e6"],["brand-400","#9663d6"],["brand-500","#7538c2","hover no escuro"],["brand-600","#591da9","PRIMÁRIA · nos 2 temas"],["brand-700","#4a168c","hover no claro"],["brand-800","#3b1270"],["brand-900","#2c0d54"],["brand-950","#1a0733"]];
+const brand = [["brand-50","#f4f1fb"],["brand-100","#e9e3f8"],["brand-200","#d3c6f0"],["brand-300","#b298e3"],["brand-400","#9168d1"],["brand-500","#743eb9","hover no escuro"],["brand-600","#5c229c","ROXO ZAZ · primária nos 2 temas"],["brand-700","#4c1c83","hover no claro"],["brand-800","#3d1669"],["brand-900","#2d104f"],["brand-950","#1a0930"]];
+const accent = [["accent-50","#f4fae2"],["accent-100","#e8f4be","superfície"],["accent-200","#dbef89","manual"],["accent-300","#a8d812","VERDE ZAZ · manual"],["accent-400","#90ca07"],["accent-500","#77bc00","manual"],["accent-600","#529234"],["accent-700","#3a6838","texto · 6,5:1"],["accent-800","#2c3f2f","manual"],["accent-900","#1c2b1e"],["accent-950","#0b170d"]];
 const neutral = [["neutral-0","#ffffff"],["neutral-50","#f8fafc"],["neutral-100","#f1f5f9"],["neutral-200","#e2e8f0"],["neutral-300","#cbd5e1"],["neutral-400","#94a3b8"],["neutral-500","#64748b"],["neutral-600","#475569"],["neutral-700","#334155"],["neutral-800","#1e293b"],["neutral-900","#0f172a"],["neutral-950","#020617"]];
 const brands = [["VERO","#7538c2"],["GETNET","#e01e2b"],["GUARA","#c2410c"],["SAFIRA","#1d4ed8"],["ORIGO","#047857"],["SUA LUZ","#ca8a04"],["SERENA","#0d9488"],["TICKET","#ea580c"],["PLUXEE","#221c46"]];
-const data = [["data-1","#591da9"],["data-2","#0ea5e9"],["data-3","#10b981"],["data-4","#f59e0b"],["data-5","#6366f1"],["data-6","#ef4444"],["data-7","#06b6d4"],["data-8","#b795e6"]];
+const data = [["data-1","#5c229c"],["data-2","#0ea5e9"],["data-3","#10b981"],["data-4","#f59e0b"],["data-5","#6366f1"],["data-6","#ef4444"],["data-7","#06b6d4"],["data-8","#b795e6"]];
 
 set("sw-brand", brand.map((s) => swatch(...s)).join(""));
+set("sw-accent", accent.map((s) => swatch(...s)).join(""));
 set("sw-neutral", neutral.map((s) => swatch(...s)).join(""));
 set("sw-brands", brands.map(([n, h]) => swatch(n, h)).join(""));
 set("sw-data", data.map(([n, h], i) => swatch(n, h, `série ${i + 1}`)).join(""));
-set("sw-seq", ["#ebe2f9","#d7c4f2","#b795e6","#9663d6","#7538c2","#591da9","#3b1270"]
+set("sw-seq", ["#e9e3f8","#d3c6f0","#b298e3","#9168d1","#743eb9","#5c229c","#3d1669"]
   .map((h) => `<div style="flex:1;height:56px;background:${h}"></div>`).join(""));
 
 set("sw-status", ["danger","warning","success","info","neutral"].map((t) => `
@@ -1162,7 +1924,7 @@ function guiaParaIA() {
     "1. Nunca escreva um hexadecimal. Use os tokens CSS: var(--zaz-*).",
     "2. Marca como FUNDO e var(--zaz-primary); marca como TEXTO, icone ou borda",
     "   e var(--zaz-primary-text). No tema claro sao iguais; no escuro o texto",
-    "   clareia para #a78bfa. Trocar um pelo outro apaga o texto no tema escuro.",
+    "   clareia para brand-300. Trocar um pelo outro apaga o texto no tema escuro.",
     "3. Neutros so da escala slate (--zaz-neutral-50 a 950). Nenhum cinza fora dela.",
     "4. Status sempre em trio: fundo *-bg, texto *-fg, borda *-border. A cor cheia",
     "   (--zaz-danger, --zaz-success...) so em ponto, icone ou barra fina.",
@@ -1171,7 +1933,11 @@ function guiaParaIA() {
     "",
     "VALORES",
     "Primaria " + v("--zaz-brand-600") + " | hover claro " + v("--zaz-brand-700") + " | hover escuro " + v("--zaz-brand-500"),
-    "Fonte: Inter (texto), JetBrains Mono (IDs, CPF, chaves Camunda).",
+    "Verde ZAZ " + v("--zaz-accent") + ": segunda cor da marca, so acento e superficie.",
+    "   Nunca botao nem texto (1,68:1 sobre branco). Como texto use --zaz-accent-text.",
+    "Fonte: Nunito (titulos, via --zaz-font-display), Nunito Sans (corpo e interface,",
+    "   via --zaz-font-sans), Gochi Hand (--zaz-font-hand, so citacao/destaque curto),",
+    "   JetBrains Mono (IDs, CPF, chaves Camunda).",
     "Grade de 4px. Raios: 6 (sm), 8 (md), 12 (control: botao/input/badge),",
     "16 (card: o padrao), 24 (hero: um por tela), 9999 (pill).",
     "Alturas de controle: 32 / 40 / 56px. Sidebar 256px, header 64px.",
@@ -1181,7 +1947,8 @@ function guiaParaIA() {
     "      tamanhos --sm | --lg",
     "Campo: .zaz-field .zaz-label .zaz-input .zaz-select .zaz-textarea .zaz-check .zaz-switch",
     "Conteiner: .zaz-card + __header __body __footer, .zaz-metric, .zaz-section-heading",
-    "Status: .zaz-badge (--danger --warning --success --info --brand), .zaz-alert, .zaz-live-dot",
+    "Status: .zaz-badge (--danger --warning --success --info --brand --accent), .zaz-alert, .zaz-live-dot",
+    "Marca: .zaz-highlight + __title (bloco verde de destaque), .zaz-hand (manuscrita)",
     "Dados: .zaz-table, .zaz-track + .zaz-track__row, .zaz-dl, .zaz-legend, .zaz-bar-track",
     "Estrutura: .zaz-shell .zaz-sidebar .zaz-header .zaz-main .zaz-nav-item .zaz-avatar",
     "Sobreposicao: .zaz-overlay .zaz-modal .zaz-drawer .zaz-toast",
@@ -1451,6 +2218,147 @@ secoes.forEach((s) => observador.observe(s));
 
 // Clicar num link marca na hora, sem esperar o scroll suave terminar.
 for (const [id, link] of linksNav) link.addEventListener("click", () => marcar(id));
+
+/* --- copiar o bloco de regras para IA -----------------------------------
+   Por delegação, num listener só no documento: são 19 blocos, e registrar um
+   listener por botão é trabalho repetido que ainda teria de ser refeito a cada
+   seção nova. O rótulo confirma a cópia e volta sozinho — sem isso, num clique
+   que não muda nada na tela, a pessoa clica de novo. */
+document.addEventListener("click", async (e) => {
+  const botao = e.target.closest(".ia__copiar");
+  if (!botao) return;
+
+  const bloco = botao.closest(".ia")?.querySelector("pre[data-ia]");
+  if (!bloco) return;
+
+  try {
+    await navigator.clipboard.writeText(bloco.textContent);
+    botao.textContent = "Copiado";
+  } catch {
+    // clipboard bloqueado (http sem localhost, permissão negada): seleciona o
+    // texto para a pessoa copiar no teclado, em vez de não fazer nada.
+    const faixa = document.createRange();
+    faixa.selectNodeContents(bloco);
+    const sel = getSelection();
+    sel.removeAllRanges();
+    sel.addRange(faixa);
+    botao.textContent = "Ctrl+C";
+  }
+  setTimeout(() => { botao.textContent = "Copiar"; }, 1600);
+});
+
+/* --- busca --------------------------------------------------------------
+   Filtra as seções e a própria navegação enquanto se digita.
+
+   Sem índice pré-construído e sem biblioteca: o texto das 18 seções já está no
+   DOM, e lê-lo uma vez no carregamento custa menos que manter um índice em
+   sincronia com a página — que é justamente o tipo de coisa que sai de sincronia
+   no primeiro componente novo.
+
+   SINONIMOS existe porque o texto da seção nem sempre tem a palavra que a pessoa
+   digita: quem procura "toast" quer Sobreposições, quem procura "dropdown" quer
+   Formulários, e nenhum dos dois títulos diz isso. */
+const SINONIMOS = {
+  usar: "instalar importar cdn npm tailwind react começar setup",
+  "regra-de-ouro": "fundo texto contraste primary primary-text erro comum wcag acessibilidade",
+  modelos: "template boilerplate exemplo apresentação slide app",
+  cores: "paleta hex roxo verde contraste acessibilidade escala token brand accent",
+  marcas: "parceiro vero getnet guara safira origo serena ticket pluxee tag",
+  dados: "gráfico chart série heatmap rampa legenda barra",
+  tipografia: "fonte nunito gochi mono peso tamanho display eyebrow texto",
+  espaco: "grade spacing raio radius sombra shadow border",
+  tema: "escuro claro dark light localStorage flash preferência alternar",
+  icones: "lucide ícone animação movimento transição duração reduced motion",
+  shell: "sidebar header layout menu navegação estrutura topo",
+  "sidebar-item": "sidebar item menu link contador badge ativo colapso arrastar seção operação",
+  "area-switcher": "área switcher seletor trocar contexto rh gestor promotor listbox dropdown",
+  botoes: "button cta ação primário secundário ghost link",
+  formularios: "input campo select dropdown checkbox radio switch textarea label validação erro",
+  cards: "card métrica kpi painel container",
+  status: "badge alerta alert pill tag chip estado",
+  listas: "tabela table trilha lista linha coluna",
+  sobreposicoes: "modal drawer toast dialog popup notificação overlay",
+  assets: "logo marca ícone icon mascote apolo imagem svg png proteção respiro",
+  slides: "apresentação deck powerpoint capa",
+  voz: "conteúdo texto escrita tom microcopy português emoji",
+  "tela-login": "login entrar senha acesso aurora cartão mascote autenticação",
+  "tela-splash": "splash carregando boot welcome progresso saudação anéis inicialização",
+  "tela-agenda": "agenda tarefas pessoal statcard heatmap calendário gráfico atrasadas prazo",
+  divergencias: "divergência dívida pendência adoção migração inconsistência erro conhecido",
+};
+
+const campoBusca = document.getElementById("busca");
+const contagem = document.getElementById("busca-contagem");
+
+/* Texto de cada seção, colhido UMA vez. Depois disso o filtro é só comparação
+   de string — nada de percorrer o DOM a cada tecla. */
+const indice = secoes.map((s) => ({
+  el: s,
+  link: linksNav.get(s.id),
+  texto: `${s.id} ${s.textContent} ${SINONIMOS[s.id] || ""}`.toLowerCase(),
+}));
+
+/* Os rótulos de grupo ("Fundamentos", "Componentes"...) não têm link próprio.
+   Cada um responde pelos links que vêm depois dele até o próximo rótulo — sem
+   isso, uma busca deixaria "Componentes" sozinho no ar, sem nada embaixo. */
+const grupos = [...document.querySelectorAll(".docs__nav strong")].map((titulo) => {
+  const itens = [];
+  for (let n = titulo.nextElementSibling; n && n.tagName === "A"; n = n.nextElementSibling) itens.push(n);
+  return { titulo, itens };
+});
+
+/** Sem acento e em minúscula: "Espaço" acha com "espaco". */
+const semAcento = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+function filtrar(termo) {
+  const q = semAcento(termo.trim());
+  document.body.classList.toggle("buscando", q !== "");
+
+  if (!q) {
+    for (const { el, link } of indice) { el.hidden = false; if (link) link.hidden = false; }
+    for (const { titulo } of grupos) titulo.hidden = false;
+    contagem.textContent = "";
+    return;
+  }
+
+  let achou = 0;
+  for (const { el, link, texto } of indice) {
+    const casa = semAcento(texto).includes(q);
+    el.hidden = !casa;
+    if (link) link.hidden = !casa;
+    if (casa) achou++;
+  }
+  // Rótulo de grupo some junto com o último item dele.
+  for (const { titulo, itens } of grupos) titulo.hidden = !itens.some((a) => !a.hidden);
+
+  contagem.textContent = achou === 0
+    ? "Nada encontrado."
+    : `${achou} ${achou === 1 ? "seção" : "seções"}.`;
+}
+
+campoBusca.addEventListener("input", () => filtrar(campoBusca.value));
+
+/* Escape limpa; "/" foca de qualquer lugar da página — atalho que quem lê
+   documentação já espera. O guarda do isContentEditable/INPUT evita roubar a
+   barra de quem está digitando dentro de um campo de exemplo. */
+document.addEventListener("keydown", (e) => {
+  const alvo = e.target;
+  const digitando = alvo instanceof HTMLElement
+    && (alvo.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(alvo.tagName));
+
+  if (e.key === "/" && !digitando) { e.preventDefault(); campoBusca.focus(); campoBusca.select(); }
+  if (e.key === "Escape" && alvo === campoBusca) { campoBusca.value = ""; filtrar(""); campoBusca.blur(); }
+});
+
+/* Clicar num resultado leva à seção — e a busca sai do caminho, senão a pessoa
+   chega numa página onde só aquela seção existe e o resto sumiu sem explicação. */
+for (const [, link] of linksNav) {
+  link.addEventListener("click", () => {
+    if (!campoBusca.value) return;
+    campoBusca.value = "";
+    filtrar("");
+  });
+}
 
 /* --- tema --------------------------------------------------------------
    Persistido, e lido no <head> antes do primeiro paint (mesma técnica do

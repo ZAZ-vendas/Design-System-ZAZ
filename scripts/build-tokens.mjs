@@ -92,6 +92,23 @@ function render(value) {
   return String(value);
 }
 
+/**
+ * As famílias do Manual de identidade, num @import só.
+ *
+ * Mora aqui, e não no JSON, porque é uma URL de infraestrutura e não um valor de
+ * design — o JSON diz QUAIS são as famílias, este endereço diz de onde elas
+ * baixam. Gochi Hand vem sem eixo de peso: ela só existe em regular.
+ *
+ * Quem mexer nos pesos de font.fontWeight precisa mexer aqui também: uma família
+ * pedida sem o peso usado sai renderizada em falso-negrito pelo navegador.
+ */
+const FONTES = "https://fonts.googleapis.com/css2"
+  + "?family=Nunito:ital,wght@0,300..900;1,300..900"
+  + "&family=Nunito+Sans:ital,wght@0,300..900;1,300..900"
+  + "&family=Gochi+Hand"
+  + "&family=JetBrains+Mono:wght@400;500;700"
+  + "&display=swap";
+
 const tokens = JSON.parse(await readFile(join(root, "tokens/zaz.tokens.json"), "utf8"));
 const flat = flatten(tokens);
 
@@ -188,7 +205,7 @@ const theme = `/* ==============================================================
    shadow-cta, h-control-md, ease-entrance.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+@import url("${FONTES}");
 
 @theme {
 ${twLines.join("\n")}

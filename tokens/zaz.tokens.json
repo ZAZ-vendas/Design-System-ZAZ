@@ -1,22 +1,36 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "ZAZ Apolo Design System — tokens canônicos. Fonte da verdade: este arquivo. CSS, Tailwind e React são gerados/derivados dele.",
+  "$description": "ZAZ Apolo Design System — tokens canônicos. Fonte da verdade: este arquivo. CSS, Tailwind e React são gerados/derivados dele. As cores de marca e as famílias tipográficas vêm do Manual de identidade da marca ZAZ 2022; o que não está lá (neutros, feedback, raios, sombras, movimento) é decisão de produto e está justificado token a token.",
   "color": {
     "$type": "color",
     "brand": {
-      "$description": "Roxo institucional ZAZ. 600 é a primária de interface (#591da9, valor em produção no Apolo). ATENÇÃO: o logo oficial usa #6a1ca0 — ver token 'logo' e a nota de divergência no README.",
-      "logo":{ "$value": "#6a1ca0", "$description": "Roxo exato do arquivo de logo. Use apenas quando desenhar/reproduzir a marca ou casar um fundo com ela — não como cor de UI." },
-      "50":  { "$value": "#f5f1fc" },
-      "100": { "$value": "#ebe2f9" },
-      "200": { "$value": "#d7c4f2" },
-      "300": { "$value": "#b795e6" },
-      "400": { "$value": "#9663d6" },
-      "500": { "$value": "#7538c2" },
-      "600": { "$value": "#591da9" },
-      "700": { "$value": "#4a168c" },
-      "800": { "$value": "#3b1270" },
-      "900": { "$value": "#2c0d54" },
-      "950": { "$value": "#1a0733" }
+      "$description": "Roxo ZAZ, do Manual de identidade da marca 2022. 600 é o roxo oficial (#5c229c) e a primária de interface. A escala inteira nasce dele: cada degrau mantém a luminosidade calibrada da versão anterior e recebe o matiz e o croma do roxo do manual — por isso o contraste não mudou (600 sobre branco: 9,70:1, contra 9,66:1 de antes). O token 'logo' (#6a1ca0) não existe mais: o manual não conhece esse roxo, e a divergência que o README registrava está encerrada.",
+      "50":  { "$value": "#f4f1fb" },
+      "100": { "$value": "#e9e3f8" },
+      "200": { "$value": "#d3c6f0" },
+      "300": { "$value": "#b298e3" },
+      "400": { "$value": "#9168d1" },
+      "500": { "$value": "#743eb9" },
+      "600": { "$value": "#5c229c", "$description": "Roxo ZAZ oficial. RGB 92/34/156, CMYK 72/88/0/0, Pantone P 96-8 C." },
+      "700": { "$value": "#4c1c83" },
+      "800": { "$value": "#3d1669" },
+      "900": { "$value": "#2d104f" },
+      "950": { "$value": "#1a0930" }
+    },
+
+    "accent": {
+      "$description": "Verde ZAZ — a segunda cor primária do manual, ao lado do roxo e do branco. Aqui ele é ACENTO e SUPERFÍCIE, nunca ação: #a8d812 tem 1,68:1 sobre branco e reprovaria em qualquer botão com texto claro. Use como fundo com texto escuro, ponto, barra de dado, borda ou destaque. O roxo continua sendo o protagonista, como o manual exige. Quatro degraus são cores oficiais (200, 300, 500 e 800); os outros saem da interpolação em OKLCH entre elas.",
+      "50":  { "$value": "#f4fae2" },
+      "100": { "$value": "#e8f4be" },
+      "200": { "$value": "#dbef89", "$description": "Verde claro do manual (secundária)." },
+      "300": { "$value": "#a8d812", "$description": "Verde ZAZ oficial. RGB 168/216/18, CMYK 43/0/96/0, Pantone P 157-8C." },
+      "400": { "$value": "#90ca07" },
+      "500": { "$value": "#77bc00", "$description": "Verde secundário do manual. CMYK 60/0/100/0." },
+      "600": { "$value": "#529234" },
+      "700": { "$value": "#3a6838", "$description": "O degrau mais claro que ainda serve de TEXTO sobre branco: 6,53:1. O 600 dá 3,80:1 e só passa em texto grande." },
+      "800": { "$value": "#2c3f2f", "$description": "Verde escuro do manual (secundária)." },
+      "900": { "$value": "#1c2b1e" },
+      "950": { "$value": "#0b170d" }
     },
     "neutral": {
       "$description": "Escala slate. Único conjunto neutro permitido — fundos, bordas e texto saem daqui.",
@@ -42,13 +56,15 @@
       "status":  { "$description": "O trio neutro — badge sem semântica de alerta.", "bg": { "$value": "#f8fafc" }, "border": { "$value": "#e2e8f0" }, "fg": { "$value": "#334155" }, "solid": { "$value": "#64748b" } }
     },
     "area": {
-      "$description": "Acento por área do Apolo. Colore apenas a pílula do AreaSwitcher e o marcador ativo da área — nunca o corpo da tela.",
-      "tasklist":     { "$value": "#591da9" },
+      "$description": "Acento por área do Apolo. São oito, na ordem do AreaSwitcher: TaskList (briefcase), RH (users), Gestor (user-cog), Promotor (megaphone), Suporte VERO (headphones), Antifraude (shield-alert), Agenda (calendar), Financeiro (wallet). A cor vive no PONTO da opção — que é fundo — e no marcador da área ativa. Nunca no texto do rótulo, nunca no corpo da tela. Áreas vindas do banco entram depois destas.",
+      "tasklist":     { "$value": "#5c229c" },
       "rh":           { "$value": "#f59e0b" },
       "gestor":       { "$value": "#10b981" },
       "promotor":     { "$value": "#0ea5e9" },
       "suporteVero":  { "$value": "#06b6d4" },
-      "agenda":       { "$value": "#6366f1" }
+      "antifraude":   { "$value": "#f43f5e" },
+      "agenda":       { "$value": "#6366f1" },
+      "financeiro":   { "$value": "#22c55e" }
     },
     "tag": {
       "$description": "Cores de IDENTIFICAÇÃO INTERNA das marcas parceiras dentro de produtos ZAZ. Não são a marca do parceiro e não substituem o manual de marca dele. Uso permitido: tag/badge, ponto de legenda, série de gráfico. Uso proibido: fundo de tela, botão, header.",
@@ -64,7 +80,7 @@
     },
     "data": {
       "$description": "Paleta categórica para gráficos. Usar NA ORDEM — a série 1 é sempre o roxo de marca. Acima de 8 séries, agrupar em 'Outros'.",
-      "1": { "$value": "#591da9" },
+      "1": { "$value": "#5c229c" },
       "2": { "$value": "#0ea5e9" },
       "3": { "$value": "#10b981" },
       "4": { "$value": "#f59e0b" },
@@ -75,24 +91,62 @@
     },
     "data-seq": {
       "$description": "Rampa sequencial monocromática para heatmaps, intensidade e mapas.",
-      "1": { "$value": "#ebe2f9" },
-      "2": { "$value": "#d7c4f2" },
-      "3": { "$value": "#b795e6" },
-      "4": { "$value": "#9663d6" },
-      "5": { "$value": "#7538c2" },
-      "6": { "$value": "#591da9" },
-      "7": { "$value": "#3b1270" }
+      "1": { "$value": "#e9e3f8" },
+      "2": { "$value": "#d3c6f0" },
+      "3": { "$value": "#b298e3" },
+      "4": { "$value": "#9168d1" },
+      "5": { "$value": "#743eb9" },
+      "6": { "$value": "#5c229c" },
+      "7": { "$value": "#3d1669" }
     },
     "chart": {
       "$description": "Cromo do gráfico — a grade e o eixo. Ficam separados da paleta de séries porque mudam com o tema, e as séries não.",
       "data-grid": { "$value": "{color.neutral.200}" },
       "data-axis": { "$value": "{color.neutral.400}" }
     },
+    "aurora": {
+      "$description": "Paleta EXCLUSIVA das telas de entrada — login e splash. Não é o vocabulário operacional do produto: dentro de fila, tabela ou formulário, use os papéis semânticos normais. Existe separada porque a entrada é a única tela do Apolo que pode ser acolhedora; o resto é ferramenta de trabalho e precisa sumir atrás da tarefa. Fonte: LoginPage.tsx e SplashApolo.tsx.",
+      "bg":          { "$value": "#fbfaff", "$description": "Fundo da tela de entrada. Quase branco, com um sopro de roxo." },
+      "tinta":       { "$value": "#160d29" },
+      "tinta-2":     { "$value": "#1b1130" },
+      "corpo":       { "$value": "#6a6183" },
+      "meio":        { "$value": "#7a7291" },
+      "label":       { "$value": "#8b83a3" },
+      "fraco":       { "$value": "#a49bbb" },
+      "placeholder": { "$value": "#a9a1bd" },
+      "cartao":      { "$value": "rgb(255 255 255 / 0.86)", "$description": "O cartão flutua sobre a aurora com backdrop-filter: blur(18px). Sem a transparência, o desfoque não tem o que desfocar." },
+      "cartao-borda":{ "$value": "rgb(89 29 169 / 0.12)" },
+      "input":       { "$value": "#faf8ff" },
+      "input-foco":  { "$value": "#ffffff" },
+      "input-borda": { "$value": "#e6e0f2" },
+      "check-off":   { "$value": "#d9d2ea" },
+      "acento":      { "$value": "#591da9" },
+      "acento-hover":{ "$value": "#3d0f7a" }
+    },
+    "aurora-escuro": {
+      "$description": "A mesma tela no tema escuro. Derivada da fase noite do splash — por isso é mais violeta que a superfície escura do produto (neutral-950), que é azulada.",
+      "bg":          { "$value": "#0b0616" },
+      "tinta":       { "$value": "#ffffff" },
+      "corpo":       { "$value": "#a99fc4" },
+      "label":       { "$value": "#9990b3" },
+      "cartao":      { "$value": "rgb(22 13 41 / 0.72)" },
+      "cartao-borda":{ "$value": "rgb(167 139 250 / 0.16)" },
+      "input":       { "$value": "#150c28" },
+      "input-foco":  { "$value": "#1b1033" },
+      "input-borda": { "$value": "#2e2150" },
+      "check-off":   { "$value": "#3b2d5f" },
+      "acento":      { "$value": "#a78bfa" },
+      "acento-hover":{ "$value": "#c4b5fd" }
+    },
     "semantic": {
       "$description": "Papéis do tema claro. É SÓ por aqui que a interface pinta — a escala crua (brand-600, neutral-200) nunca entra direto num componente. Trocar o tema é trocar estes, e nada mais.",
       "primary":       { "$value": "{color.brand.600}", "$description": "Fundo de ação: botão primário, preenchimento de barra, ponto ao vivo." },
       "primary-hover": { "$value": "{color.brand.700}" },
       "primary-text":  { "$value": "{color.brand.600}", "$description": "Marca como TEXTO/ícone/borda sobre o fundo do app. Separado de 'primary' porque no tema escuro os dois divergem: fundo continua roxo forte, texto clareia para #a78bfa." },
+      "accent":         { "$value": "{color.accent.300}", "$description": "Verde ZAZ como ACENTO: ponto, barra de dado, marcador, borda de destaque. Nunca como fundo de botão — não existe texto que passe em cima dele." },
+      "accent-surface": { "$value": "{color.accent.100}", "$description": "Fundo de bloco em verde. Combina com accent-text: 9,7:1." },
+      "accent-border":  { "$value": "{color.accent.200}" },
+      "accent-text":    { "$value": "{color.accent.700}", "$description": "Verde como TEXTO/ícone sobre fundo claro: 6,5:1. O 600 daria 3,8:1 e só serviria em texto grande." },
       "bg-app":        { "$value": "{color.neutral.50}" },
       "bg-surface":    { "$value": "{color.neutral.0}" },
       "bg-muted":      { "$value": "{color.neutral.50}" },
@@ -118,7 +172,11 @@
     "semantic": {
       "primary":       { "$value": "{color.brand.600}", "$description": "Continua brand-600: como FUNDO, com texto branco em cima, dá 9,7:1. Clarear aqui quebra o botão primário — ver AUDITORIA.md." },
       "primary-hover": { "$value": "{color.brand.500}" },
-      "primary-text":  { "$value": "#a78bfa", "$description": "Roxo de TEXTO no escuro: 6,7:1 sobre neutral-900, contra 2,7:1 do brand-500 que ocupava este papel antes. Valor colhido do Apolo em produção (67 usos)." },
+      "primary-text":  { "$value": "{color.brand.300}", "$description": "Marca como TEXTO no tema escuro: 7,2:1 sobre a superfície escura, contra os 3,0:1 que a primária daria. Era #a78bfa — valor real do Apolo, mas derivado do roxo ANTIGO. Com a escala do Manual de identidade, sair de brand-300 mantém o sistema coerente consigo mesmo e ainda melhora o contraste. brand-400 foi descartado: 4,3:1, abaixo do mínimo." },
+      "accent":         { "$value": "{color.accent.300}", "$description": "O Verde ZAZ é a cor que MENOS precisa de ajuste no escuro: 10,6:1 sobre neutral-900. É o oposto do roxo, que precisa clarear." },
+      "accent-surface": { "$value": "rgb(168 216 18 / 0.12)", "$description": "Véu translúcido, como o resto do feedback no escuro — bloco verde opaco brigaria com a superfície." },
+      "accent-border":  { "$value": "rgb(168 216 18 / 0.30)" },
+      "accent-text":    { "$value": "{color.accent.300}", "$description": "Aqui o texto usa o próprio Verde ZAZ; o accent-700 do tema claro sumiria no fundo escuro." },
       "bg-app":        { "$value": "{color.neutral.950}" },
       "bg-surface":    { "$value": "{color.neutral.900}" },
       "bg-muted":      { "$value": "{color.neutral.950}" },
@@ -156,8 +214,11 @@
   },
   "font": {
     "$type": "fontFamily",
-    "sans": { "$value": ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"] },
-    "mono": { "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"] }
+    "$description": "As três famílias do Manual de identidade 2022. A divisão é do próprio manual: Nunito é a tipografia principal, para títulos; Nunito Sans é a secundária, e o manual a indica textualmente para 'textos corridos e interfaces' — por isso ela, e não a Nunito, é a `sans` do sistema.",
+    "sans":    { "$value": ["Nunito Sans", "system-ui", "-apple-system", "Segoe UI", "sans-serif"], "$description": "Corpo e interface. Tudo que é texto de tela sai daqui." },
+    "display": { "$value": ["Nunito", "Nunito Sans", "system-ui", "sans-serif"], "$description": "Títulos e display, em bold/extrabold/black. Os cantos arredondados da Nunito são a assinatura da marca — em corpo de texto pequeno eles cansam, e é por isso que ela não é a sans." },
+    "hand":    { "$value": ["Gochi Hand", "cursive"], "$description": "Manuscrita do manual, que imita caneta marca-texto. Uso MUITO restrito: citação, uma palavra sublinhada de destaque, assinatura de título. Nunca em interface, nunca em bloco de texto." },
+    "mono":    { "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"], "$description": "IDs de tarefa, CPF, CNPJ e chaves do Camunda — onde o alinhamento de dígito importa." }
   },
   "fontWeight": {
     "$type": "fontWeight",
@@ -234,8 +295,8 @@
     "sm":   { "$value": "0 1px 2px 0 rgb(15 23 42 / 0.06)" },
     "md":   { "$value": "0 4px 12px -2px rgb(15 23 42 / 0.10)" },
     "lg":   { "$value": "0 12px 24px -8px rgb(15 23 42 / 0.16)" },
-    "cta":  { "$description": "Brilho roxo do botão primário em repouso.", "$value": "0 8px 20px -6px rgb(89 29 169 / 0.35)" },
-    "hero": { "$description": "Única sombra tingida do sistema — card herói do login.", "$value": "0 32px 64px -24px rgb(44 13 84 / 0.28)" }
+    "cta":  { "$description": "Brilho roxo do botão primário em repouso. É o brand-600 (#5c229c) em rgb.", "$value": "0 8px 20px -6px rgb(92 34 156 / 0.35)" },
+    "hero": { "$description": "Única sombra tingida do sistema — card herói do login. É o brand-900 (#2d104f) em rgb.", "$value": "0 32px 64px -24px rgb(45 16 79 / 0.28)" }
   },
   "motion": {
     "duration": {

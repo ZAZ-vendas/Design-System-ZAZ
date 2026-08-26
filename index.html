@@ -155,8 +155,8 @@ body { margin: 0; }
     </div>
 
     <dl class="ficha">
-      <div><dt>Primária</dt><dd class="mono">#591da9</dd></div>
-      <div><dt>Tipo</dt><dd>Inter</dd></div>
+      <div><dt>Primária</dt><dd class="mono">#5c229c</dd></div>
+      <div><dt>Tipo</dt><dd>Nunito</dd></div>
       <div><dt>Grade</dt><dd>4px</dd></div>
       <div><dt>Idioma</dt><dd>pt-BR</dd></div>
     </dl>
@@ -172,8 +172,9 @@ body { margin: 0; }
     </div>
     <div class="paleta" id="paleta"></div>
     <p class="zaz-muted" style="margin:var(--zaz-space-4) 0 0;max-width:70ch">
-      <strong style="color:var(--zaz-text)">#591da9</strong> é a primária, nos dois temas.
-      Os neutros saem todos da escala slate — nenhum cinza fora dela.
+      <strong style="color:var(--zaz-text)">#5c229c</strong>, o Roxo ZAZ do manual de marca, é a primária nos dois temas.
+      O <strong style="color:var(--zaz-accent-text)">Verde ZAZ #a8d812</strong> é a segunda cor da marca — entra como acento e
+      superfície, nunca como botão. Os neutros saem todos da escala slate — nenhum cinza fora dela.
     </p>
   </div>
 </section>
@@ -187,15 +188,19 @@ body { margin: 0; }
     </div>
     <div class="tipos">
       <div class="tipo">
-        <span class="tipo__rotulo">Display · 36px · 900</span>
+        <span class="tipo__rotulo">Display · Nunito · 36px · 900</span>
         <span class="zaz-display">Gestão inteligente de processos.</span>
       </div>
       <div class="tipo">
-        <span class="tipo__rotulo">Título de tela · 24px · 800</span>
+        <span class="tipo__rotulo">Título de tela · Nunito · 24px · 800</span>
         <span class="zaz-h1">Auditoria de Documentos</span>
       </div>
       <div class="tipo">
-        <span class="tipo__rotulo">Corpo · 14px · 400 — o padrão em produto</span>
+        <span class="tipo__rotulo">Citação · Gochi Hand — uso restrito</span>
+        <span class="zaz-hand" style="font-size:var(--zaz-text-2xl)">Ninguém conhece a rua como a nossa equipe.</span>
+      </div>
+      <div class="tipo">
+        <span class="tipo__rotulo">Corpo · Nunito Sans · 14px · 400 — o padrão em produto</span>
         <span class="zaz-body">Toda tarefa nasce com responsável e prazo definidos no próprio desenho do processo.</span>
       </div>
       <div class="tipo">
@@ -317,9 +322,9 @@ body { margin: 0; }
      com hexadecimal repetido é o tipo de lista que sai de sincronia com os
      tokens no primeiro ajuste de cor. */
   const escala = [
-    ["50","#f5f1fc"],["100","#ebe2f9"],["200","#d7c4f2"],["300","#b795e6"],
-    ["400","#9663d6"],["500","#7538c2"],["600","#591da9"],["700","#4a168c"],
-    ["800","#3b1270"],["900","#2c0d54"],["950","#1a0733"]
+    ["50","#f4f1fb"],["100","#e9e3f8"],["200","#d3c6f0"],["300","#b298e3"],
+    ["400","#9168d1"],["500","#743eb9"],["600","#5c229c"],["700","#4c1c83"],
+    ["800","#3d1669"],["900","#2d104f"],["950","#1a0930"]
   ];
   document.getElementById('paleta').innerHTML = escala.map(([nome, hex], i) =>
     // A partir do 400 o fundo já é escuro demais para texto escuro.

@@ -103,16 +103,44 @@ AUDITORIA.md              Comparação com o Apolo em produção
 
 ### Marca
 
-O roxo **`#591da9`** (`brand-600`) é a cor institucional ZAZ, nos **dois** temas.
-Hover: `brand-700` no claro, `brand-500` no escuro.
+A fonte destas cores é o **Manual de identidade da marca ZAZ 2022**, que define
+três primárias: o **Roxo ZAZ `#5c229c`**, o branco e o **Verde ZAZ `#a8d812`** —
+com o roxo sempre como protagonista.
+
+O roxo (`brand-600`) vale nos **dois** temas. Hover: `brand-700` no claro,
+`brand-500` no escuro.
 
 | Token | Hex | Uso |
 |---|---|---|
-| `brand-50` / `100` | `#f5f1fc` / `#ebe2f9` | Fundo de estado ativo, badge de marca, anel de foco |
-| `brand-200` / `300` | `#d7c4f2` / `#b795e6` | Bordas de destaque, texto de marca em fundo escuro |
-| **`brand-600`** | **`#591da9`** | **Primária: CTA, foco, trilha ativa, ponto "ao vivo"** |
-| `brand-700` | `#4a168c` | Hover da primária (tema claro) |
-| `brand-800` – `950` | `#3b1270` … `#1a0733` | Fundos escuros de slide, sombra tingida |
+| `brand-50` / `100` | `#f4f1fb` / `#e9e3f8` | Fundo de estado ativo, badge de marca, anel de foco |
+| `brand-200` / `300` | `#d3c6f0` / `#b298e3` | Bordas de destaque, texto de marca em fundo escuro |
+| **`brand-600`** | **`#5c229c`** | **Primária: CTA, foco, trilha ativa, ponto "ao vivo"** |
+| `brand-700` | `#4c1c83` | Hover da primária (tema claro) |
+| `brand-800` – `950` | `#3d1669` … `#1a0930` | Fundos escuros de slide, sombra tingida |
+
+A escala inteira deriva do roxo oficial: cada degrau manteve a luminosidade já
+calibrada e recebeu o matiz e o croma de `#5c229c`. Por isso o contraste não
+mudou — a primária sobre branco dá 9,70:1, contra 9,66:1 da versão anterior.
+
+### Verde ZAZ
+
+O verde é primária no manual, mas na interface ele é **acento e superfície,
+nunca ação**: `#a8d812` tem **1,68:1** sobre branco, e não existe texto que passe
+em cima dele.
+
+| Token | Hex | Uso |
+|---|---|---|
+| `accent-100` / `200` | `#e8f4be` / `#dbef89` | Superfície e borda do bloco de destaque |
+| **`accent-300`** | **`#a8d812`** | **Verde ZAZ: ponto, barra de dado, borda, marcador** |
+| `accent-500` | `#77bc00` | Verde secundário do manual |
+| `accent-700` | `#3a6838` | Verde como **texto** sobre fundo claro (6,5:1) |
+| `accent-800` | `#2c3f2f` | Verde escuro do manual; texto sobre a superfície verde |
+
+Quatro degraus (`200`, `300`, `500`, `800`) são cores oficiais do manual; os
+demais saem da interpolação em OKLCH entre elas.
+
+O verde de marca **não é** o verde de sucesso. `--zaz-success` continua sendo
+status; `--zaz-accent` é identidade. Misturar os dois faz a marca virar semáforo.
 
 ### A regra que mais dá errado: fundo × texto
 
@@ -183,8 +211,20 @@ Acima de 8 séries, agrupe em "Outros". Para intensidade e mapas, use a rampa
 
 ## Tipografia
 
-**Inter** (300–900) para tudo; **JetBrains Mono** para IDs de tarefa, CPFs e
-chaves Camunda.
+Três famílias, e a divisão é do manual de marca:
+
+| Família | Token | Onde |
+|---|---|---|
+| **Nunito** | `--zaz-font-display` | Títulos e display, em bold/extrabold/black |
+| **Nunito Sans** | `--zaz-font-sans` | Corpo e interface — o manual a indica textualmente para "textos corridos e interfaces" |
+| **Gochi Hand** | `--zaz-font-hand` | Manuscrita. Uso **muito restrito**: citação, palavra de destaque, assinatura de título curto |
+| JetBrains Mono | `--zaz-font-mono` | IDs de tarefa, CPFs e chaves Camunda |
+
+A Nunito não é a `sans` de propósito: os cantos arredondados que dão a
+personalidade da marca cansam em corpo de texto pequeno, e o próprio manual
+reserva a Nunito Sans para interface.
+
+O nome da empresa é sempre **ZAZ**, em caixa alta.
 
 | Contexto | Token | Peso |
 |---|---|---|
@@ -303,21 +343,21 @@ ativo/foco.
 **Pendência aberta:** só temos o PNG. Um SVG vetorial ainda é desejável para
 impressão e telas grandes.
 
-**Divergência de roxo — decisão pendente do time de marca.** O arquivo de logo
-usa `#6a1ca0`; a interface do Apolo usa `#591da9`. Os dois estão registrados e
-separados:
+**Divergência de roxo — encerrada.** Havia aqui um `#6a1ca0` lido do arquivo de
+logo, concorrendo com o roxo de interface. O Manual de identidade 2022 resolveu:
+o Roxo ZAZ é **`#5c229c`**, e a escala inteira deriva dele. O token `brand-logo`
+foi removido.
 
-| Token | Hex | Uso |
-|---|---|---|
-| `brand-logo` | `#6a1ca0` | Só ao reproduzir a marca ou casar um fundo com ela |
-| `brand-600` | `#591da9` | Primária de interface — tudo o mais |
+Regras de logo: altura mínima 24px; **área de proteção igual à largura da letra
+"Z" do próprio logo** — é a medida que o manual usa, e ela acompanha o tamanho da
+aplicação sozinha; nada pode invadir esse respiro. Sem sombra, sem contorno e
+**nunca girado** (o manual proíbe qualquer ângulo fora do original). Em fundo
+escuro, use a versão positiva sobre o roxo — não aplique `filter: invert()`.
 
-Quando a decisão sair, um dos dois some e a escala inteira é rederivada a partir
-do vencedor.
-
-Regras de logo (valem para os dois): altura mínima 24px; área de respiro igual a
-metade da altura do logo; sem sombra, contorno ou rotação. Em fundo escuro, use a
-versão positiva sobre o roxo — não aplique `filter: invert()`.
+O manual também prevê versão com tagline ("Primeira salestech brasileira", em
+vertical ou horizontal, só em peças institucionais), versão negativa colorida
+como segunda opção e versões em tons de cinza quando não der para usar cor.
+Nenhuma dessas está no repositório ainda — temos só o PNG principal.
 
 O mascote é para contextos de acolhimento e estados vazios/erro. Não entra em
 tela operacional densa.

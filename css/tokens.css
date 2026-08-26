@@ -13,22 +13,36 @@
    nos dois temas.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+/* As famílias do Manual de identidade ZAZ 2022: Nunito (títulos), Nunito Sans
+   (corpo e interface), Gochi Hand (manuscrita, uso restrito) e JetBrains Mono
+   (dígitos). Mantenha em sincronia com a constante FONTES do build-tokens.mjs,
+   que escreve o mesmo @import no preset do Tailwind. */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300..900;1,300..900&family=Nunito+Sans:ital,wght@0,300..900;1,300..900&family=Gochi+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
 /* GERADO:INICIO — não edite daqui até GERADO:FIM. Fonte: tokens/zaz.tokens.json */
 :root {
-  --zaz-brand-50: #f5f1fc;
-  --zaz-brand-100: #ebe2f9;
-  --zaz-brand-200: #d7c4f2;
-  --zaz-brand-300: #b795e6;
-  --zaz-brand-400: #9663d6;
-  --zaz-brand-500: #7538c2;
-  --zaz-brand-600: #591da9;
-  --zaz-brand-700: #4a168c;
-  --zaz-brand-800: #3b1270;
-  --zaz-brand-900: #2c0d54;
-  --zaz-brand-950: #1a0733;
-  --zaz-brand-logo: #6a1ca0;
+  --zaz-brand-50: #f4f1fb;
+  --zaz-brand-100: #e9e3f8;
+  --zaz-brand-200: #d3c6f0;
+  --zaz-brand-300: #b298e3;
+  --zaz-brand-400: #9168d1;
+  --zaz-brand-500: #743eb9;
+  --zaz-brand-600: #5c229c;
+  --zaz-brand-700: #4c1c83;
+  --zaz-brand-800: #3d1669;
+  --zaz-brand-900: #2d104f;
+  --zaz-brand-950: #1a0930;
+  --zaz-accent-50: #f4fae2;
+  --zaz-accent-100: #e8f4be;
+  --zaz-accent-200: #dbef89;
+  --zaz-accent-300: #a8d812;
+  --zaz-accent-400: #90ca07;
+  --zaz-accent-500: #77bc00;
+  --zaz-accent-600: #529234;
+  --zaz-accent-700: #3a6838;
+  --zaz-accent-800: #2c3f2f;
+  --zaz-accent-900: #1c2b1e;
+  --zaz-accent-950: #0b170d;
   --zaz-neutral-0: #ffffff;
   --zaz-neutral-50: #f8fafc;
   --zaz-neutral-100: #f1f5f9;
@@ -61,12 +75,14 @@
   --zaz-status-border: #e2e8f0;
   --zaz-status-fg: #334155;
   --zaz-status: #64748b;
-  --zaz-area-tasklist: #591da9;
+  --zaz-area-tasklist: #5c229c;
   --zaz-area-rh: #f59e0b;
   --zaz-area-gestor: #10b981;
   --zaz-area-promotor: #0ea5e9;
   --zaz-area-suporte-vero: #06b6d4;
+  --zaz-area-antifraude: #f43f5e;
   --zaz-area-agenda: #6366f1;
+  --zaz-area-financeiro: #22c55e;
   --zaz-tag-vero: #7538c2;
   --zaz-tag-getnet: #e01e2b;
   --zaz-tag-guara: #c2410c;
@@ -76,7 +92,7 @@
   --zaz-tag-serena: #0d9488;
   --zaz-tag-ticket: #ea580c;
   --zaz-tag-pluxee: #221c46;
-  --zaz-data-1: #591da9;
+  --zaz-data-1: #5c229c;
   --zaz-data-2: #0ea5e9;
   --zaz-data-3: #10b981;
   --zaz-data-4: #f59e0b;
@@ -84,18 +100,50 @@
   --zaz-data-6: #ef4444;
   --zaz-data-7: #06b6d4;
   --zaz-data-8: #b795e6;
-  --zaz-data-seq-1: #ebe2f9;
-  --zaz-data-seq-2: #d7c4f2;
-  --zaz-data-seq-3: #b795e6;
-  --zaz-data-seq-4: #9663d6;
-  --zaz-data-seq-5: #7538c2;
-  --zaz-data-seq-6: #591da9;
-  --zaz-data-seq-7: #3b1270;
+  --zaz-data-seq-1: #e9e3f8;
+  --zaz-data-seq-2: #d3c6f0;
+  --zaz-data-seq-3: #b298e3;
+  --zaz-data-seq-4: #9168d1;
+  --zaz-data-seq-5: #743eb9;
+  --zaz-data-seq-6: #5c229c;
+  --zaz-data-seq-7: #3d1669;
   --zaz-data-grid: var(--zaz-neutral-200);
   --zaz-data-axis: var(--zaz-neutral-400);
+  --zaz-aurora-bg: #fbfaff;
+  --zaz-aurora-tinta: #160d29;
+  --zaz-aurora-tinta-2: #1b1130;
+  --zaz-aurora-corpo: #6a6183;
+  --zaz-aurora-meio: #7a7291;
+  --zaz-aurora-label: #8b83a3;
+  --zaz-aurora-fraco: #a49bbb;
+  --zaz-aurora-placeholder: #a9a1bd;
+  --zaz-aurora-cartao: rgb(255 255 255 / 0.86);
+  --zaz-aurora-cartao-borda: rgb(89 29 169 / 0.12);
+  --zaz-aurora-input: #faf8ff;
+  --zaz-aurora-input-foco: #ffffff;
+  --zaz-aurora-input-borda: #e6e0f2;
+  --zaz-aurora-check-off: #d9d2ea;
+  --zaz-aurora-acento: #591da9;
+  --zaz-aurora-acento-hover: #3d0f7a;
+  --zaz-aurora-escuro-bg: #0b0616;
+  --zaz-aurora-escuro-tinta: #ffffff;
+  --zaz-aurora-escuro-corpo: #a99fc4;
+  --zaz-aurora-escuro-label: #9990b3;
+  --zaz-aurora-escuro-cartao: rgb(22 13 41 / 0.72);
+  --zaz-aurora-escuro-cartao-borda: rgb(167 139 250 / 0.16);
+  --zaz-aurora-escuro-input: #150c28;
+  --zaz-aurora-escuro-input-foco: #1b1033;
+  --zaz-aurora-escuro-input-borda: #2e2150;
+  --zaz-aurora-escuro-check-off: #3b2d5f;
+  --zaz-aurora-escuro-acento: #a78bfa;
+  --zaz-aurora-escuro-acento-hover: #c4b5fd;
   --zaz-primary: var(--zaz-brand-600);
   --zaz-primary-hover: var(--zaz-brand-700);
   --zaz-primary-text: var(--zaz-brand-600);
+  --zaz-accent: var(--zaz-accent-300);
+  --zaz-accent-surface: var(--zaz-accent-100);
+  --zaz-accent-border: var(--zaz-accent-200);
+  --zaz-accent-text: var(--zaz-accent-700);
   --zaz-bg-app: var(--zaz-neutral-50);
   --zaz-bg-surface: var(--zaz-neutral-0);
   --zaz-bg-muted: var(--zaz-neutral-50);
@@ -114,7 +162,9 @@
   --zaz-veil-strong: color-mix(in srgb, var(--zaz-primary-text) 16%, transparent);
   --zaz-scrollbar: var(--zaz-neutral-300);
   --zaz-scrollbar-hover: var(--zaz-neutral-400);
-  --zaz-font-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --zaz-font-sans: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --zaz-font-display: Nunito, "Nunito Sans", system-ui, sans-serif;
+  --zaz-font-hand: "Gochi Hand", cursive;
   --zaz-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --zaz-font-weight-light: 300;
   --zaz-font-weight-regular: 400;
@@ -165,8 +215,8 @@
   --zaz-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.06);
   --zaz-shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.10);
   --zaz-shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 0.16);
-  --zaz-shadow-cta: 0 8px 20px -6px rgb(89 29 169 / 0.35);
-  --zaz-shadow-hero: 0 32px 64px -24px rgb(44 13 84 / 0.28);
+  --zaz-shadow-cta: 0 8px 20px -6px rgb(92 34 156 / 0.35);
+  --zaz-shadow-hero: 0 32px 64px -24px rgb(45 16 79 / 0.28);
   --zaz-duration-fast: 150ms;
   --zaz-duration-base: 200ms;
   --zaz-duration-slow: 300ms;
@@ -184,7 +234,11 @@
 .dark {
   --zaz-primary: var(--zaz-brand-600);
   --zaz-primary-hover: var(--zaz-brand-500);
-  --zaz-primary-text: #a78bfa;
+  --zaz-primary-text: var(--zaz-brand-300);
+  --zaz-accent: var(--zaz-accent-300);
+  --zaz-accent-surface: rgb(168 216 18 / 0.12);
+  --zaz-accent-border: rgb(168 216 18 / 0.30);
+  --zaz-accent-text: var(--zaz-accent-300);
   --zaz-bg-app: var(--zaz-neutral-950);
   --zaz-bg-surface: var(--zaz-neutral-900);
   --zaz-bg-muted: var(--zaz-neutral-950);

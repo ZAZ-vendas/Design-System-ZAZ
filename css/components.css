@@ -12,9 +12,13 @@
    2. Marca como FUNDO é --zaz-primary; marca como TEXTO, ÍCONE ou BORDA é
       --zaz-primary-text. No tema claro os dois são o mesmo roxo, então a
       distinção parece inútil — ela existe pelo escuro, onde o fundo continua
-      #591da9 (branco em cima: 9,7:1) e o texto precisa clarear para #a78bfa
-      (6,7:1). Usar o token errado não quebra a tela: só apaga o texto até
-      ninguém conseguir ler.
+      brand-600 (branco em cima: 9,7:1) e o texto precisa clarear para
+      brand-300 (7,2:1). Usar o token errado não quebra a tela: só apaga o
+      texto até ninguém conseguir ler.
+
+      Os valores não aparecem aqui de propósito: são tokens, e quem os fixa é
+      tokens/zaz.tokens.json. Este comentário já ficou desatualizado uma vez,
+      quando a escala foi rederivada a partir do Roxo ZAZ do manual.
 
    Véu translúcido de marca — fundo de item ativo, linha em hover, avatar —
    sai de color-mix() sobre --zaz-primary-text. É o que permite uma regra só
@@ -29,13 +33,22 @@
   letter-spacing: var(--zaz-tracking-eyebrow);
   color: var(--zaz-text-muted);
 }
-.zaz-display { font-size: var(--zaz-text-4xl); font-weight: 900; letter-spacing: var(--zaz-tracking-tight); line-height: 1.1; }
-.zaz-h1 { font-size: var(--zaz-text-2xl); font-weight: 800; letter-spacing: var(--zaz-tracking-tight); }
-.zaz-h2 { font-size: var(--zaz-text-xl); font-weight: 700; }
-.zaz-h3 { font-size: var(--zaz-text-base); font-weight: 600; }
+/* Título é Nunito; corpo é Nunito Sans. A divisão é do Manual de identidade, e
+   está declarada aqui porque os títulos HERDAM a família da raiz — sem esta
+   linha, a Nunito nunca apareceria em lugar nenhum. */
+.zaz-display { font-family: var(--zaz-font-display); font-size: var(--zaz-text-4xl); font-weight: 900; letter-spacing: var(--zaz-tracking-tight); line-height: 1.1; }
+.zaz-h1 { font-family: var(--zaz-font-display); font-size: var(--zaz-text-2xl); font-weight: 800; letter-spacing: var(--zaz-tracking-tight); }
+.zaz-h2 { font-family: var(--zaz-font-display); font-size: var(--zaz-text-xl); font-weight: 700; }
+.zaz-h3 { font-family: var(--zaz-font-display); font-size: var(--zaz-text-base); font-weight: 600; }
 .zaz-body { font-size: var(--zaz-text-sm); color: var(--zaz-text); }
 .zaz-muted { font-size: var(--zaz-text-sm); color: var(--zaz-text-muted); }
 .zaz-mono { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); letter-spacing: 0; }
+
+/* Gochi Hand, a manuscrita do manual. O próprio manual pede uso restrito: uma
+   citação, uma palavra sublinhada, a assinatura de um título — nunca corpo de
+   texto e nunca interface. Fica como classe própria, e não como variação de
+   título, justamente para que usá-la seja uma decisão consciente. */
+.zaz-hand { font-family: var(--zaz-font-hand); font-weight: 400; letter-spacing: 0; }
 
 /* Barra roxa de 4×40px ao lado de títulos de seção — assinatura Apolo. */
 .zaz-section-heading { display: flex; align-items: center; gap: var(--zaz-space-3); }
@@ -174,6 +187,24 @@
 .zaz-badge--success { background: var(--zaz-success-bg); color: var(--zaz-success-fg); border-color: var(--zaz-success-border); }
 .zaz-badge--info    { background: var(--zaz-info-bg);    color: var(--zaz-info-fg);    border-color: var(--zaz-info-border); }
 .zaz-badge--brand   { background: var(--zaz-veil-strong); color: var(--zaz-primary-text); border-color: color-mix(in srgb, var(--zaz-primary-text) 35%, transparent); }
+/* Verde ZAZ. Não é "sucesso": é a segunda cor da marca, para o que precisa
+   saltar sem virar status — um selo de novidade, um número em destaque. O texto
+   é o accent-text (6,5:1 sobre a superfície verde), nunca o Verde ZAZ puro. */
+.zaz-badge--accent  { background: var(--zaz-accent-surface); color: var(--zaz-accent-text); border-color: var(--zaz-accent-border); }
+
+/* Bloco de destaque em Verde ZAZ — o uso de SUPERFÍCIE do verde.
+   A barra lateral usa o Verde ZAZ puro (#a8d812): ali ele não precisa carregar
+   texto nenhum, que é a única condição em que essa cor funciona. O fundo é o
+   accent-surface e o texto continua o texto do sistema, para o bloco informar
+   sem virar alerta — é destaque de marca, não status. */
+.zaz-highlight {
+  background: var(--zaz-accent-surface);
+  border-left: 4px solid var(--zaz-accent);
+  border-radius: 0 var(--zaz-radius-control) var(--zaz-radius-control) 0;
+  padding: var(--zaz-space-4) var(--zaz-space-5);
+  color: var(--zaz-text);
+}
+.zaz-highlight__title { font-family: var(--zaz-font-display); font-weight: 800; color: var(--zaz-accent-text); margin-bottom: var(--zaz-space-1); }
 
 /* Tag de marca parceira: cor só no ponto, texto sempre neutro. */
 .zaz-brand-tag { display: inline-flex; align-items: center; gap: var(--zaz-space-2); padding: 0.1875rem var(--zaz-space-2) 0.1875rem var(--zaz-space-2);
@@ -283,7 +314,9 @@
 .zaz-area-pill[data-area="gestor"] { --_area: var(--zaz-area-gestor); }
 .zaz-area-pill[data-area="promotor"] { --_area: var(--zaz-area-promotor); }
 .zaz-area-pill[data-area="suporte-vero"] { --_area: var(--zaz-area-suporte-vero); }
+.zaz-area-pill[data-area="antifraude"] { --_area: var(--zaz-area-antifraude); }
 .zaz-area-pill[data-area="agenda"] { --_area: var(--zaz-area-agenda); }
+.zaz-area-pill[data-area="financeiro"] { --_area: var(--zaz-area-financeiro); }
 
 .zaz-avatar { display: grid; place-items: center; width: var(--zaz-control-md); height: var(--zaz-control-md); border-radius: var(--zaz-radius-pill); background: var(--zaz-veil-strong); color: var(--zaz-primary-text); font-size: var(--zaz-text-xs); font-weight: 700; }
 
