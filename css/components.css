@@ -115,6 +115,11 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--zaz-ring) 28%, transparent);
 }
 .zaz-input:disabled, .zaz-select:disabled { background: var(--zaz-bg-inset); color: var(--zaz-text-subtle); cursor: not-allowed; }
+/* Três densidades, as mesmas do botão: sm para filtro dentro de tabela, o
+   padrão para formulário, lg para o campo que é o assunto da tela. Muda a
+   altura e o espaço interno; o tamanho do rótulo e do ícone fica igual, senão
+   a coluna do formulário perde o ritmo. */
+.zaz-input--sm { height: var(--zaz-control-sm); padding: 0 var(--zaz-space-3); font-size: var(--zaz-text-xs); }
 .zaz-input--lg { height: var(--zaz-control-lg); font-size: var(--zaz-text-base); border-radius: var(--zaz-radius-card); }
 .zaz-field--invalid .zaz-input, .zaz-field--invalid .zaz-select, .zaz-input[aria-invalid="true"] {
   border-color: var(--zaz-danger); background: var(--zaz-danger-bg);

@@ -282,6 +282,17 @@
    ========================================================================== */
 
 /* --- Reset mínimo (opt-in via .zaz-root ou no <body>) --------------------- */
+
+/* Todo componente daqui assume border-box: `.zaz-input` pede width:100% e
+   soma 32px de padding com 2px de borda. No Apolo isso passava despercebido
+   porque o preflight do Tailwind já aplica a regra; numa página solta — que é
+   metade do propósito deste sistema — o campo estourava o container e ninguém
+   entendia por quê. */
+.zaz-root,
+.zaz-root *,
+.zaz-root *::before,
+.zaz-root *::after { box-sizing: border-box; }
+
 .zaz-root,
 body.zaz-root {
   background: var(--zaz-bg-app);
