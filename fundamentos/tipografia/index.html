@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipografia · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Tipografia</b></p>
+    <h1 class="ficha__titulo">Tipografia</h1>
+    <p class="ficha__resumo">Três famílias, cada uma com um trabalho: Nunito nos títulos, Nunito Sans no corpo e na interface, Gochi Hand como assinatura manuscrita de uso restrito. Mais a JetBrains Mono, que existe por um motivo técnico — o dígito precisa alinhar.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="escala" aria-selected="false" aria-controls="painel-escala">Escala</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O que decide um estilo de texto</p>
+
+        <h3>A divisão das famílias vem do manual</h3>
+        <p>O <strong>Manual de identidade da marca ZAZ</strong> indica a Nunito Sans textualmente para "textos corridos e interfaces", e reserva a Nunito para títulos. A Gochi Hand é a assinatura manuscrita, com pedido explícito de <strong>uso muito restrito</strong>. A JetBrains Mono não é do manual: entrou por necessidade, e só onde números precisam alinhar em coluna.</p>
+
+        <h3>O corpo é 14px porque o produto é denso</h3>
+        <p>O padrão em produto é <code>--zaz-text-sm</code>, 14 pixels — não 16. O Apolo é um console operacional com dezenas de filas visíveis ao mesmo tempo; a 16px, a mesma tela mostraria um terço a menos de trabalho. Em material avulso (apresentação, relatório, página solta), o padrão volta a ser 16px.</p>
+
+        <h3>Hierarquia por peso, não por cor</h3>
+        <p>A diferença entre um título e um parágrafo é o <strong>tamanho e o peso</strong>. Cor é função — <code>--zaz-text-muted</code> significa "informação secundária", não "título menor". Um título cinza e um parágrafo preto dizem duas coisas ao mesmo tempo, e o leitor acredita na cor.</p>
+
+        <h3>Nada fora da escala</h3>
+        <p>São 12 degraus, do <code>xs</code> ao <code>8xl</code>. Precisou de um tamanho intermediário? A resposta quase sempre é que o estilo escolhido está errado, não que falta um degrau.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia de um estilo</h2>
+        <p class="subtitulo">As seis propriedades que definem qualquer texto do sistema</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Propriedade</th><th>O que controla</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Família</td><td>O desenho da letra</td><td><code>--zaz-font-display</code> · <code>--zaz-font-sans</code> · <code>--zaz-font-mono</code> · <code>--zaz-font-hand</code></td></tr>
+              <tr><td class="id">2</td><td>Tamanho</td><td>A altura da letra</td><td><code>--zaz-text-xs</code> … <code>--zaz-text-8xl</code></td></tr>
+              <tr><td class="id">3</td><td>Peso</td><td>A espessura do traço</td><td><code>300</code> a <code>900</code></td></tr>
+              <tr><td class="id">4</td><td>Entrelinha</td><td>O espaço entre linhas</td><td><code>1.1</code> título · <code>1.45</code> corpo</td></tr>
+              <tr><td class="id">5</td><td>Tracking</td><td>O espaço entre letras</td><td><code>--zaz-tracking-tight</code> · <code>--zaz-tracking-eyebrow</code></td></tr>
+              <tr><td class="id">6</td><td>Cor</td><td>A hierarquia da informação</td><td><code>--zaz-text</code> · <code>--zaz-text-muted</code> · <code>--zaz-text-subtle</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:460px">
+            <div style="max-width:340px">
+              <span class="peca zaz-eyebrow" style="display:block;margin-bottom:var(--zaz-space-2)">
+                Identificação
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">5</span>
+              </span>
+              <span class="peca zaz-h1" style="display:block;margin-bottom:var(--zaz-space-3)">
+                Caixa de Entrada
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+                <span class="fio fio--direita"></span><span class="marca marca--direita">3</span>
+              </span>
+              <span class="peca zaz-body" style="display:block">
+                Toda tarefa nasce com responsável e prazo definidos no próprio desenho do processo.
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">4</span>
+                <span class="fio fio--direita"></span><span class="marca marca--direita">2</span>
+              </span>
+              <span class="peca zaz-muted" style="display:block;margin-top:var(--zaz-space-3)">
+                Atualizado há 4 minutos
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">6</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia de um bloco de texto do sistema: eyebrow, título, corpo e meta.</p>
+
+        <h3>1. Família</h3>
+        <p>Títulos <strong>herdam a família da raiz</strong> se ninguém disser o contrário — por isso as classes <code>.zaz-h1</code> a <code>.zaz-h3</code> declaram a Nunito explicitamente. Sem essa linha, a família de título nunca apareceria em lugar nenhum, e ninguém notaria.</p>
+
+        <h3>2. Tamanho</h3>
+        <p>Sempre da escala, sempre em <code>rem</code>. A unidade relativa é o que faz a interface acompanhar quem aumentou a fonte do sistema operacional — valor em <code>px</code> ignora essa pessoa.</p>
+
+        <h3>3. Peso</h3>
+        <p>Sete pesos disponíveis, quatro em uso real: <strong>400</strong> corpo, <strong>600</strong> rótulo e botão, <strong>700</strong> título de card, <strong>800/900</strong> título de tela e display. Peso abaixo de 400 não é usado em interface: fica fino demais nas telas de baixa densidade que ainda existem no time.</p>
+
+        <h3>4. Entrelinha</h3>
+        <p><strong>1.45 no corpo</strong> (o padrão do <code>.zaz-root</code>) e <strong>1.1 nos títulos</strong>. A regra vale por proporção, não por pixel: título grande com entrelinha de corpo fica esparramado, e corpo com entrelinha de título vira parede.</p>
+
+        <h3>5. Tracking</h3>
+        <p>Dois ajustes, ambos pequenos e ambos obrigatórios onde se aplicam. <code>--zaz-tracking-tight</code> (−0,02em) fecha os títulos grandes, que naturalmente parecem soltos. <code>--zaz-tracking-eyebrow</code> (0,08em) abre o texto em caixa alta, que sem isso vira um bloco ilegível.</p>
+
+        <h3>6. Cor</h3>
+        <p>Três níveis de leitura, e cada um significa uma coisa: <strong>texto</strong> é o conteúdo, <strong>muted</strong> é apoio, <strong>subtle</strong> é meta — o que o olho pode pular. Nunca use um nível mais fraco só para "dar um respiro visual".</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Os estilos</h2>
+        <p class="subtitulo">Sete papéis, cada um com seu lugar</p>
+
+        <div class="quadro">
+          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-6)">
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Display · 4xl / 900 · uma vez por tela</p>
+              <span class="zaz-display">Portal de Tarefas</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Título de tela · 2xl / 800</p>
+              <span class="zaz-h1">Caixa de Entrada</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Título de card · xl / 700</p>
+              <span class="zaz-h2">Filtros Avançados</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Subtítulo · base / 600</p>
+              <span class="zaz-h3">Documentos anexados</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Corpo · sm / 400 · o padrão em produto</p>
+              <span class="zaz-body">Toda tarefa nasce com responsável e prazo definidos no próprio desenho do processo.</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Eyebrow · xs / 700 / caixa alta com tracking</p>
+              <span class="zaz-eyebrow">Identificação (CPF ou usuário)</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Mono · xs · IDs, CPFs e chaves Camunda</p>
+              <span class="zaz-mono">TSK-8842-CRED · 000.000.000-00</span>
+            </div>
+            <div>
+              <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">Manuscrita · Gochi Hand · citação e destaque</p>
+              <span class="zaz-hand" style="font-size:var(--zaz-text-2xl)">Primeira salestech brasileira</span>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Os oito estilos do sistema, com a classe e a régua de cada um.</p>
+
+        <div class="nota">
+          <p><strong>Em português comum:</strong> <em>eyebrow</em> ("sobrancelha") é aquele rótulo pequeno em caixa alta que fica acima de um título. <em>Display</em> é a letra bem grande, de abertura de tela, usada uma vez só. <em>Mono</em> é a letra de largura fixa, para números e códigos que precisam alinhar.</p>
+        </div>
+
+        <h3>A Gochi Hand tem limite</h3>
+        <p>O manual pede uso muito restrito: uma citação, uma palavra sublinhada de destaque, a assinatura de um título curto. <strong>Nunca em interface, nunca em bloco de texto, nunca em algo que alguém precise ler rápido.</strong> Ela é classe própria (<code>.zaz-hand</code>) e não variação de título justamente para que usá-la seja uma decisão consciente.</p>
+        <p>E o nome da empresa é sempre <strong>ZAZ</strong>, em caixa alta.</p>
+
+        <h3>A mono existe para alinhar</h3>
+        <p>Use em ID de tarefa, CPF, CNPJ, chave do Camunda e qualquer coluna de número que se compara na vertical. Em largura fixa, o dígito 1 ocupa o mesmo que o 8 — é isso que deixa a coluna alinhada e o erro de digitação visível.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Mínimos por meio</h2>
+        <p class="subtitulo">O mesmo sistema em três suportes diferentes</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Meio</th><th>Mínimo</th><th>Motivo</th></tr></thead>
+            <tbody>
+              <tr><td>Produto (tela)</td><td>12px (<code>--zaz-text-xs</code>)</td><td>Abaixo disso não se lê em monitor de trabalho a 60cm</td></tr>
+              <tr><td>Slide 1920×1080</td><td><strong>24px</strong></td><td>Projeção e sala grande: o fundo da sala é quem define o mínimo</td></tr>
+              <tr><td>Documento impresso</td><td>12pt</td><td>Papel não tem zoom</td></tr>
+              <tr><td>Mockup mobile</td><td>alvo de toque de 44px</td><td>Tamanho do dedo, não da letra</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ESCALA -->
+    <div class="painel" id="painel-escala" role="tabpanel" hidden>
+
+      <section>
+        <h2>A escala</h2>
+        <p class="subtitulo">Doze degraus, e onde cada um é usado</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>rem</th><th>px</th><th>Onde</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-text-xs</code></td><td>0.75</td><td>12</td><td>Eyebrow, meta, mono, texto de apoio</td></tr>
+              <tr><td><code>--zaz-text-sm</code></td><td>0.875</td><td>14</td><td><strong>Corpo em produto</strong>, botão, campo</td></tr>
+              <tr><td><code>--zaz-text-base</code></td><td>1</td><td>16</td><td>Corpo em material avulso, subtítulo</td></tr>
+              <tr><td><code>--zaz-text-lg</code></td><td>1.125</td><td>18</td><td>Destaque dentro de texto</td></tr>
+              <tr><td><code>--zaz-text-xl</code></td><td>1.25</td><td>20</td><td>Título de card</td></tr>
+              <tr><td><code>--zaz-text-2xl</code></td><td>1.5</td><td>24</td><td>Título de tela</td></tr>
+              <tr><td><code>--zaz-text-3xl</code></td><td>1.875</td><td>30</td><td>Métrica em destaque</td></tr>
+              <tr><td><code>--zaz-text-4xl</code></td><td>2.25</td><td>36</td><td>Display de abertura</td></tr>
+              <tr><td><code>--zaz-text-5xl</code></td><td>3</td><td>48</td><td>Slide: título de seção</td></tr>
+              <tr><td><code>--zaz-text-6xl</code></td><td>3.75</td><td>60</td><td>Slide: título de capa</td></tr>
+              <tr><td><code>--zaz-text-7xl</code></td><td>4.5</td><td>72</td><td>Slide: número grande</td></tr>
+              <tr><td><code>--zaz-text-8xl</code></td><td>6</td><td>96</td><td>Slide: número de impacto</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Famílias</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Família</th><th>Papel</th><th>Fallback</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-font-display</code></td><td>Nunito</td><td>Títulos</td><td>Nunito Sans, system-ui</td></tr>
+              <tr><td><code>--zaz-font-sans</code></td><td>Nunito Sans</td><td>Corpo e interface</td><td>system-ui, -apple-system, Segoe UI</td></tr>
+              <tr><td><code>--zaz-font-mono</code></td><td>JetBrains Mono</td><td>ID, CPF, chave</td><td>ui-monospace, SFMono-Regular</td></tr>
+              <tr><td><code>--zaz-font-hand</code></td><td>Gochi Hand</td><td>Citação, assinatura</td><td>cursive</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida:</strong> a JetBrains Mono está declarada no sistema mas <strong>não é carregada pelo produto</strong> — no Apolo, o texto mono cai no fallback do sistema operacional. Está registrado na <a href="../../AUDITORIA.md">AUDITORIA.md</a>; resolver significa incluir a fonte no <code>index.html</code> do produto.</p>
+        </div>
+
+        <h3>Pesos</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Peso</th><th>Nome</th><th>Uso no sistema</th></tr></thead>
+            <tbody>
+              <tr><td>300</td><td>Light</td><td>Não usado em interface</td></tr>
+              <tr><td><strong>400</strong></td><td>Regular</td><td>Corpo, valor de campo</td></tr>
+              <tr><td>500</td><td>Medium</td><td>Mensagem de validação, meta destacada</td></tr>
+              <tr><td><strong>600</strong></td><td>Semibold</td><td>Botão, item de navegação, subtítulo</td></tr>
+              <tr><td><strong>700</strong></td><td>Bold</td><td>Rótulo, eyebrow, título de card</td></tr>
+              <tr><td>800</td><td>Extrabold</td><td>Título de tela</td></tr>
+              <tr><td>900</td><td>Black</td><td>Display, uma vez por tela</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tracking e entrelinha</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Valor</th><th>Onde é obrigatório</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-tracking-tight</code></td><td>−0.02em</td><td>Display, título de tela e de card</td></tr>
+              <tr><td><code>--zaz-tracking-eyebrow</code></td><td>0.08em</td><td>Todo texto em caixa alta</td></tr>
+              <tr><td>entrelinha de título</td><td>1.1</td><td>Display e <code>.zaz-h1</code></td></tr>
+              <tr><td>entrelinha de corpo</td><td>1.45</td><td>Padrão do <code>.zaz-root</code></td></tr>
+              <tr><td>entrelinha de leitura longa</td><td>1.65</td><td>Documentação, relatório, texto corrido</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>As classes</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · tipografia utilitária</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-display</span>  <span class="cm">/* Nunito · 4xl · 900 · tracking-tight · lh 1.1 */</span>
+<span class="ch">.zaz-h1</span>       <span class="cm">/* Nunito · 2xl · 800 · tracking-tight       */</span>
+<span class="ch">.zaz-h2</span>       <span class="cm">/* Nunito · xl  · 700                        */</span>
+<span class="ch">.zaz-h3</span>       <span class="cm">/* Nunito · base· 600                        */</span>
+<span class="ch">.zaz-body</span>     <span class="cm">/* Nunito Sans · sm · cor --zaz-text         */</span>
+<span class="ch">.zaz-muted</span>    <span class="cm">/* Nunito Sans · sm · cor --zaz-text-muted   */</span>
+<span class="ch">.zaz-eyebrow</span>  <span class="cm">/* xs · 700 · CAIXA ALTA · tracking-eyebrow  */</span>
+<span class="ch">.zaz-mono</span>     <span class="cm">/* JetBrains Mono · xs · tracking 0          */</span>
+<span class="ch">.zaz-hand</span>     <span class="cm">/* Gochi Hand · 400 · uso restrito           */</span></code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade em tipografia</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Tamanho e unidade</h3>
+        <ul>
+          <li><strong>Escreva sempre em <code>rem</code>, nunca em <code>px</code>.</strong> Quem aumentou a fonte no sistema operacional — por baixa visão, por idade, por preferência — só é atendido se a interface usar unidade relativa.</li>
+          <li>A WCAG exige que o texto suporte <strong>zoom de 200%</strong> sem perda de conteúdo. Layout que quebra ao ampliar é falha de acessibilidade, não detalhe visual.</li>
+          <li>Nada abaixo de <code>--zaz-text-xs</code> (12px) em produto. Se não coube, o problema é a densidade da tela, não o tamanho da letra.</li>
+        </ul>
+
+        <h3>Caixa alta e leitura</h3>
+        <ul>
+          <li>Caixa alta só em <strong>texto curto</strong>: eyebrow, rótulo de campo, chip. Palavras em caixa alta perdem o contorno que o olho usa para reconhecê-las, e a leitura fica mais lenta.</li>
+          <li>Alguns leitores de tela <strong>soletram</strong> palavras totalmente maiúsculas, letra por letra. Por isso a caixa alta do sistema vem sempre de CSS (<code>text-transform</code>), nunca digitada no texto.</li>
+          <li>Caixa alta sem tracking é ilegível — é por isso que <code>--zaz-tracking-eyebrow</code> não é opcional.</li>
+        </ul>
+
+        <h3>Contraste do texto</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Nível</th><th>Token</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Conteúdo</td><td><code>--zaz-text</code></td><td>9,7:1</td><td>15,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Apoio</td><td><code>--zaz-text-muted</code></td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Meta</td><td><code>--zaz-text-subtle</code></td><td>2,8:1</td><td>3,4:1</td><td>✕ só para texto não essencial</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><code>--zaz-text-subtle</code> <strong>não passa em AA</strong> e isso é intencional: ele é para placeholder, marca d'água e meta que repete informação já presente na tela. Se a informação só existe naquele texto, o nível certo é <code>--zaz-text-muted</code>.</p>
+        </div>
+
+        <h3>Estrutura semântica</h3>
+        <ul>
+          <li>As classes <code>.zaz-h1</code> a <code>.zaz-h3</code> são <strong>aparência</strong>, não estrutura. A hierarquia real vem das tags <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>, que é o que o leitor de tela usa para navegar a página.</li>
+          <li>Não pule níveis de título (h2 direto para h4) só para conseguir um tamanho menor: aplique a classe do tamanho desejado na tag certa.</li>
+          <li>Uma <code>&lt;h1&gt;</code> por tela.</li>
+        </ul>
+
+        <h3>Comprimento de linha</h3>
+        <p>Texto corrido acima de <strong>80 caracteres por linha</strong> faz o olho perder o começo da linha seguinte. A documentação e os relatórios do sistema usam 68 caracteres (<code>68ch</code>); em produto, a largura já é limitada pela coluna do layout.</p>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html">WCAG — Resize Text</a></li>
+          <li><a href="https://www.gov.br/ds/fundamentos-visuais/tipografia">Padrão Digital de Governo — Tipografia</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Valores de <code>tokens/zaz.tokens.json</code>. Divisão das famílias, do Manual de identidade da marca ZAZ 2022. Classes em <code>css/components.css</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

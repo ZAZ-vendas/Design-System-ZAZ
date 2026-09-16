@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ícones e movimento · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<style>
+  /* Amostras desta ficha: a caixa quadriculada mostra a área do ícone, que é
+     maior que o desenho — é justamente isso que a anatomia explica. */
+  .icone-demo { display: inline-flex; align-items: center; justify-content: center; color: var(--zaz-text-subtle); }
+  .icone-area { outline: 1px dashed var(--ficha-marca); outline-offset: 0; }
+  .grade-icones { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--zaz-space-4); }
+  .grade-icones figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--zaz-space-2); padding: var(--zaz-space-4) var(--zaz-space-2); border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-control); background: var(--zaz-bg-surface); }
+  .grade-icones figcaption { font-family: var(--zaz-font-mono); font-size: 10px; color: var(--zaz-text-subtle); text-align: center; }
+</style>
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Ícones e movimento</b></p>
+    <h1 class="ficha__titulo">Ícones e movimento</h1>
+    <p class="ficha__resumo">Uma biblioteca só, quatro tamanhos e uma faixa de duração — e nenhum dos três é sugestão. Ícone e animação são onde um produto perde a unidade mais rápido: cada tela nova traz um pacote diferente e uma animação "só um pouquinho" mais longa, e em seis meses nada mais parece do mesmo lugar.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O que decide um ícone e uma animação</p>
+
+        <h3>Lucide, exclusivamente</h3>
+        <p>Sem fonte de ícone, sem sprite, sem PNG de ícone. Uma biblioteca só é o que faz dois ícones desenhados por pessoas diferentes, em telas diferentes, parecerem irmãos. Espessura de traço <strong>2</strong>, que é o padrão da biblioteca — mexer nisso faz o ícone parecer de outro conjunto.</p>
+
+        <h3>O ícone acompanha, o texto informa</h3>
+        <p>Ícone decorativo reforça o que o rótulo já diz. Quando o ícone é a <em>única</em> informação — um botão sem texto — ele precisa de nome acessível e de tooltip, porque nem todo desenho é universal e nem todo mundo vê o desenho.</p>
+
+        <h3>Movimento tem teto</h3>
+        <p>De <strong>150 a 300ms</strong>, e nada além. Sem <em>bounce</em>, sem <em>spring</em>, sem animação de entrada em item de lista — numa fila de 300 tarefas, entrada animada vira tela tremendo.</p>
+
+        <h3>Movimento reduzido não é opcional</h3>
+        <p>Todo bloco de animação vem acompanhado de <code>@media (prefers-reduced-motion: reduce)</code> zerando a duração. Para quem tem sensibilidade vestibular, animação decorativa causa <strong>mal-estar físico</strong> — não é preferência estética.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia de um ícone</h2>
+        <p class="subtitulo">Por que o desenho é menor que a caixa</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Parte</th><th>Valor</th><th>O que faz</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Área</td><td>o tamanho declarado</td><td>A caixa que o ícone ocupa no layout. É ela que alinha com o texto ao lado.</td></tr>
+              <tr><td class="id">2</td><td>Desenho</td><td>≈ 80% da área</td><td>O traço em si. A folga em volta é o que impede ícones de encostarem uns nos outros.</td></tr>
+              <tr><td class="id">3</td><td>Traço</td><td><code>stroke-width: 2</code></td><td>A espessura. Constante em todos os tamanhos — é a assinatura do lucide.</td></tr>
+              <tr><td class="id">4</td><td>Cor</td><td><code>currentColor</code></td><td>Herda a cor do texto ao redor, então muda de tema sozinha.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:420px">
+            <span class="icone-demo icone-area peca" style="width:72px;height:72px;color:var(--zaz-primary-text)">
+              <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+              <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+              <span class="fio fio--acima"></span><span class="marca marca--acima">2</span>
+              <span class="fio fio--direita"></span><span class="marca marca--direita">3</span>
+              <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">4</span>
+            </span>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do ícone <code>search</code> do lucide, ampliado. O tracejado marca a área; o desenho ocupa cerca de 80% dela.</p>
+
+        <div class="nota">
+          <p><strong>Por que a folga importa:</strong> o ícone alinha pela <em>área</em>, não pelo desenho. Duas áreas de 18px lado a lado ficam com o mesmo peso visual mesmo quando um desenho é redondo e o outro é quadrado. Recortar a folga para "aproveitar espaço" desalinha tudo o que estiver na mesma linha.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Tamanhos</h2>
+        <p class="subtitulo">Quatro, e cada um tem lugar</p>
+
+        <div class="quadro">
+          <div class="grade-icones">
+            <figure>
+              <span class="icone-demo icone-area" style="width:14px;height:14px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+              <figcaption>14<br>meta em linha</figcaption>
+            </figure>
+            <figure>
+              <span class="icone-demo icone-area" style="width:16px;height:16px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <figcaption>16<br>dentro de botão</figcaption>
+            </figure>
+            <figure>
+              <span class="icone-demo icone-area" style="width:18px;height:18px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+              <figcaption>18<br>barra lateral</figcaption>
+            </figure>
+            <figure>
+              <span class="icone-demo icone-area" style="width:20px;height:20px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg></span>
+              <figcaption>20<br>adorno de campo</figcaption>
+            </figure>
+          </div>
+        </div>
+        <p class="legenda">Os quatro tamanhos, em tamanho real, com a área marcada.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Tamanho</th><th>Onde</th></tr></thead>
+            <tbody>
+              <tr><td><strong>14</strong></td><td>Meta em linha, chevron de seção, alça de arraste</td></tr>
+              <tr><td><strong>16</strong></td><td>Dentro de botão, logout, link de rodapé</td></tr>
+              <tr><td><strong>18</strong></td><td>Item de barra lateral — <strong>o mais usado</strong></td></tr>
+              <tr><td><strong>20</strong></td><td>Adorno de campo, sino, ícone solto</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cor</h3>
+        <p>Padrão: <code>--zaz-text-subtle</code>. Em estado ativo ou foco: <code>--zaz-primary-text</code>. O ícone nunca tem cor própria — ele usa <code>currentColor</code> e herda de quem o contém, que é o que faz um ícone dentro de botão primário virar branco sozinho.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Movimento</h2>
+        <p class="subtitulo">Onde há animação no sistema, e qual</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Onde</th><th>O quê</th><th>Duração</th></tr></thead>
+            <tbody>
+              <tr><td>Botão</td><td>Sobe 1px no hover; <code>scale(0.96)</code> no clique</td><td>150ms</td></tr>
+              <tr><td>Linha de lista</td><td>Tinta de fundo; chevron desliza 4px</td><td>150ms</td></tr>
+              <tr><td>Chevron de seção</td><td>Gira 180° (aberto) ou −90° (colapsado)</td><td>200ms</td></tr>
+              <tr><td>Troca de tema</td><td><code>transition-colors</code>, só no shell e no header</td><td>300ms</td></tr>
+              <tr><td>Ponto ao vivo</td><td>Pulso contínuo; o ponto de seção ganha um <em>ping</em> a 30% de opacidade</td><td>—</td></tr>
+              <tr><td>Campo</td><td>Borda e anel de foco</td><td>150ms</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quadro quadro--fita">
+          <button class="zaz-btn zaz-btn--primary" type="button">Passe o mouse aqui</button>
+          <span class="zaz-badge zaz-badge--brand"><span class="zaz-live-dot"></span> Ao vivo</span>
+        </div>
+        <p class="legenda">Movimento real do sistema: o botão sobe no hover e encolhe no clique; o ponto pulsa continuamente.</p>
+
+        <div class="nota nota--atencao">
+          <p><strong>Não existe animação de entrada em lista.</strong> A tentação é grande — fica bonito num card, fica bonito em dois. Em trezentas linhas de fila, vira a tela inteira tremendo a cada carregamento, e quem trabalha oito horas ali sente.</p>
+        </div>
+
+        <h3>Curvas</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Valor</th><th>Quando</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-ease-standard</code></td><td><code>cubic-bezier(.4,0,.2,1)</code></td><td>O padrão de tudo: hover, cor, borda</td></tr>
+              <tr><td><code>--zaz-ease-entrance</code></td><td><code>cubic-bezier(.2,.8,.2,1)</code></td><td>Coisas que entram na tela: drawer, toast</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Ícone e animação em código</p>
+
+        <h3>Ícone decorativo</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o rótulo já diz a ação; o ícone some para o leitor de tela</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--primary</span>" type="button"&gt;
+  &lt;<span class="ch">svg</span> width="16" height="16" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+  Concluir tarefa
+&lt;/<span class="ch">button</span>&gt;</code></pre>
+        </div>
+
+        <h3>Ícone que é a única informação</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>nome acessível obrigatório, mais tooltip para quem vê</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost</span>" type="button"
+        aria-label="Excluir anexo" title="Excluir anexo"&gt;
+  &lt;<span class="ch">svg</span> width="16" height="16" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+&lt;/<span class="ch">button</span>&gt;</code></pre>
+        </div>
+
+        <h3>Em React, com lucide</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>strokeWidth 2 é o padrão — não passe outro</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">import</span> { Search, Bell, Briefcase } <span class="ch">from</span> <span class="cv">'lucide-react'</span>;
+
+&lt;Search size={<span class="cv">20</span>} aria-hidden /&gt;              <span class="cm">// adorno de campo</span>
+&lt;Briefcase size={<span class="cv">18</span>} aria-hidden /&gt;           <span class="cm">// item de sidebar</span>
+&lt;Bell size={<span class="cv">20</span>} aria-label=<span class="cv">"Notificações"</span> /&gt;  <span class="cm">// ícone sozinho</span></code></pre>
+        </div>
+
+        <h3>Animação, sempre com a saída de emergência</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o par transição + prefers-reduced-motion é indivisível</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.minha-linha</span> {
+  transition: background <span class="cv">var(--zaz-duration-fast)</span> <span class="cv">var(--zaz-ease-standard)</span>;
+}
+
+<span class="cm">/* O reset do .zaz-root já faz isto para o sistema inteiro. Fora dele,
+   escreva você: sem esta regra, a animação é obrigatória para quem
+   pediu ao sistema operacional que ela não fosse. */</span>
+<span class="ch">@media</span> (prefers-reduced-motion: reduce) {
+  <span class="ch">.minha-linha</span> { transition-duration: 0.01ms; }
+}</code></pre>
+        </div>
+
+        <h3>Regra para colar num prompt de IA</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>ícones e movimento</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>ÍCONES: lucide, exclusivamente. Sem icon font, sem sprite, sem PNG de
+ícone. strokeWidth 2 (padrão do lucide).
+  size 14  meta inline, chevron de seção, grip de arraste
+  size 16  junto a botão, logout, link de rodapé
+  size 18  item de sidebar — o mais usado
+  size 20  adorno de input, sino, ícone standalone
+Cor: var(--zaz-text-subtle) por padrão; var(--zaz-primary-text) em ativo/foco.
+
+MOVIMENTO: 150–300ms. Sem bounce, sem spring, sem animação de entrada em
+item de lista.
+  botão   hover sobe 1px; active scale(0.96)
+  linha   tinta de fundo + chevron desliza 4px
+  chevron rotate 180 (aberto) / -90 (colapsado), 200ms
+  tema    transition-colors 300ms, só no shell e no header
+  ponto   vivo pulsa; ponto de seção ganha ping a 30% de opacidade
+  curva   var(--zaz-ease-standard); entradas usam --zaz-ease-entrance
+SEMPRE com @media (prefers-reduced-motion: reduce) zerando a duração.</code></pre>
+        </div>
+
+        <div class="origem">
+          <p>Fonte: <code>ui/SidebarItem.tsx</code>, <code>sidebar/SortableSidebarSection.tsx</code>, <code>css/components.css</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade em ícones e movimento</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Ícone decorativo × ícone informativo</h3>
+        <p>É a distinção que resolve quase tudo:</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Tipo</th><th>Como saber</th><th>O que escrever</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Decorativo</strong></td><td>Existe um rótulo ao lado dizendo a mesma coisa</td><td><code>aria-hidden="true"</code> e <strong>nenhum</strong> <code>title</code></td></tr>
+              <tr><td><strong>Informativo</strong></td><td>O ícone é a única informação</td><td><code>aria-label</code> no controle, mais <code>title</code> para tooltip</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota">
+          <p>Ícone decorativo <strong>com</strong> <code>title</code> faz o leitor de tela falar duas vezes a mesma coisa: "Concluir tarefa, Concluir tarefa". É o erro mais comum, e o mais fácil de evitar.</p>
+        </div>
+
+        <h3>Contraste de ícone</h3>
+        <ul>
+          <li>Ícone é <strong>elemento gráfico</strong>: o mínimo da WCAG é <strong>3:1</strong>, não 4,5:1.</li>
+          <li><code>--zaz-text-subtle</code> dá 2,8:1 no tema claro — <strong>abaixo do mínimo</strong>. Ele só é aceitável em ícone puramente decorativo, ao lado de um rótulo legível. Ícone que carrega informação usa <code>--zaz-text-muted</code> ou mais forte.</li>
+        </ul>
+
+        <h3>Nem todo desenho é universal</h3>
+        <ul>
+          <li>Ícones fortemente convencionados (lupa, lixeira, sino, casa) são reconhecidos rápido. Os demais precisam de rótulo visível, não só de tooltip.</li>
+          <li>Em celular <strong>não existe hover</strong>, e portanto não existe tooltip. Botão só com ícone em tela de toque precisa de ícone óbvio ou de rótulo visível.</li>
+        </ul>
+
+        <h3>Movimento</h3>
+        <ul>
+          <li><strong>Nada pisca mais de três vezes por segundo.</strong> É critério da WCAG e existe por risco de convulsão fotossensível.</li>
+          <li>Animação que se repete sozinha por mais de cinco segundos precisa de jeito de parar. O ponto "ao vivo" do sistema pulsa devagar e com pouca amplitude justamente para caber nessa regra.</li>
+          <li><code>prefers-reduced-motion</code> zera a duração, não esconde o elemento: o estado final continua visível.</li>
+        </ul>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html">WCAG — Non-text Contrast</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html">WCAG — Animation from Interactions</a></li>
+          <li><a href="https://lucide.dev/">Lucide</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Tamanhos e durações de <code>tokens/zaz.tokens.json</code> e <code>css/components.css</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

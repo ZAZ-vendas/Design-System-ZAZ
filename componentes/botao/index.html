@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Botão · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  // Antes do primeiro paint — senão a página abre clara e escurece na cara do leitor.
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Botão</b></p>
+    <h1 class="ficha__titulo">Botão <em>(Button)</em></h1>
+    <p class="ficha__resumo">O botão é o elemento que executa uma ação. Ele promete que algo vai acontecer quando for acionado — e a ênfase que ele carrega é o que diz ao usuário qual das ações da tela é a esperada.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Quando este componente é a resposta certa</p>
+
+        <div class="quadro quadro--fita">
+          <button class="zaz-btn zaz-btn--primary" type="button">Concluir tarefa</button>
+          <button class="zaz-btn zaz-btn--secondary" type="button">Salvar rascunho</button>
+          <button class="zaz-btn zaz-btn--ghost" type="button">Cancelar</button>
+          <button class="zaz-btn zaz-btn--danger" type="button">Devolver à fila</button>
+        </div>
+        <p class="legenda">As quatro ênfases do botão, na ordem de peso visual.</p>
+
+        <p>Use o botão quando a pessoa precisar <strong>fazer alguma coisa acontecer</strong>: concluir uma tarefa, salvar um formulário, abrir um modal, disparar um robô. A ação acontece aqui, nesta tela, agora.</p>
+
+        <h4>Quando não usar</h4>
+        <ul>
+          <li><strong>Ir para outro lugar</strong> → use um link (<code>&lt;a&gt;</code>). Navegar não é agir: o usuário espera poder abrir em outra aba, copiar o endereço e voltar.</li>
+          <li><strong>Ligar e desligar uma configuração</strong> que vale na hora → Switch.</li>
+          <li><strong>Escolher entre opções</strong> antes de confirmar → Radio ou Checkbox, e um botão só no fim.</li>
+          <li><strong>Marcar um estado ou categoria</strong> que não é clicável → Badge.</li>
+        </ul>
+
+        <div class="nota">
+          <p><strong>A regra do link disfarçado.</strong> Se o elemento leva para outra tela, ele é um link — mesmo quando você pinta com <code>.zaz-btn</code>. Um <code>&lt;div&gt;</code> ou <code>&lt;span&gt;</code> com <code>onclick</code>, nunca: não recebe foco, não responde ao teclado e não é anunciado como controle.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Tom e voz</h2>
+        <p class="subtitulo">Como escrever o rótulo</p>
+        <ul>
+          <li><strong>Verbo no infinitivo, dizendo o que vai acontecer.</strong> "Concluir tarefa", "Enviar aviso", "Baixar relatório" — nunca "OK", "Sim", "Enviar?".</li>
+          <li><strong>Uma ou duas palavras.</strong> Três já é muito. Nunca quebre o rótulo em duas linhas.</li>
+          <li><strong>O rótulo e o resultado combinam.</strong> Se o botão diz "Publicar", a confirmação diz "Publicado". Se diz "Salvar", não pode abrir um modal perguntando outra coisa.</li>
+          <li><strong>Em confirmação, repita a ação em vez de responder "sim".</strong> Diante de "Suspender esta tarefa?", os botões são "Suspender" e "Cancelar" — assim quem clicou rápido ainda lê o que fez.</li>
+          <li>Sem ponto final. Sem caixa alta — o botão já tem peso visual suficiente.</li>
+        </ul>
+
+        <div class="par">
+          <div>
+            <h4><span class="sim">✓</span> Assim</h4>
+            <div class="quadro quadro--fita" style="margin:0;background:var(--zaz-bg-app)">
+              <button class="zaz-btn zaz-btn--ghost" type="button">Cancelar</button>
+              <button class="zaz-btn zaz-btn--primary" type="button">Suspender</button>
+            </div>
+          </div>
+          <div>
+            <h4><span class="nao">✕</span> Assim não</h4>
+            <div class="quadro quadro--fita" style="margin:0;background:var(--zaz-bg-app)">
+              <button class="zaz-btn zaz-btn--primary" type="button">SIM, CONFIRMAR!</button>
+              <button class="zaz-btn zaz-btn--primary" type="button">Não</button>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">À direita: caixa alta, ponto de exclamação, resposta genérica e duas primárias competindo.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Anatomia</h2>
+        <p class="subtitulo">De que partes o botão é feito, e de onde cada parte vem</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Ícone</td><td><a href="../../docs/#icones">Fundamento Iconografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">2</td><td>Rótulo</td><td><a href="../../docs/#tipografia">Fundamento Tipografia</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Superfície</td><td><a href="../../docs/#espaco">Fundamento Espaço, raios e sombras</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:420px">
+            <button class="zaz-btn zaz-btn--primary peca peca--moldada" type="button">
+              <span class="peca" aria-hidden="true" style="display:inline-flex">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                <span class="fio fio--abaixo"></span>
+                <span class="marca marca--abaixo">1</span>
+              </span>
+              <span class="peca">
+                Concluir tarefa
+                <span class="fio fio--acima"></span>
+                <span class="marca marca--acima">2</span>
+              </span>
+              <span class="fio fio--direita"></span>
+              <span class="marca marca--direita">3</span>
+            </button>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do botão, na ênfase primária com ícone.</p>
+
+        <h3>1. Ícone <span class="opcional">(opcional)</span></h3>
+        <p>Fica <strong>à esquerda do rótulo</strong>, com 8px entre os dois, e serve para reforçar visualmente a ação — o visto de concluir, a seta de enviar, o lixo de excluir. Tem 16px e herda a cor do rótulo, sempre.</p>
+        <ul>
+          <li>Use ícone quando a ação se repete muito na tela e o reconhecimento pelo desenho é mais rápido que a leitura.</li>
+          <li><strong>Um ícone por botão.</strong> Dois viram enfeite e roubam o lugar do rótulo.</li>
+          <li>Ícone à direita só quando a ação <em>avança</em> em uma sequência — o "Próximo" de um passo a passo. Nesse caso ele é uma seta, e nada mais.</li>
+          <li>Ícone sozinho, sem rótulo, exige <code>aria-label</code> e tooltip. Veja a aba Acessibilidade.</li>
+        </ul>
+
+        <h3>2. Rótulo <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>É o que comunica a ação. Peso 600 para se distinguir do texto comum, tamanho igual ao do corpo, e <strong>nunca quebra linha</strong> — o botão cresce com o texto, e é o texto que deve encurtar, não o botão.</p>
+
+        <h3>3. Superfície <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>É o retângulo que delimita a área clicável: fundo, borda, canto arredondado e, na ênfase primária, a sombra de destaque. Ela cresce com o rótulo, mas o espaço interno de 20px de cada lado é fixo — é o que mantém botões de textos diferentes com a mesma respiração.</p>
+        <p>Na ênfase terciária a superfície fica transparente. Ela continua existindo: é o que define a área de clique e o que recebe o véu no hover.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Ênfases</h2>
+        <p class="subtitulo">A hierarquia entre as ações da tela</p>
+
+        <p>A ênfase não é decoração: é a resposta à pergunta "o que se espera que eu faça aqui?". Por isso vale a regra mais importante desta ficha:</p>
+
+        <div class="nota">
+          <p><strong>Uma primária por tela.</strong> Duas ações primárias lado a lado se anulam — se tudo é o mais importante, nada é. Quando duas ações parecem igualmente importantes, uma delas é secundária.</p>
+        </div>
+
+        <div class="estados">
+          <div class="estado">
+            <p class="estado__nome">Primária</p>
+            <p class="estado__quando">A ação esperada da tela. Fundo roxo, sombra de destaque. Uma por tela.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button">Concluir tarefa</button></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Secundária</p>
+            <p class="estado__quando">Ação legítima, mas não a esperada. Superfície branca com borda.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--secondary" type="button">Salvar rascunho</button></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Terciária</p>
+            <p class="estado__quando">Ação de saída ou de apoio: cancelar, voltar, fechar. Sem superfície visível.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--ghost" type="button">Cancelar</button></div>
+          </div>
+          <div class="estado estado--largo">
+            <p class="estado__nome">Destrutiva</p>
+            <p class="estado__quando">Ação que perde trabalho ou é difícil de desfazer: excluir, devolver à fila, cancelar uma instância. Vermelha, e <strong>sempre precedida de confirmação</strong> — o vermelho avisa, não protege.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--danger" type="button">Devolver à fila</button></div>
+          </div>
+        </div>
+        <p class="legenda">As quatro ênfases, com a pergunta que cada uma responde.</p>
+
+        <h3>Posicionamento</h3>
+        <p>Num grupo de botões, a ação de maior ênfase fica <strong>à direita</strong>, que é onde o olho termina a leitura e onde o polegar alcança primeiro no celular. Quando empilhados na vertical, a de maior ênfase fica <strong>embaixo</strong>.</p>
+        <div class="quadro quadro--fita">
+          <div style="display:flex;gap:var(--zaz-space-3)">
+            <button class="zaz-btn zaz-btn--ghost" type="button">Cancelar</button>
+            <button class="zaz-btn zaz-btn--secondary" type="button">Salvar</button>
+            <button class="zaz-btn zaz-btn--primary" type="button">Concluir</button>
+          </div>
+        </div>
+        <p class="legenda">Terciária, secundária e primária — nesta ordem, da esquerda para a direita.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Comportamentos</h2>
+        <p class="subtitulo">Como o botão reage</p>
+
+        <h3>1. Estados</h3>
+        <div class="estados">
+          <div class="estado">
+            <p class="estado__nome">Padrão</p>
+            <p class="estado__quando">Em repouso, pronto para ser acionado.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button">Concluir</button></div>
+          </div>
+          <div class="estado simula-hover">
+            <p class="estado__nome">Hover</p>
+            <p class="estado__quando">O ponteiro está por cima. O roxo escurece e o botão sobe 1px — o suficiente para parecer que se aproximou.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button">Concluir</button></div>
+          </div>
+          <div class="estado simula-foco">
+            <p class="estado__nome">Foco</p>
+            <p class="estado__quando">Chegou pelo teclado. Contorno de 2px afastado 2px da superfície. Nunca pode ser removido.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button">Concluir</button></div>
+          </div>
+          <div class="estado simula-ativo">
+            <p class="estado__nome">Pressionado</p>
+            <p class="estado__quando">No instante do clique, encolhe para 96%. É o retorno tátil que confirma que o toque pegou.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button">Concluir</button></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Desabilitado</p>
+            <p class="estado__quando">A ação não está disponível. Meia opacidade, cursor bloqueado, fora do caminho do teclado.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button" disabled>Concluir</button></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Carregando</p>
+            <p class="estado__quando">A ação está em andamento. Fica desabilitado e o rótulo muda para o gerúndio, evitando o clique duplo.</p>
+            <div class="estado__amostra"><button class="zaz-btn zaz-btn--primary" type="button" disabled>Concluindo…</button></div>
+          </div>
+        </div>
+        <p class="legenda">Os seis estados do botão. Hover, foco e pressionado estão simulados nesta página para poderem ser vistos parados.</p>
+
+        <div class="nota nota--atencao">
+          <p><strong>Desabilitar sem dizer por quê é a armadilha deste componente.</strong> Um botão apagado não explica o que falta preencher. Quando puder, deixe o botão ativo e mostre o erro ao clicar — quem não pode agir precisa saber o motivo, e o motivo não cabe num botão cinza.</p>
+        </div>
+
+        <h3>2. Densidade</h3>
+        <p>Três alturas. Muda a altura, o espaço interno e o tamanho do rótulo — proporcionalmente.</p>
+        <div class="quadro quadro--fita">
+          <button class="zaz-btn zaz-btn--primary zaz-btn--sm" type="button">Alta · 32px</button>
+          <button class="zaz-btn zaz-btn--primary" type="button">Padrão · 40px</button>
+          <button class="zaz-btn zaz-btn--primary zaz-btn--lg" type="button">Baixa · 56px</button>
+        </div>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Densidade</th><th>Altura</th><th>Espaço interno</th><th>Rótulo</th><th>Classe</th><th>Onde usar</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Alta</strong></td><td>32px</td><td>12px</td><td>12px</td><td><code>.zaz-btn--sm</code></td><td>Dentro de linha de tabela, card compacto</td></tr>
+              <tr><td><strong>Padrão</strong></td><td>40px</td><td>20px</td><td>14px</td><td>—</td><td>O caso normal</td></tr>
+              <tr><td><strong>Baixa</strong></td><td>56px</td><td>32px</td><td>16px</td><td><code>.zaz-btn--lg</code></td><td>Ação única de destaque: entrar, iniciar</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>3. Bloco</h3>
+        <p>Com <code>.zaz-btn--block</code> o botão ocupa 100% da largura disponível. Use em celular, em formulário de login e dentro de card estreito — em tela de toque, alvo largo é alvo fácil.</p>
+        <div class="quadro">
+          <div style="max-width:320px"><button class="zaz-btn zaz-btn--primary zaz-btn--block" type="button">Entrar</button></div>
+        </div>
+
+        <h3>4. Movimento</h3>
+        <p>Todas as transições levam 150ms. O botão faz duas coisas que o resto do sistema não faz, e ambas são de propósito: <strong>sobe 1px</strong> no hover da primária e <strong>encolhe para 96%</strong> ao ser pressionado. São os únicos lugares do sistema onde um componente se move — e é o que faz o clique parecer respondido antes mesmo de a requisição voltar.</p>
+        <p>Quem tem <code>prefers-reduced-motion</code> ligado não vê nenhum dos dois: o reset do sistema zera a duração das transições.</p>
+
+        <h3>5. Tema escuro</h3>
+        <p>O fundo da primária continua sendo <code>--zaz-primary</code> nos dois temas — <strong>brand-600 não muda</strong>. O que muda é o hover, que no escuro clareia em vez de escurecer. Alterne o tema na navegação e compare com a secundária, que troca superfície e borda inteiras.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Dimensões</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>height</td><td>40px</td><td><code>--zaz-control-md</code></td></tr>
+              <tr><td>Superfície</td><td>border-radius</td><td>12px</td><td><code>--zaz-radius-control</code></td></tr>
+              <tr><td>Superfície</td><td>border-width</td><td>1px</td><td>—</td></tr>
+              <tr><td>Superfície (densidade baixa)</td><td>height</td><td>56px</td><td><code>--zaz-control-lg</code></td></tr>
+              <tr><td>Superfície (densidade baixa)</td><td>border-radius</td><td>16px</td><td><code>--zaz-radius-card</code></td></tr>
+              <tr><td>Superfície (densidade alta)</td><td>height</td><td>32px</td><td><code>--zaz-control-sm</code></td></tr>
+              <tr><td>Ícone</td><td>width / height</td><td>16px</td><td>—</td></tr>
+              <tr><td>Contorno de foco</td><td>outline-width / offset</td><td>2px / 2px</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Espaçamentos</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>padding-inline</td><td>20px</td><td><code>--zaz-space-5</code></td></tr>
+              <tr><td>Superfície (densidade alta)</td><td>padding-inline</td><td>12px</td><td><code>--zaz-space-3</code></td></tr>
+              <tr><td>Superfície (densidade baixa)</td><td>padding-inline</td><td>32px</td><td><code>--zaz-space-8</code></td></tr>
+              <tr><td>Entre ícone e rótulo</td><td>gap</td><td>8px</td><td><code>--zaz-space-2</code></td></tr>
+              <tr><td>Entre botões de um grupo</td><td>gap</td><td>12px</td><td><code>--zaz-space-3</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tipografia</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Família</th><th>Tamanho</th><th>Peso</th><th>Entrelinha</th></tr></thead>
+            <tbody>
+              <tr><td>Rótulo</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-sm</code> · 14px</td><td>600</td><td>1</td></tr>
+              <tr><td>Rótulo (densidade alta)</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-xs</code> · 12px</td><td>600</td><td>1</td></tr>
+              <tr><td>Rótulo (densidade baixa)</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-base</code> · 16px</td><td>600</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cores por ênfase</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Ênfase</th><th>Fundo</th><th>Rótulo e ícone</th><th>Borda</th><th>Hover</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Primária</strong></td><td><code>--zaz-primary</code></td><td><code>--zaz-on-primary</code></td><td>transparente</td><td><code>--zaz-primary-hover</code> + sobe 1px</td></tr>
+              <tr><td><strong>Secundária</strong></td><td><code>--zaz-bg-surface</code></td><td><code>--zaz-text</code></td><td><code>--zaz-border</code></td><td>borda e rótulo viram <code>--zaz-primary-text</code></td></tr>
+              <tr><td><strong>Terciária</strong></td><td>transparente</td><td><code>--zaz-text-muted</code></td><td>transparente</td><td>véu <code>--zaz-veil</code> + rótulo <code>--zaz-primary-text</code></td></tr>
+              <tr><td><strong>Destrutiva</strong></td><td><code>--zaz-danger</code></td><td><code>--zaz-on-primary</code></td><td>transparente</td><td><code>--zaz-danger-fg</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota">
+          <p><strong>Por que a primária usa <code>--zaz-primary</code> e não <code>--zaz-primary-text</code>:</strong> aqui o roxo é <em>fundo</em>. O token de texto existe para quando o roxo vira letra, ícone ou borda — e ele clareia no tema escuro, o que num fundo apagaria o branco por cima. É a distinção que o sistema inteiro carrega, e o botão é onde ela aparece com mais clareza.</p>
+        </div>
+
+        <h3>Sombra e movimento</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Sombra da primária</td><td>0 8px 20px -6px rgb(92 34 156 / 0.35)</td><td><code>--zaz-shadow-cta</code></td></tr>
+              <tr><td>Sombra da secundária</td><td>0 1px 2px 0 rgb(15 23 42 / 0.06)</td><td><code>--zaz-shadow-sm</code></td></tr>
+              <tr><td>Duração das transições</td><td>150ms</td><td><code>--zaz-duration-fast</code></td></tr>
+              <tr><td>Curva</td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td><code>--zaz-ease-standard</code></td></tr>
+              <tr><td>Hover da primária</td><td>translateY(-1px)</td><td>—</td></tr>
+              <tr><td>Pressionado</td><td>scale(0.96)</td><td>—</td></tr>
+              <tr><td>Desabilitado</td><td>opacity 0.5</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code> e <code>tokens/zaz.tokens.json</code>. Estrutura da ficha conferida nos 38 componentes do <a href="https://www.gov.br/ds/components">Padrão Digital de Governo</a>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes, atributos e o HTML mínimo</p>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>HTML mínimo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--primary</span>" type="button"&gt;Concluir tarefa&lt;/<span class="ch">button</span>&gt;</code></pre>
+        </div>
+
+        <div class="nota">
+          <p><strong>Escreva sempre o <code>type</code>.</strong> Sem ele, um <code>&lt;button&gt;</code> dentro de <code>&lt;form&gt;</code> vale <code>type="submit"</code> — e aquele botão de "Adicionar linha" passa a enviar o formulário inteiro. É o bug de formulário mais comum que existe.</p>
+        </div>
+
+        <h3>Classes</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Efeito</th><th>Combina com</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-btn</code></td><td>Base. Obrigatória em todo botão.</td><td>—</td></tr>
+              <tr><td><code>.zaz-btn--primary</code></td><td>Ênfase primária: fundo roxo, sombra de destaque.</td><td>densidade, bloco</td></tr>
+              <tr><td><code>.zaz-btn--secondary</code></td><td>Ênfase secundária: superfície com borda.</td><td>densidade, bloco</td></tr>
+              <tr><td><code>.zaz-btn--ghost</code></td><td>Ênfase terciária: sem superfície.</td><td>densidade, bloco</td></tr>
+              <tr><td><code>.zaz-btn--danger</code></td><td>Ação destrutiva.</td><td>densidade, bloco</td></tr>
+              <tr><td><code>.zaz-btn--sm</code></td><td>Densidade alta: 32px.</td><td>qualquer ênfase</td></tr>
+              <tr><td><code>.zaz-btn--lg</code></td><td>Densidade baixa: 56px.</td><td>qualquer ênfase</td></tr>
+              <tr><td><code>.zaz-btn--block</code></td><td>Largura de 100%.</td><td>qualquer ênfase</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Estados</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Estado</th><th>Como se escreve</th><th>Observação</th></tr></thead>
+            <tbody>
+              <tr><td>Desabilitado</td><td><code>disabled</code></td><td>Sai da ordem de tabulação e perde o hover.</td></tr>
+              <tr><td>Carregando</td><td><code>disabled</code> + rótulo no gerúndio</td><td>Não existe classe: é o desabilitado com outro texto.</td></tr>
+              <tr><td>Hover, foco, pressionado</td><td>—</td><td>Vêm do CSS. Não escreva classe para eles.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Botão com ícone</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>O ícone é irmão do rótulo; o gap de 8px é do componente</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--primary</span>" type="button"&gt;
+  <span class="cm">&lt;!-- decorativo: o rótulo já diz a ação --&gt;</span>
+  &lt;<span class="ch">svg</span> width="16" height="16" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+  Concluir tarefa
+&lt;/<span class="ch">button</span>&gt;</code></pre>
+        </div>
+
+        <h3>Botão só com ícone</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>Sem rótulo visível, o nome acessível é obrigatório</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost</span>" type="button"
+        aria-label="Excluir anexo" title="Excluir anexo"&gt;
+  &lt;<span class="ch">svg</span> width="16" height="16" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+&lt;/<span class="ch">button</span>&gt;</code></pre>
+        </div>
+
+        <h3>Link com aparência de botão</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>Quando a ação é navegar, a tag muda — a classe não</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">a</span> class="<span class="cv">zaz-btn zaz-btn--secondary</span>" href="/relatorios"&gt;Ver relatórios&lt;/<span class="ch">a</span>&gt;
+
+<span class="cm">// Um link é acionado por Enter, nunca por Espaço. Se a ação precisa
+// responder aos dois, então ela não é navegação: use &lt;button&gt;.</span></code></pre>
+        </div>
+
+        <h3>Grupo de botões</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>Maior ênfase à direita, 12px entre eles</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> style="display:flex; gap:<span class="cv">var(--zaz-space-3)</span>; justify-content:flex-end"&gt;
+  &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost</span>"   type="button"&gt;Cancelar&lt;/<span class="ch">button</span>&gt;
+  &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--primary</span>" type="submit"&gt;Concluir&lt;/<span class="ch">button</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>O CSS por trás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · trecho real</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-btn</span> {
+  <span class="cm">/* a altura é uma variável local: a densidade troca só ela */</span>
+  --_h: <span class="cv">var(--zaz-control-md)</span>;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: <span class="cv">var(--zaz-space-2)</span>;
+  height: <span class="cv">var(--_h)</span>; padding: 0 <span class="cv">var(--zaz-space-5)</span>;
+  border: 1px solid transparent; border-radius: <span class="cv">var(--zaz-radius-control)</span>;
+  font-size: <span class="cv">var(--zaz-text-sm)</span>; font-weight: 600;
+  line-height: 1; white-space: nowrap; cursor: pointer;
+}
+
+<span class="ch">.zaz-btn--sm</span> { --_h: <span class="cv">var(--zaz-control-sm)</span>; padding: 0 <span class="cv">var(--zaz-space-3)</span>; font-size: <span class="cv">var(--zaz-text-xs)</span>; }
+
+<span class="ch">.zaz-btn--primary</span> {
+  background: <span class="cv">var(--zaz-primary)</span>;      <span class="cm">/* roxo como FUNDO */</span>
+  color: <span class="cv">var(--zaz-on-primary)</span>;
+  box-shadow: <span class="cv">var(--zaz-shadow-cta)</span>;
+}
+<span class="ch">.zaz-btn--primary:hover:not(:disabled)</span> {
+  background: <span class="cv">var(--zaz-primary-hover)</span>;
+  transform: translateY(-1px);
+}
+
+<span class="ch">.zaz-btn:focus-visible</span> { outline: 2px solid <span class="cv">var(--zaz-ring)</span>; outline-offset: 2px; }
+<span class="ch">.zaz-btn:active:not(:disabled)</span> { transform: scale(0.96); }
+<span class="ch">.zaz-btn:disabled</span> { opacity: 0.5; cursor: not-allowed; transform: none; }</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no Botão</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Navegação e comportamento</h3>
+        <ul>
+          <li>Alcançado por <code>Tab</code> e acionado por <code>Enter</code> ou <code>Espaço</code>. Um <code>&lt;button&gt;</code> de verdade faz isso sozinho.</li>
+          <li>Um link com aparência de botão responde só a <code>Enter</code>. É mais um motivo para a tag combinar com a ação.</li>
+          <li>Botão <code>disabled</code> sai da ordem de tabulação — quem navega por teclado nem descobre que ele existe. Se for importante que a pessoa saiba que a ação existe mas está bloqueada, prefira deixá-lo ativo e explicar ao clicar.</li>
+        </ul>
+
+        <h3>Recomendações para estilo e design</h3>
+        <ul>
+          <li><strong>O contorno de foco não pode ser removido.</strong> O componente usa 2px afastado 2px, que funciona sobre qualquer ênfase. Apagar o <code>outline</code> sem repor deixa quem usa teclado literalmente perdido na tela.</li>
+          <li><strong>Alvo de toque de 44px no celular.</strong> A densidade padrão dá 40px: em tela de toque, prefira a densidade padrão com <code>--block</code>, ou a baixa. A densidade alta é para mouse.</li>
+          <li><strong>Nunca use só a cor</strong> para distinguir a ação destrutiva. "Excluir" precisa dizer "Excluir" — o vermelho é reforço, não a informação.</li>
+          <li>Rótulo de botão não vai em caixa alta: além do peso visual desnecessário, alguns leitores de tela soletram palavras totalmente maiúsculas.</li>
+        </ul>
+
+        <h3>Recomendações para código</h3>
+        <ul>
+          <li>Use <code>&lt;button&gt;</code> para ação e <code>&lt;a href&gt;</code> para navegação. <code>&lt;div onclick&gt;</code> não recebe foco, não responde ao teclado e não é anunciado como controle.</li>
+          <li>Sempre declare o <code>type</code>: <code>button</code>, <code>submit</code> ou <code>reset</code>.</li>
+          <li>Ícone decorativo leva <code>aria-hidden="true"</code> e nenhum <code>title</code> — senão o leitor de tela fala a mesma coisa duas vezes.</li>
+          <li>Botão só com ícone precisa de <code>aria-label</code> <em>e</em> <code>title</code>: o primeiro para quem ouve, o segundo para quem vê e não reconhece o desenho.</li>
+          <li>Botão que alterna algo usa <code>aria-pressed="true|false"</code>; botão que abre um painel usa <code>aria-expanded</code>.</li>
+          <li>Quando a ação demora, troque o rótulo para o gerúndio e desabilite. Se a mudança precisar ser anunciada, envolva o texto num <code>aria-live="polite"</code>.</li>
+        </ul>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>Rótulo da primária</td><td>#ffffff sobre #5c229c</td><td>igual — o fundo não muda</td><td>9,7:1 ✓</td></tr>
+              <tr><td>Rótulo da secundária</td><td>#0f172a sobre #ffffff</td><td>#f8fafc sobre #0f172a</td><td>4,5:1 ✓</td></tr>
+              <tr><td>Rótulo da terciária</td><td>#64748b sobre #f8fafc</td><td>#94a3b8 sobre #020617</td><td>4,5:1 ✓</td></tr>
+              <tr><td>Rótulo da destrutiva</td><td>#ffffff sobre #ef4444</td><td>igual</td><td>3,8:1 — <strong>não atinge</strong></td></tr>
+              <tr><td>Contorno de foco</td><td>#5c229c sobre #f8fafc</td><td>#9168d1 sobre #020617</td><td>3:1 ✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida.</strong> Branco sobre <code>--zaz-danger</code> (#ef4444) dá 3,8:1 — passa como texto grande, mas fica abaixo de 4,5:1 no tamanho do rótulo. Corrigir significa usar <code>--zaz-danger-fg</code> (#b91c1c, 7,4:1) como fundo da ênfase destrutiva. A troca está listada aqui em vez de escondida porque muda o vermelho que o Apolo já usa em produção.</p>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/">ARIA Authoring Practices — Button</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1 Quick Reference</a></li>
+          <li><a href="https://www.gov.br/ds/components/button?tab=acessibilidade">Padrão Digital de Governo — Acessibilidade no Button</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os valores de <code>tokens/zaz.tokens.json</code>. A meta AA vale para todo o sistema — quando um par não atinge, ele é listado como pendência aqui em vez de sumir da ficha.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

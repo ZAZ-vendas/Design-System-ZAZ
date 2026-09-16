@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobreposições · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<style>
+  /* O modal e o drawer são position:fixed de verdade. Para mostrá-los parados
+     dentro da documentação, as amostras rodam num palco com position:relative
+     e as peças voltam a ser absolutas dentro dele. */
+  .palco { position: relative; overflow: hidden; border-radius: var(--zaz-radius-card); background: var(--zaz-bg-app); min-height: 280px; }
+  .palco .zaz-overlay, .palco .zaz-drawer, .palco .zaz-toast-stack { position: absolute; }
+  .palco .zaz-drawer { width: min(20rem, 80%); }
+</style>
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Sobreposições</b></p>
+    <h1 class="ficha__titulo">Sobreposições</h1>
+    <p class="ficha__resumo">Quatro maneiras de dizer alguma coisa por cima do que já está na tela — do aviso que fica parado até a janela que exige resposta. A escolha entre elas não é estética: ela decide o quanto você interrompe o trabalho de alguém.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Qual dos quatro, e por quê</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Componente</th><th>Interrompe?</th><th>Some sozinho?</th><th>Use quando</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Alerta</strong></td><td>Não</td><td>Não</td>
+                <td>A informação pertence ao conteúdo e continua valendo: um aviso no topo do formulário, uma condição da tela.</td>
+              </tr>
+              <tr>
+                <td><strong>Toast</strong></td><td>Não</td><td>Sim, em ~5s</td>
+                <td>Confirmar que algo que <em>a pessoa fez</em> deu certo. É recibo, não informação nova.</td>
+              </tr>
+              <tr>
+                <td><strong>Drawer</strong></td><td>Parcialmente</td><td>Não</td>
+                <td>Mostrar detalhes sem tirar a pessoa de onde ela estava — o contexto de trás continua visível.</td>
+              </tr>
+              <tr>
+                <td><strong>Modal</strong></td><td><strong>Sim</strong></td><td>Não</td>
+                <td>Exigir uma decisão antes de continuar. É o mais caro: use quando a resposta for realmente obrigatória.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota">
+          <p><strong>Em português comum:</strong> <em>modal</em> é a janelinha no centro que escurece o fundo e exige resposta. <em>Drawer</em> ("gaveta") desliza pela lateral e mostra detalhes sem tirar você de onde estava. <em>Toast</em> ("torrada", porque pula como uma) é o aviso pequeno no canto que some sozinho.</p>
+        </div>
+
+        <div class="nota nota--atencao">
+          <p><strong>A regra da escada:</strong> comece pelo alerta. Só suba para toast se for recibo de ação, para drawer se precisar de espaço, e para modal se a pessoa <em>não puder</em> continuar sem responder. Modal é onde quase todo produto exagera — e cada modal desnecessário ensina o usuário a fechar sem ler, inclusive os necessários.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Alerta</h2>
+        <p class="subtitulo">A informação que fica</p>
+
+        <div class="quadro" style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+          <div class="zaz-alert zaz-alert--danger">
+            <div><p class="zaz-alert__title" style="margin:0">Credenciais inválidas</p><p style="margin:var(--zaz-space-1) 0 0">Verifique o CPF e a senha do Camunda.</p></div>
+          </div>
+          <div class="zaz-alert zaz-alert--warning">
+            <div><p class="zaz-alert__title" style="margin:0">Prazo vence hoje</p><p style="margin:var(--zaz-space-1) 0 0">Três tarefas desta fila vencem às 18h.</p></div>
+          </div>
+          <div class="zaz-alert zaz-alert--info">
+            <div><p class="zaz-alert__title" style="margin:0">Integração em tempo real</p><p style="margin:var(--zaz-space-1) 0 0">Novas tarefas chegam automaticamente.</p></div>
+          </div>
+          <div class="zaz-alert zaz-alert--success">
+            <div><p class="zaz-alert__title" style="margin:0">Fila em dia</p><p style="margin:var(--zaz-space-1) 0 0">Nenhuma tarefa acima do prazo.</p></div>
+          </div>
+        </div>
+        <p class="legenda">As quatro intenções do alerta. O trio de cor — fundo, borda e texto — vem da mesma intenção.</p>
+
+        <h3>Anatomia</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Ícone</td><td><a href="../../fundamentos/iconografia/">Fundamento Iconografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">2</td><td>Título</td><td><a href="../../fundamentos/voz/">Fundamento Conteúdo e voz</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">3</td><td>Corpo</td><td><a href="../../fundamentos/voz/">Fundamento Conteúdo e voz</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">4</td><td>Superfície</td><td><a href="../../fundamentos/cores/">Fundamento Cores</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:520px">
+            <div class="zaz-alert zaz-alert--warning peca peca--moldada" style="width:340px">
+              <span class="fio fio--direita"></span><span class="marca marca--direita">4</span>
+              <span class="peca" style="display:flex;flex:none" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0"/></svg>
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+              </span>
+              <div>
+                <p class="zaz-alert__title peca" style="margin:0">
+                  Prazo vence hoje
+                  <span class="fio fio--acima"></span><span class="marca marca--acima">2</span>
+                </p>
+                <p class="peca" style="margin:var(--zaz-space-1) 0 0">
+                  Três tarefas desta fila vencem às 18h.
+                  <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">3</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do alerta, na intenção de alerta.</p>
+
+        <ul>
+          <li><strong>O ícone é decorativo</strong> e reforça a intenção. Ele não pode ser a única indicação do tipo do aviso.</li>
+          <li><strong>Título é opcional</strong>, corpo não. Um alerta de uma linha dispensa título; com duas ou mais, o título é o que se lê primeiro.</li>
+          <li>O alerta <strong>fica</strong> — não some sozinho. Se a condição passou, ele sai porque o dado mudou, não porque o tempo passou.</li>
+          <li>Alerta com botão é aceitável quando existe uma ação óbvia ("Tentar novamente"). Duas ações já é modal disfarçado.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Toast</h2>
+        <p class="subtitulo">O recibo que some sozinho</p>
+
+        <div class="quadro">
+          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3);max-width:420px">
+            <div class="zaz-toast zaz-toast--success">
+              <div><p class="zaz-toast__title" style="margin:0">Tarefa concluída</p><p class="zaz-toast__desc" style="margin:var(--zaz-space-1) 0 0">TSK-8842-CRED foi encaminhada para Acompanhamento.</p></div>
+            </div>
+            <div class="zaz-toast zaz-toast--warning">
+              <div><p class="zaz-toast__title" style="margin:0">Pendência registrada</p><p class="zaz-toast__desc" style="margin:var(--zaz-space-1) 0 0">O promotor será notificado por e-mail.</p></div>
+            </div>
+            <div class="zaz-toast zaz-toast--danger">
+              <div><p class="zaz-toast__title" style="margin:0">Falha na integração</p><p class="zaz-toast__desc" style="margin:var(--zaz-space-1) 0 0">Sem resposta do Camunda. Nova tentativa em 30s.</p></div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Os toasts empilham no canto inferior direito, o mais novo por baixo. A trilha de 4px na cor da intenção é a mesma gramática da lista.</p>
+
+        <ul>
+          <li><strong>Toast é recibo de ação do usuário.</strong> "Tarefa concluída" depois que a pessoa clicou em concluir. Notificação que chega sozinha do servidor não é toast — é alerta ou badge.</li>
+          <li>Some em ~5 segundos. <strong>Erro não some:</strong> se a operação falhou, a pessoa precisa poder ler com calma e agir.</li>
+          <li>No máximo <strong>três</strong> na pilha. Acima disso, agrupe: "3 tarefas concluídas".</li>
+          <li><strong>Nunca use toast para algo que exige ação.</strong> Ele some, e a ação some junto.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Modal e drawer</h2>
+        <p class="subtitulo">Quando é preciso ocupar a tela</p>
+
+        <div class="quadro">
+          <div class="palco">
+            <div class="zaz-overlay" style="z-index:1">
+              <div class="zaz-modal" style="max-width:24rem;animation:none">
+                <div class="zaz-modal__header">
+                  <span class="zaz-h2">Suspender tarefa?</span>
+                  <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" type="button" aria-label="Fechar">✕</button>
+                </div>
+                <div class="zaz-modal__body">A tarefa sairá da fila ativa e deixará de contar no prazo até ser reativada manualmente.</div>
+                <div class="zaz-modal__footer">
+                  <button class="zaz-btn zaz-btn--ghost" type="button">Cancelar</button>
+                  <button class="zaz-btn zaz-btn--primary" type="button">Suspender</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Modal de confirmação. Repare nos botões: "Suspender" e "Cancelar", não "Sim" e "Não" — quem clicou rápido ainda lê o que fez.</p>
+
+        <div class="quadro">
+          <div class="palco">
+            <div class="zaz-drawer" style="animation:none">
+              <div class="zaz-drawer__header">
+                <span class="zaz-h3">Detalhe da tarefa</span>
+                <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" type="button" aria-label="Fechar">✕</button>
+              </div>
+              <div class="zaz-drawer__body">
+                <dl class="zaz-dl">
+                  <dt>ID</dt><dd class="zaz-mono">TSK-8842</dd>
+                  <dt>Processo</dt><dd>Credenciamento VERO</dd>
+                  <dt>Criada</dt><dd>há 2h 15m</dd>
+                </dl>
+              </div>
+              <div class="zaz-drawer__footer">
+                <button class="zaz-btn zaz-btn--secondary zaz-btn--sm" type="button">Assumir</button>
+                <button class="zaz-btn zaz-btn--primary zaz-btn--sm" type="button">Concluir</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Drawer, encostado à direita. O conteúdo de trás continua visível — é o que o diferencia do modal.</p>
+
+        <h3>Anatomia — a mesma dos dois</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Véu</td><td><a href="../../fundamentos/cores/">Fundamento Cores</a></td><td>Obrigatório no modal, opcional no drawer</td></tr>
+              <tr><td class="id">2</td><td>Cabeçalho</td><td><a href="../../fundamentos/tipografia/">Fundamento Tipografia</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Corpo</td><td><a href="../../fundamentos/espaco/">Fundamento Espaço</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">4</td><td>Rodapé</td><td><a href="../botao/">Componente Botão</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">5</td><td>Fechar</td><td><a href="../botao/">Componente Botão</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Diferenças que importam</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>—</th><th>Modal</th><th>Drawer</th></tr></thead>
+            <tbody>
+              <tr><td>Posição</td><td>Centro da tela</td><td>Encostado à direita, altura cheia</td></tr>
+              <tr><td>Largura</td><td>até 32rem (512px)</td><td>28rem (448px)</td></tr>
+              <tr><td>Canto</td><td>24px, os quatro</td><td>Nenhum — encosta nas bordas</td></tr>
+              <tr><td>Véu</td><td>Sempre</td><td>Opcional</td></tr>
+              <tr><td>Rolagem</td><td>O corpo cresce; a página atrás trava</td><td>O corpo rola sozinho</td></tr>
+              <tr><td>Rodapé</td><td>Ações à direita</td><td>Ações à esquerda, lado a lado</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Comportamentos</h2>
+        <p class="subtitulo">Como as sobreposições se comportam</p>
+
+        <h3>1. Camadas</h3>
+        <p>A ordem de empilhamento é fixa, e existe para que um não engula o outro:</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Camada</th><th>Componente</th><th>Por quê</th></tr></thead>
+            <tbody>
+              <tr><td><code>50</code></td><td>Véu e modal</td><td>Acima do conteúdo</td></tr>
+              <tr><td><code>60</code></td><td>Drawer</td><td>Acima do modal: pode abrir a partir dele</td></tr>
+              <tr><td><code>70</code></td><td>Pilha de toasts</td><td>Acima de tudo: o recibo precisa ser visto mesmo com um modal aberto</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2. Como fecham</h3>
+        <ul>
+          <li><code>Esc</code> fecha modal e drawer. Sempre — não existe sobreposição que prenda a pessoa.</li>
+          <li>Clique no véu fecha, <strong>exceto</strong> quando há trabalho não salvo. Nesse caso, o clique sacode a janela em vez de fechar.</li>
+          <li>Toast fecha sozinho, e o botão de fechar é opcional — mas obrigatório quando é erro.</li>
+          <li>Alerta só fecha se a condição mudar, ou por um botão de dispensar quando for informativo.</li>
+        </ul>
+
+        <h3>3. Entrada e saída</h3>
+        <p>Modal e toast entram com <code>zazFadeUp</code>: sobem 20px e ganham opacidade em 300ms, na curva de entrada. Drawer desliza da direita. <strong>Saída é mais rápida que entrada</strong> — 150ms —, porque esperar algo desaparecer é mais incômodo do que vê-lo chegar.</p>
+
+        <h3>4. Rolagem atrás</h3>
+        <p>Com modal aberto, a página de trás <strong>trava</strong> (<code>overflow: hidden</code> no body). Sem isso, rolar o modal até o fim continua rolando a página atrás, e a pessoa perde o lugar onde estava.</p>
+
+        <h3>5. Responsividade</h3>
+        <ul>
+          <li>Abaixo de 576px o modal ocupa quase a largura toda, com 24px de margem.</li>
+          <li>O drawer vira largura cheia — <strong>e aí ele é um modal</strong>, na prática. Se a tela é sempre estreita, use modal desde o começo.</li>
+          <li>Os toasts saem do canto e viram faixa no topo, onde o polegar não os cobre.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Alerta</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>padding</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Superfície</td><td>border-radius</td><td>16px</td><td><code>--zaz-radius-card</code></td></tr>
+              <tr><td>Superfície</td><td>border-width</td><td>1px</td><td>trio da intenção</td></tr>
+              <tr><td>Entre ícone e texto</td><td>gap</td><td>12px</td><td><code>--zaz-space-3</code></td></tr>
+              <tr><td>Título</td><td>font-weight</td><td>700</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Toast</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>largura</td><td>min 320px · max 416px</td><td>—</td></tr>
+              <tr><td>Superfície</td><td>padding</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Superfície</td><td>box-shadow</td><td>—</td><td><code>--zaz-shadow-lg</code></td></tr>
+              <tr><td>Trilha da intenção</td><td>border-left</td><td><strong>4px</strong></td><td>cor cheia do status</td></tr>
+              <tr><td>Pilha</td><td>posição</td><td>24px da direita e de baixo</td><td><code>--zaz-space-6</code></td></tr>
+              <tr><td>Pilha</td><td>gap</td><td>12px</td><td><code>--zaz-space-3</code></td></tr>
+              <tr><td>Entrada</td><td>animação</td><td>300ms</td><td><code>--zaz-ease-entrance</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Modal</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Véu</td><td>background</td><td>slate 45% · preto 65% no escuro</td><td><code>--zaz-overlay</code></td></tr>
+              <tr><td>Véu</td><td>backdrop-filter</td><td><code>blur(2px)</code></td><td>—</td></tr>
+              <tr><td>Janela</td><td>max-width</td><td>512px (32rem)</td><td>—</td></tr>
+              <tr><td>Janela</td><td>border-radius</td><td>24px</td><td><code>--zaz-radius-hero</code></td></tr>
+              <tr><td>Janela</td><td>box-shadow</td><td>—</td><td><code>--zaz-shadow-lg</code></td></tr>
+              <tr><td>Cabeçalho</td><td>padding</td><td>24px 24px 16px</td><td><code>--zaz-space-6</code> <code>--zaz-space-4</code></td></tr>
+              <tr><td>Corpo</td><td>padding</td><td>0 24px 24px</td><td><code>--zaz-space-6</code></td></tr>
+              <tr><td>Rodapé</td><td>padding / gap</td><td>16px 24px / 12px</td><td><code>--zaz-space-4</code> <code>--zaz-space-6</code> <code>--zaz-space-3</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Drawer</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Painel</td><td>largura</td><td>448px (28rem), ou 100% se menor</td><td>—</td></tr>
+              <tr><td>Painel</td><td>posição</td><td>fixo à direita, altura cheia</td><td>—</td></tr>
+              <tr><td>Painel</td><td>border-left</td><td>1px</td><td><code>--zaz-border</code></td></tr>
+              <tr><td>Cabeçalho</td><td>padding</td><td>20px 24px</td><td><code>--zaz-space-5</code> <code>--zaz-space-6</code></td></tr>
+              <tr><td>Corpo</td><td>padding / gap</td><td>24px / 24px</td><td><code>--zaz-space-6</code></td></tr>
+              <tr><td>Corpo</td><td>overflow-y</td><td><code>auto</code></td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code> e <code>tokens/zaz.tokens.json</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes e HTML mínimo</p>
+
+        <h3>Alerta</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o ícone é decorativo; o texto é quem informa</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-alert zaz-alert--warning</span>" role="status"&gt;
+  &lt;<span class="ch">svg</span> width="18" height="18" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+  &lt;<span class="ch">div</span>&gt;
+    &lt;<span class="ch">p</span> class="<span class="cv">zaz-alert__title</span>"&gt;Prazo vence hoje&lt;/<span class="ch">p</span>&gt;
+    &lt;<span class="ch">p</span>&gt;Três tarefas desta fila vencem às 18h.&lt;/<span class="ch">p</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Toast</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>a pilha é fixa; cada toast entra por cima</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-toast-stack</span>" role="region" aria-label="Notificações"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-toast zaz-toast--success</span>" role="status"&gt;
+    &lt;<span class="ch">div</span>&gt;
+      &lt;<span class="ch">p</span> class="<span class="cv">zaz-toast__title</span>"&gt;Tarefa concluída&lt;/<span class="ch">p</span>&gt;
+      &lt;<span class="ch">p</span> class="<span class="cv">zaz-toast__desc</span>"&gt;TSK-8842-CRED foi encaminhada.&lt;/<span class="ch">p</span>&gt;
+    &lt;/<span class="ch">div</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">div</span>&gt;
+
+<span class="cm">// erro usa role="alert" em vez de "status": interrompe e anuncia na hora</span></code></pre>
+        </div>
+
+        <h3>Modal</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>&lt;dialog&gt; nativo: foco preso e Esc de graça</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">dialog</span> class="<span class="cv">zaz-modal</span>" id="confirmar" aria-labelledby="t"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-modal__header</span>"&gt;
+    &lt;<span class="ch">h2</span> class="<span class="cv">zaz-h2</span>" id="t"&gt;Suspender tarefa?&lt;/<span class="ch">h2</span>&gt;
+    &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost zaz-btn--sm</span>" type="button"
+            aria-label="Fechar"&gt;✕&lt;/<span class="ch">button</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-modal__body</span>"&gt;A tarefa sairá da fila ativa…&lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-modal__footer</span>"&gt;
+    &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost</span>" type="button"&gt;Cancelar&lt;/<span class="ch">button</span>&gt;
+    &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--primary</span>" type="button"&gt;Suspender&lt;/<span class="ch">button</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">dialog</span>&gt;
+
+<span class="cm">// showModal() — não show(). Só o primeiro prende o foco,
+// trava a página atrás e habilita o Esc.</span>
+document.getElementById(<span class="cv">'confirmar'</span>).showModal();</code></pre>
+        </div>
+
+        <div class="nota">
+          <p><strong>Prefira o <code>&lt;dialog&gt;</code> nativo.</strong> Ele dá de graça três coisas difíceis de acertar à mão: foco preso dentro da janela, <code>Esc</code> para fechar e o véu como <code>::backdrop</code>. A classe <code>.zaz-overlay</code> existe para quando o <code>&lt;dialog&gt;</code> não é possível — e aí a armadilha do foco é sua responsabilidade.</p>
+        </div>
+
+        <h3>Drawer</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>cabeçalho fixo, corpo que rola, rodapé fixo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">aside</span> class="<span class="cv">zaz-drawer</span>" role="dialog" aria-labelledby="dt" aria-modal="true"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-drawer__header</span>"&gt;
+    &lt;<span class="ch">h2</span> class="<span class="cv">zaz-h3</span>" id="dt"&gt;Detalhe da tarefa&lt;/<span class="ch">h2</span>&gt;
+    &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost zaz-btn--sm</span>" aria-label="Fechar"&gt;✕&lt;/<span class="ch">button</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-drawer__body</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-drawer__footer</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">aside</span>&gt;</code></pre>
+        </div>
+
+        <h3>Classes</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-alert</code> <code>--danger --warning --success --info</code></td><td>Aviso fixo, com o trio da intenção</td></tr>
+              <tr><td><code>.zaz-toast-stack</code></td><td>Pilha fixa no canto inferior direito</td></tr>
+              <tr><td><code>.zaz-toast</code> <code>--success --danger --warning --info</code></td><td>Recibo, com trilha de 4px na cor cheia</td></tr>
+              <tr><td><code>.zaz-overlay</code></td><td>Véu com desfoque, centralizando o filho</td></tr>
+              <tr><td><code>.zaz-modal</code> + <code>__header __body __footer</code></td><td>Janela central, canto de 24px</td></tr>
+              <tr><td><code>.zaz-drawer</code> + <code>__header __body __footer</code></td><td>Painel lateral, altura cheia</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Travar a página atrás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>sem isto, rolar o modal rola a página de trás</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="cm">// ao abrir</span>
+document.body.style.overflow = <span class="cv">'hidden'</span>;
+<span class="cm">// ao fechar — e SEMPRE no cleanup, senão a página fica travada
+// para sempre se o componente desmontar com o modal aberto</span>
+document.body.style.overflow = <span class="cv">''</span>;</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade nas sobreposições</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Modal: as cinco obrigações</h3>
+        <ol class="lista">
+          <li><strong>Foco entra.</strong> Ao abrir, o foco vai para o primeiro elemento focável ou para o título. Não deixe o foco na página de trás.</li>
+          <li><strong>Foco fica preso.</strong> <code>Tab</code> circula dentro do modal e não escapa para o conteúdo atrás. O <code>&lt;dialog&gt;</code> com <code>showModal()</code> faz isso sozinho.</li>
+          <li><strong><code>Esc</code> fecha.</strong> Sempre.</li>
+          <li><strong>Foco volta.</strong> Ao fechar, o foco retorna ao elemento que abriu o modal — senão a pessoa é jogada para o começo da página.</li>
+          <li><strong>O resto some.</strong> <code>aria-modal="true"</code> (ou o <code>&lt;dialog&gt;</code> nativo) esconde o conteúdo de trás do leitor de tela.</li>
+        </ol>
+
+        <h3>O nome do diálogo</h3>
+        <p><code>aria-labelledby</code> apontando para o título, ou <code>aria-label</code> quando não há título visível. Sem isso, o leitor anuncia apenas "diálogo" — e a pessoa não sabe o que está sendo perguntado.</p>
+
+        <h3>Toast e alerta: o que anunciar, e com que urgência</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Situação</th><th>Atributo</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td>Erro, falha, perda de dado</td><td><code>role="alert"</code></td><td>Interrompe e anuncia na hora</td></tr>
+              <tr><td>Confirmação, informação</td><td><code>role="status"</code></td><td>Espera a leitura atual terminar</td></tr>
+              <tr><td>A pilha de toasts</td><td><code>role="region" aria-label="Notificações"</code></td><td>Dá um nome à área</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Não use <code>role="alert"</code> para tudo.</strong> Ele interrompe o que a pessoa está ouvindo. Cinco confirmações de sucesso seguidas com <code>alert</code> tornam o leitor de tela inutilizável por vários segundos.</p>
+        </div>
+
+        <h3>Toast some — e some para todo mundo</h3>
+        <ul>
+          <li>Cinco segundos é pouco para quem lê devagar, usa lupa ou navega por teclado. A WCAG exige <strong>poder pausar, parar ou estender</strong> conteúdo que some sozinho.</li>
+          <li>Na prática: pause o temporizador no hover e no foco, e <strong>nunca</strong> ponha ação dentro de um toast que expira.</li>
+          <li>Erro não expira.</li>
+        </ul>
+
+        <h3>Botões de confirmação</h3>
+        <ul>
+          <li>Os rótulos dizem a ação, não "sim" e "não": <strong>Suspender</strong> e <strong>Cancelar</strong>. Lidos fora de contexto — que é como o leitor de tela os apresenta — "Sim" não significa nada.</li>
+          <li>A ação destrutiva <strong>não</strong> é o foco inicial. Quem aperta <code>Enter</code> por reflexo não pode apagar nada.</li>
+          <li>O botão de fechar (✕) precisa de <code>aria-label="Fechar"</code>: o caractere sozinho é lido como "letra x" ou ignorado.</li>
+        </ul>
+
+        <h3>Véu e desfoque</h3>
+        <p>O véu escurece o fundo para quem vê. Ele <strong>não</strong> é o que impede a interação — quem impede é <code>aria-modal</code> e a armadilha de foco. Um véu sem essas duas coisas é só uma camada bonita por cima de uma página ainda navegável por <code>Tab</code>.</p>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Texto do alerta (erro)</td><td>7,0:1</td><td>7,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Texto do alerta (alerta)</td><td>5,9:1</td><td>9,3:1</td><td>✓ AA</td></tr>
+              <tr><td>Título do toast</td><td>9,7:1</td><td>14,1:1</td><td>✓ AAA</td></tr>
+              <tr><td>Descrição do toast</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Trilha do toast sobre a superfície</td><td>3,1:1</td><td>3,4:1</td><td>✓ AA gráfico</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">ARIA APG — Dialog (Modal)</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide.html">WCAG — Pause, Stop, Hide</a></li>
+          <li><a href="https://www.gov.br/ds/components/modal">Padrão Digital de Governo — Modal</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os trios de <code>tokens/zaz.tokens.json</code>, nos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campo · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  // Antes do primeiro paint — senão a página abre clara e escurece na cara do leitor.
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Campo</b></p>
+    <h1 class="ficha__titulo">Campo <em>(Field)</em></h1>
+    <p class="ficha__resumo">O campo é a unidade básica de entrada de dados. Reúne, num único agrupamento, o rótulo que nomeia a informação, o controle onde o usuário digita e a mensagem que responde ao que ele digitou.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Quando este componente é a resposta certa</p>
+
+        <div class="quadro">
+          <div class="zaz-field" style="max-width:340px">
+            <label class="zaz-label" for="ex-uso">CNPJ do estabelecimento</label>
+            <input class="zaz-input" id="ex-uso" type="text" value="12.345.678/0001-90" inputmode="numeric">
+            <span class="zaz-hint">Somente números. A máscara é aplicada ao digitar.</span>
+          </div>
+        </div>
+        <p class="legenda">Exemplo do componente campo com rótulo, controle e texto de apoio.</p>
+
+        <p>Use o campo sempre que o usuário precisar <strong>fornecer um dado que o sistema não tem</strong> — um CNPJ, um nome, uma observação. Ele é a peça de menor granularidade do formulário: agrupá-los é papel do padrão Formulário, não deste componente.</p>
+        <ul>
+          <li>Quando a resposta é <strong>livre</strong> — texto, número, data digitada.</li>
+          <li>Quando existe <strong>máscara ou validação</strong> a aplicar. O campo é o lugar onde o erro aparece.</li>
+          <li>Quando o dado precisa de <strong>nome visível</strong>. Campo sem rótulo só se justifica dentro de uma célula de tabela ou numa busca com ícone e placeholder evidentes.</li>
+        </ul>
+
+        <h4>Quando não usar</h4>
+        <ul>
+          <li>Escolha entre poucas opções conhecidas → <strong>Radio</strong> (uma) ou <strong>Checkbox</strong> (várias).</li>
+          <li>Escolha entre muitas opções conhecidas → <strong>Select</strong>, que é um tipo deste mesmo componente.</li>
+          <li>Liga/desliga uma configuração que vale imediatamente → <strong>Switch</strong>.</li>
+          <li>Texto longo, de mais de uma linha → <code>.zaz-textarea</code>, também um tipo daqui.</li>
+        </ul>
+
+        <div class="nota">
+          <p><strong>No Apolo:</strong> os 107 formulários espalhados por 29 pastas de operação são feitos deste componente. Toda inconsistência entre eles — rótulo em caixa alta num, capitalizado no outro; erro embaixo num, ao lado no outro — nasce da ausência desta ficha.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Tom e voz</h2>
+        <p class="subtitulo">Como escrever o texto que vive dentro do componente</p>
+
+        <p>O campo tem três textos, e cada um tem uma regra diferente.</p>
+
+        <h3>Rótulo</h3>
+        <ul>
+          <li><strong>Substantivo, não pergunta.</strong> "CNPJ do estabelecimento", nunca "Qual é o CNPJ?".</li>
+          <li>Curto: até quatro palavras. O que não couber vira texto de apoio.</li>
+          <li>Nomeie o dado <strong>como o usuário o chama</strong>, não como a variável se chama no Camunda. "Responsável pela análise", não "auditorHandshake".</li>
+          <li>Sem dois-pontos no fim. Sem "(obrigatório)" — a ausência é que se marca, com "(opcional)".</li>
+        </ul>
+
+        <h3>Texto de apoio</h3>
+        <ul>
+          <li>Existe para <strong>evitar um erro antes de ele acontecer</strong>. Se não previne nada, corte.</li>
+          <li>Diz o formato ou a origem do dado: "Somente números", "Como aparece no contrato assinado".</li>
+          <li>Uma linha. Frase completa, começando em maiúscula.</li>
+        </ul>
+
+        <h3>Mensagem de erro</h3>
+        <ul>
+          <li><strong>Diz o que está errado e o que fazer.</strong> "CNPJ inválido — confira os 14 dígitos", não "Campo inválido".</li>
+          <li>Nunca culpa o usuário e nunca se desculpa. Sem "Ops", sem "Desculpe".</li>
+          <li>Sem jargão de sistema: nada de código de erro, nome de endpoint ou <em>stack trace</em>.</li>
+        </ul>
+
+        <div class="par">
+          <div>
+            <h4><span class="sim">✓</span> Assim</h4>
+            <div class="zaz-field zaz-field--invalid">
+              <label class="zaz-label" for="bom">CNPJ do estabelecimento</label>
+              <input class="zaz-input" id="bom" type="text" value="12.345.678/0001-9" aria-invalid="true" aria-describedby="bom-erro">
+              <span class="zaz-error" id="bom-erro">CNPJ inválido — confira os 14 dígitos.</span>
+            </div>
+          </div>
+          <div>
+            <h4><span class="nao">✕</span> Assim não</h4>
+            <div class="zaz-field zaz-field--invalid">
+              <label class="zaz-label" for="ruim">QUAL O CNPJ?:</label>
+              <input class="zaz-input" id="ruim" type="text" value="12.345.678/0001-9" aria-invalid="true" aria-describedby="ruim-erro">
+              <span class="zaz-error" id="ruim-erro">Ops! Erro de validação (cnpj_check_dv).</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Anatomia</h2>
+        <p class="subtitulo">De que partes o campo é feito, e de onde cada parte vem</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Rótulo</td><td><a href="../../docs/#tipografia">Fundamento Tipografia</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">2</td><td>Texto de apoio</td><td><a href="../../docs/#tipografia">Fundamento Tipografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">3</td><td>Controle</td><td><a href="../../docs/#espaco">Fundamento Superfície</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">4</td><td>Ícone de apoio</td><td><a href="../../docs/#icones">Fundamento Iconografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">5</td><td>Mensagem de validação</td><td><a href="../../docs/#badges">Componente Badge e status</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">6</td><td>Agrupamento</td><td><a href="../../docs/#espaco">Fundamento Espaçamento</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- A figura é o componente real: mesmo HTML, mesmo CSS. Os marcadores
+             se penduram em cada peça pela classe .peca, então mudar o texto, a
+             fonte ou o padding do componente não desalinha nada aqui. -->
+        <!-- Três exemplos em vez de um: o fio de um marcador não pode cruzar o
+             texto do exemplo seguinte, e o item 4 desce por baixo do controle. -->
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:460px;display:flex;flex-direction:column;gap:var(--zaz-space-16)">
+
+            <div class="zaz-field peca peca--moldada" style="width:300px">
+              <span class="fio fio--direita"></span>
+              <span class="marca marca--direita">6</span>
+
+              <label class="zaz-label peca" for="anat">
+                CNPJ do estabelecimento
+                <span class="fio fio--esquerda"></span>
+                <span class="marca marca--esquerda">1</span>
+              </label>
+
+              <span class="zaz-input-group peca">
+                <!-- sem .peca: o ícone já é position:absolute, e sobrescrever
+                     para relative o tiraria de dentro do controle -->
+                <span class="zaz-input-group__icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h4M7 13h10"/></svg>
+                  <span class="fio fio--abaixo"></span>
+                  <span class="marca marca--abaixo">4</span>
+                </span>
+                <input class="zaz-input" id="anat" type="text" value="12.345.678/0001-90">
+                <span class="fio fio--esquerda"></span>
+                <span class="marca marca--esquerda">3</span>
+              </span>
+            </div>
+
+            <div class="zaz-field" style="width:300px">
+              <label class="zaz-label" for="anat2">Nome fantasia</label>
+              <input class="zaz-input" id="anat2" type="text" placeholder="Como aparece na fachada">
+              <span class="zaz-hint peca">
+                Usado nos relatórios e no contrato.
+                <span class="fio fio--esquerda"></span>
+                <span class="marca marca--esquerda">2</span>
+              </span>
+            </div>
+
+            <div class="zaz-field zaz-field--invalid" style="width:300px">
+              <label class="zaz-label" for="anat3">Inscrição estadual</label>
+              <input class="zaz-input" id="anat3" type="text" value="110.042.490.11" aria-invalid="true" aria-describedby="anat-erro">
+              <span class="zaz-error peca" id="anat-erro">
+                Inscrição inválida para o estado de SP.
+                <span class="fio fio--esquerda"></span>
+                <span class="marca marca--esquerda">5</span>
+              </span>
+            </div>
+
+          </div>
+        </div>
+        <p class="legenda">Anatomia do componente campo, em três exemplos: com ícone de apoio, com texto de apoio e em estado inválido.</p>
+
+        <div class="nota">
+          <p>A coluna <strong>Referência</strong> é o que impede a deriva. O rótulo não inventa tamanho de fonte: usa o que a Tipografia definiu. O controle não inventa raio de canto: usa o da Superfície. Quando um valor muda no fundamento, muda em todo componente que o referencia — e a ficha diz exatamente quais são.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Detalhamento dos itens</h2>
+        <p class="subtitulo">Uma regra por parte, na ordem da anatomia</p>
+
+        <h3>1. Rótulo <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Nomeia o dado. Fica sempre <strong>acima</strong> do controle, alinhado à esquerda, e é o elemento mais ao topo do agrupamento. Neste sistema ele é escrito em <strong>caixa alta com espaçamento entre letras</strong> — a mesma régua de <code>.zaz-eyebrow</code> — o que o distingue do texto de apoio à primeira vista, sem depender de cor.</p>
+        <ul>
+          <li>Nunca use rótulo flutuante, aquele que sobe para dentro da borda ao focar: ele some no preenchimento automático e some para o leitor de tela.</li>
+          <li>Campo opcional recebe " (opcional)" no fim do rótulo, em caixa normal. O obrigatório não recebe marca nenhuma — se quase tudo é obrigatório, marcar o obrigatório é ruído.</li>
+          <li>Sempre amarrado ao controle: <code>&lt;label for&gt;</code> apontando para o <code>id</code>. Clicar no rótulo tem que focar o campo.</li>
+        </ul>
+
+        <h3>2. Texto de apoio <span class="opcional">(opcional)</span></h3>
+        <p>Fica <strong>abaixo</strong> do controle, não entre o rótulo e ele — ali empurraria o campo para longe do seu nome e quebraria a leitura em pares. Usa o menor tamanho da escala e a cor mais discreta do tema.</p>
+        <p>Quando há erro, o texto de apoio <strong>é substituído</strong> pela mensagem de validação, não empilhado com ela. Dois textos pequenos embaixo do campo competem entre si e o usuário não lê nenhum.</p>
+
+        <h3>3. Controle <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>É a superfície onde se digita, composta de três coisas:</p>
+        <ul>
+          <li><strong>Superfície</strong> — fundo, borda de 1px e canto arredondado. É o que dá ao campo a aparência de "aqui se escreve".</li>
+          <li><strong>Valor</strong> — o que o usuário digitou, na cor de leitura principal.</li>
+          <li><strong>Placeholder</strong> — exemplo do formato, na cor mais discreta. <em>Nunca</em> substitui o rótulo: ele desaparece quando se começa a digitar, e com ele o nome do dado.</li>
+        </ul>
+        <p>A largura acompanha a coluna do formulário. A altura é fixa e vem da densidade.</p>
+
+        <h3>4. Ícone de apoio <span class="opcional">(opcional)</span></h3>
+        <p>Fica dentro do controle, à esquerda, e é <strong>decorativo</strong>: reforça a natureza do dado (calendário, lupa, cifrão), nunca carrega informação que só ele tem. O espaço interno à esquerda cresce de 16px para 48px para não deixar o texto por baixo dele.</p>
+        <p>Ícone que <em>faz</em> alguma coisa — limpar o campo, mostrar a senha, abrir o calendário — não é ícone de apoio: é um <strong>botão</strong>, e segue a ficha do Botão, inclusive no foco e no rótulo acessível.</p>
+
+        <h3>5. Mensagem de validação <span class="opcional">(opcional)</span></h3>
+        <p>Último elemento do agrupamento. Aparece <strong>depois</strong> que o usuário sai do campo, nunca a cada tecla digitada — validar durante a digitação faz o campo acusar erro em todo CNPJ pela metade.</p>
+        <p>Quando ela aparece, o controle muda junto: borda e fundo assumem a cor de erro. A cor sozinha não pode ser o sinal — quem não distingue vermelho precisa do texto, e é por isso que a mensagem é obrigatória quando o estado é inválido.</p>
+
+        <h3>6. Agrupamento <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>É a caixa invisível que segura os cinco itens em coluna, com um espaçamento único entre eles. Existe por um motivo prático: quando a mensagem de erro aparece ou some, <strong>o resto do formulário não pode dançar</strong>. O agrupamento é quem absorve essa variação de altura.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Tipos</h2>
+        <p class="subtitulo">Variações estruturais do mesmo componente</p>
+
+        <div class="quadro quadro--fita">
+          <div class="zaz-field" style="flex:1 1 210px">
+            <label class="zaz-label" for="t1">1 · Padrão</label>
+            <input class="zaz-input" id="t1" type="text" placeholder="Texto">
+          </div>
+          <div class="zaz-field" style="flex:1 1 210px">
+            <label class="zaz-label" for="t2">2 · Com ícone</label>
+            <span class="zaz-input-group">
+              <span class="zaz-input-group__icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </span>
+              <input class="zaz-input" id="t2" type="search" placeholder="Buscar tarefa">
+            </span>
+          </div>
+          <div class="zaz-field" style="flex:1 1 210px">
+            <label class="zaz-label" for="t3">3 · Destacado</label>
+            <input class="zaz-input zaz-input--lg" id="t3" type="text" placeholder="CPF ou e-mail">
+          </div>
+          <div class="zaz-field" style="flex:1 1 210px">
+            <label class="zaz-label" for="t4">4 · Texto longo</label>
+            <textarea class="zaz-textarea" id="t4" placeholder="Observações da análise"></textarea>
+          </div>
+          <div class="zaz-field" style="flex:1 1 210px">
+            <label class="zaz-label" for="t5">5 · Escolha</label>
+            <select class="zaz-select" id="t5">
+              <option>Vero</option><option>Pluxee</option><option>Getnet</option>
+            </select>
+          </div>
+        </div>
+        <p class="legenda">Os cinco tipos do campo.</p>
+
+        <h3>1. Padrão</h3>
+        <p>O tipo mais comum. Altura média, canto de controle, sem ícone. É o que se usa dentro de formulário, que é onde quase todo campo do Apolo vive.</p>
+
+        <h3>2. Com ícone</h3>
+        <p>Mesmo campo com um ícone decorativo à esquerda. Use quando o campo aparece <strong>fora</strong> de um formulário e precisa se explicar sozinho — a busca no cabeçalho, o filtro acima de uma tabela.</p>
+
+        <h3>3. Destacado</h3>
+        <p>Altura maior e canto de card. Reservado para o campo que é <strong>o assunto da tela</strong>: o login, uma busca que ocupa a página inteira. Num formulário com vários campos ele quebra o ritmo da coluna — não use ali.</p>
+
+        <h3>4. Texto longo</h3>
+        <p>Para respostas de mais de uma linha: observação, justificativa, histórico. Começa com três linhas de altura e cresce pelo canto, nunca sozinho — texto que cresce sozinho empurra o botão de enviar para fora da tela enquanto a pessoa escreve.</p>
+
+        <h3>5. Escolha</h3>
+        <p>Mesma superfície do campo, com a lista nativa do navegador. Use a partir de <strong>cinco opções</strong>; abaixo disso, Radio mostra tudo de uma vez e custa um clique a menos.</p>
+
+        <div class="nota nota--atencao">
+          <p><strong>Não crie um sexto tipo sem passar por aqui.</strong> Campo com borda só embaixo, campo sem borda, campo com fundo colorido — cada um é uma linguagem nova que o usuário precisa aprender, e um lugar a mais para o foco e o erro se comportarem diferente.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Comportamentos</h2>
+        <p class="subtitulo">Como o campo reage</p>
+
+        <h3>1. Estados</h3>
+        <p>São sete, e cada um responde a uma pergunta do usuário.</p>
+
+        <div class="estados">
+          <div class="estado">
+            <p class="estado__nome">Padrão</p>
+            <p class="estado__quando">Ninguém encostou. Aceita entrada.</p>
+            <div class="estado__amostra"><input class="zaz-input" type="text" placeholder="Digite aqui" aria-label="Exemplo do estado padrão"></div>
+          </div>
+          <div class="estado simula-hover">
+            <p class="estado__nome">Hover</p>
+            <p class="estado__quando">O ponteiro está por cima. Só a borda escurece — nada de mover ou crescer.</p>
+            <div class="estado__amostra"><input class="zaz-input" type="text" placeholder="Digite aqui" aria-label="Exemplo do estado hover"></div>
+          </div>
+          <div class="estado simula-foco">
+            <p class="estado__nome">Foco</p>
+            <p class="estado__quando">O cursor está aqui. Borda na cor da marca mais anel de 3px. É o estado que garante o teclado.</p>
+            <div class="estado__amostra"><input class="zaz-input" type="text" value="Digitando" aria-label="Exemplo do estado foco"></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Preenchido</p>
+            <p class="estado__quando">Tem valor e o usuário saiu. Volta à borda neutra, texto na cor de leitura.</p>
+            <div class="estado__amostra"><input class="zaz-input" type="text" value="12.345.678/0001-90" aria-label="Exemplo do estado preenchido"></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Inválido</p>
+            <p class="estado__quando">Falhou na validação. Borda e fundo de erro, mais a mensagem — que é obrigatória.</p>
+            <div class="estado__amostra">
+              <div class="zaz-field zaz-field--invalid">
+                <input class="zaz-input" type="text" value="12.345.678/0001-9" aria-invalid="true" aria-label="Exemplo do estado inválido">
+                <span class="zaz-error">CNPJ inválido — confira os 14 dígitos.</span>
+              </div>
+            </div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Desabilitado</p>
+            <p class="estado__quando">Não pode ser editado <em>agora</em> — depende de outro campo. Fundo rebaixado, cursor bloqueado, fora do caminho do teclado.</p>
+            <div class="estado__amostra"><input class="zaz-input" type="text" value="Aguarda o CNPJ" disabled aria-label="Exemplo do estado desabilitado"></div>
+          </div>
+          <div class="estado estado--largo">
+            <p class="estado__nome">Somente leitura</p>
+            <p class="estado__quando">Tem valor definitivo, vindo do sistema. Sem borda de entrada, porque não promete edição — mas continua alcançável por <code>Tab</code>, porque o usuário precisa poder ler e copiar o valor.</p>
+            <div class="estado__amostra" style="max-width:320px"><input class="zaz-input" type="text" value="Instância 4471982" readonly style="border-color:transparent;background:var(--zaz-bg-inset)" aria-label="Exemplo do estado somente leitura"></div>
+          </div>
+        </div>
+        <p class="legenda">Os sete estados do campo. Hover e foco estão simulados nesta página para poderem ser vistos parados.</p>
+
+        <div class="nota">
+          <p><strong>Desabilitado × somente leitura</strong> é a confusão mais cara deste componente. <em>Desabilitado</em> diz "ainda não" e sai do caminho do teclado. <em>Somente leitura</em> diz "é isto e não muda" — e continua focável, porque ler e copiar é uso legítimo.</p>
+        </div>
+
+        <h3>2. Densidade</h3>
+        <p>Três alturas. Muda <strong>só a altura e o espaço interno</strong> — o tamanho do rótulo e do ícone ficam iguais, senão a coluna do formulário perde o ritmo.</p>
+        <div class="quadro quadro--fita">
+          <div class="zaz-field" style="flex:1 1 200px"><label class="zaz-label" for="d1">Alta · 32px</label><input class="zaz-input zaz-input--sm" id="d1" type="text" value="Filtro"></div>
+          <div class="zaz-field" style="flex:1 1 200px"><label class="zaz-label" for="d2">Padrão · 40px</label><input class="zaz-input" id="d2" type="text" value="Formulário"></div>
+          <div class="zaz-field" style="flex:1 1 200px"><label class="zaz-label" for="d3">Baixa · 56px</label><input class="zaz-input zaz-input--lg" id="d3" type="text" value="Destaque"></div>
+        </div>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Densidade</th><th>Altura</th><th>Classe</th><th>Token</th><th>Onde usar</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Alta</strong></td><td>32px</td><td><code>.zaz-input--sm</code></td><td><code>--zaz-control-sm</code></td><td>Filtro sobre tabela, campo em célula</td></tr>
+              <tr><td><strong>Padrão</strong></td><td>40px</td><td>—</td><td><code>--zaz-control-md</code></td><td>Formulário — o caso normal</td></tr>
+              <tr><td><strong>Baixa</strong></td><td>56px</td><td><code>.zaz-input--lg</code></td><td><code>--zaz-control-lg</code></td><td>Login, busca principal</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>3. Espaçamento</h3>
+        <ul>
+          <li>Entre os itens do agrupamento: <strong>8px</strong> (<code>--zaz-space-2</code>), igual entre todos.</li>
+          <li>Entre um campo e o próximo: <strong>24px</strong> (<code>--zaz-space-6</code>). É o que separa dois dados — precisa ser visivelmente maior que o espaço de dentro do campo, senão o rótulo de baixo parece pertencer ao campo de cima.</li>
+          <li>Espaço interno do controle: <strong>16px</strong> dos lados; <strong>48px</strong> à esquerda quando há ícone.</li>
+        </ul>
+
+        <h3>4. Responsividade</h3>
+        <p>O campo ocupa 100% da coluna em que está. Abaixo de 576px, todo campo vira largura cheia e <strong>nenhum par fica lado a lado</strong> — inclusive os que normalmente dividem a linha, como CEP e número.</p>
+
+        <h3>5. Tema escuro</h3>
+        <p>O campo não redefine cor nenhuma: lê os tokens do tema. Trocar o tema troca fundo, borda e texto de uma vez, e o anel de foco mantém a proporção de contraste. É por isso que nenhum valor de cor aparece escrito dentro do CSS deste componente — e o botão "Alternar tema", ali na navegação, prova isso em qualquer amostra desta página.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">07</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos — o que o designer mede e o dev escreve</p>
+
+        <h3>Dimensões</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Controle</td><td>height</td><td>40px</td><td><code>--zaz-control-md</code></td></tr>
+              <tr><td>Controle</td><td>border-width</td><td>1px</td><td>—</td></tr>
+              <tr><td>Controle</td><td>border-radius</td><td>12px</td><td><code>--zaz-radius-control</code></td></tr>
+              <tr><td>Controle (destacado)</td><td>height</td><td>56px</td><td><code>--zaz-control-lg</code></td></tr>
+              <tr><td>Controle (destacado)</td><td>border-radius</td><td>16px</td><td><code>--zaz-radius-card</code></td></tr>
+              <tr><td>Texto longo</td><td>min-height</td><td>96px</td><td>—</td></tr>
+              <tr><td>Anel de foco</td><td>box-shadow spread</td><td>3px</td><td>—</td></tr>
+              <tr><td>Ícone de apoio</td><td>width / height</td><td>15px</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Espaçamentos</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Agrupamento</td><td>gap</td><td>8px</td><td><code>--zaz-space-2</code></td></tr>
+              <tr><td>Controle</td><td>padding-inline</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Controle (com ícone)</td><td>padding-left</td><td>48px</td><td><code>--zaz-space-12</code></td></tr>
+              <tr><td>Controle (densidade alta)</td><td>padding-inline</td><td>12px</td><td><code>--zaz-space-3</code></td></tr>
+              <tr><td>Texto longo</td><td>padding</td><td>12px 16px</td><td><code>--zaz-space-3</code> <code>--zaz-space-4</code></td></tr>
+              <tr><td>Ícone de apoio</td><td>left</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Entre campos</td><td>margin-bottom</td><td>24px</td><td><code>--zaz-space-6</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tipografia</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Família</th><th>Tamanho</th><th>Peso</th><th>Extra</th></tr></thead>
+            <tbody>
+              <tr><td>Rótulo</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-xs</code> · 12px</td><td>700</td><td>caixa alta, <code>--zaz-tracking-eyebrow</code></td></tr>
+              <tr><td>Valor</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-sm</code> · 14px</td><td>400</td><td>—</td></tr>
+              <tr><td>Placeholder</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-sm</code> · 14px</td><td>400</td><td>—</td></tr>
+              <tr><td>Texto de apoio</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-xs</code> · 12px</td><td>400</td><td>—</td></tr>
+              <tr><td>Mensagem de erro</td><td><code>--zaz-font-sans</code></td><td><code>--zaz-text-xs</code> · 12px</td><td>500</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cores</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Token</th><th>Claro</th><th>Escuro</th></tr></thead>
+            <tbody>
+              <tr><td>Controle</td><td>background</td><td><code>--zaz-bg-surface</code></td><td><span class="amostra-cor" style="background:#ffffff"></span>#ffffff</td><td><span class="amostra-cor" style="background:#0f172a"></span>#0f172a</td></tr>
+              <tr><td>Controle</td><td>border-color</td><td><code>--zaz-border</code></td><td><span class="amostra-cor" style="background:#e2e8f0"></span>#e2e8f0</td><td><span class="amostra-cor" style="background:#1e293b"></span>#1e293b</td></tr>
+              <tr><td>Controle (foco)</td><td>border-color</td><td><code>--zaz-primary-text</code></td><td><span class="amostra-cor" style="background:#5c229c"></span>#5c229c</td><td><span class="amostra-cor" style="background:#b298e3"></span>#b298e3</td></tr>
+              <tr><td>Controle (inválido)</td><td>border-color</td><td><code>--zaz-danger</code></td><td><span class="amostra-cor" style="background:#ef4444"></span>#ef4444</td><td><span class="amostra-cor" style="background:#ef4444"></span>#ef4444</td></tr>
+              <tr><td>Controle (inválido)</td><td>background</td><td><code>--zaz-danger-bg</code></td><td><span class="amostra-cor" style="background:#fef2f2"></span>#fef2f2</td><td>12% de #ef4444</td></tr>
+              <tr><td>Controle (desabilitado)</td><td>background</td><td><code>--zaz-bg-inset</code></td><td><span class="amostra-cor" style="background:#f1f5f9"></span>#f1f5f9</td><td><span class="amostra-cor" style="background:#1e293b"></span>#1e293b</td></tr>
+              <tr><td>Valor</td><td>color</td><td><code>--zaz-text</code></td><td><span class="amostra-cor" style="background:#0f172a"></span>#0f172a</td><td><span class="amostra-cor" style="background:#f8fafc"></span>#f8fafc</td></tr>
+              <tr><td>Rótulo</td><td>color</td><td><code>--zaz-text-muted</code></td><td><span class="amostra-cor" style="background:#64748b"></span>#64748b</td><td><span class="amostra-cor" style="background:#94a3b8"></span>#94a3b8</td></tr>
+              <tr><td>Placeholder e apoio</td><td>color</td><td><code>--zaz-text-subtle</code></td><td><span class="amostra-cor" style="background:#94a3b8"></span>#94a3b8</td><td><span class="amostra-cor" style="background:#64748b"></span>#64748b</td></tr>
+              <tr><td>Mensagem de erro</td><td>color</td><td><code>--zaz-danger-fg</code></td><td><span class="amostra-cor" style="background:#b91c1c"></span>#b91c1c</td><td><span class="amostra-cor" style="background:#fca5a5"></span>#fca5a5</td></tr>
+              <tr><td>Ícone de apoio</td><td>color</td><td><code>--zaz-text-subtle</code> → <code>--zaz-primary-text</code> ao focar</td><td colspan="2">Acompanha o tema</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Movimento</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Transição</th><th>Propriedades</th><th>Duração</th><th>Curva</th></tr></thead>
+            <tbody>
+              <tr><td>Entrada e saída de foco</td><td><code>border-color</code>, <code>box-shadow</code></td><td>150ms · <code>--zaz-duration-fast</code></td><td><code>--zaz-ease-standard</code></td></tr>
+              <tr><td>Ícone ao focar</td><td><code>color</code></td><td>150ms · <code>--zaz-duration-fast</code></td><td><code>--zaz-ease-standard</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code> e <code>tokens/zaz.tokens.json</code>. Estrutura da ficha conferida nos 38 componentes do <a href="https://www.gov.br/ds/components">Padrão Digital de Governo</a>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes, atributos e o HTML mínimo</p>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>HTML mínimo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-field</span>"&gt;
+  &lt;<span class="ch">label</span> class="<span class="cv">zaz-label</span>" for="cnpj"&gt;CNPJ do estabelecimento&lt;/<span class="ch">label</span>&gt;
+  &lt;<span class="ch">input</span> class="<span class="cv">zaz-input</span>" id="cnpj" type="text" inputmode="numeric"&gt;
+  &lt;<span class="ch">span</span> class="<span class="cv">zaz-hint</span>"&gt;Somente números.&lt;/<span class="ch">span</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Classes obrigatórias</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Vai em</th><th>Descrição</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-field</code></td><td><code>&lt;div&gt;</code></td><td>Agrupamento. Empilha os itens em coluna com 8px entre eles.</td></tr>
+              <tr><td><code>.zaz-label</code></td><td><code>&lt;label&gt;</code></td><td>Rótulo. Exige <code>for</code> apontando para o <code>id</code> do controle.</td></tr>
+              <tr><td><code>.zaz-input</code></td><td><code>&lt;input&gt;</code></td><td>Controle de linha única.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Classes adicionais</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Vai em</th><th>Descrição</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-hint</code></td><td><code>&lt;span&gt;</code></td><td>Texto de apoio, abaixo do controle.</td></tr>
+              <tr><td><code>.zaz-error</code></td><td><code>&lt;span&gt;</code></td><td>Mensagem de validação. Substitui o <code>.zaz-hint</code>, não se soma a ele.</td></tr>
+              <tr><td><code>.zaz-textarea</code></td><td><code>&lt;textarea&gt;</code></td><td>Tipo texto longo. Altura mínima de 96px, cresce só na vertical.</td></tr>
+              <tr><td><code>.zaz-select</code></td><td><code>&lt;select&gt;</code></td><td>Tipo escolha, com a lista nativa do navegador.</td></tr>
+              <tr><td><code>.zaz-input--sm</code></td><td>no controle</td><td>Densidade alta: 32px.</td></tr>
+              <tr><td><code>.zaz-input--lg</code></td><td>no controle</td><td>Densidade baixa: 56px, canto de card.</td></tr>
+              <tr><td><code>.zaz-field--invalid</code></td><td>no agrupamento</td><td>Pinta o controle de erro. Vale para <code>input</code> e <code>select</code> filhos.</td></tr>
+              <tr><td><code>.zaz-input-group</code></td><td><code>&lt;span&gt;</code> em volta do controle</td><td>Habilita o ícone de apoio. Abre 48px à esquerda.</td></tr>
+              <tr><td><code>.zaz-input-group__icon</code></td><td><code>&lt;span&gt;</code> antes do controle</td><td>O ícone. Ganha a cor da marca quando o campo recebe foco.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Estados</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Estado</th><th>Como se escreve</th><th>Observação</th></tr></thead>
+            <tbody>
+              <tr><td>Inválido</td><td><code>aria-invalid="true"</code> no controle, ou <code>.zaz-field--invalid</code> no agrupamento</td><td>Os dois caminhos existem porque o primeiro já é o que o leitor de tela lê. Prefira ele.</td></tr>
+              <tr><td>Desabilitado</td><td><code>disabled</code></td><td>Sai da ordem de tabulação.</td></tr>
+              <tr><td>Somente leitura</td><td><code>readonly</code></td><td>Continua focável. Zere a borda para não prometer edição.</td></tr>
+              <tr><td>Hover, foco</td><td>—</td><td>Vêm do CSS. Não escreva classe para eles.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Campo com ícone</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>O ícone é irmão do input, dentro do grupo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-field</span>"&gt;
+  &lt;<span class="ch">label</span> class="<span class="cv">zaz-label</span>" for="busca"&gt;Buscar tarefa&lt;/<span class="ch">label</span>&gt;
+  &lt;<span class="ch">span</span> class="<span class="cv">zaz-input-group</span>"&gt;
+    <span class="cm">&lt;!-- decorativo: some para o leitor de tela --&gt;</span>
+    &lt;<span class="ch">span</span> class="<span class="cv">zaz-input-group__icon</span>" aria-hidden="true"&gt;
+      &lt;<span class="ch">svg</span> width="15" height="15"&gt;…&lt;/<span class="ch">svg</span>&gt;
+    &lt;/<span class="ch">span</span>&gt;
+    &lt;<span class="ch">input</span> class="<span class="cv">zaz-input</span>" id="busca" type="search"&gt;
+  &lt;/<span class="ch">span</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Campo em erro</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>aria-describedby amarra a mensagem ao controle</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-field</span>"&gt;
+  &lt;<span class="ch">label</span> class="<span class="cv">zaz-label</span>" for="cnpj"&gt;CNPJ do estabelecimento&lt;/<span class="ch">label</span>&gt;
+  &lt;<span class="ch">input</span> class="<span class="cv">zaz-input</span>" id="cnpj" type="text"
+         aria-invalid="true" aria-describedby="cnpj-erro"&gt;
+  <span class="cm">&lt;!-- o id daqui é o que o aria-describedby aponta --&gt;</span>
+  &lt;<span class="ch">span</span> class="<span class="cv">zaz-error</span>" id="cnpj-erro"&gt;CNPJ inválido — confira os 14 dígitos.&lt;/<span class="ch">span</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <div class="nota">
+          <p>Sem o <code>aria-describedby</code>, quem usa leitor de tela ouve "CNPJ, inválido" e <strong>não ouve por quê</strong> — a mensagem fica na tela, mas órfã. É uma linha, e é a diferença entre um campo acessível e um campo que parece acessível.</p>
+        </div>
+
+        <h3>O CSS por trás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · trecho real</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-field</span> { display: flex; flex-direction: column; gap: <span class="cv">var(--zaz-space-2)</span>; }
+
+<span class="ch">.zaz-input</span>, <span class="ch">.zaz-select</span>, <span class="ch">.zaz-textarea</span> {
+  width: 100%; height: <span class="cv">var(--zaz-control-md)</span>; padding: 0 <span class="cv">var(--zaz-space-4)</span>;
+  background: <span class="cv">var(--zaz-bg-surface)</span>; color: <span class="cv">var(--zaz-text)</span>;
+  border: 1px solid <span class="cv">var(--zaz-border)</span>; border-radius: <span class="cv">var(--zaz-radius-control)</span>;
+  font-family: <span class="cv">var(--zaz-font-sans)</span>; font-size: <span class="cv">var(--zaz-text-sm)</span>;
+  transition: border-color <span class="cv">var(--zaz-duration-fast)</span> <span class="cv">var(--zaz-ease-standard)</span>,
+              box-shadow   <span class="cv">var(--zaz-duration-fast)</span> <span class="cv">var(--zaz-ease-standard)</span>;
+}
+
+<span class="ch">.zaz-input:focus</span> {
+  outline: none;
+  border-color: <span class="cv">var(--zaz-primary-text)</span>;
+  box-shadow: 0 0 0 3px color-mix(in srgb, <span class="cv">var(--zaz-ring)</span> 28%, transparent);
+}
+
+<span class="ch">.zaz-field--invalid .zaz-input</span> {
+  border-color: <span class="cv">var(--zaz-danger)</span>;
+  background: <span class="cv">var(--zaz-danger-bg)</span>;
+}</code></pre>
+        </div>
+
+        <div class="nota nota--atencao">
+          <p><strong>Fora do Apolo, carregue <code>css/zaz.css</code> inteiro e ponha <code>class="zaz-root"</code> no <code>&lt;body&gt;</code>.</strong> O reset do sistema aplica <code>box-sizing: border-box</code>, e sem ele o campo soma 34px de padding e borda à largura de 100% e estoura o container. No Apolo isso não aparece porque o Tailwind já aplica a regra.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no Campo</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Navegação e comportamento</h3>
+        <ul>
+          <li>O campo é alcançado por <code>Tab</code> e liberado por <code>Tab</code> ou <code>Shift+Tab</code>. A ordem segue a ordem visual — não use <code>tabindex</code> positivo para reordenar.</li>
+          <li>Clicar no rótulo move o foco para o controle. Isso é de graça com <code>&lt;label for&gt;</code> e se perde se o rótulo virar um <code>&lt;span&gt;</code>.</li>
+          <li><code>Enter</code> dentro de um campo de linha única envia o formulário. Se isso for indesejado, trate no <code>submit</code> — não bloqueie a tecla.</li>
+          <li>Campo <code>readonly</code> continua na ordem de tabulação; campo <code>disabled</code>, não. Escolha com isso em mente.</li>
+        </ul>
+
+        <h3>Recomendações para estilo e design</h3>
+        <ul>
+          <li><strong>O foco nunca pode ser removido sem substituto.</strong> O componente troca o contorno do navegador por borda mais anel de 3px, que é mais visível — apagar o <code>outline</code> sem repor é a falha de acessibilidade mais comum em formulário.</li>
+          <li><strong>Erro não pode ser só cor.</strong> Sempre acompanhe a borda vermelha de uma mensagem em texto. Cerca de 8% dos homens têm alguma deficiência na percepção de vermelho e verde.</li>
+          <li>O rótulo em caixa alta é aceitável por ser <strong>curto</strong>. Não estenda esse tratamento a frases: texto longo em caixa alta perde o contorno das palavras e fica mais lento de ler.</li>
+          <li>Alvo de toque de <strong>44px</strong> no celular. A densidade padrão dá 40px — em telas de toque, prefira a densidade baixa ou aumente a área clicável do rótulo.</li>
+          <li>Não use o placeholder como rótulo. Ele some ao digitar, tem contraste baixo de propósito, e alguns leitores de tela não o anunciam.</li>
+        </ul>
+
+        <h3>Recomendações para código</h3>
+        <ul>
+          <li>Use <code>&lt;label for&gt;</code> ligado ao <code>id</code>. Quando não houver rótulo visível (busca, célula de tabela), use <code>aria-label</code> no controle.</li>
+          <li>Marque o erro com <code>aria-invalid="true"</code> — é o que o leitor de tela anuncia. A classe <code>.zaz-field--invalid</code> só pinta.</li>
+          <li>Amarre a mensagem ao controle com <code>aria-describedby</code>, apontando para o <code>id</code> do <code>.zaz-error</code>. O mesmo vale para o <code>.zaz-hint</code>.</li>
+          <li>Se a mensagem aparece depois do envio, coloque-a num <code>role="alert"</code> ou <code>aria-live="polite"</code>, senão ninguém que não esteja olhando fica sabendo.</li>
+          <li>Ícone decorativo leva <code>aria-hidden="true"</code> e nenhum <code>title</code> — senão o leitor de tela fala a mesma coisa duas vezes.</li>
+          <li>Use o <code>type</code> certo (<code>email</code>, <code>tel</code>, <code>number</code>) e <code>inputmode</code>: no celular é o que troca o teclado que aparece.</li>
+          <li><code>autocomplete</code> com o valor padronizado (<code>name</code>, <code>email</code>, <code>tel</code>) poupa digitação de quem tem dificuldade motora.</li>
+        </ul>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Mínimo</th></tr></thead>
+            <tbody>
+              <tr><td>Valor sobre a superfície</td><td>#0f172a / #ffffff</td><td>#f8fafc / #0f172a</td><td>4,5:1 ✓</td></tr>
+              <tr><td>Rótulo sobre a superfície</td><td>#64748b / #ffffff</td><td>#94a3b8 / #0f172a</td><td>4,5:1 ✓</td></tr>
+              <tr><td>Mensagem de erro</td><td>#b91c1c / #fef2f2</td><td>#fca5a5 / #0f172a</td><td>4,5:1 ✓</td></tr>
+              <tr><td>Borda do controle</td><td>#e2e8f0 / #ffffff</td><td>#1e293b / #0f172a</td><td>3:1 — <strong>não atinge</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida.</strong> A borda neutra do controle não alcança 3:1 contra a superfície, que é o mínimo da WCAG para elemento de interface. Hoje o campo é identificado pelo conjunto rótulo + superfície, e o foco tem contraste de sobra — mas a borda sozinha não passaria numa auditoria. Corrigir significa escurecer <code>--zaz-border</code> ou dar ao controle um fundo distinto da página.</p>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/tutorials/forms/">W3C WAI — Forms Tutorial</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1 Quick Reference</a></li>
+          <li><a href="https://www.gov.br/ds/components/input?tab=acessibilidade">Padrão Digital de Governo — Acessibilidade no Input</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os valores de <code>tokens/zaz.tokens.json</code>. A meta AA vale para todo o sistema — quando um par não atinge, ele é listado como pendência aqui em vez de sumir da ficha.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

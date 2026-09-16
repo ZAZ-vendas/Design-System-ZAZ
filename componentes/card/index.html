@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card e métrica · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Card e métrica</b></p>
+    <h1 class="ficha__titulo">Card <em>(Cartão)</em></h1>
+    <p class="ficha__resumo">O card é a caixa que agrupa um assunto — como uma ficha sobre a mesa. É o contêiner padrão de tela do Apolo, e a métrica é o que mais aparece dentro dele: o número grande com um rótulo pequeno em cima.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Quando este componente é a resposta certa</p>
+
+        <div class="quadro">
+          <div class="zaz-card" style="max-width:420px">
+            <div class="zaz-card__header">
+              <span class="zaz-h2">Resultados da Fila</span>
+              <button class="zaz-btn zaz-btn--ghost zaz-btn--sm" type="button">Exportar</button>
+            </div>
+            <div class="zaz-card__body">
+              <p class="zaz-muted" style="margin:0">Branco sobre o fundo da aplicação, borda de 1px e sombra rasa. Sem gradiente, sem vidro.</p>
+            </div>
+            <div class="zaz-card__footer">
+              <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Mostrando 20 de 1.284</span>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Card completo, com cabeçalho, corpo e rodapé.</p>
+
+        <p>Use o card quando um conjunto de informações <strong>forma um assunto só</strong> e precisa ser distinguido do que está em volta. Ele responde a uma pergunta: "até onde vai esta coisa?".</p>
+        <ul>
+          <li>Agrupar um formulário, uma tabela ou um gráfico com seu título e suas ações.</li>
+          <li>Separar blocos de assunto numa tela que tem vários.</li>
+          <li>Repetir o mesmo formato em uma grade — cards de métrica, de fila, de operação.</li>
+        </ul>
+
+        <h4>Quando não usar</h4>
+        <ul>
+          <li><strong>Se for o único bloco da tela</strong> → não precisa de card. Uma caixa em volta de tudo não separa nada de nada.</li>
+          <li><strong>Se for uma lista de itens curtos</strong> → use a <a href="../tabela/">lista com trilha lateral</a>, que é mais densa e mais rápida de varrer.</li>
+          <li><strong>Se o conteúdo interromper a tarefa</strong> → é um <a href="../sobreposicoes/">modal ou drawer</a>.</li>
+        </ul>
+
+        <div class="nota nota--atencao">
+          <p><strong>Nem tudo é card.</strong> Borda, fundo, raio e sombra dizem "objeto separado". Quando toda seção da tela vira card, a hierarquia some: dez caixas iguais têm o mesmo peso, e o olho não sabe por onde começar. Use card para o que <em>precisa</em> se separar, e espaçamento para o resto.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia</h2>
+        <p class="subtitulo">Três faixas e uma superfície</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Cabeçalho</td><td><a href="../../fundamentos/tipografia/">Fundamento Tipografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">2</td><td>Corpo</td><td><a href="../../fundamentos/espaco/">Fundamento Espaço</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Rodapé</td><td><a href="../botao/">Componente Botão</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">4</td><td>Superfície</td><td><a href="../../fundamentos/espaco/">Fundamento Espaço</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:480px">
+            <div class="zaz-card peca peca--moldada" style="width:320px">
+              <span class="fio fio--direita"></span><span class="marca marca--direita">4</span>
+
+              <div class="zaz-card__header peca">
+                <span class="zaz-h3">Em fila</span>
+                <span class="zaz-badge">1.284</span>
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+              </div>
+              <div class="zaz-card__body peca">
+                <span class="zaz-muted">Conteúdo do card.</span>
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">2</span>
+              </div>
+              <div class="zaz-card__footer peca">
+                <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Atualizado há 4 min</span>
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do card. As três faixas são separadas por linha, não por espaço.</p>
+
+        <h3>1. Cabeçalho <span class="opcional">(opcional)</span></h3>
+        <p>Título à esquerda, ações à direita, separados por uma linha de 1px. É onde vive o nome do assunto — e as ações que valem <strong>para o card inteiro</strong>, não para um item dentro dele.</p>
+        <p>As ações do cabeçalho são sempre de ênfase terciária ou secundária. Um botão primário aqui compete com o primário da tela, e a regra é uma primária por tela.</p>
+
+        <h3>2. Corpo <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>24px de respiro em volta do conteúdo. É a única parte obrigatória: um card sem cabeçalho e sem rodapé continua sendo um card, mas sem corpo é só uma caixa vazia.</p>
+        <p>Quando o conteúdo é uma tabela que ocupa a largura inteira, o corpo perde o padding lateral — a tabela tem o próprio espaçamento interno, e dois padding somados fazem a coluna parecer torta.</p>
+
+        <h3>3. Rodapé <span class="opcional">(opcional)</span></h3>
+        <p>Fundo rebaixado (<code>--zaz-bg-muted</code>) para <strong>separar ação de conteúdo</strong>. É onde ficam paginação, contagem e o botão que conclui o que o card propõe.</p>
+
+        <h3>4. Superfície <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Branco sobre o fundo da aplicação, borda de 1px, canto de 16px e sombra rasa. <strong>Sem gradiente, sem vidro, sem borda colorida.</strong> A única variação de superfície permitida é o card herói, que é um por tela.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Tipos</h2>
+        <p class="subtitulo">Três superfícies</p>
+
+        <div class="quadro quadro--fita">
+          <div class="zaz-card" style="flex:1 1 200px">
+            <div class="zaz-card__body"><span class="zaz-h3">Padrão</span><p class="zaz-muted" style="margin:var(--zaz-space-2) 0 0">Borda, sombra rasa, canto de 16px.</p></div>
+          </div>
+          <div class="zaz-card zaz-card--muted" style="flex:1 1 200px">
+            <div class="zaz-card__body"><span class="zaz-h3">Rebaixado</span><p class="zaz-muted" style="margin:var(--zaz-space-2) 0 0">Sem sombra, fundo de apoio.</p></div>
+          </div>
+          <div class="zaz-card zaz-card--hero" style="flex:1 1 200px">
+            <div class="zaz-card__body"><span class="zaz-h3">Herói</span><p class="zaz-muted" style="margin:var(--zaz-space-2) 0 0">Canto de 24px, sombra tingida. Um por tela.</p></div>
+          </div>
+        </div>
+        <p class="legenda">Os três tipos de card, lado a lado.</p>
+
+        <h3>1. Padrão</h3>
+        <p>O contêiner de tela. É o que você usa quando não há motivo para usar outro.</p>
+
+        <h3>2. Rebaixado</h3>
+        <p>Fundo de apoio e sem sombra, para o que está <strong>dentro</strong> de outro card ou para blocos secundários. Card dentro de card com a mesma superfície vira uma moldura dentro da outra, e o olho não sabe qual é a de fora.</p>
+
+        <h3>3. Herói</h3>
+        <p>Canto maior e sombra tingida de roxo. Reservado para o bloco que <strong>é o assunto da tela</strong>: o resumo de abertura, o card de login. Um por tela — dois heróis não são heróis.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>A métrica</h2>
+        <p class="subtitulo">O número grande que vive dentro do card</p>
+
+        <div class="quadro quadro--fita">
+          <div class="zaz-card" style="flex:1 1 180px">
+            <div class="zaz-card__body">
+              <div class="zaz-metric">
+                <span class="zaz-eyebrow">Em fila</span>
+                <span class="zaz-metric__value">1.284</span>
+                <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">+8% vs. semana anterior</span>
+              </div>
+            </div>
+          </div>
+          <div class="zaz-card" style="flex:1 1 180px">
+            <div class="zaz-card__body">
+              <div class="zaz-metric">
+                <span class="zaz-eyebrow">Tempo médio</span>
+                <span class="zaz-metric__value">2h 15m</span>
+                <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Meta: 4h</span>
+              </div>
+            </div>
+          </div>
+          <div class="zaz-card" style="flex:1 1 180px">
+            <div class="zaz-card__body">
+              <div class="zaz-metric">
+                <span class="zaz-eyebrow">Atrasadas</span>
+                <span class="zaz-metric__value" style="color:var(--zaz-danger-fg)">37</span>
+                <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Acima do limite de prazo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Três métricas numa grade. O número tem numeral tabular, então as casas alinham na vertical.</p>
+
+        <p>A métrica tem três partes, nesta ordem: <strong>rótulo</strong> (eyebrow, em cima), <strong>valor</strong> (30px, peso 800) e <strong>contexto</strong> (embaixo, opcional). O contexto é o que transforma número em informação: "1.284" não diz nada; "1.284, +8% vs. semana anterior" diz.</p>
+
+        <ul>
+          <li>O valor usa <code>font-variant-numeric: tabular-nums</code>: cada dígito ocupa a mesma largura, então uma coluna de métricas alinha as casas.</li>
+          <li><strong>Cor no valor só quando o número é um alerta</strong> — e sempre acompanhada do contexto em texto. Vermelho sozinho não diz por que é ruim.</li>
+          <li>Números grandes levam separador de milhar: 1.284, não 1284.</li>
+          <li>Lead com métrica só quando os números <em>são</em> o assunto da tela. Painel de gestor, sim; tela de tarefa, não.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Comportamentos</h2>
+        <p class="subtitulo">Como o card se comporta</p>
+
+        <h3>1. Estados</h3>
+        <p>O card <strong>não tem estados de interação</strong> — ele é contêiner, não controle. Hover e foco pertencem aos elementos de dentro.</p>
+        <p>A exceção é o <em>card clicável</em>, que existe em grades de navegação (como o índice desta documentação). Nesse caso ele vira <code>&lt;a&gt;</code>, ganha hover com elevação e <strong>precisa de foco visível</strong>. Se um card é clicável, todo card daquela grade deve ser.</p>
+
+        <h3>2. Altura numa grade</h3>
+        <p>Cards lado a lado <strong>têm a mesma altura</strong>, definida pelo mais alto. O conteúdo curto ganha espaço sobrando embaixo — o que não pode acontecer é um card esticar o conteúdo para preencher, que é como se produz aquele espaçamento irregular entre rótulo e número.</p>
+
+        <h3>3. Aninhamento</h3>
+        <p>Um nível. Card dentro de card só com o tipo rebaixado, e nunca um terceiro nível — nesse ponto o problema é a hierarquia da tela, não a caixa.</p>
+        <p>O raio de dentro é sempre <strong>menor</strong> que o de fora: 12px dentro de 16px. O contrário deixa uma fresta esquisita entre as duas curvas.</p>
+
+        <h3>4. Largura e grade</h3>
+        <p>Numa grade, escolha um número de colunas que os itens <strong>preencham</strong>. Três cards em quatro colunas deixam um buraco que parece falha de carregamento.</p>
+
+        <h3>5. Tema escuro</h3>
+        <p>No claro o card é <em>mais branco</em> que a tela; no escuro, <em>mais claro</em> que o fundo. A inversão acontece sozinha porque o card usa <code>--zaz-bg-surface</code> — e é o melhor exemplo de por que não se escreve <code>#ffffff</code> num componente.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Dimensões</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>border-radius</td><td>16px</td><td><code>--zaz-radius-card</code></td></tr>
+              <tr><td>Superfície</td><td>border-width</td><td>1px</td><td>—</td></tr>
+              <tr><td>Superfície (herói)</td><td>border-radius</td><td>24px</td><td><code>--zaz-radius-hero</code></td></tr>
+              <tr><td>Divisão entre faixas</td><td>border-width</td><td>1px</td><td><code>--zaz-border-soft</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Espaçamentos</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Cabeçalho</td><td>padding</td><td>20px 24px</td><td><code>--zaz-space-5</code> <code>--zaz-space-6</code></td></tr>
+              <tr><td>Cabeçalho</td><td>gap</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Corpo</td><td>padding</td><td>24px</td><td><code>--zaz-space-6</code></td></tr>
+              <tr><td>Rodapé</td><td>padding</td><td>16px 24px</td><td><code>--zaz-space-4</code> <code>--zaz-space-6</code></td></tr>
+              <tr><td>Métrica</td><td>gap entre partes</td><td>4px</td><td><code>--zaz-space-1</code></td></tr>
+              <tr><td>Entre cards numa grade</td><td>gap</td><td>16–24px</td><td><code>--zaz-space-4</code>–<code>6</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cores e sombras</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>background</td><td><code>--zaz-bg-surface</code></td></tr>
+              <tr><td>Superfície</td><td>border-color</td><td><code>--zaz-border</code></td></tr>
+              <tr><td>Superfície</td><td>box-shadow</td><td><code>--zaz-shadow-sm</code></td></tr>
+              <tr><td>Superfície (herói)</td><td>box-shadow</td><td><code>--zaz-shadow-hero</code></td></tr>
+              <tr><td>Superfície (rebaixado)</td><td>background</td><td><code>--zaz-bg-muted</code>, sem sombra</td></tr>
+              <tr><td>Rodapé</td><td>background</td><td><code>--zaz-bg-muted</code></td></tr>
+              <tr><td>Divisão</td><td>border-color</td><td><code>--zaz-border-soft</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tipografia</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Tamanho</th><th>Peso</th><th>Extra</th></tr></thead>
+            <tbody>
+              <tr><td>Título do cabeçalho</td><td><code>--zaz-text-xl</code> · 20px</td><td>700</td><td>Nunito</td></tr>
+              <tr><td>Rótulo da métrica</td><td><code>--zaz-text-xs</code> · 12px</td><td>700</td><td>caixa alta com tracking</td></tr>
+              <tr><td>Valor da métrica</td><td><code>--zaz-text-3xl</code> · 30px</td><td>800</td><td><code>tabular-nums</code>, tracking-tight</td></tr>
+              <tr><td>Contexto da métrica</td><td><code>--zaz-text-xs</code> · 12px</td><td>400</td><td>cor <code>--zaz-text-muted</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code> e <code>tokens/zaz.tokens.json</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes e HTML mínimo</p>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>card completo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-card</span>"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__header</span>"&gt;
+    &lt;<span class="ch">h2</span> class="<span class="cv">zaz-h2</span>"&gt;Resultados da Fila&lt;/<span class="ch">h2</span>&gt;
+    &lt;<span class="ch">button</span> class="<span class="cv">zaz-btn zaz-btn--ghost zaz-btn--sm</span>" type="button"&gt;Exportar&lt;/<span class="ch">button</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__body</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__footer</span>"&gt;Mostrando 20 de 1.284&lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Classes</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-card</code></td><td>Base: superfície, borda, canto de 16px, sombra rasa</td></tr>
+              <tr><td><code>.zaz-card__header</code></td><td>Faixa de topo, com divisão embaixo</td></tr>
+              <tr><td><code>.zaz-card__body</code></td><td>Corpo, com 24px de respiro</td></tr>
+              <tr><td><code>.zaz-card__footer</code></td><td>Faixa de base, com fundo rebaixado</td></tr>
+              <tr><td><code>.zaz-card--hero</code></td><td>Canto de 24px e sombra tingida</td></tr>
+              <tr><td><code>.zaz-card--muted</code></td><td>Fundo de apoio, sem sombra</td></tr>
+              <tr><td><code>.zaz-metric</code></td><td>Coluna rótulo / valor / contexto</td></tr>
+              <tr><td><code>.zaz-metric__value</code></td><td>O número: 30px, peso 800, tabular</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Métrica</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>rótulo, valor e contexto — nesta ordem</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-card</span>"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__body</span>"&gt;
+    &lt;<span class="ch">div</span> class="<span class="cv">zaz-metric</span>"&gt;
+      &lt;<span class="ch">span</span> class="<span class="cv">zaz-eyebrow</span>"&gt;Em fila&lt;/<span class="ch">span</span>&gt;
+      &lt;<span class="ch">span</span> class="<span class="cv">zaz-metric__value</span>"&gt;1.284&lt;/<span class="ch">span</span>&gt;
+      &lt;<span class="ch">span</span> class="<span class="cv">zaz-muted</span>"&gt;+8% vs. semana anterior&lt;/<span class="ch">span</span>&gt;
+    &lt;/<span class="ch">div</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Grade de cards</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>colunas que os itens preenchem, com gap do sistema</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> style="display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+            gap:<span class="cv">var(--zaz-space-4)</span>"&gt;
+  <span class="cm">&lt;!-- auto-fit, não auto-fill: com poucos itens, eles esticam para
+       preencher a linha em vez de deixar colunas fantasma vazias --&gt;</span>
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Card clicável</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>vira &lt;a&gt;, e precisa de foco visível</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">a</span> class="<span class="cv">zaz-card</span>" href="/filas/vero" style="display:block;text-decoration:none"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__body</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">a</span>&gt;
+
+<span class="cm">/* o card base não tem :focus-visible porque não é controle;
+   ao torná-lo clicável, o foco passa a ser sua responsabilidade */</span>
+<span class="ch">a.zaz-card:focus-visible</span> { outline: 2px solid <span class="cv">var(--zaz-ring)</span>; outline-offset: 2px; }</code></pre>
+        </div>
+
+        <h3>O CSS por trás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · trecho real</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-card</span> {
+  background: <span class="cv">var(--zaz-bg-surface)</span>;
+  border: 1px solid <span class="cv">var(--zaz-border)</span>;
+  border-radius: <span class="cv">var(--zaz-radius-card)</span>;
+  box-shadow: <span class="cv">var(--zaz-shadow-sm)</span>;
+}
+<span class="ch">.zaz-card__footer</span> {
+  padding: <span class="cv">var(--zaz-space-4)</span> <span class="cv">var(--zaz-space-6)</span>;
+  border-top: 1px solid <span class="cv">var(--zaz-border-soft)</span>;
+  background: <span class="cv">var(--zaz-bg-muted)</span>;
+  <span class="cm">/* o raio de baixo repete o do card: sem isto, o fundo do rodapé
+     vaza nos dois cantos inferiores */</span>
+  border-radius: 0 0 <span class="cv">var(--zaz-radius-card)</span> <span class="cv">var(--zaz-radius-card)</span>;
+}
+<span class="ch">.zaz-metric__value</span> {
+  font-size: <span class="cv">var(--zaz-text-3xl)</span>; font-weight: 800;
+  letter-spacing: <span class="cv">var(--zaz-tracking-tight)</span>;
+  font-variant-numeric: tabular-nums;  <span class="cm">/* casas alinham na vertical */</span>
+}</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no Card</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>O card é um agrupamento, e isso precisa ser dito</h3>
+        <ul>
+          <li>Use <code>&lt;section&gt;</code> com <code>aria-labelledby</code> apontando para o título do cabeçalho. Assim quem navega por regiões encontra o card pelo nome.</li>
+          <li>O título do cabeçalho vai numa tag de título real (<code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>) — a classe <code>.zaz-h2</code> é aparência, não estrutura.</li>
+          <li>Card sem título não precisa de <code>section</code>: é uma <code>&lt;div&gt;</code>, e tudo bem.</li>
+        </ul>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>o card nomeado pelo próprio título</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">section</span> class="<span class="cv">zaz-card</span>" aria-labelledby="fila-titulo"&gt;
+  &lt;<span class="ch">div</span> class="<span class="cv">zaz-card__header</span>"&gt;
+    &lt;<span class="ch">h2</span> class="<span class="cv">zaz-h2</span>" id="fila-titulo"&gt;Resultados da Fila&lt;/<span class="ch">h2</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">section</span>&gt;</code></pre>
+        </div>
+
+        <h3>Card clicável: um alvo, não vários</h3>
+        <ul>
+          <li>Se o card inteiro é clicável, ele é <strong>um</strong> <code>&lt;a&gt;</code> — e não pode conter outro link ou botão dentro. Controle dentro de controle é inalcançável pelo teclado.</li>
+          <li>O nome acessível do link é todo o texto do card, o que costuma ficar longo. Prefira <code>aria-label</code> com o nome curto: "Fila VERO, 128 tarefas".</li>
+          <li><strong>Foco visível é obrigatório.</strong> O card base não tem, porque não é controle; ao torná-lo clicável, você assume essa responsabilidade.</li>
+        </ul>
+
+        <h3>Métrica</h3>
+        <ul>
+          <li>O rótulo e o valor precisam estar <strong>ligados na leitura</strong>. Na ordem do DOM (rótulo, valor, contexto) isso acontece naturalmente — não reordene por CSS.</li>
+          <li><strong>Não use cor sozinha</strong> para dizer que um número é ruim. "37" em vermelho é só um número vermelho; "37 · acima do limite de prazo" é informação.</li>
+          <li>Números grandes com separador de milhar são lidos corretamente ("mil duzentos e oitenta e quatro"); sem separador, alguns leitores soletram dígito a dígito.</li>
+        </ul>
+
+        <h3>Sombra não é informação</h3>
+        <p>A sombra diz "isto está por cima" para quem enxerga bem. Em modo de alto contraste do sistema operacional, <strong>ela desaparece</strong> — por isso o card tem também borda de 1px. Nunca dependa só da sombra para separar um bloco do fundo.</p>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Texto sobre a superfície do card</td><td>9,7:1</td><td>14,1:1</td><td>✓ AAA</td></tr>
+              <tr><td>Rótulo da métrica</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Borda do card sobre o fundo da app</td><td>1,2:1</td><td>1,3:1</td><td>✕ <strong>pendência</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida</strong>, a mesma da borda do campo: a borda do card não alcança 3:1 contra o fundo. Hoje o card se distingue pelo conjunto superfície + sombra + borda, e não só pela borda — mas em alto contraste, onde a sombra some, a separação fica fraca.</p>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/">ARIA APG — Landmarks e regiões</a></li>
+          <li><a href="https://www.gov.br/ds/components/card">Padrão Digital de Governo — Card</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os valores de <code>tokens/zaz.tokens.json</code>, nos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

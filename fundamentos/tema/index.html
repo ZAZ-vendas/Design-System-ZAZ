@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tema · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Tema</b></p>
+    <h1 class="ficha__titulo">Tema claro e escuro</h1>
+    <p class="ficha__resumo">O Apolo é um console que fica aberto o dia inteiro, e boa parte do time trabalha no escuro. O tema não é enfeite: é a mesma tela em duas superfícies. Quem escreve com token não precisa pensar nisso — quem escreve hexadecimal, sim, e é onde erra.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O que sustenta os dois temas</p>
+
+        <h3>Toda cor se escreve em par</h3>
+        <p>Esta é a regra chata e inegociável: o claro e o escuro <strong>juntos, na mesma linha</strong>. Quem escreve só a metade clara produz uma tela que funciona na sua máquina e some na do vizinho. Usando os tokens do sistema não existe par a escrever — a variável já carrega os dois valores.</p>
+
+        <h3>A pessoa escolhe, e a escolha persiste</h3>
+        <p>O tema é ligado <strong>por classe</strong>, nunca por <code>prefers-color-scheme</code>. Metade do time usa o sistema operacional no claro e o Apolo no escuro; respeitar o SO à força tiraria essa escolha. A preferência fica no <code>localStorage</code> e vale entre sessões.</p>
+
+        <h3>Só os papéis trocam de valor</h3>
+        <p>Nenhuma cor de escala é redefinida no escuro: <code>--zaz-brand-600</code> vale a mesma coisa nos dois temas. <strong>Trocar de tema é trocar o valor de um papel, nunca a classe de um componente.</strong> É por isso que <code>components.css</code> não tem nenhuma regra <code>.dark</code>.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia de uma superfície</h2>
+        <p class="subtitulo">Quatro camadas, e a ordem inverte entre os temas</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Camada</th><th>Token</th><th>Claro</th><th>Escuro</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Aplicação</td><td><code>--zaz-bg-app</code></td><td>neutral-50</td><td>neutral-950</td></tr>
+              <tr><td class="id">2</td><td>Superfície</td><td><code>--zaz-bg-surface</code></td><td>branco</td><td>neutral-900</td></tr>
+              <tr><td class="id">3</td><td>Rebaixado</td><td><code>--zaz-bg-inset</code></td><td>neutral-100</td><td>neutral-800</td></tr>
+              <tr><td class="id">4</td><td>Divisão</td><td><code>--zaz-border</code></td><td>neutral-200</td><td>neutral-800</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:480px">
+            <div class="peca" style="background:var(--zaz-bg-app);padding:var(--zaz-space-6);border-radius:var(--zaz-radius-card);width:340px">
+              <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+
+              <div class="zaz-card peca" style="padding:var(--zaz-space-5)">
+                <span class="fio fio--direita"></span><span class="marca marca--direita">2</span>
+                <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-3)">Instância</p>
+                <div class="peca" style="background:var(--zaz-bg-inset);border-radius:var(--zaz-radius-sm);padding:var(--zaz-space-3)">
+                  <span class="zaz-mono">4471982</span>
+                  <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">3</span>
+                </div>
+                <div class="peca" style="border-top:1px solid var(--zaz-border);margin-top:var(--zaz-space-4);padding-top:var(--zaz-space-3)">
+                  <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Aberta há 2 dias</span>
+                  <span class="fio fio--direita"></span><span class="marca marca--direita">4</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia das camadas de superfície. <strong>Alterne o tema</strong> na navegação: a ordem se inverte, e o componente não muda de classe.</p>
+
+        <p>No claro, o card é <em>mais branco</em> que a tela; no escuro, o card é <em>mais claro</em> que o fundo. A inversão é a razão de existir um token de papel: quem escreve <code>--zaz-bg-surface</code> acerta nos dois; quem escreve <code>#ffffff</code> acerta em um.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>O que muda e o que não muda</h2>
+        <p class="subtitulo">A lista que evita a maioria dos erros</p>
+
+        <div class="par">
+          <div>
+            <h4>Trocam de valor</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>Fundos e bordas (<code>--zaz-bg-*</code>, <code>--zaz-border*</code>)</li>
+              <li>Texto (<code>--zaz-text*</code>)</li>
+              <li><code>--zaz-primary-text</code>, que clareia</li>
+              <li>O trio de cada status, que vira véu translúcido</li>
+              <li>As sombras, que perdem o tingimento azulado</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Não trocam</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>A escala de marca inteira</li>
+              <li><code>--zaz-primary</code> como fundo</li>
+              <li><code>--zaz-on-primary</code>, branco nos dois</li>
+              <li>As cores das marcas parceiras</li>
+              <li>A paleta de séries de gráfico</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>O véu resolve o hover sozinho</h3>
+        <p>Fundo de hover, linha de lista tocada e item de navegação ativo saem de <code>--zaz-veil</code> e <code>--zaz-veil-strong</code>, que nascem de <code>color-mix()</code> sobre o <code>--zaz-primary-text</code>. Como o <em>primary-text</em> já muda no escuro, o véu acompanha — e <strong>nenhum componente precisa de uma regra <code>.dark</code> gêmea</strong> só para pintar fundo suave.</p>
+
+        <div class="quadro quadro--fita">
+          <div style="flex:1 1 200px">
+            <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">--zaz-veil · 10%</p>
+            <div style="background:var(--zaz-veil);border-radius:var(--zaz-radius-control);padding:var(--zaz-space-3)"><span class="zaz-body">Linha em hover</span></div>
+          </div>
+          <div style="flex:1 1 200px">
+            <p class="zaz-eyebrow" style="margin:0 0 var(--zaz-space-2)">--zaz-veil-strong · 16%</p>
+            <div style="background:var(--zaz-veil-strong);border-radius:var(--zaz-radius-control);padding:var(--zaz-space-3)"><span class="zaz-body">Item ativo</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Aplique antes do primeiro paint</h2>
+        <p class="subtitulo">O detalhe que separa app nativo de site</p>
+
+        <p>A leitura do <code>localStorage</code> e a classe no <code>&lt;html&gt;</code> vão num <code>&lt;script&gt;</code> inline no <code>&lt;head&gt;</code>, <strong>antes de qualquer render</strong>. Se isso rodar num <code>useEffect</code>, a página abre branca e escurece depois — o flash é visível e some a impressão de app nativo.</p>
+        <p>Esta própria página faz assim: veja o <code>&lt;script&gt;</code> de três linhas no topo do HTML.</p>
+
+        <div class="nota">
+          <p><strong>Por que no <code>&lt;head&gt;</code> e não no fim do <code>&lt;body&gt;</code>:</strong> o navegador pinta a primeira tela assim que tem CSS suficiente. Um script no fim do corpo roda depois dessa pintura — tarde demais. No <code>&lt;head&gt;</code>, sem <code>defer</code>, ele roda antes, e a página já nasce escura.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como ligar o tema</h2>
+        <p class="subtitulo">Três pedaços, e nenhum deles é opcional</p>
+
+        <h3>1. Antes do primeiro paint</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>no &lt;head&gt;, sem defer, antes de qualquer render</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">script</span>&gt;
+  <span class="cm">// try/catch porque localStorage lança em janela anônima com</span>
+  <span class="cm">// cookies bloqueados — e aí a página inteira deixaria de abrir.</span>
+  try {
+    if (localStorage.getItem('tema') === 'dark')
+      document.documentElement.classList.add('dark');
+  } catch (e) {}
+&lt;/<span class="ch">script</span>&gt;</code></pre>
+        </div>
+
+        <h3>2. O botão que alterna</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>a classe vai no &lt;html&gt;, não no &lt;body&gt;</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>botao.addEventListener(<span class="cv">'click'</span>, () =&gt; {
+  <span class="cm">// toggle devolve true quando a classe ficou aplicada</span>
+  const escuro = document.documentElement.classList.toggle(<span class="cv">'dark'</span>);
+  try { localStorage.setItem(<span class="cv">'tema'</span>, escuro ? <span class="cv">'dark'</span> : <span class="cv">'light'</span>); } catch {}
+});</code></pre>
+        </div>
+
+        <h3>3. As cores, que você não escreve duas vezes</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>com os tokens do sistema não existe par a escrever</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.minha-tela</span> {
+  background: <span class="cv">var(--zaz-bg-surface)</span>;
+  color: <span class="cv">var(--zaz-text)</span>;
+  border-color: <span class="cv">var(--zaz-border)</span>;
+}
+<span class="cm">/* Pronto. Os dois temas estão aqui. */</span></code></pre>
+        </div>
+
+        <h3>Em Tailwind cru, sem os tokens</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>todo par se escreve junto — nunca só a primeira metade</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>bg-white           dark:bg-slate-900
+bg-slate-50        dark:bg-slate-950
+border-slate-200   dark:border-slate-800
+text-slate-800     dark:text-white
+text-slate-500     dark:text-slate-400
+hover:bg-slate-100 dark:hover:bg-slate-800
+text-[#5c229c]     dark:text-[#a78bfa]</code></pre>
+        </div>
+
+        <h3>Regra para colar num prompt de IA</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>tema — por classe, nunca por media query</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>TEMA — por classe, nunca por media query.
+darkMode: 'class'; a classe `dark` vai no elemento &lt;html&gt;.
+Persistência: localStorage.getItem('tema') === 'dark'.
+Aplicar num &lt;script&gt; inline no &lt;head&gt;, ANTES do primeiro render.
+Num useEffect a abertura pisca branca antes de escurecer.
+
+Usando os tokens do sistema, não existe par a escrever: a variável já
+carrega os dois temas. Prefira sempre esta forma.
+  background: var(--zaz-bg-surface);
+  color: var(--zaz-text);
+  border-color: var(--zaz-border);
+
+Hover e item ativo: use --zaz-veil e --zaz-veil-strong. Eles acompanham o
+tema sozinhos — não escreva um fundo claro e um escuro à mão.
+
+Transição de tema: transition-colors duration-300 no shell e no header.
+Nada mais: animar a página inteira faz a troca parecer travada.</code></pre>
+        </div>
+
+        <div class="origem">
+          <p>Fonte: <code>zaz-tasklist/index.html</code> do Apolo, <code>tokens/zaz.tokens.json</code> (grupo <code>dark</code>).</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no tema</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Os dois temas têm a mesma meta</h3>
+        <p>Não existe "o escuro é decorativo". Todo par de cor precisa atingir 4,5:1 nos <strong>dois</strong> temas — e é justamente no escuro que os erros aparecem, porque uma cor pensada para fundo claro costuma perder contraste sobre fundo escuro.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Texto sobre superfície</td><td>9,7:1</td><td>15,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Texto de apoio sobre superfície</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Marca como texto</td><td>9,7:1</td><td>7,2:1</td><td>✓ AAA</td></tr>
+              <tr><td>Marca como <strong>fundo</strong>, com branco em cima</td><td>9,7:1</td><td>9,7:1</td><td>✓ AAA</td></tr>
+              <tr><td>Marca de fundo usada como <strong>texto</strong> no escuro</td><td>—</td><td><strong>2,7:1</strong></td><td>✕ é o erro que a regra de ouro evita</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Escuro não é preto puro</h3>
+        <p>O fundo escuro do sistema é <code>neutral-950</code>, não <code>#000000</code>. Texto branco sobre preto absoluto produz um contraste tão alto que causa <em>halation</em> — o borrão que faz a letra vibrar, especialmente para quem tem astigmatismo. O mesmo vale do outro lado: o tema claro usa <code>neutral-50</code>, não branco puro, no fundo da aplicação.</p>
+
+        <h3>A escolha é do usuário</h3>
+        <ul>
+          <li>O alternador precisa ser <strong>alcançável por teclado</strong> e ter nome acessível ("Alternar tema").</li>
+          <li>Não force o tema por <code>prefers-color-scheme</code> sem oferecer a troca: quem usa tema claro por necessidade visual e SO escuro por outro motivo fica sem saída.</li>
+          <li>A preferência precisa <strong>persistir</strong>. Reaplicar a cada visita é pedir que a pessoa resolva o mesmo problema todo dia.</li>
+        </ul>
+
+        <h3>A transição também respeita movimento reduzido</h3>
+        <p>A troca de tema anima <code>transition-colors</code> por 300ms apenas no shell e no header. Com <code>prefers-reduced-motion: reduce</code>, a duração é zerada pelo reset do sistema e a troca acontece instantaneamente — que é o comportamento certo, não uma degradação.</p>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html">WCAG — Contrast (Minimum)</a></li>
+          <li><a href="https://www.gov.br/ds/padroes/tema">Padrão Digital de Governo — Tema</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Valores do grupo <code>dark</code> em <code>tokens/zaz.tokens.json</code>. Contrastes calculados sobre os pares reais dos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+/* ============================================================================
+   ficha.css — o layout das fichas de componente.
+
+   Isto NÃO faz parte do sistema: é o papel onde o sistema é documentado.
+   Nenhuma classe daqui leva o prefixo .zaz- justamente para que ninguém copie
+   uma delas para dentro de um produto achando que é componente.
+
+   Tudo aqui consome os tokens de css/tokens.css. A ficha é escura ou clara
+   junto com o resto do sistema, e o componente demonstrado é o componente de
+   verdade, carregado de css/zaz.css — não uma recriação.
+   ========================================================================== */
+
+/* A cor dos marcadores de anatomia é lápis vermelho de revisão, não paleta da
+   marca: ela precisa gritar sobre qualquer componente, inclusive sobre o roxo.
+   Fica fora do zaz.tokens.json de propósito — token do sistema é o que produto
+   usa, e produto nenhum desenha bolinha de anatomia. */
+:root {
+  --ficha-marca: #e6007e;
+  --ficha-marca-veu: rgb(230 0 126 / 0.10);
+}
+.dark {
+  --ficha-marca: #ff4fa8;
+  --ficha-marca-veu: rgb(255 79 168 / 0.14);
+}
+
+body { margin: 0; }
+
+/* --- Estrutura -------------------------------------------------------------
+   minmax(0,1fr) na coluna de conteúdo pelo mesmo motivo de docs/index.html:
+   com 1fr, uma tabela larga empurra a coluna e estoura a página para o lado. */
+.ficha { display: grid; grid-template-columns: var(--zaz-sidebar-w) minmax(0, 1fr); min-height: 100vh; }
+
+.ficha__nav {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  background: var(--zaz-bg-surface); border-right: 1px solid var(--zaz-border);
+  padding: var(--zaz-space-6) var(--zaz-space-4);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ficha__nav a {
+  display: block; padding: var(--zaz-space-2) var(--zaz-space-3);
+  border-left: 3px solid transparent;
+  border-radius: 0 var(--zaz-radius-control) var(--zaz-radius-control) 0;
+  color: var(--zaz-text-muted); font-size: var(--zaz-text-sm); font-weight: 500; text-decoration: none;
+  transition: color var(--zaz-duration-fast) var(--zaz-ease-standard),
+              background var(--zaz-duration-fast) var(--zaz-ease-standard),
+              border-color var(--zaz-duration-fast) var(--zaz-ease-standard);
+}
+.ficha__nav a:hover { background: var(--zaz-veil); color: var(--zaz-primary-text); text-decoration: none; }
+.ficha__nav a[aria-current="page"] {
+  background: var(--zaz-veil-strong); color: var(--zaz-primary-text);
+  border-left-color: var(--zaz-primary-text); font-weight: 600;
+}
+.ficha__nav strong {
+  padding: var(--zaz-space-5) var(--zaz-space-3) var(--zaz-space-1);
+  font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-text-subtle);
+}
+.ficha__voltar { margin-bottom: var(--zaz-space-4); font-size: var(--zaz-text-xs) !important; }
+.ficha__rodape { margin-top: auto; padding-top: var(--zaz-space-6); }
+/* Ponto discreto ao lado do que ainda vive na documentação geral, sem ficha
+   própria. É informação de progresso, não enfeite: quem procura a anatomia de
+   um componente precisa saber antes de clicar que ela ainda não existe. */
+.ficha__pendente { color: var(--zaz-text-subtle); font-weight: 700; }
+
+.ficha__main {
+  min-width: 0; width: 100%; max-width: 1180px; margin-inline: auto;
+  padding: var(--zaz-space-10) clamp(var(--zaz-space-6), 4vw, var(--zaz-space-16)) var(--zaz-space-24);
+}
+
+/* Em tela estreita a navegação vira uma faixa rolável no topo: a lista de 20
+   componentes empilhada empurraria a ficha inteira para fora da primeira tela. */
+@media (max-width: 900px) {
+  .ficha { grid-template-columns: 1fr; }
+  .ficha__nav {
+    position: static; height: auto; flex-direction: row; overflow-x: auto;
+    border-right: 0; border-bottom: 1px solid var(--zaz-border);
+    padding: var(--zaz-space-3); gap: var(--zaz-space-1);
+  }
+  .ficha__nav strong, .ficha__voltar { display: none; }
+  .ficha__nav a { white-space: nowrap; border-left: 0; border-bottom: 3px solid transparent; border-radius: var(--zaz-radius-control); }
+  .ficha__nav a[aria-current="page"] { border-left: 0; border-bottom-color: var(--zaz-primary-text); }
+  .ficha__main { padding: var(--zaz-space-8) var(--zaz-space-4) var(--zaz-space-16); }
+}
+
+/* --- Cabeçalho da ficha --------------------------------------------------- */
+.ficha__trilha {
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs);
+  letter-spacing: var(--zaz-tracking-eyebrow); text-transform: uppercase;
+  color: var(--zaz-text-subtle); margin: 0 0 var(--zaz-space-3);
+}
+.ficha__trilha b { color: var(--zaz-primary-text); font-weight: 500; }
+.ficha__titulo {
+  font-family: var(--zaz-font-display); font-size: var(--zaz-text-4xl); font-weight: 900;
+  letter-spacing: var(--zaz-tracking-tight); line-height: 1.1;
+  margin: 0 0 var(--zaz-space-3); color: var(--zaz-text);
+}
+.ficha__titulo em { font-style: normal; font-weight: 600; color: var(--zaz-text-subtle); }
+.ficha__resumo {
+  font-size: var(--zaz-text-base); line-height: 1.6; color: var(--zaz-text-muted);
+  max-width: 68ch; margin: 0 0 var(--zaz-space-6);
+}
+
+/* --- Abas ------------------------------------------------------------------
+   Três públicos, três abas, como no Padrão Digital de Governo: quem desenha lê
+   a primeira, quem implementa lê a segunda, e a terceira é de ambos. Separar
+   evita a ficha virar um rolo de 400 linhas onde o dev procura o aria-label no
+   meio de regra de tom e voz. */
+.abas { display: flex; gap: var(--zaz-space-1); border-bottom: 1px solid var(--zaz-border); flex-wrap: wrap; }
+.abas button {
+  appearance: none; background: none; border: 0; border-bottom: 2px solid transparent;
+  padding: var(--zaz-space-3) var(--zaz-space-4); margin-bottom: -1px;
+  font: inherit; font-size: var(--zaz-text-sm); font-weight: 600;
+  color: var(--zaz-text-muted); cursor: pointer;
+  transition: color var(--zaz-duration-fast) var(--zaz-ease-standard),
+              border-color var(--zaz-duration-fast) var(--zaz-ease-standard);
+}
+.abas button:hover { color: var(--zaz-primary-text); }
+.abas button[aria-selected="true"] { color: var(--zaz-primary-text); border-bottom-color: var(--zaz-primary-text); }
+.abas button:focus-visible { outline: 2px solid var(--zaz-ring); outline-offset: -2px; border-radius: var(--zaz-radius-sm); }
+
+/* --- Ritmo do conteúdo ---------------------------------------------------- */
+.painel { padding-top: var(--zaz-space-10); }
+.painel > section { padding-bottom: var(--zaz-space-16); }
+.painel > section + section { border-top: 1px solid var(--zaz-border-soft); padding-top: var(--zaz-space-12); }
+
+.ficha h2 {
+  font-family: var(--zaz-font-display); font-size: var(--zaz-text-3xl); font-weight: 900;
+  letter-spacing: var(--zaz-tracking-tight); margin: 0 0 var(--zaz-space-1); color: var(--zaz-text);
+}
+.ficha h2 .num {
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-sm); font-weight: 400;
+  color: var(--zaz-text-subtle); margin-right: var(--zaz-space-3); vertical-align: 6px;
+}
+.ficha .subtitulo {
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs);
+  letter-spacing: var(--zaz-tracking-eyebrow); text-transform: uppercase;
+  color: var(--zaz-text-subtle); margin: 0 0 var(--zaz-space-6);
+}
+.ficha h3 {
+  font-family: var(--zaz-font-display); font-size: var(--zaz-text-xl); font-weight: 700;
+  letter-spacing: var(--zaz-tracking-tight); margin: var(--zaz-space-10) 0 var(--zaz-space-2); color: var(--zaz-text);
+}
+.ficha h4 { font-size: var(--zaz-text-base); font-weight: 700; margin: var(--zaz-space-6) 0 var(--zaz-space-2); color: var(--zaz-text); }
+.ficha p { margin: 0 0 var(--zaz-space-3); max-width: 68ch; line-height: 1.65; color: var(--zaz-text-muted); }
+.ficha p strong, .ficha li strong { color: var(--zaz-text); font-weight: 700; }
+.ficha ul { margin: 0 0 var(--zaz-space-4); padding-left: var(--zaz-space-5); max-width: 68ch; color: var(--zaz-text-muted); line-height: 1.65; }
+.ficha li { margin-bottom: var(--zaz-space-2); }
+.ficha code {
+  font-family: var(--zaz-font-mono); font-size: 0.86em;
+  background: var(--zaz-bg-inset); border-radius: var(--zaz-radius-sm);
+  padding: 1px 5px; color: var(--zaz-text);
+}
+.obrigatorio { font-size: var(--zaz-text-xs); font-weight: 700; color: var(--zaz-text); }
+.opcional { font-size: var(--zaz-text-xs); color: var(--zaz-text-subtle); }
+
+/* --- Quadro de amostra -----------------------------------------------------
+   Fundo levemente rebaixado, como a moldura cinza do gov.br: separa "isto é o
+   componente" de "isto é texto sobre o componente" sem precisar de legenda. */
+.quadro {
+  background: var(--zaz-bg-muted); border: 1px solid var(--zaz-border-soft);
+  border-radius: var(--zaz-radius-card);
+  padding: var(--zaz-space-8) var(--zaz-space-6);
+  margin: 0 0 var(--zaz-space-2);
+}
+.quadro--fita { display: flex; flex-wrap: wrap; gap: var(--zaz-space-8); align-items: flex-end; }
+.legenda { font-size: var(--zaz-text-xs); font-style: italic; color: var(--zaz-text-subtle); margin: 0 0 var(--zaz-space-6); }
+
+/* --- Anatomia --------------------------------------------------------------
+   O gov.br exporta esta figura do Adobe XD, e por isso ela mente sempre que o
+   componente muda. Aqui a figura É o componente: HTML real com os marcadores
+   posicionados por cima. Mudou o CSS do sistema, mudou a anatomia.
+
+   O preço é que as coordenadas dos marcadores são absolutas e dependem da
+   altura real dos elementos — mexeu no componente, confira a figura. */
+.anatomia-rolagem { overflow-x: auto; background: var(--zaz-bg-muted); border: 1px solid var(--zaz-border-soft); border-radius: var(--zaz-radius-card); margin-bottom: var(--zaz-space-2); }
+.anatomia { position: relative; padding: var(--zaz-space-16) var(--zaz-space-20); }
+
+.marca {
+  position: absolute; width: 26px; height: 26px; border-radius: var(--zaz-radius-pill);
+  background: var(--ficha-marca); color: #fff;
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); font-weight: 500;
+  display: flex; align-items: center; justify-content: center; z-index: 3;
+}
+
+/* Marcadores ancorados ao próprio elemento, não a coordenadas da figura.
+   `.peca` só liga o position:relative — de propósito não mexe no display, para
+   poder ser aplicada direto no <label> ou no controle sem desmontar o layout
+   que está sendo documentado. O fio e a bolinha se penduram nessa âncora, então
+   mudar o texto, a fonte ou o padding do componente não desalinha a figura. */
+.peca { position: relative; }
+.peca--moldada { outline: 1px solid var(--ficha-marca); outline-offset: 5px; }
+
+.marca--esquerda { right: calc(100% + var(--zaz-space-10)); top: 50%; transform: translateY(-50%); }
+.marca--direita  { left:  calc(100% + var(--zaz-space-10)); top: 50%; transform: translateY(-50%); }
+.marca--abaixo   { left: 50%; transform: translateX(-50%); top: calc(100% + var(--zaz-space-8)); }
+.marca--acima    { left: 50%; transform: translateX(-50%); bottom: calc(100% + var(--zaz-space-8)); }
+
+.fio { position: absolute; z-index: 2; }
+.fio--esquerda { right: 100%; top: 50%; width: var(--zaz-space-10); border-top: 1px solid var(--ficha-marca); }
+.fio--direita  { left:  100%; top: 50%; width: var(--zaz-space-10); border-top: 1px solid var(--ficha-marca); }
+.fio--abaixo   { left: 50%; top: 100%; height: var(--zaz-space-8); border-left: 1px solid var(--ficha-marca); }
+.fio--acima    { left: 50%; bottom: 100%; height: var(--zaz-space-8); border-left: 1px solid var(--ficha-marca); }
+
+/* --- Tabelas ---------------------------------------------------------------
+   A especificação é sempre tabela: é o formato que o designer mede e o dev
+   copia. Rola no eixo X dentro do próprio container para a página nunca rolar. */
+.rolagem { overflow-x: auto; border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); margin: 0 0 var(--zaz-space-6); }
+.tabela { border-collapse: collapse; width: 100%; font-size: var(--zaz-text-sm); background: var(--zaz-bg-surface); }
+.tabela th, .tabela td { text-align: left; padding: var(--zaz-space-3) var(--zaz-space-4); border-bottom: 1px solid var(--zaz-border-soft); vertical-align: top; color: var(--zaz-text-muted); }
+.tabela th {
+  font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); font-weight: 500;
+  letter-spacing: var(--zaz-tracking-eyebrow); text-transform: uppercase;
+  color: var(--zaz-text-subtle); background: var(--zaz-bg-muted); white-space: nowrap;
+}
+.tabela tr:last-child td { border-bottom: 0; }
+.tabela td code { white-space: nowrap; }
+.tabela .id { font-family: var(--zaz-font-mono); color: var(--ficha-marca); width: 44px; }
+.tabela strong { color: var(--zaz-text); }
+.amostra-cor { display: inline-block; width: 13px; height: 13px; border-radius: var(--zaz-radius-sm); border: 1px solid var(--zaz-border); vertical-align: -2px; margin-right: var(--zaz-space-2); }
+
+/* --- Faixa de estados ------------------------------------------------------
+   Um card por estado, com a amostra encostada na base para que os componentes
+   fiquem na mesma linha e a comparação se faça na horizontal, mesmo quando um
+   texto ocupa três linhas e o vizinho ocupa duas. */
+.estados { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--zaz-border); border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); overflow: hidden; margin-bottom: var(--zaz-space-2); }
+@media (min-width: 620px) { .estados { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .estados { grid-template-columns: repeat(3, 1fr); } }
+.estado { background: var(--zaz-bg-surface); padding: var(--zaz-space-5); display: flex; flex-direction: column; }
+.estado__nome { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); letter-spacing: var(--zaz-tracking-eyebrow); text-transform: uppercase; color: var(--ficha-marca); margin: 0 0 var(--zaz-space-1); }
+.estado__quando { font-size: var(--zaz-text-xs); color: var(--zaz-text-muted); line-height: 1.5; margin: 0 0 var(--zaz-space-4); max-width: none; }
+.estado__amostra { margin-top: auto; }
+/* Ocupa a linha inteira quando o número de estados não fecha a grade — melhor
+   do que uma célula sozinha ao lado de dois buracos. */
+.estado--largo { grid-column: 1 / -1; }
+
+/* Hover e foco precisam ser vistos parados numa página de documentação, e não
+   existe jeito de congelar :hover. Estas duas classes reproduzem o efeito
+   copiando a declaração do componente — se o componente mudar, mudam aqui. */
+.simula-hover .zaz-input { border-color: var(--zaz-border-strong); }
+.simula-foco .zaz-input { border-color: var(--zaz-primary-text); box-shadow: 0 0 0 3px color-mix(in srgb, var(--zaz-ring) 28%, transparent); }
+.simula-foco .zaz-btn { outline: 2px solid var(--zaz-ring); outline-offset: 2px; }
+.simula-hover .zaz-btn--primary { background: var(--zaz-primary-hover); transform: translateY(-1px); }
+.simula-hover .zaz-btn--secondary { border-color: var(--zaz-primary-text); color: var(--zaz-primary-text); }
+.simula-hover .zaz-btn--ghost { background: var(--zaz-veil); color: var(--zaz-primary-text); }
+.simula-ativo .zaz-btn { transform: scale(0.96); }
+
+/* --- Faça / não faça ------------------------------------------------------ */
+.par { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--zaz-space-4); margin-bottom: var(--zaz-space-4); }
+.par > div { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); padding: var(--zaz-space-5); background: var(--zaz-bg-surface); }
+.par h4 { margin: 0 0 var(--zaz-space-4); display: flex; align-items: center; gap: var(--zaz-space-2); font-size: var(--zaz-text-sm); }
+.par .sim { color: var(--zaz-success-fg); }
+.par .nao { color: var(--zaz-danger-fg); }
+
+/* --- Escalas de cor --------------------------------------------------------
+   Desenhadas por site/paleta.js lendo o token real. Cada tom mostra o grau e o
+   hexadecimal, porque são as duas coisas que alguém copia daqui: o grau para
+   escrever o token, o hex para levar a cor a uma ferramenta de design. */
+.escala { display: flex; flex-wrap: wrap; gap: 0; border-radius: var(--zaz-radius-card); overflow: hidden; border: 1px solid var(--zaz-border); margin: 0 0 var(--zaz-space-4); }
+.escala__tom {
+  flex: 1 1 78px; min-width: 78px; padding: var(--zaz-space-8) var(--zaz-space-2) var(--zaz-space-2);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.escala__grau { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); font-weight: 500; }
+.escala__hex { font-family: var(--zaz-font-mono); font-size: 10px; opacity: 0.75; }
+.escala--dados .escala__tom { padding-top: var(--zaz-space-10); }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--zaz-space-2); margin: 0 0 var(--zaz-space-4); }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--zaz-space-2);
+  border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-pill);
+  background: var(--zaz-bg-surface); padding: var(--zaz-space-1) var(--zaz-space-3) var(--zaz-space-1) var(--zaz-space-2);
+}
+.chip__ponto { width: 10px; height: 10px; border-radius: var(--zaz-radius-pill); flex: none; }
+.chip__nome { font-size: var(--zaz-text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--zaz-tracking-eyebrow); color: var(--zaz-text); }
+.chip__hex { font-family: var(--zaz-font-mono); font-size: 10px; color: var(--zaz-text-subtle); }
+
+/* --- Nota ------------------------------------------------------------------ */
+.nota {
+  border-left: 3px solid var(--zaz-primary-text); background: var(--zaz-veil);
+  border-radius: 0 var(--zaz-radius-card) var(--zaz-radius-card) 0;
+  padding: var(--zaz-space-4) var(--zaz-space-5); margin: 0 0 var(--zaz-space-6);
+}
+.nota p { margin: 0; max-width: none; font-size: var(--zaz-text-sm); }
+.nota p + p { margin-top: var(--zaz-space-2); }
+.nota--atencao { border-left-color: var(--zaz-danger); background: var(--zaz-danger-bg); }
+
+/* --- Código ---------------------------------------------------------------- */
+.codigo { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); overflow: hidden; margin: 0 0 var(--zaz-space-6); background: var(--zaz-bg-surface); }
+.codigo__topo { display: flex; align-items: center; justify-content: space-between; gap: var(--zaz-space-4); padding: var(--zaz-space-2) var(--zaz-space-4); background: var(--zaz-bg-muted); border-bottom: 1px solid var(--zaz-border); }
+.codigo__topo span { font-family: var(--zaz-font-mono); font-size: var(--zaz-text-xs); color: var(--zaz-text-subtle); }
+.codigo__copiar {
+  background: var(--zaz-bg-surface); color: var(--zaz-text-muted);
+  border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-control);
+  padding: 2px var(--zaz-space-3); font: inherit; font-size: var(--zaz-text-xs); font-weight: 600; cursor: pointer;
+}
+.codigo__copiar:hover { border-color: var(--zaz-primary-text); color: var(--zaz-primary-text); }
+.codigo pre { margin: 0; padding: var(--zaz-space-4); overflow-x: auto; }
+.codigo pre code { background: none; padding: 0; font-size: var(--zaz-text-xs); line-height: 1.7; display: block; white-space: pre; color: var(--zaz-text); }
+.cm { color: var(--zaz-text-subtle); font-style: italic; }
+.ch { color: var(--zaz-primary-text); }
+.cv { color: var(--zaz-success-fg); }
+
+/* --- Rodapé de origem ----------------------------------------------------- */
+.origem { border-top: 1px solid var(--zaz-border); padding-top: var(--zaz-space-5); margin-top: var(--zaz-space-6); font-size: var(--zaz-text-xs); color: var(--zaz-text-subtle); }
+.origem p { max-width: none; font-size: var(--zaz-text-xs); color: var(--zaz-text-subtle); }
+
+/* --- Índice de componentes (componentes/index.html) ----------------------- */
+.grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--zaz-space-4); margin-bottom: var(--zaz-space-10); }
+.cartao {
+  display: flex; flex-direction: column; gap: var(--zaz-space-3);
+  border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card);
+  background: var(--zaz-bg-surface); padding: var(--zaz-space-5); text-decoration: none;
+  transition: border-color var(--zaz-duration-fast) var(--zaz-ease-standard),
+              box-shadow var(--zaz-duration-fast) var(--zaz-ease-standard),
+              transform var(--zaz-duration-fast) var(--zaz-ease-standard);
+}
+.cartao:hover { border-color: var(--zaz-primary-text); box-shadow: var(--zaz-shadow-md); transform: translateY(-2px); text-decoration: none; }
+.cartao__palco { min-height: 72px; display: flex; align-items: center; justify-content: center; background: var(--zaz-bg-muted); border-radius: var(--zaz-radius-control); padding: var(--zaz-space-4); pointer-events: none; }
+.cartao__nome { font-family: var(--zaz-font-display); font-size: var(--zaz-text-base); font-weight: 700; color: var(--zaz-text); }
+.cartao__desc { font-size: var(--zaz-text-xs); color: var(--zaz-text-muted); line-height: 1.5; }
+.cartao--vazio { opacity: 0.55; cursor: default; }
+.cartao--vazio:hover { border-color: var(--zaz-border); box-shadow: none; transform: none; }
+.selo {
+  align-self: flex-start; font-family: var(--zaz-font-mono); font-size: 10px;
+  letter-spacing: var(--zaz-tracking-eyebrow); text-transform: uppercase;
+  padding: 2px var(--zaz-space-2); border-radius: var(--zaz-radius-sm);
+  background: var(--zaz-bg-inset); color: var(--zaz-text-subtle);
+}
+.selo--pronto { background: var(--zaz-success-bg); color: var(--zaz-success-fg); }

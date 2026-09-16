@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabela e lista · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Tabela e lista</b></p>
+    <h1 class="ficha__titulo">Tabela e lista</h1>
+    <p class="ficha__resumo">Duas formas de mostrar muitos itens: a tabela, quando cada coluna é um dado comparável, e a lista com trilha lateral, quando cada linha é um objeto que se abre. A trilha é a assinatura de interação do Apolo — marca onde você está sem pintar a linha inteira.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Tabela ou lista: a escolha</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Use tabela quando</th><th>Use lista com trilha quando</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>O usuário <strong>compara</strong> valores entre linhas</td>
+                <td>O usuário <strong>escolhe</strong> um item para abrir</td>
+              </tr>
+              <tr>
+                <td>Cada coluna é um dado do mesmo tipo</td>
+                <td>Cada linha é um objeto com título e metadados</td>
+              </tr>
+              <tr>
+                <td>Ordenar por coluna faz sentido</td>
+                <td>A ordem é dada pela fila ou pelo prazo</td>
+              </tr>
+              <tr>
+                <td>Exemplo: relatório, conciliação, painel de gestor</td>
+                <td>Exemplo: <strong>caixa de entrada, fila de tarefas</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quadro">
+          <div class="zaz-card" style="overflow:hidden">
+            <div class="zaz-card__header"><span class="zaz-h3">Caixa de Entrada</span><span class="zaz-badge">4 tarefas</span></div>
+            <div class="zaz-track">
+              <button class="zaz-track__row" type="button" aria-current="true">
+                <span class="zaz-track__main">
+                  <span class="zaz-track__title">Credenciamento VERO · 12.345.678/0001-90</span>
+                  <span class="zaz-track__meta"><span class="zaz-brand-tag" data-brand="vero">VERO</span> há 2h 15m · CSAdquirente</span>
+                </span>
+                <span class="zaz-badge zaz-badge--warning">Pendência</span>
+                <span class="zaz-track__chevron">›</span>
+              </button>
+              <button class="zaz-track__row" type="button">
+                <span class="zaz-track__main">
+                  <span class="zaz-track__title">Cadastro Guará · 98.765.432/0001-10</span>
+                  <span class="zaz-track__meta"><span class="zaz-brand-tag" data-brand="guara">GUARÁ</span> há 40 min · Cadastro</span>
+                </span>
+                <span class="zaz-badge zaz-badge--info">Em Andamento</span>
+                <span class="zaz-track__chevron">›</span>
+              </button>
+              <button class="zaz-track__row" type="button">
+                <span class="zaz-track__main">
+                  <span class="zaz-track__title">Onboarding Pluxee · 11.222.333/0001-44</span>
+                  <span class="zaz-track__meta"><span class="zaz-brand-tag" data-brand="pluxee">PLUXEE</span> há 1d 4h · Backoffice</span>
+                </span>
+                <span class="zaz-badge zaz-badge--danger">Atrasada</span>
+                <span class="zaz-track__chevron">›</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="legenda"><strong>Passe o mouse nas linhas.</strong> A trilha lateral aparece à esquerda, o título muda de cor e o chevron desliza 4px. A primeira linha está no estado ativo.</p>
+
+        <h4>Quando não usar nenhum dos dois</h4>
+        <ul>
+          <li><strong>Menos de três itens</strong> → mostre-os direto, sem cabeçalho de tabela nem moldura de lista.</li>
+          <li><strong>Um item por vez, com muitos detalhes</strong> → é uma lista de definição (<code>.zaz-dl</code>), que é o formato de "detalhe de tarefa".</li>
+          <li><strong>Dados que só fazem sentido comparados visualmente</strong> → gráfico.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia da linha de lista</h2>
+        <p class="subtitulo">De que partes a linha é feita</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Trilha lateral</td><td><a href="../../fundamentos/cores/">Fundamento Cores</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">2</td><td>Título</td><td><a href="../../fundamentos/tipografia/">Fundamento Tipografia</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Metadados</td><td><a href="../../fundamentos/tipografia/">Fundamento Tipografia</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">4</td><td>Estado</td><td><a href="../badge/">Componente Badge</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">5</td><td>Chevron</td><td><a href="../../fundamentos/iconografia/">Fundamento Iconografia</a></td><td class="opcional">Opcional</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:560px">
+            <div class="zaz-card peca" style="width:420px">
+              <div class="zaz-track">
+                <button class="zaz-track__row peca" type="button" aria-current="true" style="cursor:default">
+                  <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+                  <span class="zaz-track__main">
+                    <span class="zaz-track__title peca">
+                      Credenciamento VERO
+                      <span class="fio fio--acima"></span><span class="marca marca--acima">2</span>
+                    </span>
+                    <span class="zaz-track__meta peca">
+                      há 2h 15m · CSAdquirente
+                      <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">3</span>
+                    </span>
+                  </span>
+                  <span class="zaz-badge zaz-badge--warning peca">
+                    Pendência
+                    <span class="fio fio--acima"></span><span class="marca marca--acima">4</span>
+                  </span>
+                  <span class="zaz-track__chevron peca">
+                    ›
+                    <span class="fio fio--direita"></span><span class="marca marca--direita">5</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia da linha de lista, no estado ativo.</p>
+
+        <h3>1. Trilha lateral <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Borda esquerda de <strong>4px, transparente</strong>, que vira roxa no hover e no ativo. É a assinatura de interação do Apolo: <strong>foco sem trocar o fundo inteiro</strong>. Pintar a linha toda de roxo funcionaria em uma linha e cansaria em trezentas.</p>
+        <p>A borda existe sempre, mesmo transparente. Se ela só aparecesse no hover, a linha se deslocaria 4px para a direita a cada passada do mouse.</p>
+
+        <h3>2. Título <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Peso 600, cor de leitura. Identifica o objeto — no Apolo, é o nome do processo mais o documento. <strong>Muda para a cor da marca no hover</strong>, junto com o chevron: dois sinais para a mesma coisa, porque a trilha sozinha é discreta demais para quem olha rápido.</p>
+
+        <h3>3. Metadados <span class="opcional">(opcional)</span></h3>
+        <p>Segunda linha, 12px, cor de apoio, separados por ponto médio. É onde ficam tempo relativo, grupo, marca parceira. <strong>Três informações no máximo</strong> — a quarta ninguém lê.</p>
+
+        <h3>4. Estado <span class="opcional">(opcional)</span></h3>
+        <p>Um badge, encostado à direita antes do chevron. Sempre o <strong>último</strong> conteúdo antes da seta, e sempre um só: dois badges na mesma linha competem e nenhum é lido.</p>
+
+        <h3>5. Chevron <span class="opcional">(opcional)</span></h3>
+        <p>Indica que a linha abre alguma coisa. Desliza 4px para a direita no hover — o movimento sugere a direção para onde a navegação vai. Some quando a linha não é clicável.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>A tabela</h2>
+        <p class="subtitulo">Quando as colunas são o assunto</p>
+
+        <div class="quadro">
+          <div class="zaz-card" style="overflow:hidden">
+            <div style="overflow-x:auto">
+              <table class="zaz-table">
+                <thead>
+                  <tr><th>ID da tarefa</th><th>Processo</th><th>Responsável</th><th class="zaz-num">Horas</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="zaz-mono">TSK-8842-CRED</td><td>Credenciamento VERO</td><td>Não atribuída</td><td class="zaz-num">2,25</td></tr>
+                  <tr><td class="zaz-mono">TSK-8843-CAD</td><td>Cadastro Guará</td><td>Felipe Oliveira</td><td class="zaz-num">0,67</td></tr>
+                  <tr><td class="zaz-mono">TSK-8844-ONB</td><td>Onboarding Pluxee</td><td>Time Backoffice</td><td class="zaz-num">28,10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Tabela dentro de card. O cabeçalho é fixo na rolagem; os números alinham à direita com numeral tabular.</p>
+
+        <h3>Alinhamento por tipo de dado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Tipo</th><th>Alinhamento</th><th>Por quê</th></tr></thead>
+            <tbody>
+              <tr><td>Texto</td><td>Esquerda</td><td>O olho procura o começo da palavra</td></tr>
+              <tr><td>Número</td><td><strong>Direita</strong>, com <code>tabular-nums</code></td><td>As casas decimais alinham e a comparação fica visual</td></tr>
+              <tr><td>Data</td><td>Esquerda</td><td>Formato fixo já alinha sozinho</td></tr>
+              <tr><td>Estado (badge)</td><td>Esquerda ou centro</td><td>Coluna estreita, conteúdo curto</td></tr>
+              <tr><td>Ações</td><td>Direita</td><td>Fim da linha, onde a leitura termina</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cabeçalho fixo</h3>
+        <p>O <code>&lt;th&gt;</code> é <code>sticky</code> no topo. Numa tabela de 200 linhas, o cabeçalho que some ao rolar obriga a pessoa a voltar para lembrar o que é a terceira coluna.</p>
+
+        <h3>Densidade</h3>
+        <p>16px de espaço interno por célula. É mais folgado que o mínimo — e é deliberado: a fila do Apolo é lida o dia inteiro, e tabela apertada cansa depois da terceira hora.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Comportamentos</h2>
+        <p class="subtitulo">Como a lista reage</p>
+
+        <h3>1. Estados da linha</h3>
+        <div class="estados">
+          <div class="estado">
+            <p class="estado__nome">Padrão</p>
+            <p class="estado__quando">Trilha transparente, título na cor de leitura.</p>
+            <div class="estado__amostra" style="margin:0 calc(var(--zaz-space-5) * -1)">
+              <div class="zaz-track"><span class="zaz-track__row" style="cursor:default"><span class="zaz-track__main"><span class="zaz-track__title">Credenciamento VERO</span><span class="zaz-track__meta">há 2h 15m</span></span></span></div>
+            </div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Hover</p>
+            <p class="estado__quando">Trilha roxa, véu de fundo, título colorido, chevron desliza 4px.</p>
+            <div class="estado__amostra" style="margin:0 calc(var(--zaz-space-5) * -1)">
+              <div class="zaz-track"><span class="zaz-track__row" style="cursor:default;border-left-color:var(--zaz-primary-text);background:var(--zaz-veil)"><span class="zaz-track__main"><span class="zaz-track__title" style="color:var(--zaz-primary-text)">Credenciamento VERO</span><span class="zaz-track__meta">há 2h 15m</span></span><span class="zaz-track__chevron" style="transform:translateX(4px);color:var(--zaz-primary-text)">›</span></span></div>
+            </div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Ativo</p>
+            <p class="estado__quando">Mesma aparência do hover, mas permanente: é o item aberto no painel ao lado.</p>
+            <div class="estado__amostra" style="margin:0 calc(var(--zaz-space-5) * -1)">
+              <div class="zaz-track"><span class="zaz-track__row" aria-current="true" style="cursor:default"><span class="zaz-track__main"><span class="zaz-track__title">Credenciamento VERO</span><span class="zaz-track__meta">há 2h 15m</span></span></span></div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Os três estados da linha. Hover está simulado nesta página para poder ser visto parado.</p>
+
+        <h3>2. Lista vazia</h3>
+        <p>Nunca mostre uma moldura vazia. O estado vazio diz <strong>por que</strong> está vazio — filtro sem resultado, fila zerada e falta de permissão são três situações diferentes — e oferece a saída quando existe uma.</p>
+        <div class="quadro">
+          <div class="zaz-card">
+            <div class="zaz-empty">
+              Nenhuma tarefa encontrada para este filtro.
+              <div style="margin-top:var(--zaz-space-4)"><button class="zaz-btn zaz-btn--secondary zaz-btn--sm" type="button">Limpar filtros</button></div>
+            </div>
+          </div>
+        </div>
+
+        <h3>3. Rolagem e paginação</h3>
+        <ul>
+          <li>Tabela larga rola <strong>no eixo X dentro do próprio container</strong>, nunca empurrando a página inteira para o lado.</li>
+          <li>A contagem fica no rodapé do card: "Mostrando 20 de 1.284". Sem ela, ninguém sabe se a lista acabou ou se falta carregar.</li>
+          <li><strong>Sem animação de entrada em item.</strong> Em trezentas linhas, entrada animada vira tela tremendo a cada carregamento.</li>
+        </ul>
+
+        <h3>4. Carregando</h3>
+        <p>Mantenha a altura da lista durante o carregamento — com esqueleto ou com a lista anterior esmaecida. Lista que encolhe para zero e volta faz a página inteira pular, e o clique da pessoa acerta o item errado.</p>
+
+        <h3>5. Tema escuro</h3>
+        <p>O véu do hover nasce de <code>color-mix()</code> sobre o <code>--zaz-primary-text</code>, que já clareia no escuro. Por isso a linha tem <strong>uma regra só</strong> para os dois temas.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Linha de lista</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Linha</td><td>padding</td><td>16px 20px</td><td><code>--zaz-space-4</code> <code>--zaz-space-5</code></td></tr>
+              <tr><td>Linha</td><td>gap</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Trilha lateral</td><td>border-left-width</td><td><strong>4px</strong></td><td>—</td></tr>
+              <tr><td>Divisão entre linhas</td><td>border-bottom</td><td>1px</td><td><code>--zaz-border-soft</code></td></tr>
+              <tr><td>Título</td><td>font-weight</td><td>600</td><td>—</td></tr>
+              <tr><td>Metadados</td><td>font-size / gap</td><td>12px / 12px</td><td><code>--zaz-text-xs</code> <code>--zaz-space-3</code></td></tr>
+              <tr><td>Chevron no hover</td><td>transform</td><td><code>translateX(4px)</code></td><td>—</td></tr>
+              <tr><td>Transição</td><td>duração</td><td>150ms</td><td><code>--zaz-duration-fast</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tabela</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Cabeçalho</td><td>padding</td><td>12px 16px</td><td><code>--zaz-space-3</code> <code>--zaz-space-4</code></td></tr>
+              <tr><td>Cabeçalho</td><td>font-size / peso</td><td>12px / 700</td><td>caixa alta com tracking</td></tr>
+              <tr><td>Cabeçalho</td><td>background</td><td>—</td><td><code>--zaz-bg-muted</code>, <code>position: sticky</code></td></tr>
+              <tr><td>Célula</td><td>padding</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Célula</td><td>alinhamento vertical</td><td><code>middle</code></td><td>—</td></tr>
+              <tr><td>Linha em hover</td><td>background</td><td>—</td><td><code>--zaz-veil</code></td></tr>
+              <tr><td>Coluna numérica</td><td>—</td><td><code>text-align: right</code></td><td><code>.zaz-num</code> + <code>tabular-nums</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Estado vazio</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Bloco</td><td>padding</td><td>64px 24px</td><td><code>--zaz-space-16</code> <code>--zaz-space-6</code></td></tr>
+              <tr><td>Texto</td><td>cor / tamanho</td><td>apoio / 14px</td><td><code>--zaz-text-muted</code> <code>--zaz-text-sm</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code>. A trilha lateral é a mesma de <code>ui/SidebarItem.tsx</code> no Apolo.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes e HTML mínimo</p>
+
+        <h3>Lista com trilha</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>a linha é &lt;button&gt;, porque abre alguma coisa</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-track</span>"&gt;
+  &lt;<span class="ch">button</span> class="<span class="cv">zaz-track__row</span>" type="button" aria-current="true"&gt;
+    &lt;<span class="ch">span</span> class="<span class="cv">zaz-track__main</span>"&gt;
+      &lt;<span class="ch">span</span> class="<span class="cv">zaz-track__title</span>"&gt;Credenciamento VERO&lt;/<span class="ch">span</span>&gt;
+      &lt;<span class="ch">span</span> class="<span class="cv">zaz-track__meta</span>"&gt;há 2h 15m · CSAdquirente&lt;/<span class="ch">span</span>&gt;
+    &lt;/<span class="ch">span</span>&gt;
+    &lt;<span class="ch">span</span> class="<span class="cv">zaz-badge zaz-badge--warning</span>"&gt;Pendência&lt;/<span class="ch">span</span>&gt;
+    &lt;<span class="ch">span</span> class="<span class="cv">zaz-track__chevron</span>" aria-hidden="true"&gt;›&lt;/<span class="ch">span</span>&gt;
+  &lt;/<span class="ch">button</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <div class="nota">
+          <p><code>aria-current="true"</code> faz duas coisas ao mesmo tempo: pinta a trilha (o CSS casa com esse atributo) e <strong>anuncia ao leitor de tela</strong> que este é o item atual. Não use uma classe <code>.ativo</code> em paralelo — seria a mesma informação em dois lugares, e um dos dois vai ficar para trás.</p>
+        </div>
+
+        <h3>Tabela</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>com rolagem própria e coluna numérica</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="cm">&lt;!-- o container rola no X; a página nunca rola para o lado --&gt;</span>
+&lt;<span class="ch">div</span> style="overflow-x:auto"&gt;
+  &lt;<span class="ch">table</span> class="<span class="cv">zaz-table</span>"&gt;
+    &lt;<span class="ch">thead</span>&gt;
+      &lt;<span class="ch">tr</span>&gt;&lt;<span class="ch">th</span>&gt;ID&lt;/<span class="ch">th</span>&gt;&lt;<span class="ch">th</span>&gt;Processo&lt;/<span class="ch">th</span>&gt;&lt;<span class="ch">th</span> class="<span class="cv">zaz-num</span>"&gt;Horas&lt;/<span class="ch">th</span>&gt;&lt;/<span class="ch">tr</span>&gt;
+    &lt;/<span class="ch">thead</span>&gt;
+    &lt;<span class="ch">tbody</span>&gt;
+      &lt;<span class="ch">tr</span>&gt;
+        &lt;<span class="ch">td</span> class="<span class="cv">zaz-mono</span>"&gt;TSK-8842-CRED&lt;/<span class="ch">td</span>&gt;
+        &lt;<span class="ch">td</span>&gt;Credenciamento VERO&lt;/<span class="ch">td</span>&gt;
+        &lt;<span class="ch">td</span> class="<span class="cv">zaz-num</span>"&gt;2,25&lt;/<span class="ch">td</span>&gt;
+      &lt;/<span class="ch">tr</span>&gt;
+    &lt;/<span class="ch">tbody</span>&gt;
+  &lt;/<span class="ch">table</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Lista de definição (detalhe de tarefa)</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>para um item com muitos campos</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">dl</span> class="<span class="cv">zaz-dl</span>"&gt;
+  &lt;<span class="ch">dt</span>&gt;ID da tarefa&lt;/<span class="ch">dt</span>&gt;&lt;<span class="ch">dd</span> class="<span class="cv">zaz-mono</span>"&gt;TSK-8842-CRED&lt;/<span class="ch">dd</span>&gt;
+  &lt;<span class="ch">dt</span>&gt;Processo&lt;/<span class="ch">dt</span>&gt;&lt;<span class="ch">dd</span>&gt;Credenciamento VERO&lt;/<span class="ch">dd</span>&gt;
+  &lt;<span class="ch">dt</span>&gt;Responsável&lt;/<span class="ch">dt</span>&gt;&lt;<span class="ch">dd</span>&gt;Não atribuída&lt;/<span class="ch">dd</span>&gt;
+&lt;/<span class="ch">dl</span>&gt;</code></pre>
+        </div>
+        <div class="quadro">
+          <dl class="zaz-dl" style="max-width:420px">
+            <dt>ID da tarefa</dt><dd class="zaz-mono">TSK-8842-CRED</dd>
+            <dt>Processo</dt><dd>Credenciamento VERO</dd>
+            <dt>Responsável</dt><dd>Não atribuída</dd>
+            <dt>Criada</dt><dd>há 2h 15m</dd>
+            <dt>Grupo</dt><dd>CSAdquirente</dd>
+          </dl>
+        </div>
+
+        <h3>Classes</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-track</code></td><td>Container da lista</td></tr>
+              <tr><td><code>.zaz-track__row</code></td><td>A linha, com a trilha lateral</td></tr>
+              <tr><td><code>.zaz-track__main</code></td><td>Coluna de título e metadados</td></tr>
+              <tr><td><code>.zaz-track__title</code></td><td>Título, que colore no hover</td></tr>
+              <tr><td><code>.zaz-track__meta</code></td><td>Segunda linha, 12px</td></tr>
+              <tr><td><code>.zaz-track__chevron</code></td><td>Seta que desliza no hover</td></tr>
+              <tr><td><code>.zaz-table</code></td><td>Tabela com cabeçalho fixo</td></tr>
+              <tr><td><code>.zaz-num</code></td><td>Célula numérica: direita e tabular</td></tr>
+              <tr><td><code>.zaz-dl</code></td><td>Lista de definição, duas colunas</td></tr>
+              <tr><td><code>.zaz-empty</code></td><td>Estado vazio</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>O CSS por trás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · trecho real</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-track__row</span> {
+  <span class="cm">/* a borda existe sempre, mesmo transparente: se ela nascesse no
+     hover, a linha inteira pularia 4px a cada passada do mouse */</span>
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid <span class="cv">var(--zaz-border-soft)</span>;
+  padding: <span class="cv">var(--zaz-space-4)</span> <span class="cv">var(--zaz-space-5)</span>;
+}
+
+<span class="cm">/* hover e ativo compartilham a mesma regra: a diferença é que um
+   é temporário e o outro vem do atributo aria-current */</span>
+<span class="ch">.zaz-track__row:hover</span>,
+<span class="ch">.zaz-track__row[aria-current="true"]</span> {
+  border-left-color: <span class="cv">var(--zaz-primary-text)</span>;
+  background: <span class="cv">var(--zaz-veil)</span>;
+}
+<span class="ch">.zaz-track__row:hover .zaz-track__chevron</span> { transform: translateX(4px); }</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade em tabela e lista</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Tabela precisa ser tabela</h3>
+        <ul>
+          <li>Use <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;th&gt;</code> e <code>&lt;td&gt;</code> de verdade. Uma "tabela" feita de <code>&lt;div&gt;</code> com grid perde a navegação por célula e o anúncio do cabeçalho ao mudar de coluna.</li>
+          <li><code>&lt;th scope="col"&gt;</code> em cabeçalho de coluna, <code>scope="row"</code> quando a primeira célula nomeia a linha.</li>
+          <li><code>&lt;caption&gt;</code> ou <code>aria-labelledby</code> dando nome à tabela. "Tabela" sozinho não diz do quê.</li>
+          <li>Não use tabela para layout. Nunca.</li>
+        </ul>
+
+        <h3>A linha clicável é um controle</h3>
+        <ul>
+          <li>A linha é <code>&lt;button&gt;</code> (abre um painel) ou <code>&lt;a&gt;</code> (navega para outra URL) — <strong>nunca</strong> uma <code>&lt;div&gt;</code> com <code>onclick</code>, que não recebe foco nem responde ao teclado.</li>
+          <li><strong>Foco visível é obrigatório</strong>, e a trilha lateral <em>não</em> é suficiente: 4px de borda colorida não alcançam 3:1 de contraste em toda superfície. Acrescente o contorno do sistema no <code>:focus-visible</code>.</li>
+          <li>Não coloque botões dentro da linha clicável — controle dentro de controle é inalcançável pelo teclado. As ações vão numa coluna à parte, fora do alvo principal.</li>
+        </ul>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>a trilha marca; o contorno é quem garante o teclado</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-track__row:focus-visible</span> {
+  outline: 2px solid <span class="cv">var(--zaz-ring)</span>;
+  outline-offset: -2px;   <span class="cm">/* para dentro: a linha encosta na vizinha */</span>
+}</code></pre>
+        </div>
+
+        <h3>Item atual</h3>
+        <p>Use <code>aria-current="true"</code> na linha aberta. É o que diz ao leitor de tela "este é o item em que você está" — a cor da trilha não diz nada para quem não a vê.</p>
+
+        <h3>Ordenação</h3>
+        <ul>
+          <li>Cabeçalho ordenável é um <code>&lt;button&gt;</code> dentro do <code>&lt;th&gt;</code>, com <code>aria-sort="ascending|descending|none"</code> no <code>&lt;th&gt;</code>.</li>
+          <li>A seta de ordenação é decorativa (<code>aria-hidden</code>): quem informa é o <code>aria-sort</code>.</li>
+          <li>Depois de ordenar, anuncie o resultado num <code>aria-live="polite"</code>: "Ordenado por prazo, crescente".</li>
+        </ul>
+
+        <h3>Listas longas</h3>
+        <ul>
+          <li>A contagem ("Mostrando 20 de 1.284") precisa estar <strong>no DOM</strong>, não só visualmente — é como quem não vê sabe que a lista tem continuação.</li>
+          <li>Rolagem infinita sem fim anunciado desorienta: prefira "Carregar mais" com foco indo para o primeiro item novo.</li>
+          <li>Depois de filtrar, anuncie quantos sobraram num <code>aria-live</code>. Sem isso, a lista muda em silêncio.</li>
+        </ul>
+
+        <h3>Estado vazio</h3>
+        <p>O texto do estado vazio é conteúdo, não decoração: precisa estar no DOM e ser anunciado quando substitui uma lista que existia. <code>role="status"</code> resolve.</p>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Título da linha</td><td>9,7:1</td><td>14,1:1</td><td>✓ AAA</td></tr>
+              <tr><td>Metadados</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Cabeçalho de tabela</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Trilha lateral sobre a superfície</td><td>3,4:1</td><td>3,1:1</td><td>✓ AA gráfico</td></tr>
+              <tr><td>Véu do hover sobre a superfície</td><td>1,1:1</td><td>1,1:1</td><td>✕ é reforço, não sinal</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/tutorials/tables/">W3C WAI — Tables Tutorial</a></li>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/table/">ARIA APG — Table</a></li>
+          <li><a href="https://www.gov.br/ds/components/table">Padrão Digital de Governo — Table</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os valores de <code>tokens/zaz.tokens.json</code>, nos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shell · Padrões · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<style>
+  /* O shell é de tela cheia. Na documentação ele roda dentro de uma moldura
+     reduzida, para caber na página sem deixar de ser o componente real. */
+  .moldura-tela { border: 1px solid var(--zaz-border); border-radius: var(--zaz-radius-card); overflow: hidden; background: var(--zaz-bg-app); }
+  .moldura-tela .zaz-shell { min-height: 300px; grid-template-columns: 200px minmax(0, 1fr); }
+  .moldura-tela .zaz-sidebar__brand, .moldura-tela .zaz-header { height: 52px; }
+
+  /* Os marcadores da anatomia ficam FORA da peça que marcam. Qualquer overflow
+     no caminho — a moldura, a navegação rolável — os corta em silêncio: a
+     figura continua bonita e os números somem. */
+  .anatomia .moldura-tela,
+  .anatomia .zaz-sidebar,
+  .anatomia .zaz-sidebar__nav,
+  .anatomia .zaz-header,
+  .anatomia .zaz-main { overflow: visible; }
+</style>
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Padrões · <b>Shell</b></p>
+    <h1 class="ficha__titulo">Shell <em>(Esqueleto de tela)</em></h1>
+    <p class="ficha__resumo">O shell é a parte da tela que não muda enquanto a pessoa navega: a barra lateral à esquerda, o cabeçalho no topo e o miolo que troca de conteúdo. É a estrutura que o usuário do Apolo vê o dia inteiro, em toda tela.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">A casca de toda tela de produto</p>
+
+        <div class="quadro">
+          <div class="moldura-tela">
+            <div class="zaz-shell">
+              <aside class="zaz-sidebar">
+                <div class="zaz-sidebar__brand">
+                  <span class="zaz-avatar" style="width:28px;height:28px">A</span>
+                  <span style="font-weight:700">Apolo</span>
+                </div>
+                <nav class="zaz-sidebar__nav">
+                  <span class="zaz-eyebrow" style="padding:var(--zaz-space-2) var(--zaz-space-3)">Tarefas</span>
+                  <span class="zaz-nav-item" aria-current="page">Caixa de Entrada <span class="zaz-badge" style="margin-left:auto">1284</span></span>
+                  <span class="zaz-nav-item">Minhas Tarefas <span class="zaz-badge" style="margin-left:auto">42</span></span>
+                  <span class="zaz-nav-item">Suspensas <span class="zaz-badge" style="margin-left:auto">7</span></span>
+                </nav>
+              </aside>
+              <div style="display:flex;flex-direction:column;min-width:0">
+                <header class="zaz-header">
+                  <div class="zaz-header__title"><span class="zaz-h2">Caixa de Entrada</span></div>
+                  <div class="zaz-header__actions">
+                    <span class="zaz-area-pill" data-area="tasklist">Tasklist</span>
+                    <button class="zaz-btn zaz-btn--primary zaz-btn--sm" type="button">Nova tarefa</button>
+                  </div>
+                </header>
+                <main class="zaz-main">
+                  <p class="zaz-muted" style="margin:0">O conteúdo rola independente da barra lateral e do cabeçalho.</p>
+                </main>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">O shell completo, reduzido para caber na página. Barra lateral de 256px, cabeçalho de 64px, conteúdo com rolagem própria.</p>
+
+        <div class="nota">
+          <p><strong>Em português comum:</strong> <em>shell</em> ("casca") é o esqueleto inteiro. <em>Sidebar</em> é a coluna de menu na esquerda. <em>Header</em> é a faixa do topo, com o título da tela e os botões de ação. Só o miolo troca de conteúdo.</p>
+        </div>
+
+        <p>Use o shell em <strong>toda tela de produto</strong> — TaskList, RH, Gestor, Admin. As exceções são as telas que existem antes de haver navegação: <strong>login</strong> e <strong>splash</strong>, que ocupam a tela inteira sem barra lateral.</p>
+
+        <p><strong>Largura mínima operacional: 960px.</strong> Abaixo disso o título do cabeçalho trunca com elipse e as ações da direita são preservadas — a decisão é que a ação nunca some, porque é ela que o usuário veio fazer.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia</h2>
+        <p class="subtitulo">Quatro regiões fixas</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Dimensão</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>AreaSwitcher</td><td>altura do cabeçalho</td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">2</td><td>Navegação</td><td>largura de 256px</td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Cabeçalho</td><td>altura de 64px</td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">4</td><td>Conteúdo</td><td>o que sobra</td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">5</td><td>Rodapé da lateral</td><td>—</td><td class="opcional">Opcional</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:600px">
+            <div class="moldura-tela peca" style="width:440px">
+              <div class="zaz-shell">
+                <aside class="zaz-sidebar">
+                  <div class="zaz-sidebar__brand peca">
+                    <span class="zaz-avatar" style="width:26px;height:26px">A</span>
+                    <span style="font-weight:700;font-size:var(--zaz-text-sm)">Apolo</span>
+                    <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+                  </div>
+                  <nav class="zaz-sidebar__nav peca">
+                    <span class="zaz-nav-item" aria-current="page" style="font-size:var(--zaz-text-xs)">Caixa de Entrada</span>
+                    <span class="zaz-nav-item" style="font-size:var(--zaz-text-xs)">Minhas Tarefas</span>
+                    <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">2</span>
+                  </nav>
+                  <div class="peca" style="padding:var(--zaz-space-3);border-top:1px solid var(--zaz-border-soft);display:flex;gap:var(--zaz-space-2);align-items:center">
+                    <span class="zaz-avatar" style="width:24px;height:24px;font-size:9px">MS</span>
+                    <span style="font-size:var(--zaz-text-xs)">Marina Souza</span>
+                    <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">5</span>
+                  </div>
+                </aside>
+                <div style="display:flex;flex-direction:column;min-width:0">
+                  <header class="zaz-header peca">
+                    <div class="zaz-header__title"><span class="zaz-h3">Caixa de Entrada</span></div>
+                    <span class="fio fio--direita"></span><span class="marca marca--direita">3</span>
+                  </header>
+                  <main class="zaz-main peca" style="min-height:120px">
+                    <span class="zaz-muted" style="font-size:var(--zaz-text-xs)">Conteúdo</span>
+                    <span class="fio fio--direita"></span><span class="marca marca--direita">4</span>
+                  </main>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do shell, com as cinco regiões marcadas.</p>
+
+        <h3>1. AreaSwitcher <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Acumula duas funções <strong>de propósito</strong>: é a marca no topo da barra lateral <em>e</em> é o seletor de área. Juntar as duas economiza os 64px que um cabeçalho de marca separado custaria em toda tela, e deixa claro que "onde estou" e "de quem é isto" são a mesma pergunta.</p>
+        <p>Vive no topo do <code>&lt;aside&gt;</code>, <strong>nunca no cabeçalho da página</strong>. Abre só no clique — um menu que abre ao passar o mouse é um menu que abre quando ninguém pediu.</p>
+
+        <h3>2. Navegação <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>256px fixos, com rolagem própria. Organizada em grupos com título em caixa alta, e seções de operação que <strong>colapsam e reordenam</strong> — o estado persiste por seção, porque quem trabalha só com VERO fecha o resto uma vez e não fecha de novo no dia seguinte.</p>
+
+        <h3>3. Cabeçalho <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>64px de altura. Título à esquerda, ações à direita. <strong>O título cede espaço e trunca; as ações nunca são cortadas</strong> — é a regra que decide o que acontece em tela estreita.</p>
+
+        <h3>4. Conteúdo <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>24px de respiro e rolagem <strong>independente</strong> da lateral e do cabeçalho. Rolar a fila não pode mover o menu: quem procura uma tarefa e quer trocar de fila no meio do caminho encontraria o menu fora da tela.</p>
+
+        <h3>5. Rodapé da lateral <span class="opcional">(opcional)</span></h3>
+        <p>Usuário, grupo e saída. Fica colado na base, separado por uma linha — e é onde o avatar usa o acento da área ativa.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Item de navegação</h2>
+        <p class="subtitulo">A linha que a pessoa vê o dia inteiro</p>
+
+        <p>Cada linha da barra lateral carrega <strong>três informações ao mesmo tempo</strong>: para onde vai, se é aqui que estou, e quantas tarefas esperam ali. Fazer isso caber em 40 pixels de altura sem virar poluição é o problema que este componente resolve.</p>
+
+        <div class="estados">
+          <div class="estado">
+            <p class="estado__nome">Ativo</p>
+            <p class="estado__quando">Véu de marca no fundo, texto e ícone na cor da marca, peso 600. O contador <strong>inverte</strong>: fundo de marca, texto branco.</p>
+            <div class="estado__amostra"><span class="zaz-nav-item" aria-current="page">Caixa de Entrada <span class="zaz-badge zaz-badge--brand" style="margin-left:auto;background:var(--zaz-primary);color:var(--zaz-on-primary);border-color:transparent">1284</span></span></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Inativo</p>
+            <p class="estado__quando">Texto neutro, ícone mais fraco que o texto, fundo só no hover.</p>
+            <div class="estado__amostra"><span class="zaz-nav-item">Credenciamento VERO <span class="zaz-badge" style="margin-left:auto">42</span></span></div>
+          </div>
+          <div class="estado">
+            <p class="estado__nome">Sem contador</p>
+            <p class="estado__quando">Zero e indefinido <strong>não desenham nada</strong>. Um badge "0" ocupa espaço para informar ausência — e a ausência já se informa sozinha.</p>
+            <div class="estado__amostra"><span class="zaz-nav-item">Auditoria PLUXEE</span></div>
+          </div>
+          <div class="estado estado--largo">
+            <p class="estado__nome">Desabilitado</p>
+            <p class="estado__quando">40% de opacidade e cursor bloqueado. É o vocabulário de <strong>"em breve"</strong>, não de "sem permissão" — o que a pessoa não pode ver simplesmente não aparece na lista.</p>
+            <div class="estado__amostra" style="max-width:320px"><span class="zaz-nav-item" style="opacity:.4;cursor:not-allowed">Antifraude (em breve)</span></div>
+          </div>
+        </div>
+        <p class="legenda">Os quatro estados do item de navegação.</p>
+
+        <div class="nota">
+          <p><strong>O estado ativo vive no <code>aria-current</code>.</strong> O CSS lê o mesmo atributo que o leitor de tela anuncia, e <strong>não existe uma classe "ativo" paralela</strong> para sair de sincronia. É a mesma decisão da linha de lista.</p>
+        </div>
+
+        <h3>Seção de operação</h3>
+        <p>Colapsável e arrastável. O estado de colapso persiste em <code>localStorage</code>, <strong>por seção</strong>. Cada seção tem um ponto colorido com um <em>ping</em> por trás, e a cor identifica a operação — saindo da paleta de marcas parceiras, e vivendo <strong>só no ponto</strong>: o rótulo fica neutro.</p>
+        <div class="quadro quadro--fita">
+          <span class="zaz-brand-tag" data-brand="vero">VERO</span>
+          <span class="zaz-brand-tag" data-brand="getnet">GETNET</span>
+          <span class="zaz-brand-tag" data-brand="guara">GUARÁ</span>
+          <span class="zaz-brand-tag" data-brand="ticket">TICKET</span>
+          <span class="zaz-brand-tag" data-brand="pluxee">PLUXEE</span>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>AreaSwitcher</h2>
+        <p class="subtitulo">Trocar de contexto sem trocar de sistema</p>
+
+        <p>A mesma pessoa pode ser do TaskList de manhã e do RH à tarde. O AreaSwitcher é o que troca de contexto sem trocar de sistema.</p>
+
+        <div class="quadro quadro--fita">
+          <span class="zaz-area-pill" data-area="tasklist">TaskList</span>
+          <span class="zaz-area-pill" data-area="rh">RH</span>
+          <span class="zaz-area-pill" data-area="gestor">Gestor</span>
+          <span class="zaz-area-pill" data-area="promotor">Promotor</span>
+          <span class="zaz-area-pill" data-area="suporte-vero">Suporte VERO</span>
+          <span class="zaz-area-pill" data-area="antifraude">Antifraude</span>
+          <span class="zaz-area-pill" data-area="agenda">Agenda</span>
+          <span class="zaz-area-pill" data-area="financeiro">Financeiro</span>
+        </div>
+        <p class="legenda">As oito áreas, cada uma com seu acento. Áreas criadas no banco entram depois destas, na ordem que o admin definir.</p>
+
+        <h3>Ícones, na ordem</h3>
+        <p>TaskList <code>briefcase</code> · RH <code>users</code> · Gestor <code>user-cog</code> · Promotor <code>megaphone</code> · Suporte VERO <code>headphones</code> · Antifraude <code>shield-alert</code> · Agenda <code>calendar</code> · Financeiro <code>wallet</code>.</p>
+
+        <h3>Com uma área só</h3>
+        <p><strong>Sem menu:</strong> só a marca e o nome, sem chevron. E nunca retorne nada — o topo da lateral ficaria em branco, e a tela perderia a marca.</p>
+
+        <div class="nota nota--atencao">
+          <p><strong>O acento de área tem fronteira.</strong> Ele colore a pílula do seletor, o marcador da área ativa e o avatar do rodapé daquele layout. <strong>Nunca o corpo da tela.</strong> Uma área inteira tingida de âmbar deixa de ser Apolo e vira outro produto — e o roxo, que é o protagonista da marca, some.</p>
+          <p>E a cor da área vive <strong>no ponto</strong>, que é fundo. Nunca no texto do rótulo, onde metade delas reprovaria em contraste.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Estrutura</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Barra lateral</td><td>width</td><td>256px</td><td><code>--zaz-sidebar-w</code></td></tr>
+              <tr><td>Cabeçalho</td><td>height</td><td>64px</td><td><code>--zaz-header-h</code></td></tr>
+              <tr><td>Conteúdo</td><td>padding</td><td>24px</td><td><code>--zaz-space-6</code></td></tr>
+              <tr><td>Conteúdo</td><td>max-width</td><td>1280px</td><td><code>--zaz-content-max</code></td></tr>
+              <tr><td>Shell</td><td>min-width operacional</td><td>960px</td><td>—</td></tr>
+              <tr><td>Divisões</td><td>border</td><td>1px</td><td><code>--zaz-border</code> · <code>--zaz-border-soft</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Item de navegação</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Linha</td><td>padding / gap</td><td>10px 12px / 12px</td><td><code>--zaz-space-3</code></td></tr>
+              <tr><td>Linha</td><td>border-radius</td><td>8px</td><td><code>--zaz-radius-md</code></td></tr>
+              <tr><td>Sub-item de operação</td><td>recuo à esquerda</td><td>16px</td><td><code>--zaz-space-4</code></td></tr>
+              <tr><td>Ícone</td><td>tamanho</td><td>18px</td><td>—</td></tr>
+              <tr><td>Rótulo</td><td>tamanho</td><td>14px</td><td><code>--zaz-text-sm</code></td></tr>
+              <tr><td>Contador</td><td>tamanho / padding</td><td>10px / 2px 6px</td><td>raio pílula, com borda</td></tr>
+              <tr><td>Título de grupo</td><td>tamanho / peso</td><td>12px / 700</td><td>caixa alta com tracking</td></tr>
+              <tr><td>Chevron de seção</td><td>rotação</td><td>−90° colapsado, 200ms</td><td><code>--zaz-duration-base</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cores por estado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Estado</th><th>Fundo</th><th>Texto</th><th>Ícone</th><th>Contador</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ativo</strong></td><td><code>--zaz-veil-strong</code></td><td><code>--zaz-primary-text</code>, peso 600</td><td><code>--zaz-primary-text</code></td><td>fundo <code>--zaz-primary</code>, texto <code>--zaz-on-primary</code></td></tr>
+              <tr><td><strong>Inativo</strong></td><td>transparente</td><td><code>--zaz-text-muted</code></td><td><code>--zaz-text-subtle</code></td><td>neutro</td></tr>
+              <tr><td><strong>Hover</strong></td><td><code>--zaz-veil</code></td><td><code>--zaz-text</code></td><td><code>--zaz-text-muted</code></td><td>neutro</td></tr>
+              <tr><td><strong>Desabilitado</strong></td><td>transparente</td><td colspan="3">opacidade 0.4, cursor <code>not-allowed</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>AreaSwitcher</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Especificação</th></tr></thead>
+            <tbody>
+              <tr><td>Gatilho</td><td>Largura total, gap 12px, padding 8px, raio de controle; hover com <code>--zaz-veil</code></td></tr>
+              <tr><td>Marca</td><td>Caixa de 40×40 com a imagem em 48×48 <code>object-contain</code> — transborda de propósito, é o respiro da marca</td></tr>
+              <tr><td>Nome</td><td>Peso 700, tracking tight, truncado. Tamanho pelo comprimento: &gt;16 caracteres → 14px · &gt;11 → 16px · senão 20px</td></tr>
+              <tr><td>Chevron</td><td>16px, gira 180° quando aberto, 200ms</td></tr>
+              <tr><td>Painel</td><td>Absoluto, largura do gatilho, 8px abaixo; superfície, raio de controle, sombra lg, máx. 60vh com rolagem</td></tr>
+              <tr><td>Opção</td><td>Gap 10px, padding 10px 12px, 14px peso 500. Ordem: ícone 16 → ponto 8px na cor da área → rótulo → check 15 só na ativa</td></tr>
+              <tr><td>Opção ativa</td><td>Fundo <code>--zaz-bg-inset</code>, texto <code>--zaz-text</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Fonte: <code>ui/SidebarItem.tsx</code>, <code>ui/AreaSwitcher.tsx</code>, <code>sidebar/SortableSidebarSection.tsx</code>, <code>sidebar/sidebarSections.ts</code>, <code>Layout.tsx</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes e estrutura</p>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>o shell inteiro</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-shell</span>"&gt;
+  &lt;<span class="ch">aside</span> class="<span class="cv">zaz-sidebar</span>"&gt;
+    &lt;<span class="ch">div</span> class="<span class="cv">zaz-sidebar__brand</span>"&gt;…AreaSwitcher…&lt;/<span class="ch">div</span>&gt;
+    &lt;<span class="ch">nav</span> class="<span class="cv">zaz-sidebar__nav</span>"&gt;…itens…&lt;/<span class="ch">nav</span>&gt;
+    &lt;<span class="ch">div</span> class="<span class="cv">zaz-sidebar__footer</span>"&gt;…usuário…&lt;/<span class="ch">div</span>&gt;
+  &lt;/<span class="ch">aside</span>&gt;
+  &lt;<span class="ch">div</span>&gt;
+    &lt;<span class="ch">header</span> class="<span class="cv">zaz-header</span>"&gt;
+      &lt;<span class="ch">div</span> class="<span class="cv">zaz-header__title</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+      &lt;<span class="ch">div</span> class="<span class="cv">zaz-header__actions</span>"&gt;…&lt;/<span class="ch">div</span>&gt;
+    &lt;/<span class="ch">header</span>&gt;
+    &lt;<span class="ch">main</span> class="<span class="cv">zaz-main</span>"&gt;…&lt;/<span class="ch">main</span>&gt;
+  &lt;/<span class="ch">div</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+
+        <h3>Item de navegação</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o estado ativo é atributo, não classe</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">a</span> class="<span class="cv">zaz-nav-item</span>" href="/entrada" aria-current="page"&gt;
+  &lt;<span class="ch">svg</span> width="18" height="18" aria-hidden="true"&gt;…&lt;/<span class="ch">svg</span>&gt;
+  Caixa de Entrada
+  <span class="cm">&lt;!-- contador com 0 ou indefinido NÃO desenha nada --&gt;</span>
+  &lt;<span class="ch">span</span> class="<span class="cv">zaz-badge</span>"&gt;1284&lt;/<span class="ch">span</span>&gt;
+&lt;/<span class="ch">a</span>&gt;</code></pre>
+        </div>
+
+        <h3>Pílula de área</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>a cor sai do data-area; o HTML não escreve cor</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">button</span> class="<span class="cv">zaz-area-pill</span>" data-area="rh" type="button"&gt;RH&lt;/<span class="ch">button</span>&gt;
+
+<span class="cm">// valores: tasklist · rh · gestor · promotor
+//          suporte-vero · antifraude · agenda · financeiro</span></code></pre>
+        </div>
+
+        <h3>Regra para colar num prompt de IA — SidebarItem</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o item de navegação, em detalhe</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>SIDEBARITEM — flex, gap 12px, padding 10px 12px, raio --zaz-radius-md.
+  sub-item de operação: recuo de 16px à esquerda
+  ícone 18 · rótulo 14px, ocupa o espaço livre
+  contador: 10px, padding 2px 6px, raio pill, com borda
+  contador com valor 0 ou indefinido NÃO desenha nada
+
+ATIVO      fundo var(--zaz-veil-strong)
+           texto e ícone var(--zaz-primary-text), peso 600
+           contador: fundo var(--zaz-primary), texto var(--zaz-on-primary)
+           marcado em aria-current, NUNCA numa classe "ativo" paralela
+INATIVO    texto var(--zaz-text-muted), ícone var(--zaz-text-subtle)
+           hover: fundo var(--zaz-veil)
+DESABILITADO opacity .4 e cursor not-allowed (só para "em breve")
+
+TÍTULO DE GRUPO (Geral, Operações, Gestão, Sistema…):
+  12px, peso 700, CAIXA ALTA com tracking de eyebrow,
+  cor var(--zaz-text-subtle), padding lateral 12px
+
+SEÇÃO DE OPERAÇÃO (colapsável + arrastável):
+  container    fundo var(--zaz-bg-muted), raio --zaz-radius-control
+  grip         cursor grab / grabbing, ícone grip-vertical 14
+  cabeçalho    14px peso 600, cursor pointer, select-none
+  chevron      14, gira -90 quando colapsado, 200ms
+  ponto        dois círculos de 8px sobrepostos: o ponto e uma cópia
+               absoluta com ping a 30% de opacidade
+  arrastando   opacidade 90%, sombra lg, anel de marca a 30%
+  colapso persistido: localStorage sidebar_&lt;id&gt; = '1' | '0'
+
+A cor do ponto identifica a operação e sai da paleta de marcas parceiras.
+Ela mora SÓ no ponto: o rótulo fica neutro.</code></pre>
+        </div>
+
+        <h3>Regra para colar num prompt de IA — AreaSwitcher</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o cabeçalho da barra lateral</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>AREASWITCHER — o cabeçalho da barra lateral. Ele É a marca E o seletor.
+Vive no topo do &lt;aside&gt;, nunca no header da página.
+
+GATILHO: largura total, flex, gap 12px, padding 8px, raio --zaz-radius-control
+  hover: fundo var(--zaz-veil)
+  aria-haspopup="listbox" e aria-expanded
+  Abre SÓ no clique. Nunca no hover.
+  marca   caixa 40x40 com a imagem em 48x48 object-contain (transborda
+          de propósito — é o respiro da marca)
+  nome    peso 700, tracking tight, truncate. Tamanho pelo comprimento:
+          mais de 16 caracteres → 14px · mais de 11 → 16px · senão 20px
+  chevron 16, gira 180 quando aberto, 200ms
+
+PAINEL: absoluto, largura do gatilho, 8px abaixo, z-index alto
+  fundo var(--zaz-bg-surface), raio --zaz-radius-control, sombra lg
+  borda var(--zaz-border), altura máxima 60vh com rolagem
+  role="listbox"
+
+OPÇÃO: largura total, flex, gap 10px, padding 10px 12px, 14px peso 500
+  role="option" com aria-selected
+  ativa   fundo var(--zaz-bg-inset), texto var(--zaz-text)
+  inativa texto var(--zaz-text-muted), hover fundo var(--zaz-veil)
+  ordem dos filhos: ícone 16 → ponto 8px na cor da área → rótulo →
+  check 15 só na ativa
+
+A COR DA ÁREA VIVE NO PONTO, que é fundo. NUNCA no texto do rótulo.
+
+ÁREAS, na ordem, com ícone lucide:
+  TaskList briefcase · RH users · Gestor user-cog · Promotor megaphone
+  Suporte VERO headphones · Antifraude shield-alert · Agenda calendar
+  Financeiro wallet
+Áreas vindas do banco entram DEPOIS destas.
+
+Fecha ao clicar fora e no Esc. Com uma área só: sem menu, só marca e nome
+— nunca renderize nada, ou o topo da lateral fica em branco.</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no Shell</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Regiões nomeadas</h3>
+        <p>O shell é onde as regiões da página são declaradas — e é o que permite a quem usa leitor de tela pular direto para o conteúdo em vez de ouvir o menu inteiro em toda página.</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Região</th><th>Tag</th><th>Atributo</th></tr></thead>
+            <tbody>
+              <tr><td>Barra lateral</td><td><code>&lt;aside&gt;</code> com <code>&lt;nav&gt;</code> dentro</td><td><code>aria-label="Navegação principal"</code></td></tr>
+              <tr><td>Cabeçalho</td><td><code>&lt;header&gt;</code></td><td>—</td></tr>
+              <tr><td>Conteúdo</td><td><code>&lt;main&gt;</code></td><td>Um por página</td></tr>
+              <tr><td>Rodapé da lateral</td><td><code>&lt;div&gt;</code></td><td>Não é <code>&lt;footer&gt;</code> da página</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Pular para o conteúdo</h3>
+        <p>O primeiro elemento focável da página é um link "Pular para o conteúdo", <strong>visível ao receber foco</strong>. Sem ele, quem navega por teclado percorre as 20 linhas da barra lateral em toda troca de tela.</p>
+        <div class="codigo">
+          <div class="codigo__topo"><span>invisível até receber foco</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">a</span> href="#conteudo" class="<span class="cv">zaz-skip</span>"&gt;Pular para o conteúdo&lt;/<span class="ch">a</span>&gt;
+…
+&lt;<span class="ch">main</span> class="<span class="cv">zaz-main</span>" id="conteudo" tabindex="-1"&gt;…&lt;/<span class="ch">main</span>&gt;
+
+<span class="cm">/* tabindex="-1" no destino: sem ele, alguns navegadores movem a
+   rolagem mas não movem o foco, e o teclado continua na sidebar */</span></code></pre>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida:</strong> o sistema ainda não tem a classe <code>.zaz-skip</code>. É o próximo componente a entrar em <code>components.css</code>.</p>
+        </div>
+
+        <h3>Item de navegação</h3>
+        <ul>
+          <li>Item que navega é <code>&lt;a href&gt;</code>. Item que abre um painel é <code>&lt;button&gt;</code>.</li>
+          <li><strong>O item atual usa <code>aria-current="page"</code></strong> — e o CSS lê esse mesmo atributo. Uma classe paralela seria a mesma informação em dois lugares, e um dos dois ficaria para trás.</li>
+          <li>O contador precisa fazer parte do nome acessível: "Caixa de Entrada, 1284 tarefas". Um número solto é lido como "1284" e não significa nada.</li>
+          <li>Item desabilitado com <code>aria-disabled="true"</code>, não <code>disabled</code>: assim ele continua sendo encontrado e anunciado como "em breve", em vez de desaparecer.</li>
+        </ul>
+
+        <h3>Seção colapsável</h3>
+        <ul>
+          <li>O cabeçalho da seção é <code>&lt;button&gt;</code> com <code>aria-expanded</code>.</li>
+          <li>O chevron é decorativo (<code>aria-hidden</code>): quem informa o estado é o <code>aria-expanded</code>.</li>
+          <li>Reordenação por arrasto precisa de <strong>alternativa por teclado</strong> — setas com <code>Ctrl</code>, ou um menu "mover para cima / para baixo". Arrastar não é acessível sozinho.</li>
+        </ul>
+
+        <h3>AreaSwitcher</h3>
+        <ul>
+          <li>Gatilho com <code>aria-haspopup="listbox"</code> e <code>aria-expanded</code>.</li>
+          <li>Painel com <code>role="listbox"</code>; cada opção com <code>role="option"</code> e <code>aria-selected</code>.</li>
+          <li>Setas navegam, <code>Enter</code> escolhe, <code>Esc</code> fecha e <strong>devolve o foco ao gatilho</strong>.</li>
+          <li>O ponto colorido é decorativo. A área é identificada pelo <strong>nome</strong> — a cor sozinha não identifica nada para quem não a distingue.</li>
+        </ul>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Item ativo (texto sobre véu)</td><td>8,9:1</td><td>6,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Item inativo</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Ícone inativo</td><td>2,8:1</td><td>3,4:1</td><td>✕ decorativo — o rótulo é quem informa</td></tr>
+              <tr><td>Contador ativo (branco sobre marca)</td><td>9,7:1</td><td>9,7:1</td><td>✓ AAA</td></tr>
+              <tr><td>Item desabilitado (40%)</td><td>1,9:1</td><td>2,3:1</td><td>✕ aceitável: estado desabilitado é isento</td></tr>
+              <tr><td>Pílula de área (texto na cor da área)</td><td>2,2 a 6,1:1</td><td>varia</td><td>✕ <strong>pendência</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida:</strong> a pílula de área usa a cor da área <em>no texto</em>, e metade das oito não alcança 4,5:1 — o âmbar do RH e o verde do Financeiro são os piores. A regra escrita ("a cor vive no ponto, nunca no texto") existe justamente por isso, e a pílula é onde o próprio sistema a quebra. Corrigir significa neutralizar o texto da pílula e deixar a cor só no ponto e na borda.</p>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/">ARIA APG — Landmarks</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html">WCAG — Bypass Blocks</a></li>
+          <li><a href="https://www.gov.br/ds/components/menu">Padrão Digital de Governo — Menu</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os valores de <code>tokens/zaz.tokens.json</code>, nos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

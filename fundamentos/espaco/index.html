@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espaço, raios e sombras · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Espaço, raios e sombras</b></p>
+    <h1 class="ficha__titulo">Espaço, raios e sombras</h1>
+    <p class="ficha__resumo">Grade de 4px para todo espaçamento, seis raios com destino declarado e cinco sombras que indicam altura. Os raios são a assinatura do sistema — errar o raio é o jeito mais rápido de algo não parecer ZAZ.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="valores" aria-selected="false" aria-controls="painel-valores">Valores</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O que decide uma medida</p>
+
+        <h3>Tudo é múltiplo de 4</h3>
+        <p>Nenhum espaçamento do sistema é 5px, 7px ou 15px. A grade de 4 pixels é o que faz elementos diferentes, feitos por pessoas diferentes, se alinharem sem combinar nada. Quando você precisa de "só um pouquinho mais", a resposta é o próximo degrau da escala — não um número novo.</p>
+
+        <h3>O raio diz o que a coisa é</h3>
+        <p>Um raio de 12px diz "isto é um controle: clique". Um raio de 16px diz "isto é um container: leia". Um raio infinito diz "isto é um ponto ou uma pessoa". Trocar o raio troca o significado, e é o erro que mais rápido faz uma tela parecer de outro produto.</p>
+
+        <h3>A sombra é altura, não decoração</h3>
+        <p>Cada sombra corresponde a uma distância da superfície: quanto mais perto do usuário, mais difusa. Por isso um modal não usa a sombra de um card, e um card não usa a de um modal — a sombra errada faz o olho entender a ordem das camadas ao contrário.</p>
+
+        <h3>O espaço separa por significado</h3>
+        <p>A distância entre dois elementos declara o quanto eles se relacionam. Rótulo e campo ficam a 8px porque são a mesma coisa; dois campos ficam a 24px porque são coisas diferentes. Quando o espaço interno de um grupo é igual ao externo, o olho não sabe mais onde o grupo termina.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia do espaço</h2>
+        <p class="subtitulo">Onde cada medida vive numa caixa</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Parte</th><th>Propriedade</th><th>O que faz</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Espaço externo</td><td><code>margin</code></td><td>Distância para os vizinhos. Diz o quanto este bloco se relaciona com o de fora.</td></tr>
+              <tr><td class="id">2</td><td>Borda</td><td><code>border</code></td><td>O limite visível. Ocupa espaço — 1px de cada lado entra na conta da largura.</td></tr>
+              <tr><td class="id">3</td><td>Espaço interno</td><td><code>padding</code></td><td>Respiro entre a borda e o conteúdo. É o que impede o texto de encostar na parede.</td></tr>
+              <tr><td class="id">4</td><td>Conteúdo</td><td>—</td><td>O que a caixa carrega.</td></tr>
+              <tr><td class="id">5</td><td>Raio</td><td><code>border-radius</code></td><td>Arredondamento dos cantos. É o que identifica o tipo do elemento.</td></tr>
+              <tr><td class="id">6</td><td>Sombra</td><td><code>box-shadow</code></td><td>A altura em relação à superfície de trás.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:480px">
+            <div class="peca" style="padding:var(--zaz-space-6);background:var(--zaz-veil);border-radius:var(--zaz-radius-card);width:320px">
+              <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+
+              <div class="zaz-card peca" style="padding:var(--zaz-space-5)">
+                <span class="fio fio--direita"></span><span class="marca marca--direita">2</span>
+
+                <div class="peca" style="background:var(--zaz-bg-inset);border-radius:var(--zaz-radius-sm);padding:var(--zaz-space-3)">
+                  <span class="zaz-body" style="display:block">Conteúdo do card</span>
+                  <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">4</span>
+                </div>
+
+                <span class="fio fio--acima"></span><span class="marca marca--acima">3</span>
+              </div>
+            </div>
+
+            <div style="position:absolute;left:380px;top:var(--zaz-space-16);display:flex;flex-direction:column;gap:var(--zaz-space-8)">
+              <span class="peca" style="width:52px;height:38px;background:var(--zaz-primary);border-radius:var(--zaz-radius-card)">
+                <span class="fio fio--direita"></span><span class="marca marca--direita">5</span>
+              </span>
+              <span class="peca" style="width:52px;height:38px;background:var(--zaz-bg-surface);border-radius:var(--zaz-radius-card);box-shadow:var(--zaz-shadow-lg)">
+                <span class="fio fio--direita"></span><span class="marca marca--direita">6</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia de uma caixa: espaço externo, borda, espaço interno e conteúdo — mais o raio e a sombra, que definem o tipo e a altura.</p>
+
+        <div class="nota">
+          <p><strong>O sistema assume <code>box-sizing: border-box</code>.</strong> Isso quer dizer que espaço interno e borda contam <em>dentro</em> da largura declarada: um campo com <code>width: 100%</code> e 16px de padding ocupa 100%, não 100% + 34px. O reset do <code>.zaz-root</code> aplica essa regra — sem ela, todo controle estoura o container.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Espaçamento</h2>
+        <p class="subtitulo">Doze degraus, e o que cada distância significa</p>
+
+        <p>A escala vai de 4px a 96px. Os cinco primeiros degraus cobrem quase tudo o que acontece dentro de um componente; os maiores são de layout — distância entre seções e blocos de página.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Distância</th><th>Significado</th><th>Exemplo real</th></tr></thead>
+            <tbody>
+              <tr><td><strong>4px</strong> <code>space-1</code></td><td>Colados: partes do mesmo elemento</td><td>Ícone e contador dentro de um badge</td></tr>
+              <tr><td><strong>8px</strong> <code>space-2</code></td><td>Mesma coisa: itens de um grupo</td><td>Rótulo e campo, ícone e rótulo de botão</td></tr>
+              <tr><td><strong>12px</strong> <code>space-3</code></td><td>Vizinhos: itens de uma lista</td><td>Entre dois botões, entre linhas de lista</td></tr>
+              <tr><td><strong>16px</strong> <code>space-4</code></td><td>Respiro interno de componente</td><td>Padding de alerta, espaço lateral de campo</td></tr>
+              <tr><td><strong>24px</strong> <code>space-6</code></td><td>Coisas diferentes</td><td>Entre dois campos, padding de card</td></tr>
+              <tr><td><strong>32–48px</strong> <code>space-8</code>–<code>12</code></td><td>Blocos de assunto</td><td>Entre grupos de formulário, entre cards</td></tr>
+              <tr><td><strong>64–96px</strong> <code>space-16</code>–<code>24</code></td><td>Seções de página</td><td>Entre seções de documentação, margem de slide</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quadro">
+          <div style="display:flex;flex-direction:column;gap:var(--zaz-space-3)">
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">4px</span><span style="height:14px;width:4px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">8px</span><span style="height:14px;width:8px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">12px</span><span style="height:14px;width:12px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">16px</span><span style="height:14px;width:16px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">24px</span><span style="height:14px;width:24px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">32px</span><span style="height:14px;width:32px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">48px</span><span style="height:14px;width:48px;background:var(--zaz-primary);border-radius:2px"></span></div>
+            <div style="display:flex;align-items:center;gap:var(--zaz-space-3)"><span class="zaz-mono" style="width:52px">64px</span><span style="height:14px;width:64px;background:var(--zaz-primary);border-radius:2px"></span></div>
+          </div>
+        </div>
+        <p class="legenda">A grade de 4px, em proporção real.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Raios</h2>
+        <p class="subtitulo">Seis valores, cada um com destino declarado</p>
+
+        <div class="quadro quadro--fita">
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-sm);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">sm · 6px</span></div>
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-md);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">md · 8px</span></div>
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-control);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">control · 12px</span></div>
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-card);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">card · 16px</span></div>
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-hero);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">hero · 24px</span></div>
+          <div style="text-align:center"><div style="width:72px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-pill);margin-bottom:var(--zaz-space-2)"></div><span class="zaz-mono">pill · ∞</span></div>
+        </div>
+        <p class="legenda">Os seis raios do sistema, em tamanho real.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Valor</th><th>Onde</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-radius-sm</code></td><td>6px</td><td>Caixa de seleção, amostra de cor, chip pequeno</td></tr>
+              <tr><td><code>--zaz-radius-md</code></td><td>8px</td><td>Chip, miniatura, célula de calendário</td></tr>
+              <tr><td><code>--zaz-radius-control</code></td><td><strong>12px</strong></td><td><strong>Botão, campo, item de navegação, badge</strong></td></tr>
+              <tr><td><code>--zaz-radius-card</code></td><td><strong>16px</strong></td><td><strong>Card padrão — a maioria dos contêineres</strong></td></tr>
+              <tr><td><code>--zaz-radius-hero</code></td><td>24px</td><td>Card herói e modal. Um por tela</td></tr>
+              <tr><td><code>--zaz-radius-pill</code></td><td>∞</td><td>Avatar, ponto, barra de progresso, tag</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota">
+          <p><strong>Regra de aninhamento:</strong> o raio de dentro é sempre <em>menor</em> que o de fora. Um elemento de 12px dentro de um card de 16px fica certo; o contrário deixa uma fresta esquisita entre as duas curvas.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Sombras</h2>
+        <p class="subtitulo">Cinco alturas</p>
+
+        <div class="quadro quadro--fita">
+          <div style="text-align:center"><div style="width:96px;height:56px;background:var(--zaz-bg-surface);border-radius:var(--zaz-radius-card);box-shadow:var(--zaz-shadow-sm);margin-bottom:var(--zaz-space-3)"></div><span class="zaz-mono">sm</span></div>
+          <div style="text-align:center"><div style="width:96px;height:56px;background:var(--zaz-bg-surface);border-radius:var(--zaz-radius-card);box-shadow:var(--zaz-shadow-md);margin-bottom:var(--zaz-space-3)"></div><span class="zaz-mono">md</span></div>
+          <div style="text-align:center"><div style="width:96px;height:56px;background:var(--zaz-bg-surface);border-radius:var(--zaz-radius-card);box-shadow:var(--zaz-shadow-lg);margin-bottom:var(--zaz-space-3)"></div><span class="zaz-mono">lg</span></div>
+          <div style="text-align:center"><div style="width:96px;height:56px;background:var(--zaz-primary);border-radius:var(--zaz-radius-card);box-shadow:var(--zaz-shadow-cta);margin-bottom:var(--zaz-space-3)"></div><span class="zaz-mono">cta</span></div>
+          <div style="text-align:center"><div style="width:96px;height:56px;background:var(--zaz-bg-surface);border-radius:var(--zaz-radius-hero);box-shadow:var(--zaz-shadow-hero);margin-bottom:var(--zaz-space-3)"></div><span class="zaz-mono">hero</span></div>
+        </div>
+        <p class="legenda">As cinco sombras, em tamanho real. Alterne o tema: no escuro elas perdem o tingimento azulado.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Altura</th><th>Onde</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-shadow-sm</code></td><td>Encostado</td><td>Card, pílula, botão secundário</td></tr>
+              <tr><td><code>--zaz-shadow-md</code></td><td>Flutuando perto</td><td>Popover, dropdown, menu</td></tr>
+              <tr><td><code>--zaz-shadow-lg</code></td><td>Sobre a página</td><td>Modal, drawer</td></tr>
+              <tr><td><code>--zaz-shadow-cta</code></td><td>Brilho, não altura</td><td>Botão primário — é roxa, tingida pela marca</td></tr>
+              <tr><td><code>--zaz-shadow-hero</code></td><td>Destaque único</td><td>Card herói. A única sombra tingida além da CTA</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Dimensões fixas</h2>
+        <p class="subtitulo">As medidas que não são espaçamento</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Valor</th><th>O que é</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-control-sm</code></td><td>32px</td><td>Altura de controle, densidade alta</td></tr>
+              <tr><td><code>--zaz-control-md</code></td><td>40px</td><td>Altura de controle, padrão</td></tr>
+              <tr><td><code>--zaz-control-lg</code></td><td>56px</td><td>Altura de controle, densidade baixa</td></tr>
+              <tr><td><code>--zaz-sidebar-w</code></td><td>256px</td><td>Largura da barra lateral</td></tr>
+              <tr><td><code>--zaz-header-h</code></td><td>64px</td><td>Altura do cabeçalho</td></tr>
+              <tr><td><code>--zaz-content-max</code></td><td>1280px</td><td>Largura máxima de conteúdo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VALORES -->
+    <div class="painel" id="painel-valores" role="tabpanel" hidden>
+
+      <section>
+        <h2>A escala completa</h2>
+        <p class="subtitulo">Doze degraus em rem e px</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>rem</th><th>px</th><th>Uso mais comum</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-space-1</code></td><td>0.25</td><td>4</td><td>Gap dentro de badge</td></tr>
+              <tr><td><code>--zaz-space-2</code></td><td>0.5</td><td>8</td><td>Rótulo e campo; ícone e rótulo de botão</td></tr>
+              <tr><td><code>--zaz-space-3</code></td><td>0.75</td><td>12</td><td>Entre botões; padding de controle pequeno</td></tr>
+              <tr><td><code>--zaz-space-4</code></td><td>1</td><td>16</td><td>Padding lateral de campo; padding de alerta</td></tr>
+              <tr><td><code>--zaz-space-5</code></td><td>1.25</td><td>20</td><td>Padding lateral de botão; padding de card</td></tr>
+              <tr><td><code>--zaz-space-6</code></td><td>1.5</td><td>24</td><td>Entre campos; padding de corpo de card</td></tr>
+              <tr><td><code>--zaz-space-8</code></td><td>2</td><td>32</td><td>Entre grupos de formulário</td></tr>
+              <tr><td><code>--zaz-space-10</code></td><td>2.5</td><td>40</td><td>Respiro de bloco</td></tr>
+              <tr><td><code>--zaz-space-12</code></td><td>3</td><td>48</td><td>Entre blocos de página</td></tr>
+              <tr><td><code>--zaz-space-16</code></td><td>4</td><td>64</td><td>Entre seções</td></tr>
+              <tr><td><code>--zaz-space-20</code></td><td>5</td><td>80</td><td>Respiro de seção grande</td></tr>
+              <tr><td><code>--zaz-space-24</code></td><td>6</td><td>96</td><td>Margem de slide; fim de página</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Sombras, valor a valor</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Tema claro</th><th>Tema escuro</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-shadow-sm</code></td><td><code>0 1px 2px 0 rgb(15 23 42 / .06)</code></td><td><code>0 1px 2px 0 rgb(0 0 0 / .40)</code></td></tr>
+              <tr><td><code>--zaz-shadow-md</code></td><td><code>0 4px 12px -2px rgb(15 23 42 / .10)</code></td><td><code>0 4px 12px -2px rgb(0 0 0 / .50)</code></td></tr>
+              <tr><td><code>--zaz-shadow-lg</code></td><td><code>0 12px 24px -8px rgb(15 23 42 / .16)</code></td><td><code>0 12px 24px -8px rgb(0 0 0 / .60)</code></td></tr>
+              <tr><td><code>--zaz-shadow-cta</code></td><td><code>0 8px 20px -6px rgb(92 34 156 / .35)</code></td><td>igual</td></tr>
+              <tr><td><code>--zaz-shadow-hero</code></td><td><code>0 32px 64px -24px rgb(45 16 79 / .28)</code></td><td>igual</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="legenda">No tema claro a sombra é tingida de slate, não preta — sombra preta sobre fundo frio parece sujeira. No escuro ela vira preto puro, porque ali o que falta é profundidade, não temperatura.</p>
+
+        <h3>Movimento</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Valor</th><th>Onde</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-duration-fast</code></td><td>150ms</td><td>Hover, foco, troca de cor</td></tr>
+              <tr><td><code>--zaz-duration-base</code></td><td>200ms</td><td>Abrir e fechar, girar chevron</td></tr>
+              <tr><td><code>--zaz-duration-slow</code></td><td>300ms</td><td>Troca de tema, entrada de drawer</td></tr>
+              <tr><td><code>--zaz-duration-splash</code></td><td>800ms</td><td>Só a tela de abertura</td></tr>
+              <tr><td><code>--zaz-ease-standard</code></td><td><code>cubic-bezier(.4,0,.2,1)</code></td><td>O padrão de tudo</td></tr>
+              <tr><td><code>--zaz-ease-entrance</code></td><td><code>cubic-bezier(.2,.8,.2,1)</code></td><td>Coisas que entram na tela</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Em código</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>O espaçamento vem do gap, não de margens soltas</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="cm">/* Certo: o pai declara a distância uma vez */</span>
+<span class="ch">.formulario</span> {
+  display: flex;
+  flex-direction: column;
+  gap: <span class="cv">var(--zaz-space-6)</span>;   <span class="cm">/* 24px entre campos */</span>
+}
+
+<span class="cm">/* Errado: margem no filho colapsa, dobra e some conforme o vizinho */</span>
+<span class="ch">.campo</span> { margin-bottom: 24px; }</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade em espaço</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Alvo de toque</h3>
+        <ul>
+          <li>A WCAG 2.1 pede <strong>44 × 44px</strong> de área acionável em tela de toque. A densidade padrão do sistema dá 40px — <strong>4px abaixo</strong>.</li>
+          <li>Em telas pensadas para celular, use a densidade baixa (56px) ou aumente a área clicável em volta do controle sem aumentar o controle.</li>
+          <li>Dois alvos vizinhos precisam de pelo menos <strong>8px</strong> entre si. Botões colados viram um alvo só para quem tem tremor.</li>
+        </ul>
+        <div class="nota nota--atencao">
+          <p><strong>Pendência conhecida:</strong> a densidade padrão de 40px atende bem a mouse, mas fica abaixo do mínimo de toque. Enquanto o Apolo for um console de desktop isso é aceitável; qualquer tela pensada para celular precisa subir de densidade.</p>
+        </div>
+
+        <h3>Espaço em branco é acessibilidade</h3>
+        <ul>
+          <li>Texto sem respiro é mais difícil para <strong>dislexia e déficit de atenção</strong>: a linha seguinte compete com a anterior. Os 24px entre blocos não são estética.</li>
+          <li>A WCAG tem critério próprio para isso (<em>Text Spacing</em>): a página precisa continuar funcionando se o usuário aumentar entrelinha e espaço entre parágrafos. Layout com altura fixa quebra nesse teste.</li>
+        </ul>
+
+        <h3>Sombra não é informação</h3>
+        <p>A sombra indica altura para quem enxerga bem. Ela <strong>não</strong> pode ser o único sinal de que algo é interativo, está selecionado ou está por cima — quem usa alto contraste ou tema forçado pelo sistema operacional não vê sombra nenhuma. O sinal precisa estar também na cor, na borda ou no texto.</p>
+
+        <h3>Movimento reduzido</h3>
+        <p>Todo bloco de animação vem acompanhado de <code>@media (prefers-reduced-motion: reduce)</code> zerando a duração — o reset do <code>.zaz-root</code> já faz isso para o sistema inteiro. Para quem tem sensibilidade vestibular, animação decorativa causa mal-estar físico; não é preferência estética.</p>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/target-size.html">WCAG — Target Size</a></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html">WCAG — Text Spacing</a></li>
+          <li><a href="https://www.gov.br/ds/fundamentos-visuais/espacamento">Padrão Digital de Governo — Espaçamento</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Valores de <code>tokens/zaz.tokens.json</code>. Raios e sombras conferidos contra o Apolo em <a href="../../AUDITORIA.md">AUDITORIA.md</a>.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

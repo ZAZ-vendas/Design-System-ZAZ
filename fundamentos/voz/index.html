@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conteúdo e voz · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Conteúdo e voz</b></p>
+    <h1 class="ficha__titulo">Conteúdo e voz</h1>
+    <p class="ficha__resumo">As palavras são parte do sistema, não enfeite em cima dele. Português sempre, tom institucional e claro, sem emoji em lugar nenhum — e uma regra de caixa para cada tipo de texto, porque é onde duas telas do mesmo produto mais se denunciam.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="vocabulario" aria-selected="false" aria-controls="painel-vocabulario">Vocabulário</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O tom da casa</p>
+
+        <h3>Português, sempre</h3>
+        <p>Inglês só em código — nome de variável, chave de API, classe CSS. Tudo que o usuário lê é em <strong>pt-BR</strong>, com acentuação correta. "Pendência", não "Pendencia"; "Ambiente Seguro", não "Ambiente seguro".</p>
+
+        <h3>Institucional, claro, educado — nunca casual</h3>
+        <p>O Apolo é ferramenta de trabalho de gente que passa oito horas nele. O tom é o de um colega competente: direto, sem gíria, sem entusiasmo forçado. <strong>Sem emoji, em nenhum lugar</strong> — nem em estado vazio, nem em mensagem de sucesso.</p>
+
+        <h3>A caixa carrega significado</h3>
+        <p>Caixa alta é rótulo; <em>Title Case</em> é ação; <em>sentence case</em> é leitura. A regra é fixa porque, quando cada tela escolhe a sua, o produto inteiro parece feito por três empresas.</p>
+
+        <h3>Diga o que aconteceu, não como você se sente</h3>
+        <p>"Nenhuma tarefa encontrada para este filtro" informa. "Nada aqui!" não informa nada e ainda soa alegre demais para quem está procurando trabalho perdido.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia de uma mensagem</h2>
+        <p class="subtitulo">As três partes de qualquer aviso do sistema</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Parte</th><th>Responde</th><th>Regra</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Título</td><td>O que aconteceu?</td><td>Uma frase curta, sem ponto final. Sentence case.</td></tr>
+              <tr><td class="id">2</td><td>Corpo</td><td>O que isso significa para mim?</td><td>Uma ou duas frases completas, com ponto final.</td></tr>
+              <tr><td class="id">3</td><td>Ação</td><td>O que eu faço agora?</td><td>Verbo no infinitivo. Opcional — nem toda mensagem pede ação.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:460px">
+            <div class="zaz-alert zaz-alert--danger peca" style="width:340px;flex-direction:column;gap:var(--zaz-space-2)">
+              <span class="zaz-alert__title peca">
+                Credenciais inválidas
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">1</span>
+              </span>
+              <span class="peca" style="display:block">
+                Verifique o CPF e a senha do Camunda.
+                <span class="fio fio--esquerda"></span><span class="marca marca--esquerda">2</span>
+              </span>
+              <span class="peca" style="display:block;margin-top:var(--zaz-space-2)">
+                <button class="zaz-btn zaz-btn--secondary zaz-btn--sm" type="button">Tentar novamente</button>
+                <span class="fio fio--direita"></span><span class="marca marca--direita">3</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="legenda">Anatomia de uma mensagem de erro: título, corpo e ação.</p>
+
+        <h3>1. Título</h3>
+        <p>Nomeia o fato, sem rodeio e sem culpa. <strong>"Credenciais inválidas"</strong>, não "Ops, algo deu errado" nem "Você digitou errado". Sem ponto final — título não é frase.</p>
+
+        <h3>2. Corpo</h3>
+        <p>Explica o que fazer, em frase completa. Nada de código de erro, nome de endpoint ou <em>stack trace</em>: se o dado técnico for necessário para o suporte, ele vai num detalhe expansível, não na primeira linha.</p>
+
+        <h3>3. Ação</h3>
+        <p>Quando existe algo a fazer, o botão diz exatamente o quê. Se não existe ação possível, não invente um "OK" — a mensagem fecha sozinha ou some quando o problema passa.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>A tabela de caixa</h2>
+        <p class="subtitulo">Onde as telas mais se denunciam</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Onde</th><th>Regra</th><th>Certo</th><th>Errado</th></tr></thead>
+            <tbody>
+              <tr><td>Eyebrow e rótulo</td><td>CAIXA ALTA com tracking</td><td>SENHA (CAMUNDA)</td><td>Caixa alta seca, ou Title Case</td></tr>
+              <tr><td>Botão e navegação</td><td>Title Case</td><td>Entrar no Sistema</td><td>ENTRAR NO SISTEMA</td></tr>
+              <tr><td>Corpo e dica</td><td>Sentence case</td><td>Gestão inteligente de processos.</td><td>Gestão Inteligente De Processos</td></tr>
+              <tr><td>Rótulo de campo</td><td>Diga o que é, por extenso</td><td>Identificação (CPF ou Usuário)</td><td>Login</td></tr>
+              <tr><td>Marca parceira</td><td>CAIXA ALTA</td><td>VERO, SUA LUZ, PLUXEE</td><td>Vero, Sua Luz</td></tr>
+              <tr><td>Etapa de processo</td><td>Sentence case</td><td>Credenciamento, Pendência</td><td>CREDENCIAMENTO</td></tr>
+              <tr><td>Acentuação</td><td>Sempre</td><td>Pendência, Ambiente Seguro</td><td>Pendencia</td></tr>
+              <tr><td>Tempo relativo</td><td>Abreviado, com "há"</td><td>há 3 min · há 2h 15m · há 1d 4h</td><td>3 minutos atrás</td></tr>
+              <tr><td>Estado vazio</td><td>Diga o que falta</td><td>Nenhuma tarefa encontrada para este filtro.</td><td>Nada aqui!</td></tr>
+              <tr><td>Rodapé</td><td>Formato fixo</td><td>© 2026 Zaz Vendas. Apolo.</td><td>Copyright 2026 ZAZ VENDAS LTDA</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota">
+          <p><strong>Caixa alta vem do CSS, não do teclado.</strong> Escreva "Senha (Camunda)" no HTML e deixe o <code>text-transform: uppercase</code> do <code>.zaz-eyebrow</code> fazer o resto. Texto digitado em maiúsculas é soletrado letra por letra por alguns leitores de tela — e não tem como desfazer depois.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Por tipo de texto</h2>
+        <p class="subtitulo">As regras que já vivem nas fichas dos componentes</p>
+
+        <h3>Botão</h3>
+        <ul>
+          <li>Verbo no infinitivo, dizendo o que vai acontecer: "Concluir tarefa", nunca "OK" ou "Sim".</li>
+          <li>Uma ou duas palavras. Nunca quebre em duas linhas.</li>
+          <li>Em confirmação, repita a ação em vez de responder "sim": diante de "Suspender esta tarefa?", os botões são <strong>Suspender</strong> e <strong>Cancelar</strong>.</li>
+        </ul>
+
+        <h3>Campo</h3>
+        <ul>
+          <li>Rótulo é substantivo, não pergunta: "CNPJ do estabelecimento", nunca "Qual é o CNPJ?".</li>
+          <li>Nomeie o dado <strong>como o usuário o chama</strong>, não como a variável se chama no Camunda.</li>
+          <li>Marque o opcional, não o obrigatório — se quase tudo é obrigatório, marcar o obrigatório é ruído.</li>
+        </ul>
+
+        <h3>Erro</h3>
+        <ul>
+          <li>Diz o que está errado <strong>e</strong> o que fazer: "CNPJ inválido — confira os 14 dígitos".</li>
+          <li>Nunca culpa o usuário e nunca se desculpa. Sem "Ops", sem "Desculpe".</li>
+        </ul>
+
+        <h3>Estado vazio</h3>
+        <ul>
+          <li>Diga <strong>por que</strong> está vazio: filtro sem resultado, fila zerada, permissão ausente — são três situações diferentes.</li>
+          <li>Quando houver saída, ofereça: "Limpar filtros" ao lado da frase.</li>
+        </ul>
+
+        <h3>Badge de status</h3>
+        <ul>
+          <li>Uma ou duas palavras, sempre do mesmo vocabulário: Em Fila, Em Andamento, Pendência, Atrasada, Concluída.</li>
+          <li>O mapa de estado para cor é <strong>canônico</strong>: não invente um tom novo para um estado existente.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VOCABULÁRIO -->
+    <div class="painel" id="painel-vocabulario" role="tabpanel" hidden>
+
+      <section>
+        <h2>Vocabulário controlado</h2>
+        <p class="subtitulo">Um nome por coisa, no produto inteiro</p>
+
+        <p>Estes são os termos da casa. A regra é simples: <strong>uma coisa, um nome</strong>. Quando a mesma entidade aparece como "tarefa" numa tela e "atividade" na outra, o usuário deduz que são coisas diferentes — e às vezes abre chamado por causa disso.</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Use</th><th>Não use</th><th>O que é</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Tarefa</strong></td><td>atividade, item, card, job</td><td>A unidade de trabalho que aparece na fila</td></tr>
+              <tr><td><strong>Fila</strong></td><td>lista, caixa, bandeja</td><td>O conjunto de tarefas de um grupo</td></tr>
+              <tr><td><strong>Área</strong></td><td>módulo, setor, aba</td><td>O recorte do produto que o seletor do cabeçalho troca</td></tr>
+              <tr><td><strong>Operação</strong></td><td>produto, carteira, cliente</td><td>O processo de negócio (Vero, Pluxee, Getnet…)</td></tr>
+              <tr><td><strong>Instância</strong></td><td>processo, execução, caso</td><td>Uma execução do processo no Camunda</td></tr>
+              <tr><td><strong>Pendência</strong></td><td>problema, erro, exceção</td><td>A tarefa parada esperando informação de fora</td></tr>
+              <tr><td><strong>Responsável</strong></td><td>assignee, dono, atribuído</td><td>Quem está com a tarefa</td></tr>
+              <tr><td><strong>Concluir</strong></td><td>finalizar, fechar, completar</td><td>A ação de encerrar uma tarefa</td></tr>
+              <tr><td><strong>Suspender</strong></td><td>pausar, congelar, parar</td><td>Tirar da fila ativa sem concluir</td></tr>
+              <tr><td><strong>Prazo</strong></td><td>SLA, deadline, vencimento</td><td>O limite de tempo — "SLA" só em tela de gestor</td></tr>
+              <tr><td><strong>Colaborador</strong></td><td>funcionário, usuário, pessoa</td><td>Quem trabalha na ZAZ, no contexto de RH</td></tr>
+              <tr><td><strong>Promotor</strong></td><td>vendedor, parceiro, revenda</td><td>Quem vende em campo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Nomes próprios</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Escreva</th><th>Nunca</th></tr></thead>
+            <tbody>
+              <tr><td><strong>ZAZ</strong> (caixa alta, sempre)</td><td>Zaz, zaz</td></tr>
+              <tr><td><strong>Apolo</strong></td><td>APOLO, apolo</td></tr>
+              <tr><td><strong>VERO</strong>, <strong>PLUXEE</strong>, <strong>SUA LUZ</strong> (marcas parceiras em caixa alta)</td><td>Vero, Pluxee, Sua Luz</td></tr>
+              <tr><td><strong>Camunda</strong>, <strong>Mattermost</strong>, <strong>Metabase</strong></td><td>CAMUNDA, camunda</td></tr>
+              <tr><td>© 2026 Zaz Vendas. Apolo.</td><td>Copyright 2026 ZAZ VENDAS LTDA</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tempo</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Situação</th><th>Formato</th><th>Exemplo</th></tr></thead>
+            <tbody>
+              <tr><td>Menos de 1 hora</td><td>há N min</td><td>há 3 min</td></tr>
+              <tr><td>Menos de 1 dia</td><td>há Nh Nm</td><td>há 2h 15m</td></tr>
+              <tr><td>Mais de 1 dia</td><td>há Nd Nh</td><td>há 1d 4h</td></tr>
+              <tr><td>Data absoluta</td><td>dd/mm/aaaa</td><td>16/09/2026</td></tr>
+              <tr><td>Data com hora</td><td>dd/mm/aaaa às HH:mm</td><td>16/09/2026 às 14:30</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota">
+          <p><strong>Tempo relativo tem prazo de validade.</strong> Acima de sete dias, "há 12d 6h" não ajuda ninguém — troque pela data absoluta. E em qualquer lugar onde o tempo relativo aparece, a data completa deve estar disponível no <code>title</code> do elemento.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no texto</h2>
+        <p class="subtitulo">Escrever para quem ouve a tela</p>
+
+        <h3>O texto é a interface para muita gente</h3>
+        <p>Quem usa leitor de tela não vê o layout: ouve uma sequência de textos. Um rótulo genérico ("Login", "Enviar", "Clique aqui") funciona visualmente porque o contexto está em volta — e não funciona nenhum pouco quando é lido isolado, numa lista de links.</p>
+        <ul>
+          <li><strong>"Clique aqui" e "Saiba mais" são proibidos</strong> como texto de link. O link diz para onde vai: "Ver o relatório de setembro".</li>
+          <li>Dois controles na mesma tela não podem ter o mesmo nome acessível fazendo coisas diferentes.</li>
+          <li>Botão só com ícone precisa de <code>aria-label</code> — e o rótulo ali segue as mesmas regras de voz do rótulo visível.</li>
+        </ul>
+
+        <h3>Escreva para ser lido em voz alta</h3>
+        <ul>
+          <li><strong>Evite abreviação sem contexto.</strong> "SLA" é lido "és-éle-á"; "prazo" é lido "prazo". Use a palavra em texto corrido e deixe a sigla para tela de gestor.</li>
+          <li>Números e datas em formato completo no <code>title</code>: "há 2h 15m" é ótimo visualmente e pobre em áudio.</li>
+          <li>Não use caractere gráfico como informação: "→", "•" e "|" viram ruído ou silêncio, dependendo do leitor.</li>
+        </ul>
+
+        <h3>Linguagem simples não é linguagem infantil</h3>
+        <p>A WCAG recomenda texto compreensível para o nível de ensino fundamental onde for possível. Isso significa frases curtas e palavras comuns — <strong>não</strong> significa tom infantilizado. "A tarefa sairá da fila ativa e deixará de contar no prazo" é simples e adulto ao mesmo tempo.</p>
+
+        <h3>Mensagem que aparece precisa ser anunciada</h3>
+        <ul>
+          <li>Erro de validação depois do envio: <code>role="alert"</code> — interrompe e anuncia na hora.</li>
+          <li>Confirmação de sucesso, contador que muda: <code>aria-live="polite"</code> — espera a pessoa terminar o que está ouvindo.</li>
+          <li>Sem isso, a mensagem aparece na tela e <strong>não existe</strong> para quem não está olhando.</li>
+        </ul>
+
+        <h3>Linguagem inclusiva</h3>
+        <ul>
+          <li>Prefira a forma neutra quando a pessoa é desconhecida: "quem solicitou", "a pessoa responsável" — em vez de forçar masculino genérico.</li>
+          <li>Não use expressão que trate deficiência como defeito ("cego para", "surdo a", "tela sofre de").</li>
+          <li>Evite metáfora visual como única descrição: "veja abaixo" funciona menos que "na tabela a seguir".</li>
+        </ul>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html">WCAG — Link Purpose</a></li>
+          <li><a href="https://www.gov.br/ds/padroes/writing/principios-writing">Padrão Digital de Governo — Princípios de UX Writing</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Tabela de caixa e vocabulário conferidos contra as telas do Apolo em produção.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

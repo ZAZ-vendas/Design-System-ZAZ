@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../assets/logo-zaz.png">
+<link rel="stylesheet" href="../css/zaz.css">
+<link rel="stylesheet" href="../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · <b>Componentes</b></p>
+    <h1 class="ficha__titulo">Componentes</h1>
+    <p class="ficha__resumo">Cada componente tem uma ficha com a mesma estrutura: para que serve, como escrever o texto que vive dentro dele, de que partes é feito, como reage e quais são os números exatos. Quem lê uma ficha sabe onde procurar em qualquer outra.</p>
+
+    <section style="padding-top:var(--zaz-space-10)">
+      <h2>Com ficha completa</h2>
+      <p class="subtitulo">Visão geral · Código · Acessibilidade</p>
+
+      <div class="grade">
+        <a class="cartao" href="./botao/">
+          <div class="cartao__palco">
+            <span class="zaz-btn zaz-btn--primary zaz-btn--sm">Concluir</span>
+          </div>
+          <span class="cartao__nome">Botão</span>
+          <span class="cartao__desc">Executa uma ação. Quatro ênfases, três densidades, e a regra de uma primária por tela.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+
+        <a class="cartao" href="./campo/">
+          <div class="cartao__palco">
+            <span class="zaz-field" style="width:100%">
+              <span class="zaz-label">CNPJ</span>
+              <span class="zaz-input" style="display:flex;align-items:center;color:var(--zaz-text-subtle)">12.345.678/0001-90</span>
+            </span>
+          </div>
+          <span class="cartao__nome">Campo</span>
+          <span class="cartao__desc">Entrada de dados. Rótulo, controle, apoio e mensagem de validação num agrupamento só.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+
+        <a class="cartao" href="./badge/">
+          <div class="cartao__palco">
+            <span class="zaz-badge zaz-badge--warning">Pendência</span>
+          </div>
+          <span class="cartao__nome">Badge</span>
+          <span class="cartao__desc">Marca estado e categoria. O mapa de estado para cor é fixo — e ele nunca é clicável.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+
+        <a class="cartao" href="./card/">
+          <div class="cartao__palco">
+            <span class="zaz-metric" style="align-items:center"><span class="zaz-eyebrow">Em fila</span><span class="zaz-metric__value">1.284</span></span>
+          </div>
+          <span class="cartao__nome">Card e métrica</span>
+          <span class="cartao__desc">O contêiner padrão de tela, e o número em destaque que mora dentro dele.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+
+        <a class="cartao" href="./tabela/">
+          <div class="cartao__palco" style="padding:0;overflow:hidden">
+            <div class="zaz-track" style="width:100%">
+              <span class="zaz-track__row" style="border-left-color:var(--zaz-primary-text);background:var(--zaz-veil);padding:var(--zaz-space-3)">
+                <span class="zaz-track__main"><span class="zaz-track__title" style="font-size:var(--zaz-text-xs)">Credenciamento VERO</span></span>
+              </span>
+              <span class="zaz-track__row" style="padding:var(--zaz-space-3)">
+                <span class="zaz-track__main"><span class="zaz-track__title" style="font-size:var(--zaz-text-xs)">Cadastro Guará</span></span>
+              </span>
+            </div>
+          </div>
+          <span class="cartao__nome">Tabela e lista</span>
+          <span class="cartao__desc">Comparar ou escolher. A trilha lateral é a assinatura de interação do Apolo.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+
+        <a class="cartao" href="./sobreposicoes/">
+          <div class="cartao__palco" style="padding:var(--zaz-space-3)">
+            <div class="zaz-toast zaz-toast--success" style="min-width:0;width:100%;padding:var(--zaz-space-3);box-shadow:none;font-size:var(--zaz-text-xs)">
+              <span>Tarefa concluída</span>
+            </div>
+          </div>
+          <span class="cartao__nome">Sobreposições</span>
+          <span class="cartao__desc">Alerta, toast, drawer e modal — do menos ao mais intrusivo, e quando cada um cabe.</span>
+          <span class="selo selo--pronto">Ficha completa</span>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Na fila</h2>
+      <p class="subtitulo">Existem no CSS, ainda sem ficha</p>
+      <p>Estes componentes já estão em <code>css/components.css</code> e aparecem na <a href="../docs/">documentação geral</a> — o que falta é a ficha: anatomia, comportamentos, especificações e acessibilidade. A ordem abaixo é a ordem em que doem no Apolo.</p>
+
+      <div class="grade">
+        <div class="cartao cartao--vazio">
+          <div class="cartao__palco">
+            <label class="zaz-switch"><input type="checkbox" checked disabled aria-label="Exemplo de switch"></label>
+          </div>
+          <span class="cartao__nome">Switch</span>
+          <span class="cartao__desc">Liga e desliga, valendo na hora. A diferença para o checkbox.</span>
+          <span class="selo">Na fila</span>
+        </div>
+
+        <div class="cartao cartao--vazio">
+          <div class="cartao__palco">
+            <span class="zaz-check"><input type="checkbox" checked disabled> <span style="font-size:var(--zaz-text-xs)">Selecionado</span></span>
+          </div>
+          <span class="cartao__nome">Caixa de seleção</span>
+          <span class="cartao__desc">Escolha múltipla, com o estado intermediário da seleção em lote.</span>
+          <span class="selo">Na fila</span>
+        </div>
+
+      <div class="nota">
+        <p><strong>Ficha vazia não entra.</strong> Um componente só sai daqui quando tiver anatomia numerada e nota de acessibilidade — as duas coisas que fazem a diferença entre documentação e vitrine. Até lá ele continua na <a href="../docs/">documentação geral</a>, que mostra o componente sem explicá-lo.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>A estrutura da ficha</h2>
+      <p class="subtitulo">O molde, conferido nos 38 componentes do gov.br</p>
+
+      <div class="rolagem">
+        <table class="tabela">
+          <thead><tr><th>#</th><th>Seção</th><th>O que responde</th><th>Formato</th></tr></thead>
+          <tbody>
+            <tr><td class="id">01</td><td><strong>Uso</strong></td><td>Quando este componente, e quando outro</td><td>Amostra ao vivo + lista</td></tr>
+            <tr><td class="id">02</td><td><strong>Tom e voz</strong></td><td>Como escrever o texto de dentro</td><td>Regras + par faça/não faça</td></tr>
+            <tr><td class="id">03</td><td><strong>Anatomia</strong></td><td>De que partes é feito</td><td>Tabela <code>ID · Nome · Referência · Uso</code> + figura numerada</td></tr>
+            <tr><td class="id">04</td><td><strong>Detalhamento</strong></td><td>A regra de cada parte</td><td>Uma subseção por número</td></tr>
+            <tr><td class="id">05</td><td><strong>Tipos</strong> ou <strong>Ênfases</strong></td><td>Variações estruturais ou de hierarquia</td><td>Amostra + texto</td></tr>
+            <tr><td class="id">06</td><td><strong>Comportamentos</strong></td><td>Estados, densidade, espaço, responsivo, tema escuro</td><td>Uma amostra por estado</td></tr>
+            <tr><td class="id">07</td><td><strong>Especificações</strong></td><td>Os números</td><td>Tabelas por propriedade, em token</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Três coisas fazem o molde funcionar, e valem mais que o layout:</p>
+      <ul>
+        <li><strong>A coluna Referência.</strong> Cada parte aponta para o fundamento que a governa. O componente compõe, não redefine — e quando o fundamento muda, a ficha diz quem é afetado.</li>
+        <li><strong>O número em três lugares.</strong> O "3" do círculo na figura é a linha 3 da tabela e o título "3." do detalhamento. É o que faz a leitura fluir entre desenho e texto.</li>
+        <li><strong>Especificação em token, não em pixel.</strong> A tabela diz <code>--zaz-space-4</code> e o pixel ao lado. Quando o token muda, a ficha continua certa.</li>
+      </ul>
+
+      <div class="nota">
+        <p><strong>A figura de anatomia é o componente real.</strong> No gov.br ela é um PNG exportado do Adobe XD, que passa a mentir no dia em que o componente muda. Aqui é HTML com o CSS do sistema e marcadores ancorados em cada peça — mudou <code>components.css</code>, mudou a figura.</p>
+      </div>
+
+      <div class="origem">
+        <p>Formato baseado no <a href="https://www.gov.br/ds/components">Padrão Digital de Governo</a> v3.7.0, cuja estrutura de diretriz foi conferida nos 38 componentes publicados.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="../site/nav.js" defer></script>
+<script src="../site/ficha.js" defer></script>
+</body>
+</html>

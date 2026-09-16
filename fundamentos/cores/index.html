@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cores · Fundamentos · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  // Antes do primeiro paint — senão a página abre clara e escurece na cara do leitor.
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Fundamentos · <b>Cores</b></p>
+    <h1 class="ficha__titulo">Cores</h1>
+    <p class="ficha__resumo">A paleta tem três famílias e uma hierarquia clara: o Roxo ZAZ é a ação, o Verde ZAZ é o acento que nunca vira ação, e os neutros carregam todo o resto. Cada cor aqui tem uma função declarada — cor sem função é cor que vai ser usada errada.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="paleta" aria-selected="false" aria-controls="painel-paleta">Paleta</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Princípios</h2>
+        <p class="subtitulo">O que decide se uma cor entra no sistema</p>
+
+        <h3>A cor vem do manual, não do gosto</h3>
+        <p>O <strong>Manual de identidade da marca ZAZ 2022</strong> define três cores primárias: o <strong>Roxo ZAZ #5c229c</strong>, o branco e o <strong>Verde ZAZ #a8d812</strong> — com o roxo sempre como protagonista. Os neutros vêm todos da escala <em>slate</em>; nenhum cinza fora dela. Cor nova passa pelo manual antes de passar pelo CSS.</p>
+
+        <h3>Toda cor tem uma função</h3>
+        <p>Nenhuma cor deste sistema existe "porque é bonita". Cada uma responde a uma pergunta: <em>isto é superfície, texto, ação, aviso ou identificação?</em> É a função que decide onde a cor pode aparecer — e é por isso que o Verde ZAZ, que é primário no manual, nunca pinta um botão.</p>
+
+        <h3>Contraste é requisito, não ajuste</h3>
+        <p>A meta do sistema é <strong>WCAG 2.1 nível AA</strong>: 4,5:1 para texto normal, 3:1 para texto grande e elementos gráficos. Quando um par não alcança, ele fica documentado como pendência — nunca some da página.</p>
+
+        <h3>Você nunca escreve um hexadecimal</h3>
+        <p>Na tela você escreve <code>var(--zaz-primary)</code>. Se precisou de uma cor que não é token, ou o token existe com outro nome, ou o sistema está incompleto — e aí a correção é abrir <code>tokens/zaz.tokens.json</code>, não escrever a cor na sua tela.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Anatomia de um token</h2>
+        <p class="subtitulo">Como um nome de cor é construído</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Parte</th><th>O que significa</th><th>Valores possíveis</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Prefixo</td><td>Marca que a variável é do sistema ZAZ</td><td><code>--zaz-</code>, sempre</td></tr>
+              <tr><td class="id">2</td><td>Família</td><td>O grupo de cores, ou o papel quando é token semântico</td><td><code>brand</code> · <code>accent</code> · <code>neutral</code> · <code>area</code> · <code>tag</code> · <code>data</code></td></tr>
+              <tr><td class="id">3</td><td>Grau</td><td>A luminosidade dentro da família: número baixo é claro, alto é escuro</td><td><code>50</code> a <code>950</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:420px">
+            <span class="peca peca--moldada zaz-mono" style="display:inline-flex;font-size:var(--zaz-text-xl);letter-spacing:0;background:var(--zaz-bg-surface);padding:var(--zaz-space-3) var(--zaz-space-4);border-radius:var(--zaz-radius-control)">
+              <span class="peca" style="color:var(--zaz-text-subtle)">--zaz-<span class="fio fio--acima"></span><span class="marca marca--acima">1</span></span>
+              <span class="peca" style="color:var(--zaz-primary-text);font-weight:500">brand<span class="fio fio--abaixo"></span><span class="marca marca--abaixo">2</span></span>
+              <span class="peca" style="color:var(--zaz-text-subtle)">-</span>
+              <span class="peca" style="color:var(--zaz-text);font-weight:500">600<span class="fio fio--acima"></span><span class="marca marca--acima">3</span></span>
+            </span>
+          </div>
+        </div>
+        <p class="legenda">Anatomia do nome de um token de cor. O mesmo padrão vale para as três famílias.</p>
+
+        <h3>1. Prefixo</h3>
+        <p>Todo token do sistema começa com <code>--zaz-</code>. Serve para você reconhecer, em qualquer arquivo, o que veio do design system e o que alguém escreveu à mão naquela tela.</p>
+
+        <h3>2. Família</h3>
+        <p>São três famílias de escala — <code>brand</code>, <code>accent</code> e <code>neutral</code> — mais os conjuntos de identificação (<code>area</code>, <code>tag</code>, <code>data</code>), que não têm escala: cada um é uma cor só, escolhida para ser distinguível das vizinhas.</p>
+
+        <h3>3. Grau</h3>
+        <p>O número segue a convenção do Tailwind: <strong>50 é o mais claro, 950 é o mais escuro</strong>, e o 500 fica no meio. Isso importa na hora de escolher um par: quanto maior a distância entre os graus, maior o contraste.</p>
+
+        <div class="nota">
+          <p><strong>Token de escala × token de papel.</strong> <code>--zaz-brand-600</code> diz <em>qual cor</em>. <code>--zaz-primary</code> diz <em>para que serve</em> — e hoje aponta para o brand-600. Na sua tela, use sempre o de papel: quando a marca mudar de tom, o papel continua certo e a escala é que muda de valor.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Função das cores</h2>
+        <p class="subtitulo">Cinco perguntas, cinco conjuntos de token</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Função</th><th>Responde</th><th>Tokens</th><th>Onde aparece</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Superfície</strong></td><td>Onde o conteúdo se apoia?</td>
+                <td><code>--zaz-bg-app</code> <code>--zaz-bg-surface</code> <code>--zaz-bg-muted</code> <code>--zaz-bg-inset</code></td>
+                <td>Fundo da tela, do card, do painel</td>
+              </tr>
+              <tr>
+                <td><strong>Leitura</strong></td><td>O que precisa ser lido?</td>
+                <td><code>--zaz-text</code> <code>--zaz-text-muted</code> <code>--zaz-text-subtle</code></td>
+                <td>Texto, ícone, rótulo</td>
+              </tr>
+              <tr>
+                <td><strong>Ação</strong></td><td>O que é interativo?</td>
+                <td><code>--zaz-primary</code> <code>--zaz-primary-text</code> <code>--zaz-ring</code></td>
+                <td>Botão, link, foco, item ativo</td>
+              </tr>
+              <tr>
+                <td><strong>Aviso</strong></td><td>O que aconteceu?</td>
+                <td><code>--zaz-danger-*</code> <code>--zaz-warning-*</code> <code>--zaz-success-*</code> <code>--zaz-info-*</code></td>
+                <td>Alerta, badge de status, validação</td>
+              </tr>
+              <tr>
+                <td><strong>Identificação</strong></td><td>De quem é isto?</td>
+                <td><code>--zaz-area-*</code> <code>--zaz-tag-*</code> <code>--zaz-data-*</code></td>
+                <td>Área, marca parceira, série de gráfico</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>A divisão importa porque <strong>as funções não se misturam</strong>. Uma cor de aviso nunca identifica; uma cor de identificação nunca vira ação; e a cor de ação é uma só em todo o sistema. Quando alguém pinta um botão com o verde de sucesso, some a diferença entre "isto é clicável" e "isto deu certo".</p>
+
+        <div class="quadro quadro--fita">
+          <div style="flex:1 1 220px">
+            <p class="zaz-eyebrow" style="margin-bottom:var(--zaz-space-3)">Identidade</p>
+            <span class="zaz-badge zaz-badge--accent">Novidade</span>
+          </div>
+          <div style="flex:1 1 220px">
+            <p class="zaz-eyebrow" style="margin-bottom:var(--zaz-space-3)">Status</p>
+            <span class="zaz-badge zaz-badge--success">Concluído</span>
+          </div>
+        </div>
+        <p class="legenda">O verde de marca à esquerda não é o verde de sucesso à direita — um é identidade, o outro é status. Misturar os dois faz a marca virar semáforo.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>A regra de ouro: fundo × texto</h2>
+        <p class="subtitulo">O erro mais caro do sistema, e o único com seção própria</p>
+
+        <p>O roxo da marca tem <strong>dois papéis, não um</strong>: pintar o fundo de uma ação e pintar um texto. No tema claro os dois valem a mesma coisa e a distinção parece burocracia — ela existe por causa do tema escuro, onde usar um no lugar do outro <strong>apaga o texto da tela</strong>.</p>
+
+        <div class="par">
+          <div>
+            <h4>Fundo — <code>--zaz-primary</code></h4>
+            <p style="font-size:var(--zaz-text-xs)">Continua #5c229c no escuro. Com branco em cima dá 9,7:1.</p>
+            <button class="zaz-btn zaz-btn--primary" type="button">Botão primário</button>
+          </div>
+          <div>
+            <h4>Texto — <code>--zaz-primary-text</code></h4>
+            <p style="font-size:var(--zaz-text-xs)">Clareia para brand-300 no escuro: 7,2:1, contra os 3,0:1 que a primária daria como texto.</p>
+            <p style="margin:0;color:var(--zaz-primary-text);font-weight:600">Link de marca · Título em hover</p>
+          </div>
+        </div>
+
+        <div class="nota nota--atencao">
+          <p><strong>Alterne o tema</strong> (botão no rodapé da navegação) e compare os dois blocos acima.</p>
+          <p>Usar o token errado não quebra build, não estoura teste e não aparece em revisão de código — só apaga o texto no tema escuro até ninguém conseguir ler. Foi exatamente o que a auditoria encontrou na primeira versão deste sistema.</p>
+        </div>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>Regra para colar num prompt de IA</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>Roxo de marca tem dois papéis. Não os troque.
+
+FUNDO de ação (botão, barra, ponto, avatar):
+  var(--zaz-primary) nos dois temas.
+  Hover: var(--zaz-primary-hover). Texto em cima: var(--zaz-on-primary).
+
+TEXTO, ÍCONE ou BORDA de marca:
+  var(--zaz-primary-text) — ele já muda sozinho no tema escuro.
+
+Motivo: o roxo de fundo usado como TEXTO sobre superfície escura dá 2,7:1,
+abaixo do mínimo WCAG de 4,5:1. O primary-text clareia para brand-300 no
+escuro e dá 6,7:1. Como fundo, com branco em cima, dá 9,7:1.
+
+Em Tailwind, sem os tokens, o par é sempre escrito junto:
+  text-[#5c229c] dark:text-[#a78bfa]
+Nunca só a primeira metade.</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Camadas de superfície</h2>
+        <p class="subtitulo">Como o fundo se organiza em profundidade</p>
+
+        <p>São quatro níveis, e a ordem <strong>inverte</strong> entre os temas: no claro o card é mais branco que a tela; no escuro, o card é mais claro que o fundo preto. Quem escreve com token não precisa saber disso — quem escreve hexadecimal, sim, e é onde erra.</p>
+
+        <div class="par">
+          <div>
+            <h4>Tema claro</h4>
+            <p style="font-size:var(--zaz-text-xs);margin:0">app <code>neutral-50</code> → card <code>branco</code> → painel <code>neutral-50</code> → rebaixado <code>neutral-100</code></p>
+          </div>
+          <div>
+            <h4>Tema escuro</h4>
+            <p style="font-size:var(--zaz-text-xs);margin:0">app <code>neutral-950</code> → card <code>neutral-900</code> → painel <code>neutral-950</code> → rebaixado <code>neutral-800</code></p>
+          </div>
+        </div>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Token</th><th>Papel</th><th>Claro</th><th>Escuro</th></tr></thead>
+            <tbody>
+              <tr><td><code>--zaz-bg-app</code></td><td>Fundo da aplicação</td><td>neutral-50</td><td>neutral-950</td></tr>
+              <tr><td><code>--zaz-bg-surface</code></td><td>Card, painel, cabeçalho</td><td>branco</td><td>neutral-900</td></tr>
+              <tr><td><code>--zaz-bg-muted</code></td><td>Faixa de apoio, rodapé de card</td><td>neutral-50</td><td>neutral-950</td></tr>
+              <tr><td><code>--zaz-bg-inset</code></td><td>Campo desabilitado, trecho rebaixado</td><td>neutral-100</td><td>neutral-800</td></tr>
+              <tr><td><code>--zaz-border</code></td><td>Divisão entre superfícies</td><td>neutral-200</td><td>neutral-800</td></tr>
+              <tr><td><code>--zaz-overlay</code></td><td>Véu atrás de modal</td><td>slate 45%</td><td>preto 65%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Regras de uso</h2>
+        <p class="subtitulo">Onde cada conjunto pode e não pode aparecer</p>
+
+        <h3>Verde ZAZ</h3>
+        <p>O manual coloca o Verde ZAZ <strong>#a8d812</strong> ao lado do roxo e do branco como cor primária. Na interface ele é <strong>acento e superfície, nunca ação</strong>: sobre branco ele dá 1,68:1, e não existe texto que passe em cima dele.</p>
+        <div class="par">
+          <div>
+            <h4><span class="sim">✓</span> Pode</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>Ponto, barra de dado, borda de destaque, marcador</li>
+              <li>Superfície do bloco de destaque (<code>--zaz-accent-surface</code>)</li>
+              <li>Texto em <code>accent-700</code> sobre fundo claro (6,5:1)</li>
+            </ul>
+          </div>
+          <div>
+            <h4><span class="nao">✕</span> Não pode</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>Fundo de botão</li>
+              <li>Texto no tom puro (#a8d812)</li>
+              <li>Substituir o roxo em qualquer estado de foco</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Marcas parceiras</h3>
+        <p>São cores de <strong>identificação interna dentro de produtos ZAZ</strong>. Não são a marca do parceiro e não substituem o manual de marca dele.</p>
+        <div class="par">
+          <div>
+            <h4><span class="sim">✓</span> Pode</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>Tag ou badge identificando a fila ou carteira</li>
+              <li>Ponto de legenda e série de gráfico</li>
+              <li>Filtro selecionado numa lista de marcas</li>
+            </ul>
+          </div>
+          <div>
+            <h4><span class="nao">✕</span> Não pode</h4>
+            <ul style="margin:0;font-size:var(--zaz-text-sm)">
+              <li>Fundo de tela, header ou botão</li>
+              <li>Capa de slide ou fundo de seção</li>
+              <li>Substituir o roxo ZAZ em estado de foco</li>
+            </ul>
+          </div>
+        </div>
+        <p>Na prática: <strong>a cor aparece só no ponto</strong>; o rótulo fica neutro e em caixa alta. É o que mantém nove marcas legíveis lado a lado sem virar arco-íris.</p>
+
+        <h3>Acentos de área</h3>
+        <p>São oito áreas, nesta ordem. No AreaSwitcher a cor vive <strong>no ponto da opção</strong> — que é fundo — e no marcador da área ativa. Nunca no texto do rótulo, nunca no corpo da tela. Áreas vindas do banco entram depois destas.</p>
+
+        <h3>Cores de dados</h3>
+        <p>A escala categórica tem <strong>8 posições e é usada na ordem</strong> — a série 1 é sempre o roxo de marca. Acima de 8 séries, agrupe o resto em "Outros". Para intensidade, mapa de calor e mapa geográfico, use a rampa sequencial: monocromática, sem mistura de matizes.</p>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ PALETA -->
+    <div class="painel" id="painel-paleta" role="tabpanel" hidden>
+
+      <section>
+        <h2>A paleta</h2>
+        <p class="subtitulo">Os valores, lidos do CSS desta página</p>
+        <p>As amostras abaixo não são hexadecimais digitados nesta página: cada uma lê o valor real do token no navegador. Se o token mudar em <code>tokens/zaz.tokens.json</code>, muda aqui — e se um token deixar de existir, a amostra aparece vazia em vez de mentir.</p>
+
+        <h3>Marca — Roxo ZAZ</h3>
+        <div class="escala" data-escala="brand" data-graus="50,100,200,300,400,500,600,700,800,900,950"></div>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Grau</th><th>Papel</th></tr></thead>
+            <tbody>
+              <tr><td><strong>600</strong></td><td>Primária: CTA, anel de foco, trilha ativa, ponto "ao vivo". Vale nos <strong>dois</strong> temas.</td></tr>
+              <tr><td><strong>700</strong></td><td>Hover da primária no tema claro.</td></tr>
+              <tr><td><strong>500</strong></td><td>Hover da primária no tema escuro.</td></tr>
+              <tr><td><strong>300</strong></td><td>Texto de marca no tema escuro (<code>--zaz-primary-text</code>).</td></tr>
+              <tr><td><strong>50 / 100</strong></td><td>Fundo de estado ativo, badge de marca, sombra de foco.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Acento — Verde ZAZ</h3>
+        <div class="escala" data-escala="accent" data-graus="50,100,200,300,400,500,600,700,800,900,950"></div>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Grau</th><th>Papel</th></tr></thead>
+            <tbody>
+              <tr><td><strong>300</strong></td><td>O Verde ZAZ #a8d812. Ponto, barra de dado, borda de destaque, marcador — nunca fundo de botão, nunca texto.</td></tr>
+              <tr><td><strong>700</strong></td><td>Verde como texto sobre fundo claro: 6,5:1. O 600 dá 3,8:1 e só passa em texto grande.</td></tr>
+              <tr><td><strong>100 / 200</strong></td><td>Superfície e borda do bloco de destaque.</td></tr>
+              <tr><td><strong>800</strong></td><td>Verde escuro do manual — texto sobre a superfície verde, 9,7:1.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="legenda">Quatro degraus da escala são cores oficiais do manual; o resto sai da interpolação entre elas.</p>
+
+        <h3>Neutros — escala slate</h3>
+        <div class="escala" data-escala="neutral" data-graus="0,50,100,200,300,400,500,600,700,800,900,950"></div>
+        <p class="legenda">Todo cinza do sistema sai daqui. Nenhum cinza fora desta escala.</p>
+
+        <h3>Status</h3>
+        <p>Sempre em <strong>trio</strong>: fundo + texto + borda. Cor cheia só em ponto, ícone ou barra — nunca como fundo de bloco.</p>
+        <div class="quadro quadro--fita">
+          <span class="zaz-badge zaz-badge--success">Sucesso</span>
+          <span class="zaz-badge zaz-badge--warning">Alerta</span>
+          <span class="zaz-badge zaz-badge--danger">Erro</span>
+          <span class="zaz-badge zaz-badge--info">Informação</span>
+          <span class="zaz-badge">Neutro</span>
+        </div>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Intenção</th><th>Fundo</th><th>Borda</th><th>Texto</th><th>Cheia</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sucesso</strong></td><td><code>--zaz-success-bg</code></td><td><code>--zaz-success-border</code></td><td><code>--zaz-success-fg</code></td><td><code>--zaz-success</code></td></tr>
+              <tr><td><strong>Alerta</strong></td><td><code>--zaz-warning-bg</code></td><td><code>--zaz-warning-border</code></td><td><code>--zaz-warning-fg</code></td><td><code>--zaz-warning</code></td></tr>
+              <tr><td><strong>Erro</strong></td><td><code>--zaz-danger-bg</code></td><td><code>--zaz-danger-border</code></td><td><code>--zaz-danger-fg</code></td><td><code>--zaz-danger</code></td></tr>
+              <tr><td><strong>Informação</strong></td><td><code>--zaz-info-bg</code></td><td><code>--zaz-info-border</code></td><td><code>--zaz-info-fg</code></td><td><code>--zaz-info</code></td></tr>
+              <tr><td><strong>Neutro</strong></td><td><code>--zaz-status-bg</code></td><td><code>--zaz-status-border</code></td><td><code>--zaz-status-fg</code></td><td><code>--zaz-status</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Acentos de área</h3>
+        <div class="chips" data-chips="area"
+             data-itens="tasklist:Tasklist,rh:RH,gestor:Gestor,promotor:Promotor,suporte-vero:Suporte VERO,antifraude:Antifraude,agenda:Agenda,financeiro:Financeiro"></div>
+        <p class="legenda">Ícone lucide de cada uma: briefcase · users · user-cog · megaphone · headphones · shield-alert · calendar · wallet.</p>
+
+        <h3>Marcas parceiras</h3>
+        <div class="chips" data-chips="tag"
+             data-itens="vero:VERO,getnet:Getnet,guara:Guará,safira:Safira,origo:Origo,sua-luz:Sua Luz,serena:Serena,ticket:Ticket,pluxee:Pluxee"></div>
+        <p class="legenda">A cor aparece só no ponto; o rótulo fica neutro e em caixa alta.</p>
+
+        <h3>Cores de dados</h3>
+        <p>Categórica de 8 posições, usada na ordem — a série 1 é sempre o roxo de marca.</p>
+        <div class="escala escala--dados" data-escala="data" data-graus="1,2,3,4,5,6,7,8"></div>
+        <p>Rampa sequencial, para intensidade e mapa de calor:</p>
+        <div class="escala escala--dados" data-escala="data-seq" data-graus="1,2,3,4,5,6,7"></div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade em cor</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Os mínimos</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>O que</th><th>Mínimo AA</th><th>Conta como</th></tr></thead>
+            <tbody>
+              <tr><td>Texto normal</td><td><strong>4,5:1</strong></td><td>Abaixo de 24px, ou abaixo de 19px em negrito</td></tr>
+              <tr><td>Texto grande</td><td><strong>3:1</strong></td><td>24px ou mais; 19px ou mais em negrito</td></tr>
+              <tr><td>Elemento gráfico</td><td><strong>3:1</strong></td><td>Ícone, borda de campo, anel de foco, barra de gráfico</td></tr>
+              <tr><td>Decoração</td><td>—</td><td>Sem exigência: fundo sem texto, sombra, véu</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Pares verificados</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Par</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Texto sobre superfície</td><td>9,7:1</td><td>15,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Texto secundário sobre superfície</td><td>4,8:1</td><td>5,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Branco sobre a primária</td><td>9,7:1</td><td>9,7:1</td><td>✓ AAA</td></tr>
+              <tr><td>Marca como texto</td><td>9,7:1</td><td>7,2:1</td><td>✓ AAA</td></tr>
+              <tr><td>Anel de foco sobre a superfície</td><td>3,4:1</td><td>3,1:1</td><td>✓ AA gráfico</td></tr>
+              <tr><td>Verde ZAZ puro sobre branco</td><td>1,68:1</td><td>—</td><td>✕ nunca como texto</td></tr>
+              <tr><td>Borda de campo sobre superfície</td><td>1,3:1</td><td>1,4:1</td><td>✕ <strong>pendência</strong></td></tr>
+              <tr><td>Branco sobre o vermelho de erro</td><td>3,8:1</td><td>3,8:1</td><td>✕ <strong>pendência</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nota nota--atencao">
+          <p><strong>Duas pendências abertas</strong>, as duas encontradas ao escrever as fichas de componente:</p>
+          <p>1. A <strong>borda neutra do campo</strong> não alcança 3:1 contra a superfície. Hoje o campo é identificado pelo conjunto rótulo + superfície, e o foco tem contraste de sobra — mas a borda sozinha não passaria numa auditoria. Corrigir significa escurecer <code>--zaz-border</code>.</p>
+          <p>2. <strong>Branco sobre <code>--zaz-danger</code></strong> dá 3,8:1 — passa como texto grande, fica abaixo no tamanho do rótulo de botão. Corrigir significa usar <code>--zaz-danger-fg</code> como fundo da ênfase destrutiva.</p>
+        </div>
+
+        <h3>Cor nunca é a única informação</h3>
+        <ul>
+          <li><strong>Status sempre leva texto ou ícone.</strong> Um ponto verde sozinho não diz "concluído" para quem não distingue verde e vermelho — cerca de 8% dos homens.</li>
+          <li><strong>Erro de campo leva mensagem.</strong> A borda vermelha é reforço, não o sinal.</li>
+          <li><strong>Série de gráfico leva rótulo ou padrão.</strong> Oito cores categóricas viram oito cinzas parecidos para quem imprime em preto e branco.</li>
+          <li><strong>Área e marca parceira levam nome.</strong> O ponto colorido identifica mais rápido; o texto é quem identifica de fato.</li>
+        </ul>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1 Quick Reference</a></li>
+          <li><a href="https://webaim.org/resources/contrastchecker/">WebAIM Contrast Checker</a></li>
+          <li><a href="https://www.gov.br/ds/fundamentos-visuais/cores">Padrão Digital de Governo — Cores</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Valores de <code>tokens/zaz.tokens.json</code>. Cores primárias e o Verde ZAZ, do Manual de identidade da marca ZAZ 2022. Contrastes calculados sobre os pares reais dos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+<script src="../../site/paleta.js" defer></script>
+</body>
+</html>

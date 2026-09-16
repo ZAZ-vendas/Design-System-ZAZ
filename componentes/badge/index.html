@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badge · Componentes · ZAZ Apolo Design System</title>
+<link rel="icon" href="../../assets/logo-zaz.png">
+<link rel="stylesheet" href="../../css/zaz.css">
+<link rel="stylesheet" href="../../site/ficha.css">
+<script>
+  try { if (localStorage.getItem('tema') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+</head>
+<body class="zaz-root">
+
+<div class="ficha">
+
+  <nav class="ficha__nav" data-nav data-raiz="../../"></nav>
+
+  <main class="ficha__main">
+
+    <p class="ficha__trilha">Design System · Componentes · <b>Badge</b></p>
+    <h1 class="ficha__titulo">Badge <em>(Etiqueta)</em></h1>
+    <p class="ficha__resumo">O badge é a etiqueta pequena que diz em que pé está alguma coisa: "Pendência", "Em dia", "Atrasada". A cor não é enfeite — ela carrega o significado, e por isso o mapa de estado para cor é fixo. E ele <strong>nunca</strong> é clicável.</p>
+
+    <div class="abas" role="tablist" data-abas>
+      <button role="tab" data-aba="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">Visão geral</button>
+      <button role="tab" data-aba="codigo" aria-selected="false" aria-controls="painel-codigo">Código</button>
+      <button role="tab" data-aba="acessibilidade" aria-selected="false" aria-controls="painel-acessibilidade">Acessibilidade</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ VISÃO GERAL -->
+    <div class="painel" id="painel-visao-geral" role="tabpanel">
+
+      <section>
+        <h2><span class="num">01</span>Uso</h2>
+        <p class="subtitulo">Quando este componente é a resposta certa</p>
+
+        <div class="quadro quadro--fita">
+          <span class="zaz-badge">Em Fila</span>
+          <span class="zaz-badge zaz-badge--info">Em Andamento</span>
+          <span class="zaz-badge zaz-badge--warning">Pendência</span>
+          <span class="zaz-badge zaz-badge--danger">Atrasada</span>
+          <span class="zaz-badge zaz-badge--success">Concluída</span>
+          <span class="zaz-badge zaz-badge--brand">Handshake</span>
+        </div>
+        <p class="legenda">O mapa canônico de estado para cor, no vocabulário do Apolo.</p>
+
+        <p>Use o badge para <strong>rotular o estado ou a categoria de outra coisa</strong> — uma tarefa, uma linha de tabela, um card. Ele é sempre acessório: existe grudado num objeto que tem nome próprio, e some se aquele objeto sumir.</p>
+        <ul>
+          <li>Estado de um item numa lista ou tabela.</li>
+          <li>Categoria ou marca à qual o item pertence.</li>
+          <li>Contagem pequena ao lado de um rótulo.</li>
+        </ul>
+
+        <h4>Quando não usar</h4>
+        <ul>
+          <li><strong>Se for clicável</strong> → é um <a href="../botao/">Botão</a> ou um filtro. Badge não tem hover, não tem foco e não responde a teclado.</li>
+          <li><strong>Se a mensagem tiver mais de duas palavras</strong> → é um <a href="../sobreposicoes/">Alerta</a>.</li>
+          <li><strong>Se for o assunto da tela</strong>, e não o adjetivo de algo → provavelmente é um título ou uma métrica.</li>
+        </ul>
+
+        <div class="nota nota--atencao">
+          <p><strong>A confusão mais cara deste componente:</strong> badge parece clicável. Ele tem fundo, borda e canto arredondado — a mesma gramática de um botão pequeno. Quem olha rápido tenta clicar e nada acontece, e a pessoa conclui que a tela travou. Se você precisa de um filtro clicável com essa aparência, use um <code>&lt;button&gt;</code> com estado e foco de verdade.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>Tom e voz</h2>
+        <p class="subtitulo">Como escrever o rótulo</p>
+        <ul>
+          <li><strong>Uma ou duas palavras.</strong> "Pendência", "Em Andamento". Três já não cabe na linha de uma tabela.</li>
+          <li><strong>Substantivo ou particípio</strong>, nunca frase: "Concluída", não "Foi concluída".</li>
+          <li><strong>Vocabulário fixo.</strong> Os estados do Apolo são Em Fila · Em Andamento · Pendência · Atrasada · Concluída · Handshake. Não invente sinônimo — "Finalizada" e "Concluída" na mesma tela viram dois estados na cabeça do usuário.</li>
+          <li>A caixa alta vem do CSS. Escreva "Pendência" no HTML.</li>
+          <li>Marca parceira é a exceção que se escreve em caixa alta mesmo: <strong>VERO</strong>, <strong>PLUXEE</strong>, <strong>SUA LUZ</strong>.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>Anatomia</h2>
+        <p class="subtitulo">De que partes o badge é feito</p>
+
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>ID</th><th>Nome</th><th>Referência</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="id">1</td><td>Marcador</td><td><a href="../../fundamentos/cores/">Fundamento Cores</a></td><td class="opcional">Opcional</td></tr>
+              <tr><td class="id">2</td><td>Rótulo</td><td><a href="../../fundamentos/tipografia/">Fundamento Tipografia</a></td><td class="obrigatorio">Obrigatório</td></tr>
+              <tr><td class="id">3</td><td>Superfície</td><td><a href="../../fundamentos/espaco/">Fundamento Espaço</a></td><td class="obrigatorio">Obrigatório</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anatomia-rolagem">
+          <div class="anatomia" style="min-width:420px">
+            <span class="zaz-brand-tag peca peca--moldada" data-brand="vero" style="font-size:var(--zaz-text-sm);padding:var(--zaz-space-2) var(--zaz-space-4)">
+              <span class="peca">
+                VERO
+                <span class="fio fio--acima"></span><span class="marca marca--acima">2</span>
+              </span>
+              <span class="fio fio--direita"></span><span class="marca marca--direita">3</span>
+              <span class="fio fio--abaixo"></span><span class="marca marca--abaixo">1</span>
+            </span>
+          </div>
+        </div>
+        <p class="legenda">Anatomia da tag de marca parceira, ampliada. O marcador é o ponto colorido à esquerda.</p>
+
+        <h3>1. Marcador <span class="opcional">(opcional)</span></h3>
+        <p>Um ponto de 6px, um ícone de 14px ou um número. Existe quando <strong>a cor precisa aparecer sem pintar o rótulo</strong> — é assim que nove marcas parceiras ficam legíveis lado a lado sem a tela virar arco-íris.</p>
+        <p>Na tag de marca, o ponto é gerado pelo CSS a partir do atributo <code>data-brand</code>: o HTML não escreve cor nenhuma.</p>
+
+        <h3>2. Rótulo <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>10px, peso 700, caixa alta com tracking. É o menor texto do sistema, e por isso a caixa alta funciona: em uma ou duas palavras ela reforça o caráter de etiqueta, sem o custo de leitura que teria numa frase.</p>
+
+        <h3>3. Superfície <span class="obrigatorio">(obrigatório)</span></h3>
+        <p>Fundo, borda de 1px e canto de controle. Nos badges de status, o <strong>trio</strong> vem junto — fundo, texto e borda da mesma intenção. Nunca use a cor cheia (<code>--zaz-danger</code>) como fundo de badge: ela é para ponto, ícone e barra.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">04</span>Tipos</h2>
+        <p class="subtitulo">Quatro famílias, com significados diferentes</p>
+
+        <h3>1. Status</h3>
+        <p>O uso principal. Cinco intenções, e o mapa é canônico — <strong>não escolha o tom à mão</strong>.</p>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Estado</th><th>Intenção</th><th>Classe</th><th>Amostra</th></tr></thead>
+            <tbody>
+              <tr><td>Em Fila</td><td>Neutro</td><td>—</td><td><span class="zaz-badge">Em Fila</span></td></tr>
+              <tr><td>Em Andamento</td><td>Informação</td><td><code>--info</code></td><td><span class="zaz-badge zaz-badge--info">Em Andamento</span></td></tr>
+              <tr><td>Pendência</td><td>Alerta</td><td><code>--warning</code></td><td><span class="zaz-badge zaz-badge--warning">Pendência</span></td></tr>
+              <tr><td>Atrasada</td><td>Erro</td><td><code>--danger</code></td><td><span class="zaz-badge zaz-badge--danger">Atrasada</span></td></tr>
+              <tr><td>Concluída</td><td>Sucesso</td><td><code>--success</code></td><td><span class="zaz-badge zaz-badge--success">Concluída</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2. Marca</h3>
+        <p>Roxo diluído, para o que pertence ao sistema sem ser status — um selo de Handshake, um contador de marca.</p>
+        <div class="quadro quadro--fita">
+          <span class="zaz-badge zaz-badge--brand">Handshake</span>
+          <span class="zaz-badge zaz-badge--brand"><span class="zaz-live-dot"></span> Ao vivo</span>
+        </div>
+
+        <h3>3. Acento</h3>
+        <p>Verde ZAZ, para o que precisa <strong>saltar sem virar status</strong>: um selo de novidade, um destaque de marca. O texto usa <code>--zaz-accent-text</code>, nunca o Verde ZAZ puro — que sobre branco dá 1,68:1 e não se lê.</p>
+        <div class="quadro quadro--fita">
+          <span class="zaz-badge zaz-badge--accent">Novidade</span>
+          <span class="zaz-badge zaz-badge--success">Concluído</span>
+        </div>
+        <p class="legenda">O verde de marca à esquerda não é o verde de sucesso à direita — um é identidade, o outro é status. Misturar os dois faz a marca virar semáforo.</p>
+
+        <h3>4. Tag de marca parceira</h3>
+        <p>Cor só no ponto, rótulo sempre neutro. É o que mantém nove marcas legíveis lado a lado.</p>
+        <div class="quadro quadro--fita">
+          <span class="zaz-brand-tag" data-brand="vero">VERO</span>
+          <span class="zaz-brand-tag" data-brand="getnet">GETNET</span>
+          <span class="zaz-brand-tag" data-brand="guara">GUARÁ</span>
+          <span class="zaz-brand-tag" data-brand="safira">SAFIRA</span>
+          <span class="zaz-brand-tag" data-brand="origo">ORIGO</span>
+          <span class="zaz-brand-tag" data-brand="sua-luz">SUA LUZ</span>
+          <span class="zaz-brand-tag" data-brand="serena">SERENA</span>
+          <span class="zaz-brand-tag" data-brand="ticket">TICKET</span>
+          <span class="zaz-brand-tag" data-brand="pluxee">PLUXEE</span>
+        </div>
+        <p class="legenda">As nove marcas parceiras. A cor identifica; o texto informa.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>Comportamentos</h2>
+        <p class="subtitulo">Como o badge reage — ou melhor, não reage</p>
+
+        <h3>1. Estados</h3>
+        <p><strong>O badge não tem estados de interação.</strong> Sem hover, sem foco, sem pressionado. Isso não é omissão: é o que diferencia visualmente um rótulo de um controle. A única coisa que muda nele é a <em>intenção</em>, que vem do dado.</p>
+        <p>A exceção é o <strong>ponto ao vivo</strong>, que pulsa continuamente para indicar conexão em tempo real — e é animação de sistema, não resposta ao usuário.</p>
+
+        <h3>2. Largura</h3>
+        <p>O badge cresce com o texto e <strong>nunca quebra linha</strong> (<code>white-space: nowrap</code>). Dentro de uma célula de tabela estreita, ele empurra a coluna — se isso acontecer, o rótulo está longo demais, não a coluna estreita demais.</p>
+
+        <h3>3. Agrupamento</h3>
+        <p>Vários badges lado a lado ficam a <strong>8px</strong> um do outro. Acima de três na mesma linha, o olho para de distinguir e vira faixa colorida — nesse caso, mostre os dois mais relevantes e um "+3".</p>
+
+        <h3>4. Dentro de outros componentes</h3>
+        <p>O badge aparece em célula de tabela, em linha de lista, ao lado de título de card e dentro de item da barra lateral. Em todos, ele é o <strong>último elemento</strong> da linha de conteúdo — o adjetivo vem depois do substantivo.</p>
+
+        <h3>5. Tema escuro</h3>
+        <p>Os trios de status viram <strong>véu translúcido</strong> no escuro: o fundo passa a ser a cor a 12% de opacidade, e o texto clareia. Alterne o tema e compare — a mesma classe, dois resultados, nenhuma regra <code>.dark</code> no componente.</p>
+      </section>
+
+      <section>
+        <h2><span class="num">06</span>Especificações</h2>
+        <p class="subtitulo">Os números exatos</p>
+
+        <h3>Dimensões e espaçamento</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Propriedade</th><th>Valor</th><th>Token</th></tr></thead>
+            <tbody>
+              <tr><td>Superfície</td><td>padding</td><td>3px 8px</td><td>— · <code>--zaz-space-2</code></td></tr>
+              <tr><td>Superfície</td><td>border-radius</td><td>12px</td><td><code>--zaz-radius-control</code></td></tr>
+              <tr><td>Superfície</td><td>border-width</td><td>1px</td><td>—</td></tr>
+              <tr><td>Entre marcador e rótulo</td><td>gap</td><td>4px</td><td><code>--zaz-space-1</code></td></tr>
+              <tr><td>Ponto marcador</td><td>width / height</td><td>6px</td><td>—</td></tr>
+              <tr><td>Ponto ao vivo</td><td>width / height</td><td>8px</td><td>—</td></tr>
+              <tr><td>Entre badges</td><td>gap</td><td>8px</td><td><code>--zaz-space-2</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tipografia</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Item</th><th>Tamanho</th><th>Peso</th><th>Entrelinha</th><th>Extra</th></tr></thead>
+            <tbody>
+              <tr><td>Rótulo</td><td>10px (0.625rem)</td><td>700</td><td>1.4</td><td>caixa alta, <code>--zaz-tracking-eyebrow</code>, <code>nowrap</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Cores por tipo</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Tipo</th><th>Fundo</th><th>Texto</th><th>Borda</th></tr></thead>
+            <tbody>
+              <tr><td>Neutro</td><td><code>--zaz-status-bg</code></td><td><code>--zaz-status-fg</code></td><td><code>--zaz-status-border</code></td></tr>
+              <tr><td>Informação</td><td><code>--zaz-info-bg</code></td><td><code>--zaz-info-fg</code></td><td><code>--zaz-info-border</code></td></tr>
+              <tr><td>Alerta</td><td><code>--zaz-warning-bg</code></td><td><code>--zaz-warning-fg</code></td><td><code>--zaz-warning-border</code></td></tr>
+              <tr><td>Erro</td><td><code>--zaz-danger-bg</code></td><td><code>--zaz-danger-fg</code></td><td><code>--zaz-danger-border</code></td></tr>
+              <tr><td>Sucesso</td><td><code>--zaz-success-bg</code></td><td><code>--zaz-success-fg</code></td><td><code>--zaz-success-border</code></td></tr>
+              <tr><td>Marca</td><td><code>--zaz-veil-strong</code></td><td><code>--zaz-primary-text</code></td><td>marca a 35%</td></tr>
+              <tr><td>Acento</td><td><code>--zaz-accent-surface</code></td><td><code>--zaz-accent-text</code></td><td><code>--zaz-accent-border</code></td></tr>
+              <tr><td>Tag de marca</td><td>transparente</td><td><code>--zaz-text-muted</code></td><td><code>--zaz-border</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="origem">
+          <p>Valores lidos de <code>css/components.css</code> e <code>tokens/zaz.tokens.json</code>.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ CÓDIGO -->
+    <div class="painel" id="painel-codigo" role="tabpanel" hidden>
+
+      <section>
+        <h2>Como usar</h2>
+        <p class="subtitulo">Classes e HTML mínimo</p>
+
+        <div class="codigo">
+          <div class="codigo__topo"><span>HTML mínimo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">span</span> class="<span class="cv">zaz-badge zaz-badge--warning</span>"&gt;Pendência&lt;/<span class="ch">span</span>&gt;</code></pre>
+        </div>
+
+        <div class="nota">
+          <p><strong>A tag é <code>&lt;span&gt;</code>, nunca <code>&lt;button&gt;</code>.</strong> Um badge dentro de <code>&lt;button&gt;</code> ganha foco, entra na ordem de tabulação e é anunciado como controle — e aí ele precisa fazer alguma coisa quando for acionado.</p>
+        </div>
+
+        <h3>Classes</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Classe</th><th>Efeito</th></tr></thead>
+            <tbody>
+              <tr><td><code>.zaz-badge</code></td><td>Base, com a intenção neutra</td></tr>
+              <tr><td><code>.zaz-badge--info</code></td><td>Informação — em andamento, em análise</td></tr>
+              <tr><td><code>.zaz-badge--warning</code></td><td>Alerta — pendência, atenção</td></tr>
+              <tr><td><code>.zaz-badge--danger</code></td><td>Erro — atrasada, recusada</td></tr>
+              <tr><td><code>.zaz-badge--success</code></td><td>Sucesso — concluída, aprovada</td></tr>
+              <tr><td><code>.zaz-badge--brand</code></td><td>Marca — pertence ao sistema, não é status</td></tr>
+              <tr><td><code>.zaz-badge--accent</code></td><td>Verde ZAZ — novidade, destaque de identidade</td></tr>
+              <tr><td><code>.zaz-brand-tag</code></td><td>Tag de marca parceira, com <code>data-brand</code></td></tr>
+              <tr><td><code>.zaz-live-dot</code></td><td>Ponto pulsante de tempo real</td></tr>
+              <tr><td><code>.zaz-highlight</code></td><td>Bloco de destaque em Verde ZAZ (não é badge, mas é a mesma família)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tag de marca parceira</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>a cor vem do data-brand; o HTML não escreve cor</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">span</span> class="<span class="cv">zaz-brand-tag</span>" data-brand="vero"&gt;VERO&lt;/<span class="ch">span</span>&gt;
+
+<span class="cm">// valores aceitos: vero · getnet · guara · safira · origo
+//                  sua-luz · serena · ticket · pluxee
+// marca sem data-brand cai no ponto cinza, em vez de sumir</span></code></pre>
+        </div>
+
+        <h3>Com marcador</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>ponto ao vivo dentro de um badge de marca</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">span</span> class="<span class="cv">zaz-badge zaz-badge--brand</span>"&gt;
+  &lt;<span class="ch">span</span> class="<span class="cv">zaz-live-dot</span>"&gt;&lt;/<span class="ch">span</span>&gt;
+  Ao vivo
+&lt;/<span class="ch">span</span>&gt;</code></pre>
+        </div>
+
+        <h3>Bloco de destaque</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>o uso de superfície do Verde ZAZ</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">div</span> class="<span class="cv">zaz-highlight</span>"&gt;
+  &lt;<span class="ch">p</span> class="<span class="cv">zaz-highlight__title</span>"&gt;Bloco de destaque&lt;/<span class="ch">p</span>&gt;
+  &lt;<span class="ch">p</span>&gt;A barra lateral usa o Verde ZAZ puro — ali ele não precisa
+     carregar texto, que é a única condição em que essa cor funciona.&lt;/<span class="ch">p</span>&gt;
+&lt;/<span class="ch">div</span>&gt;</code></pre>
+        </div>
+        <div class="quadro">
+          <div class="zaz-highlight">
+            <p class="zaz-highlight__title" style="margin:0 0 var(--zaz-space-1)">Bloco de destaque</p>
+            <p style="margin:0">A barra lateral usa o Verde ZAZ puro — ali ele não precisa carregar texto, que é a única condição em que essa cor funciona.</p>
+          </div>
+        </div>
+
+        <h3>O CSS por trás</h3>
+        <div class="codigo">
+          <div class="codigo__topo"><span>css/components.css · trecho real</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code><span class="ch">.zaz-badge</span> {
+  display: inline-flex; align-items: center; gap: <span class="cv">var(--zaz-space-1)</span>;
+  padding: 0.1875rem <span class="cv">var(--zaz-space-2)</span>;
+  background: <span class="cv">var(--zaz-status-bg)</span>; color: <span class="cv">var(--zaz-status-fg)</span>;
+  border: 1px solid <span class="cv">var(--zaz-status-border)</span>;
+  border-radius: <span class="cv">var(--zaz-radius-control)</span>;
+  font-size: 0.625rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: <span class="cv">var(--zaz-tracking-eyebrow)</span>;
+  line-height: 1.4; white-space: nowrap;
+}
+
+<span class="cm">/* cor só no ponto; o texto do rótulo continua neutro */</span>
+<span class="ch">.zaz-brand-tag::before</span> {
+  content: ""; width: 6px; height: 6px;
+  border-radius: <span class="cv">var(--zaz-radius-pill)</span>;
+  background: <span class="cv">var(--_tag, var(--zaz-text-subtle))</span>;
+}
+<span class="ch">.zaz-brand-tag[data-brand="vero"]</span> { --_tag: <span class="cv">var(--zaz-tag-vero)</span>; }</code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ ACESSIBILIDADE -->
+    <div class="painel" id="painel-acessibilidade" role="tabpanel" hidden>
+
+      <section>
+        <h2>Acessibilidade no Badge</h2>
+        <p class="subtitulo">Meta do sistema: WCAG 2.1 nível AA</p>
+
+        <h3>Navegação e comportamento</h3>
+        <ul>
+          <li>O badge <strong>não é focável</strong> e não entra na ordem de tabulação. Isso é correto: ele é texto, não controle.</li>
+          <li>Não coloque <code>tabindex</code> nele "para poder chegar pelo teclado" — se precisa ser alcançado, precisa fazer algo, e aí é um botão.</li>
+        </ul>
+
+        <h3>A cor não pode ser a informação</h3>
+        <ul>
+          <li>Todo badge <strong>tem texto</strong>. Um badge só com cor, sem rótulo, é invisível para quem não distingue as cores — e cerca de 8% dos homens não distinguem vermelho e verde.</li>
+          <li>Na tag de marca parceira, o ponto colorido identifica mais rápido; <strong>o nome é quem identifica de fato</strong>. Nunca remova o texto para "economizar espaço".</li>
+          <li>Se o badge for a única indicação de estado numa linha de tabela, a coluna precisa de cabeçalho dizendo "Situação".</li>
+        </ul>
+
+        <h3>Quando o estado muda sozinho</h3>
+        <p>Se o badge muda por conta própria — a tarefa passou de "Em Andamento" para "Pendência" por um evento do servidor — a mudança precisa ser anunciada:</p>
+        <div class="codigo">
+          <div class="codigo__topo"><span>polite: espera a pessoa terminar o que está ouvindo</span><button class="codigo__copiar" data-copiar>Copiar</button></div>
+<pre><code>&lt;<span class="ch">span</span> class="<span class="cv">zaz-badge zaz-badge--warning</span>" aria-live="polite"&gt;Pendência&lt;/<span class="ch">span</span>&gt;</code></pre>
+        </div>
+        <p>Sem isso, a tela muda e quem não está olhando não fica sabendo.</p>
+
+        <h3>Texto em caixa alta</h3>
+        <p>A caixa alta vem de <code>text-transform</code>, e o HTML carrega "Pendência" em caixa normal. Isso importa: alguns leitores de tela <strong>soletram</strong> palavras digitadas em maiúsculas — "P, E, N, D, Ê, N, C, I, A".</p>
+
+        <h3>Contraste verificado</h3>
+        <div class="rolagem">
+          <table class="tabela">
+            <thead><tr><th>Tipo</th><th>Claro</th><th>Escuro</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td>Neutro</td><td>8,6:1</td><td>11,2:1</td><td>✓ AAA</td></tr>
+              <tr><td>Informação</td><td>7,4:1</td><td>8,1:1</td><td>✓ AAA</td></tr>
+              <tr><td>Alerta</td><td>5,9:1</td><td>9,3:1</td><td>✓ AA</td></tr>
+              <tr><td>Erro</td><td>7,0:1</td><td>7,8:1</td><td>✓ AAA</td></tr>
+              <tr><td>Sucesso</td><td>5,4:1</td><td>8,9:1</td><td>✓ AA</td></tr>
+              <tr><td>Marca</td><td>9,7:1</td><td>7,2:1</td><td>✓ AAA</td></tr>
+              <tr><td>Acento</td><td>6,5:1</td><td>6,1:1</td><td>✓ AA</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="nota">
+          <p>O texto de 10px é pequeno, então <strong>o mínimo que vale aqui é 4,5:1</strong>, não os 3:1 de texto grande. É a razão de todo badge usar o <code>*-fg</code> do trio, e nunca a cor cheia como texto.</p>
+        </div>
+
+        <h3>Referências</h3>
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html">WCAG — Use of Color</a></li>
+          <li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/">ARIA APG — Live Regions</a></li>
+          <li><a href="https://www.gov.br/ds/components/tag">Padrão Digital de Governo — Tag</a></li>
+        </ul>
+
+        <div class="origem">
+          <p>Contrastes calculados sobre os trios de <code>tokens/zaz.tokens.json</code>, nos dois temas.</p>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../../site/nav.js" defer></script>
+<script src="../../site/ficha.js" defer></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ A fonte da verdade é [`tokens/zaz.tokens.json`](tokens/zaz.tokens.json). CSS,
 preset Tailwind e componentes React são **gerados ou derivados** dele — não são
 cópias mantidas à mão.
 
-📖 **Documentação navegável:** <https://apolo.zaz.vc/design-system/>
+📖 **Documentação navegável:** <https://apolo.zaz.vc/design-system/> — fichas em `/fundamentos/`, `/componentes/` e `/padroes/`
 🔍 **O que foi conferido contra produção:** [`AUDITORIA.md`](AUDITORIA.md)
 
 ---
@@ -84,7 +84,14 @@ css/zaz.css               Entrada única (importa os três)
 tailwind/theme.css        Preset Tailwind v4 (gerado)
 react/index.js            Componentes React (JS puro, sem build)
 templates/                Modelos prontos de deck e de aplicação
-docs/index.html           Documentação navegável
+docs/index.html           Hub: como consumir, modelos, assets e telas de referência
+fundamentos/<nome>/       Ficha de um fundamento (cores, tipografia, espaço…)
+componentes/<nome>/       Ficha de um componente (botão, campo, badge…)
+padroes/<nome>/           Ficha de um padrão (shell…)
+site/ficha.css            Layout das fichas (documentação, não faz parte do sistema)
+site/nav.js               A navegação do site, num lugar só
+site/ficha.js             Abas, botão copiar e alternador de tema
+site/paleta.js            Desenha as escalas lendo os tokens do navegador
 index.html                Porta de entrada do site publicado
 scripts/build-tokens.mjs  Gera o CSS a partir do JSON
 scripts/check-vars.mjs    Acusa var(--zaz-*) sem definição
@@ -148,13 +155,15 @@ São **dois papéis**, não um.
 
 | Token | Claro | Escuro | Onde |
 |---|---|---|---|
-| `--zaz-primary` | `#591da9` | `#591da9` | **Fundo** de ação: botão, barra, ponto |
-| `--zaz-primary-text` | `#591da9` | `#a78bfa` | **Texto, ícone, borda** de marca |
+| `--zaz-primary` | `#5c229c` | `#5c229c` | **Fundo** de ação: botão, barra, ponto |
+| `--zaz-primary-text` | `#5c229c` | `#b298e3` | **Texto, ícone, borda** de marca |
 
 No tema claro os dois valem o mesmo roxo e a distinção parece burocracia. Ela
-existe pelo escuro: `#591da9` como fundo, com branco em cima, dá 9,7:1 — ótimo;
-o mesmo `#591da9` como **texto** sobre a superfície escura dá 2,7:1, abaixo do
-mínimo legível. `#a78bfa` resolve, com 6,7:1. Detalhes em [`AUDITORIA.md`](AUDITORIA.md).
+existe pelo escuro: `#5c229c` como fundo, com branco em cima, dá 9,7:1 — ótimo;
+o mesmo `#5c229c` como **texto** sobre a superfície escura dá 2,7:1, abaixo do
+mínimo legível. O `brand-300` resolve, com 7,2:1. Detalhes em
+[`AUDITORIA.md`](AUDITORIA.md) e na ficha
+[Fundamentos → Cores](fundamentos/cores/).
 
 Trocar um pelo outro não quebra build nem estoura teste. Só apaga o texto no
 tema escuro até ninguém conseguir ler.
@@ -387,11 +396,38 @@ tela operacional densa.
 4. Componente novo entra em `css/components.css` **e** `react/index.js`, com uma
    amostra em `docs/index.html`.
 
-5. **Nenhum componente escreve cor crua nem lê a escala direto.** Só papéis
+5. **Página nova entra na navegação em `site/nav.js`, não no HTML.** A lista de
+   páginas vive num arquivo só; página que não estiver lá nasce invisível para
+   o resto do site.
+
+6. **Cada assunto tem ficha própria**: componente em `componentes/`, fundamento
+   em `fundamentos/`, padrão em `padroes/`. A ficha segue sempre a mesma ordem
+   de seções, copiada do
+   [Padrão Digital de Governo](https://www.gov.br/ds/components):
+
+   > Uso → Tom e voz → Anatomia → Detalhamento dos itens → Tipos (ou Ênfases) →
+   > Comportamentos → Especificações
+
+   mais duas abas: **Código** (classes, atributos, HTML copiável) e
+   **Acessibilidade** (teclado, estilo, `aria`, contraste verificado). Três
+   regras não negociáveis:
+
+   - A **figura de anatomia é o componente real**, com marcadores `.marca`
+     ancorados por `.peca` — nunca uma imagem exportada, que mente no dia em
+     que o CSS muda.
+   - Todo item da anatomia tem **coluna Referência** apontando para o
+     fundamento que o governa. Componente compõe, não redefine.
+   - A especificação é escrita em **token**, com o pixel ao lado. Assim a ficha
+     continua certa quando o valor muda.
+
+   Ficha sem anatomia numerada e sem nota de acessibilidade não entra no índice
+   de `componentes/index.html` — fica como "na fila".
+
+7. **Nenhum componente escreve cor crua nem lê a escala direto.** Só papéis
    (`--zaz-primary`, `--zaz-text-muted`, `--zaz-border`). Se precisou de uma cor
    que não é papel, ou o papel existe com outro nome, ou falta criar um.
 
-6. Versionamento semântico: mudança de valor de token = minor; remoção ou
+8. Versionamento semântico: mudança de valor de token = minor; remoção ou
    renomeação = major.
 
 ### Publicação
